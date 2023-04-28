@@ -72,8 +72,8 @@ migrations:
 django-tests:
   stage: test
   script:
-    # The MYSQL user only gets permissions for MYSQL_DB, so Django can't create a test database.
-    - echo "GRANT ALL on *.* to '${MYSQL_USER}';"| mysql -u root --password="${MYSQL_ROOT_PASSWORD}" -h mysql
+    # The MYSQL user only gets permissions for MYSQL_DB, so Django can't create a test database. TODO: When DB io set up
+    # - echo "GRANT ALL on *.* to '${MYSQL_USER}';"| mysql -u root --password="${MYSQL_ROOT_PASSWORD}" -h mysql
     # use python3 explicitly. see https://wiki.ubuntu.com/Python/3
     - python3 backend/manage.py test
 
