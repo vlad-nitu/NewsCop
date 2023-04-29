@@ -67,6 +67,9 @@ migrations:
     # - python3 manage.py makemigrations myapp
     - python3 backend/manage.py migrate
     - python3 backend/manage.py check
+  only:
+    refs:
+      - merge_requests
 
 
 django-tests:
@@ -76,6 +79,10 @@ django-tests:
     # - echo "GRANT ALL on *.* to '${MYSQL_USER}';"| mysql -u root --password="${MYSQL_ROOT_PASSWORD}" -h mysql
     # use python3 explicitly. see https://wiki.ubuntu.com/Python/3
     - python3 backend/manage.py test
+  only:
+    refs:
+      - merge_requests
+
 
 deploy:
   stage: deploy
