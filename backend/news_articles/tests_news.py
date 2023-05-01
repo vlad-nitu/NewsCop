@@ -4,3 +4,4 @@ from django.test import TestCase
 class MainTest(TestCase):
     def test_check_running(self):
           self.assertTrue(True)
+
