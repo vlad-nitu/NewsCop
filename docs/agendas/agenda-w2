@@ -1,0 +1,57 @@
+# Agenda week 3.4
+
+Date: 01.05.2023
+
+Location: Pulse Hall 1
+
+Main focus: Code of Conduct review, Project Plan review, upcoming week's tasks, 
+
+Chair: Vlad Nitu
+Note taker: Rares Toader
+
+## Opening
+
+- Check if everyone is present
+
+## Points of action
+
+- Wrap up the Project Plan by adding the results of analysing the questionaire addressed to the journalists. 
+- Wrap up setting up the project and make sure everyone is on track with it.
+- Attend Teamwork meeting on Monday (01.05.2023) after the TA meeting,  at 10:45 P.M, at IZ2 Drebbelweg.
+- Conduct team meeting to create the Milestone board and schedule the first sprint iteration, by dividing the tasks we are willing to approach in Week 2 among the team members. 
+
+## Reflection on last week
+
+- Assignment 1 - Code of Conduct
+- Assignment 2 - Project Plan
+- Set up a codebase draft and a CI/CD pipeline
+- Continuously researched the topic of overlaping detections, decided on some open-source frameworks / libraries we are going to incorporate in our backend application
+- Discussed, as a team, about technical decisions related to DBMS that will be used and how we will aproach obtaining the news articles and storing their fingerprints.
+- Each member when through React and Django tutorials to become more familiar with the stack. 
+- Meet up with the client and make sure we are in line with his requirements. 
+- Create a questionaire addressed to journalists and deliver it.
+
+## Questions for the TA
+
+- Do we need to include "won't haves" into the requirements?
+- Check if we correctly cite research publications / articles
+- Show TA the Moscow methodology and incorporate his feedback. 
+- Should we add more requirements / split the current requirements into smaller sub-requiremenets? 
+- Discuss with the TA about our DBMS decision: Relational vs NoSQL for storing documents’ fingerprints?
+- Are we going to store the “date” as it is (not integrate it in fingerprint & then discard)
+
+
+## Question round
+
+- If anyone has any questions address them now
+
+## Closing
+
+- If time allows, do a tips and tops round.
+- Good job for the previous week!
+
+***
+
+# Minutes week 3.4
+
+[//]: # (Note taker inserts minutes here)
