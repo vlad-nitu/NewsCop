@@ -10,7 +10,9 @@ backend-build:
     - apt -y install apt-utils
     - apt -y install net-tools python3.8 python3-pip mysql-client libmysqlclient-dev
     - apt -y upgrade
+    - pip3 install pipreqs
     - cd backend
+    - pipreqs --force .
   script:
     - python3 manage.py makemigrations
     - python3 manage.py migrate
@@ -28,7 +30,9 @@ backend-test:
     - apt -y install apt-utils
     - apt -y install net-tools python3.8 python3-pip mysql-client libmysqlclient-dev
     - apt -y upgrade
+    - pip3 install pipreqs
     - cd backend
+    - pipreqs --force .
   script:
     - python3 manage.py test news_articles
   only:
