@@ -51,7 +51,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.common.CommonMiddleware", # Allows users to interact more with the browser itself (i.e: input their data) 
+    "django.middleware.common.CommonMiddleware",  # Allows users to interact more with the browser itself (i.e: input their data) 
 ]
 
 # Manually configured to tie Django app to React frontend -> do not block React when trying to interact with Django
