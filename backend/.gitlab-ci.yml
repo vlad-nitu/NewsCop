@@ -2,7 +2,7 @@ stages:
   - build
   - test
 
-build:
+backend-build:
   image: ubuntu:20.04
   stage: build
   before_script:
@@ -10,17 +10,17 @@ build:
     - apt -y install apt-utils
     - apt -y install net-tools python3.8 python3-pip mysql-client libmysqlclient-dev
     - apt -y upgrade
-    - pip3 install -r ../requirements.txt
+    - pip3 install -r requirements.txt
   script:
-    - python manage.py makemigrations
-    - python manage.py migrate
-    - python manage.py check
+    - python backend/manage.py makemigrations
+    - python backend/manage.py migrate
+    - python backend/manage.py check
   only:
     refs:
       - merge_requests
 
 
-test:
+backend-test:
   image: ubuntu:20.04
   stage: test
   before_script:
@@ -30,7 +30,7 @@ test:
     - apt -y upgrade
     - pip3 install -r ../requirements.txt
   script:
-    - python manage.py test
+    - python backend/manage.py test
   only:
     refs:
       - merge_requests
