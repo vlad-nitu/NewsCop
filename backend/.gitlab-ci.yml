@@ -10,6 +10,7 @@ backend-build:
     - apt -y install apt-utils
     - apt -y install net-tools python3.8 python3-pip mysql-client libmysqlclient-dev
     - apt -y upgrade
+    - pip3 freeze > requirements.txt
     - pip3 install -r requirements.txt
   script:
     - python3 backend/manage.py makemigrations
@@ -28,6 +29,7 @@ backend-test:
     - apt -y install apt-utils
     - apt -y install net-tools python3.8 python3-pip mysql-client libmysqlclient-dev
     - apt -y upgrade
+    - pip3 freeze > requirements.txt
     - pip3 install -r requirements.txt
   script:
     - python3 backend/manage.py test backend/news_articles
