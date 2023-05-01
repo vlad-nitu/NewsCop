@@ -14,12 +14,11 @@ class ReactView(APIView):
                    'detail': output.detail}
                    for output in React.objects.all()]
         return Response(obtained)
-    
+
     def post(self, request):
         srlzr = ReactSerializer(data=request.data) # Pass data to React serializer method
-        
+
         if srlzr.is_valid(raise_exception=True):
             srlzr.save()
-        
-        return Response(srlzr.data)
 
+        return Response(srlzr.data)
