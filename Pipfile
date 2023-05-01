@@ -4,6 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+pycodestyle = {git = "https://github.com/PyCQA/pycodestyle.git"} 
 djangorestframework = "*"
 django-cors-headers = "*"
 
