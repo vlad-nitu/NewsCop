@@ -12,10 +12,11 @@ backend-build:
     - apt -y upgrade
     - pip3 install pipreqs
     - pipreqs --force .
+    - cd backend
   script:
-    - python3 backend/manage.py makemigrations
-    - python3 backend/manage.py migrate
-    - python3 backend/manage.py check
+    - python3 manage.py makemigrations
+    - python3 manage.py migrate
+    - python3 manage.py check
   only:
     refs:
       - merge_requests
@@ -31,8 +32,9 @@ backend-test:
     - apt -y upgrade
     - pip3 install pipreqs
     - pipreqs --force .
+    - cd backend
   script:
-    - python3 backend/manage.py test backend/news_articles
+    - python3 manage.py test news_articles
   only:
     refs:
       - merge_requests
