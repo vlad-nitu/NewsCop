@@ -12,3 +12,6 @@ django-cors-headers = "*"
 
 [requires]
 python_version = "3.11"
+
+[scripts]
+codestyle = "pycodestyle"
