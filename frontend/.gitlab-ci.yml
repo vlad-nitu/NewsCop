@@ -5,6 +5,7 @@ frontend-test:
   image: node:latest
   stage: test
   before_script:
+    - cd frontend
     - npm install
   script:
     - npm run test
