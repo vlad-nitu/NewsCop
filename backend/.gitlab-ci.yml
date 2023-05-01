@@ -1,6 +1,16 @@
 stages:
+  - check
   - build
   - test
+
+checkstyle-backend:
+  image: python:3.9.16-alpine3.17
+  stage: check
+  script:
+    - apk add --no-cache git # allows to not cache the index locally, which is useful for keeping containers small.
+    - pip install pipenv
+    - pipenv install
+    - pipenv run codestyle
 
 backend-build:
   image: ubuntu:20.04
