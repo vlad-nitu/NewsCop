@@ -14,5 +14,4 @@ django-cors-headers = "*"
 python_version = "3.11"
 
 [scripts]
-codestyle = "pycodestyle"
 pytests = "python3 ./backend/manage.py test"
