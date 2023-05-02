@@ -1,6 +1,6 @@
 stages:
-  - check
   - build
+  - check
   - test
 
 checkstyle-backend:
