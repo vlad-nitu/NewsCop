@@ -24,11 +24,11 @@ backend-build:
     - pip install pipreqs
     - pip install pipenv
     - pipenv install
-    - pipenv run cd ./backend
+    # - pipenv run cd ./backend
     - pipenv run pipreqs --force .
-    - pipenv run manage.py makemigrations
-    - pipenv run manage.py migrate
-    - pipenv run manage.py check
+    - pipenv run ./backend/manage.py makemigrations
+    - pipenv run ./backend/manage.py migrate
+    - pipenv run ./backend/manage.py check
     - pipenv --rm
 
 backend-test:
