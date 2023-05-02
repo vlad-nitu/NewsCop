@@ -9,7 +9,7 @@ checkstyle-backend:
   script:
     - apk add --no-cache git
     - pip install --upgrade pip
-    - pipx install pipenv
+    - pip install pipenv
     - pipenv install
     - pipenv run codestyle
     - pipenv --rm
@@ -22,7 +22,7 @@ backend-build:
     - apk add --no-cache git
     - pip install --upgrade pip
     - pip install pipreqs
-    - pipx install pipenv
+    - pip install pipenv
     - pipenv install
     - pipenv run cd ./backend
     - pipenv run pipreqs --force .
@@ -37,7 +37,7 @@ backend-test:
   script:
     - apk add --no-cache git
     - pip install --upgrade pip
-    - pipx install pipenv
+    - pip install pipenv
     - pipenv install
     - pipenv run pytests
     - pipenv --rm
