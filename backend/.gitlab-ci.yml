@@ -7,7 +7,6 @@ checkstyle-backend:
   image: python:3.11-alpine
   stage: check
   script:
-    - apk add --no-cache git # allows to not cache the index locally, which is useful for keeping containers small.
     - pip install --upgrade pip
     - pip install pipenv
     - pipenv install
@@ -18,7 +17,6 @@ backend-build:
   image: python:3.11-alpine
   stage: build
   script:
-    - apk add --no-cache git
     - pip install --upgrade pip
     - pip install pipenv
     - pip install pipreqs
@@ -29,7 +27,6 @@ backend-test:
   image: python:3.11-alpine
   stage: test
   script:
-    - apk add --no-cache git
     - pip install --upgrade pip
     - pip install pipenv
     - pipenv install
