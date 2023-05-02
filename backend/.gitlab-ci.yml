@@ -34,18 +34,11 @@ backend-build:
 
 
 backend-test:
-  image: ubuntu:20.04
+  image: python:3.11-alpine
   stage: test
-  before_script:
-    - apt -y update
-    - apt -y install apt-utils
-    - apt -y install net-tools python3.8 python3-pip mysql-client libmysqlclient-dev
-    - apt -y upgrade
-    - pip3 install pipreqs
-    - cd backend
-    - pipreqs --force .
   script:
-    - python3 manage.py test news_articles
-  only:
-    refs:
-      - merge_requests
+    - apk add --no-cache git
+    - pip install --upgrade pip
+    - pip install pipenv
+    - pipenv install
+    - pipenv run pytests
