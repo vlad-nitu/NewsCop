@@ -15,4 +15,4 @@ python_version = "3.11"
 
 [scripts]
 codestyle = "pycodestyle"
-pytests = "python3 manage.py test"
+pytests = "python3 ./backend/manage.py test"
