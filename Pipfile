@@ -16,7 +16,3 @@ python_version = "3.11"
 [scripts]
 codestyle = "pycodestyle"
 pytests = "python3 ./backend/manage.py test"
-make = "python3 ./backend/manage.py makemigrations"
-migrate = "python3 ./backend/manage.py migrate"
-check = "python3 ./backend/manage.py check"
-reqs = "pipreqs --force ./backend"
