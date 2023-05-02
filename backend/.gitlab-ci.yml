@@ -13,25 +13,17 @@ checkstyle-backend:
     - pipenv install
     - pipenv run codestyle
 
-backend-build:
-  image: ubuntu:20.04
-  stage: build
-  before_script:
-    - apt -y update
-    - apt -y install apt-utils
-    - apt -y install net-tools python3.8 python3-pip mysql-client libmysqlclient-dev
-    - apt -y upgrade
-    - pip3 install pipreqs
-    - cd backend
-    - pipreqs --force .
-  script:
-    - python3 manage.py makemigrations
-    - python3 manage.py migrate
-    - python3 manage.py check
-  only:
-    refs:
-      - merge_requests
 
+backend-build:
+  image: python:3.11-alpine
+  stage: build
+  script:
+    - apk add --no-cache git
+    - pip install --upgrade pip
+    - pip install pipenv
+    - pip install pipreqs
+    - pipenv install
+    - pipenv run reqs & make & migrate & check
 
 backend-test:
   image: python:3.11-alpine
@@ -42,3 +34,6 @@ backend-test:
     - pip install pipenv
     - pipenv install
     - pipenv run pytests
+  # only:
+  #   refs:
+  #     - merge_requests
