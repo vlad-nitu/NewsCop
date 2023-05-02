@@ -42,6 +42,6 @@ backend-test:
     - pipenv install
     - pipenv run pytests
     - pipenv --rm
-  # only:
-  #   refs:
-  #     - merge_requests
+  only:
+    refs:
+      - merge_requests
