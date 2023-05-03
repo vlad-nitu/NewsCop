@@ -9,7 +9,7 @@ checkstyle-frontend:
     - cd frontend
     - npm install
     - npm install standard
-    - standard
+    - npx standard .
 
 frontend-test:
   image: node:latest
