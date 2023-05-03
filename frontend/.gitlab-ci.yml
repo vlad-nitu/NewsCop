@@ -1,5 +1,15 @@
 stages:
+  - check
   - test
+
+checkstyle-frontend:
+  image: node:latest
+  stage: check
+  script:
+    - cd frontend
+    - npm install
+    - npm install standard
+    - standard
 
 frontend-test:
   image: node:latest
