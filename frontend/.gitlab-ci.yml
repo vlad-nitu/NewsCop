@@ -10,7 +10,7 @@ checkstyle-frontend:
     - npm install
     - npm install standard
     - npm install jest
-    - npx standard .
+    - npx standard --global test --global expect .
 
 frontend-test:
   image: node:latest
