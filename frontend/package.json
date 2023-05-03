@@ -34,5 +34,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "standard": {
+    "ignore": [
+      "frontend/src/App_test.js"
+    ]
   }
 }
