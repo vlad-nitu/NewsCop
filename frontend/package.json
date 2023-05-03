@@ -37,7 +37,7 @@
   },
   "standard": {
     "ignore": [
-      "frontend/src/App_test.js"
+      "./src/App_test.js"
     ]
   }
 }
