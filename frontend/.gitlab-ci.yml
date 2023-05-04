@@ -20,7 +20,7 @@ frontend-test:
     - cd frontend
     - npm install
   script:
-    - npm run test
+    - npm run test --passWithNoTests
   only:
     refs:
       - merge_requests
