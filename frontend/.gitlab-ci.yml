@@ -11,7 +11,7 @@ checkstyle-frontend:
     - npm install standard
     - npm install jest
     - npx standard --global test --global expect .
-    - ./.gitlab/ci/if_lint.sh
+    - bash ./.gitlab/ci/if_lint.sh
 
 frontend-test:
   image: node:latest
