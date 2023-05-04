@@ -11,9 +11,7 @@ checkstyle-frontend:
     - npm install standard
     - npm install jest
     - npx standard --global test --global expect .
-    - if [ $? -eq 0 ]; then 
-    - 	echo "DA"
-    - fi
+    - ./.gitlab/ci/if_lint.sh
 
 frontend-test:
   image: node:latest
