@@ -11,7 +11,9 @@ checkstyle-frontend:
     - npm install standard
     - npm install jest
     - npx standard --global test --global expect .
-    - if [[ $? -eq 0 ]]; then echo "JS Linter did not find any issues."
+    - if [ $? -eq 0 ]; then 
+    - 	echo "DA"
+    - fi
 
 frontend-test:
   image: node:latest
