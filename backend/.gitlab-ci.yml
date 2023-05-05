@@ -44,7 +44,7 @@ backend-test:
     - pip install pipenv
     - pipenv install
     - pipenv run pip install pymongo
-    - pipenv run pipreqs --force ..
+    - pipenv run pipreqs --force .
     - pipenv run pytests
     - pipenv --rm
   only:
