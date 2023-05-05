@@ -12,6 +12,6 @@ django-cors-headers = "*"
 
 [requires]
 python_version = "3.11"
-
+pymongo = "3.12.3"
 [scripts]
 pytests = "python3 ./backend/manage.py test"
