@@ -40,10 +40,11 @@ backend-test:
   script:
     - apk add --no-cache git
     - pip install --upgrade pip
-    - pip install cython
-    - pip install news-please
-    - pip install pymongo
-    - pip install pipenv
+    - pip3 install cython
+    - pip3 install cchardet aiodns
+    - pip3 install news-please
+    - pip3 install pymongo
+    - pip3 install pipenv
     - pipenv install
     - cd ./backend
     - pipenv run pytests
