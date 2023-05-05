@@ -41,11 +41,12 @@ backend-test:
     - apk add --no-cache git
     - pip install --upgrade pip
     - pip3 install pipenv
-    - pip install chardet
     - pipenv install
-    - cd ./backend
     - pipenv run pip3 install pymongo
-    - pip3 install news-please
+    - pipenv run pip3 install chardet
+    - pipenv run pip3 install cython
+    - pipenv run pip3 install news-please
+    - cd ./backend
     - pipenv run pytests
     - pipenv --rm
 
