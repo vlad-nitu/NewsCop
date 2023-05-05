@@ -23,10 +23,10 @@ backend-build:
     - apk add --no-cache git
     - pip install --upgrade pip
     - pip install pipreqs
-    - pip install pymongo
     - pip install pipenv
     - pipenv install
     # - pipenv run cd ./backend
+    - pipenv run pip install pymongo
     - pipenv run pipreqs --force .
     - pipenv run ./backend/manage.py makemigrations
     - pipenv run ./backend/manage.py migrate
