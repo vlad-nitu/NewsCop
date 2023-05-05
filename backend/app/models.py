@@ -7,7 +7,7 @@ class React(models.Model):
     detail = models.CharField(max_length = 400)
 
     def save(self, *args, **kwargs):
-        db.test_collection.insert_one({
+        db.news_collection.insert_one({
             'news': self.news,
             'detail': self.detail,
         })
