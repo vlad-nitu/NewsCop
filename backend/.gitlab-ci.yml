@@ -42,11 +42,12 @@ backend-test:
     - pip install --upgrade pip
     # - pip install pipreqs
     - pip install pipenv
+    - pip install newsplease
     - pipenv install
     - cd ./backend
     - pipenv run pip install pymongo
     # - pipenv run pipreqs --force .
-    - pipenv run pip install news-please
+    # - pipenv run pip install newsplease
     - pipenv run pytests
     - pipenv --rm
   only:

@@ -5,6 +5,8 @@ name = "pypi"
 
 [packages]
 pycodestyle = {git = "https://github.com/PyCQA/pycodestyle.git"} 
+newsplease = {git = "https://github.com/fhamborg/news-please"} 
+
 djangorestframework = "*"
 django-cors-headers = "*"
 
