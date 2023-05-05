@@ -61,7 +61,7 @@ REST_FRAMEWORK = {'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.All
 CORS_ORIGIN_ALLOW_ALL = True
 
 
-ROOT_URLCONF = 'news_articles.urls'
+ROOT_URLCONF = 'app.urls'
 
 TEMPLATES = [
     {
@@ -79,18 +79,19 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'news_articles.wsgi.application'
+WSGI_APPLICATION = 'app.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# Comment out as we created the MongoDB client in utils.py
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-}
+ }
 
 
 # Password validation
