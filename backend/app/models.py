@@ -11,5 +11,3 @@ class React(models.Model):
             'news': self.news,
             'detail': self.detail,
         })
-
-        
