@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "3ebd2936e619a2713a2d77ee1c62f13746bd3f62bef0ea4026510a5cd30941ea"
+            "sha256": "78ec0d4210ff4b9729d11e0988ac3cb2144c3887cf43e29e43a6404ac9aac678"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -26,11 +26,11 @@
         },
         "django": {
             "hashes": [
-                "sha256:ad33ed68db9398f5dfb33282704925bce044bef4261cd4fb59e4e7f9ae505a78",
-                "sha256:c36e2ab12824e2ac36afa8b2515a70c53c7742f0d6eaefa7311ec379558db997"
+                "sha256:066b6debb5ac335458d2a713ed995570536c8b59a580005acb0732378d5eb1ee",
+                "sha256:7efa6b1f781a6119a10ac94b4794ded90db8accbe7802281cd26f8664ffed59c"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==4.2"
+            "version": "==4.2.1"
         },
         "django-cors-headers": {
             "hashes": [
@@ -47,6 +47,10 @@
             ],
             "index": "pypi",
             "version": "==3.14.0"
+        },
+        "pycodestyle": {
+            "git": "https://github.com/PyCQA/pycodestyle.git",
+            "ref": "ea12c727143fb3a3b849bcafb220a8f64fd67da8"
         },
         "pytz": {
             "hashes": [
