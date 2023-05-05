@@ -22,11 +22,10 @@ backend-build:
   script:
     - apk add --no-cache git
     - pip install --upgrade pip
-    - pip install pipreqs
-    - pip install pipenv
-    - pipenv sync
+    - pip install -r ../requirements.txt
+    - pipenv install
     # - pipenv run cd ./backend
-    - pipenv run pipreqs --force .
+    # - pipenv run pipreqs --force .
     - pipenv run ./backend/manage.py makemigrations
     - pipenv run ./backend/manage.py migrate
     - pipenv run ./backend/manage.py check
