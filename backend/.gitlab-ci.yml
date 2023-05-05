@@ -25,12 +25,12 @@ backend-build:
     - pip install pipreqs
     - pip install pipenv
     - pipenv install
-    # - pipenv run cd ./backend
-    # - pipenv run pip install pymongo
-    - pipenv run pipreqs --force ./backend
-    - pipenv run ./backend/manage.py makemigrations
-    - pipenv run ./backend/manage.py migrate
-    - pipenv run ./backend/manage.py check
+    - cd ./backend
+    - pipenv run pip install pymongo
+    - pipenv run pipreqs --force ..
+    - pipenv run ./manage.py makemigrations
+    - pipenv run ./manage.py migrate
+    - pipenv run ./manage.py check
     - pipenv --rm
 
 
