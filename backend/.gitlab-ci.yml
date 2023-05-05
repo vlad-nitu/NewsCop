@@ -24,7 +24,7 @@ backend-build:
     - pip install --upgrade pip
     - pip install pipreqs
     - pip install pipenv
-    - pipenv install
+    - pipenv sync
     # - pipenv run cd ./backend
     - pipenv run pipreqs --force .
     - pipenv run ./backend/manage.py makemigrations
