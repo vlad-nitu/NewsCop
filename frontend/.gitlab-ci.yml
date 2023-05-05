@@ -1,0 +1,26 @@
+stages:
+  - check
+  - test
+
+checkstyle-frontend:
+  image: node:latest
+  stage: check
+  script:
+    - cd frontend
+    - npm install
+    - npm install standard
+    - npm install jest
+    - npx standard --global test --global expect .
+    - bash ./.gitlab/ci/if_lint.sh
+
+frontend-test:
+  image: node:latest
+  stage: test
+  before_script:
+    - cd frontend
+    - npm install
+  script:
+    - npm run test --passWithNoTests
+  only:
+    refs:
+      - merge_requests
