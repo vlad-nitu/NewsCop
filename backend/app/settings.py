@@ -84,14 +84,23 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-# Comment out as we created the MongoDB client in utils.py
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'djongo',
+        'NAME': 'sample_supplies',
+        'CLIENT': {
+            'host': 'mongodb+srv://newscop:3piyXxBX4d2CZg4U@maincluster.qxr777j.mongodb.net/?retryWrites=true&w=majority',
+            'username': 'newscop',
+            'password': '3piyXxBX4d2CZg4U',
+            'authMechanism': 'SCRAM-SHA-1',
+        },
+        'OPTIONS': {
+            'authMechanism': 'SCRAM-SHA-1',
+        },
     }
- }
+}
+
+
 
 
 # Password validation
