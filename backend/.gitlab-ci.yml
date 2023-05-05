@@ -40,6 +40,7 @@ backend-test:
   script:
     - apk add --no-cache git
     - pip install --upgrade pip
+    - pip install cython
     - pip install news-please
     - pip install pymongo
     - pip install pipenv
