@@ -20,6 +20,7 @@ distlib==0.3.6
 Django==4.2
 django-cors-headers==3.14.0
 django-debug-toolbar==4.0.0
+django-rest-framework-mongoengine==3.4.1
 djangorestframework==3.14.0
 dnspython==2.3.0
 docopt==0.6.2
@@ -43,6 +44,7 @@ jmespath==1.0.1
 joblib==1.2.0
 langdetect==1.0.9
 lxml==4.9.2
+mongoengine==0.27.0
 news-please==1.5.33
 newspaper3k==0.2.8
 nltk==3.8.1
