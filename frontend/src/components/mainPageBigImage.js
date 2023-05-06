@@ -40,7 +40,6 @@ export default function MainPageBigImage({ description, projectName, imageUrl })
         zIndex: 1,
         width: 'auto',
       };
-
     
       return (
         <div style={containerStyle}>
@@ -48,7 +47,7 @@ export default function MainPageBigImage({ description, projectName, imageUrl })
             <div style={overlayStyle} />
             <div style={textStyle}>
                 <h2>{projectName}</h2>
-                {description}
+                <p>{description}</p>
             </div>
         </div>
       );

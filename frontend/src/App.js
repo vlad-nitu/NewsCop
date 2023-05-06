@@ -6,7 +6,7 @@ import { Component } from 'react'
 function App () {
 
   const applicationName = "NewsCop"
-  const applicationDescription = "NewsCop is a news article" + 
+  const applicationDescription = "NewsCop is a news article " + 
   "overlap detection platform that helps businesses stay on " + 
   "top of competitors' news coverage. Our service quickly " + 
   "checks for duplicated stories, allowing you to spot " + 
