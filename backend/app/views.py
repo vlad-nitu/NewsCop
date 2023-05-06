@@ -57,3 +57,23 @@ def reqex_view(request):
         return HttpResponse("Example response " + data["key"])
     else:
         return HttpResponseBadRequest("Invalid request method")
+
+def persist_url_view(request, url):
+    ''' TODO: Change
+    Example endpoint that can be consumed by requesting localhost:8000/try/<string>/
+    :param request: the reques
+    :param url: the string path variable
+    :return: a HttpResponse with status 200, if successful else HttpResponseBadRequest
+    '''
+
+    # Ensure the request method is POST
+    if request.method == 'POST':
+        srlzr = NewsDocumentSerializer(data=request.data)
+
+        if srlzr.is_valid(raise_exception=True):
+            srlzr.save()
+
+        return Response(srlzr.data)
+
+    else:
+        return HttpResponseBadRequest("Invalid request method")

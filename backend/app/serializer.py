@@ -7,3 +7,15 @@ class ReactSerializer(DocumentSerializer):
     class Meta:
         model = React
         fields = ['url', 'published_date']
+
+
+class NewsDocumentSerializer(DocumentSerializer):
+    class Meta:
+        model = NewsDocument
+        fields = ['url', 'published_date', 'fingerprints']
+
+
+class FingerprintSerializer(DocumentSerializer):
+    class Meta:
+        model = Fingerprint
+        fields = ['shingle_hash', 'shingle_pos']
