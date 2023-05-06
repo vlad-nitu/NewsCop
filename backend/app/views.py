@@ -58,7 +58,8 @@ def reqex_view(request):
     else:
         return HttpResponseBadRequest("Invalid request method")
 
-def persist_url_view(request, url):
+
+def persist_url_view(request):
     ''' TODO: Change
     Example endpoint that can be consumed by requesting localhost:8000/try/<string>/
     :param request: the reques
@@ -68,15 +69,17 @@ def persist_url_view(request, url):
 
     # Ensure the request method is POST
     if request.method == 'POST':
-        print("DA: " + url)
+        print("DA: ")
+        try:
+            the_url = json.loads(request.body)
+            dummy_fp = Fingerprint(shingle_hash=3, shingle_position=5)
+            rarini = dummy_fp.to_json()
+            srlzr = NewsDocumentSerializer(dummy_fp, data=the_url)
+            if srlzr.is_valid(raise_exception=True):
+                srlzr.save()
+                return HttpResponse(srlzr.data["url"])
+            else:
+                return HttpResponseBadRequest("Invalid request method")
 
-        dummy_fp = Fingerprint(shingle_hash=3, shingle_position=5)
-        srlzr = NewsDocumentSerializer(dummy_fp, data=url)
-
-        if srlzr.is_valid(raise_exception=True):
-            srlzr.save()
-
-        return Response(srlzr.data)
-
-    else:
-        return HttpResponseBadRequest("Invalid request method")
+        except json.JSONDecodeError:
+            return HttpResponseBadRequest("Invalid JSON data")
