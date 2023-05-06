@@ -10,7 +10,8 @@ class ReactView(APIView):
     serializer_class = ReactSerializer
 
     def get(self, request):
-        obtained = [{'url': output['_id'], 'published_date': output['published_date']} for output in db.copy_collection.find()]
+        obtained = [{'url': output['_id'], 'published_date': output['published_date']}
+                    for output in db.copy_collection.find()]
         return Response(obtained)
 
     def post(self, request):

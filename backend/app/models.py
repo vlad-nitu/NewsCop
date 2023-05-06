@@ -11,5 +11,5 @@ class React(Document):
     def save(self, *args, **kwargs):
         db.copy_collection.insert_one({
             '_id': self.url,
-            'published_date':self.published_date,
+            'published_date': self.published_date,
         })
