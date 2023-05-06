@@ -6,4 +6,4 @@ from .models import *
 class ReactSerializer(DocumentSerializer):
     class Meta:
         model = React
-        fields = ['_id', 'date_field']
+        fields = ['url', 'published_date']
