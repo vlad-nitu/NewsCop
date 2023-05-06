@@ -1,6 +1,6 @@
 # Used to convert complex data to native Python data types, 
 # which will be then rendered to JSON that will be used on client-side (by React) 
-from rest_framework_mongoengine.serializers import DocumentSerializer
+from rest_framework_mongoengine.serializers import DocumentSerializer, EmbeddedDocumentSerializer
 from .models import *
 
 class ReactSerializer(DocumentSerializer):
@@ -9,7 +9,7 @@ class ReactSerializer(DocumentSerializer):
         fields = ['url', 'published_date']
 
 
-class NewsDocumentSerializer(DocumentSerializer):
+class NewsDocumentSerializer(EmbeddedDocumentSerializer):
     class Meta:
         model = NewsDocument
         fields = ['url', 'published_date', 'fingerprints']

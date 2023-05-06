@@ -1,6 +1,6 @@
 from utils import db
 from mongoengine import Document
-from mongoengine.fields import EmbeddedDocument, EmbeddedDocumentField, StringField, DateTimeField, IntField
+from mongoengine.fields import EmbeddedDocument, EmbeddedDocumentField, ListField, StringField, DateTimeField, IntField
 
 # Create your models here.
 class React(Document):
@@ -26,8 +26,6 @@ class NewsDocument(Document):
     fingerprints = ListField(EmbeddedDocumentField(Fingerprint))
 
     def save(self, *args, **kwargs):
-        db.copy_collection.insert_one({
+        db.news_entity_collection.insert_one({
             '_id': self.url,
-            'published_date': self.published_date,
-            'fingerprints': self.fingerprints,
         })

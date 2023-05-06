@@ -68,7 +68,10 @@ def persist_url_view(request, url):
 
     # Ensure the request method is POST
     if request.method == 'POST':
-        srlzr = NewsDocumentSerializer(data=request.data)
+        print("DA: " + url)
+
+        dummy_fp = Fingerprint(shingle_hash=3, shingle_position=5)
+        srlzr = NewsDocumentSerializer(dummy_fp, data=url)
 
         if srlzr.is_valid(raise_exception=True):
             srlzr.save()
