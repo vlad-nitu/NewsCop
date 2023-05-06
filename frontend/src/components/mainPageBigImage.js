@@ -44,7 +44,7 @@ export default function MainPageBigImage({ description, projectName, imageUrl })
     
       return (
         <div style={containerStyle}>
-            <div style={backgroundStyle} />
+            <div id="background-image" style={backgroundStyle} />
             <div style={overlayStyle} />
             <div style={textStyle}>
                 <h2>{projectName}</h2>

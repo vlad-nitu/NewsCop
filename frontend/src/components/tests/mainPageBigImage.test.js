@@ -22,3 +22,11 @@ test('get project name', () => {
     const element = screen.getByText("News article overlap")
     expect(element).toBeInTheDocument()
 })
+
+test('get background image url', () => {
+    render(<MainPageBigImage description={ applicationDescription } projectName={ projectName } imageUrl={imageUrl}/>)
+    const expectedUrl = 'url(https://i.ibb.co/713x3tb/Screenshot-2023-05-03-at-12-50-00.png)';
+    const element = document.querySelector('#background-image');
+    const backgroundImage = window.getComputedStyle(element).getPropertyValue('background-image');
+    expect(backgroundImage).toBe(expectedUrl);
+})
