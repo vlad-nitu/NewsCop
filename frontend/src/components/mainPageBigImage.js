@@ -1,5 +1,3 @@
-import Container from "react-bootstrap/esm/Container";
-
 export default function MainPageBigImage({ description, projectName, imageUrl }) {
     const containerStyle = {
         height: '90vh',
