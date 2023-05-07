@@ -63,6 +63,7 @@ backend-test:
     - pip install -r requirements.txt # update requirements
     - coverage run --omit="app/tests/*" manage.py test app/tests
     - coverage html
+    - coverage report
     - deactivate
   only:
     refs:
