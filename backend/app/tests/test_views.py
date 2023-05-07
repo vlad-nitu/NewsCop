@@ -1,4 +1,3 @@
-import json
 from django.test import TestCase, RequestFactory
 from django.http import HttpResponse, HttpResponseBadRequest
 from rest_framework import status
