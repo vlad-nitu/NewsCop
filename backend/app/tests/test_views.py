@@ -64,7 +64,7 @@ class TestReqExView(TestCase):
             'key': 'www.google.com',
         }
         json_data = json.dumps(data)
-        request = self.factory.post(f"/reqex/", data=json_data, content_type='application/json')
+        request = self.factory.post("/reqex/", data=json_data, content_type='application/json')
         response = reqex_view(request)
 
         self.assertIsInstance(response, HttpResponse)
@@ -76,7 +76,7 @@ class TestReqExView(TestCase):
             'key': 'www.google.com',
         }
         json_data = json.dumps(data)
-        request = self.factory.get(f"/reqex/", data=json_data, content_type='application/json')
+        request = self.factory.put("/reqex/", data=json_data, content_type='application/json')
         response = reqex_view(request)
 
         self.assertIsInstance(response, HttpResponseBadRequest)
@@ -87,7 +87,7 @@ class TestReqExView(TestCase):
         data = {
             'key': 'www.google.com',
         }
-        request = self.factory.post(f"/reqex/", data=data)
+        request = self.factory.post("/reqex/", data=data)
         response = reqex_view(request)
 
         self.assertIsInstance(response, HttpResponseBadRequest)
