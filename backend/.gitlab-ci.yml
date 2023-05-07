@@ -62,7 +62,7 @@ backend-test:
     - pip install --upgrade pip
     - pip install -r requirements.txt # update requirements
     - coverage run --omit="app/tests/*" manage.py test app/tests
-    - coverage html
+    - coverage html -d ./htmlcov/
     - coverage report
     - deactivate
   only:
