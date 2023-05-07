@@ -95,7 +95,7 @@ class UrlsTest(TestCase):
         json_data = json.dumps(data)
         client = Client()
         obtained_url = reverse('reqex')
-        response = client.post(obtained_url, data=json_data)
+        response = client.post(obtained_url, data=json_data, content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), ("Example response " + 'www.google.com'))
 
