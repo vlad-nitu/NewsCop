@@ -83,3 +83,5 @@ def persist_url_view(request, url):
                 return HttpResponseBadRequest("Invalid request method")
         except json.JSONDecodeError:
             return HttpResponseBadRequest("Invalid JSON data")
+    else:
+        return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
