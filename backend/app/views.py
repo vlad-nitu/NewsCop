@@ -54,7 +54,7 @@ def reqex_view(request):
         except json.JSONDecodeError:
             return HttpResponseBadRequest("Invalid JSON data")
 
-        return HttpResponse("Example response " + data["key"])
+        return HttpResponse("Example response " + data["key"], status=200)
     else:
         return HttpResponseBadRequest("Invalid request method")
 
