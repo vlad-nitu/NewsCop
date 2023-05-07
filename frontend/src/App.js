@@ -1,7 +1,7 @@
 import './css/general.css'
 import NavbarComponent from './components/navbar'
 import MainPageBigImage from './components/mainPageBigImage'
-import { Component } from 'react'
+import Mission from './components/mission'
 
 function App () {
 
@@ -15,11 +15,21 @@ function App () {
   const projectName = "News article overlap"
   const imageUrl = "https://i.ibb.co/713x3tb/Screenshot-2023-05-03-at-12-50-00.png"
 
+  const ourMission = "Creating a platform that provides various ways of " +
+  "comparing news articles, helping users to identify overlapping content " + 
+  "quickly and accurately and, consequently, decreasing the impact of " + 
+  "missinformation and plagiarism in the media."
+
+  const ourMissionImage = "https://gcdnb.pbrd.co/images/e5PfBZ9MCJqB.jpg?o=1"
+  const ourMissionImage2 = "https://thumbs.dreamstime.com/b/man-looking-over-newspaper-62558573.jpg"
+  const ourMissionImage3 = "https://gcdnb.pbrd.co/images/N1ELmhry5wXH.png?o=1"
+
   return (
     <>
       <NavbarComponent name={ applicationName } />
       <MainPageBigImage description={ applicationDescription } projectName={ projectName } 
       imageUrl={imageUrl}/>
+      <Mission description={ourMission} imageUrl={ourMissionImage3} />
     </>
   )
 }

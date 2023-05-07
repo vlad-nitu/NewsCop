@@ -2,3 +2,18 @@
     /* TODO: change color to dark grey */
     border-bottom: 1px solid black !important;
 }
+
+.description-paragraph {
+    font-size: 1.3rem;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: bolder;
+}
+
+@media (max-width: 450px) {
+    .title {
+        width: 350px;
+    }
+}
