@@ -1,4 +1,5 @@
 import http.client
+import json
 
 from django.test import Client, TestCase, tag
 from django.urls import resolve, reverse
@@ -7,6 +8,7 @@ from rest_framework import status
 from app.views import persist_url_view
 from app.views import try_view
 from app.views import reqex_view
+
 
 class UrlsTest(TestCase):
     @tag("unit")
@@ -85,11 +87,25 @@ class UrlsTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.content.decode(), "Invalid request method")
 
-    # @tag("integration")
-    # def test_reqex_req_body_pattern_post(self):
-    #     url = 'www.google.com'
-    #     client = Client()
-    #     obtained_url = reverse('try', kwargs={'url': url})
-    #     response = client.post(obtained_url)
-    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-    #     self.assertEqual(response.content.decode(), "Endpoint called with something different than GET")
+    @tag("integration")
+    def test_reqex_req_body_pattern_post_good(self):
+        data = {
+            'key': 'www.google.com',
+        }
+        json_data = json.dumps(data)
+        client = Client()
+        obtained_url = reverse('reqex')
+        response = client.post(obtained_url, data=json_data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.content.decode(), ("Example response " + 'www.google.com'))
+
+    @tag("integration")
+    def test_reqex_req_body_pattern_post_bad(self):
+        data = {
+            'key': 'www.google.com',
+        }
+        client = Client()
+        obtained_url = reverse('reqex')
+        response = client.post(obtained_url, data=data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.content.decode(), "Invalid JSON data")
