@@ -16,6 +16,7 @@ class TestPersistUrlView(TestCase):
 
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.content.decode(), url)
 
     def test_post_request_with_invalid_method(self):
         url = "https://www.example.com"
