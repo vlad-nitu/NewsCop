@@ -34,10 +34,17 @@
         1. Convert `datetime.datetime` to `datetime.time` using `combine`: `my_datetime = datetime.combine(my_date, time.min)`
         2. More elegant: Use `DateTimeField()`
     - Resources used to find the solution: ChatGPT
+5. 
+    - Error description: Infinitely loading the localhost main page infinitely ->  SSL Handshake error
+    - How can it be reproduced / How you encountered the error: Do not have your IP tied up to MongoDB Atlas
+    - - Solution / How did you manage to fix the error: [SSL Error: Bad handshake SO thread](https://stackoverflow.com/questions/37009692/ssl-error-bad-handshake); TL;DR: `pip uninstall pyopenssl`. 
+    - Resources used to find the solution: StackOverflow thread
+
 
 
 
 ## Useful tips
 - If you commited lots of times and want to combine all your last N commits into a single one, use `squash` GIT feature: [SO Thread](https://stackoverflow.com/questions/5189560/how-do-i-squash-my-last-n-commits-together)
+
 
 
