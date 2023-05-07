@@ -3,6 +3,8 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from rest_framework import status
 
 from app.views import persist_url_view
+from app.views import try_view
+from app.views import reqex_view
 
 class TestPersistUrlView(TestCase):
     def setUp(self):
@@ -25,3 +27,24 @@ class TestPersistUrlView(TestCase):
         self.assertIsInstance(response, HttpResponseBadRequest)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.content.decode(), "Expected POST, but got GET instead")
+class TestTryView(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
+    def test_get_request_with_valid_url(self):
+        url = "www.google.com"
+        request = self.factory.get(f"/try/{url}")
+        response = persist_url_view(request, url)
+
+        self.assertIsInstance(response, HttpResponse)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.content.decode(), "You entered " + url)
+
+    def test_post_request_with_valid_url(self):
+        url = "www.google.com"
+        request = self.factory.put(f"/try/{url}")
+        response = try_view(request, url)
+
+        self.assertIsInstance(response, HttpResponseBadRequest)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.content.decode(), "Endpoint called with something different than GET")
