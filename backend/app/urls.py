@@ -22,7 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', ReactView.as_view(), name = "main_view"),
     path('try/<str:url>/', try_view, name = "try"),
-    path('reqex/', reqex_view),
+    path('reqex/', reqex_view, name = "reqex"),
     path('persistURL/<str:url>/', persist_url_view, name = "persist_url")
     # Set localhost on port 8000 (default for Django)  to be the main endpoint for ReactView class 
 ]

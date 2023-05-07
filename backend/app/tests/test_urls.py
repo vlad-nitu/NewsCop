@@ -4,7 +4,7 @@ from rest_framework import status
 
 from app.views import persist_url_view
 from app.views import try_view
-
+from app.views import reqex_view
 
 class UrlsTest(TestCase):
     @tag("unit")
@@ -63,3 +63,33 @@ class UrlsTest(TestCase):
         response = client.post(obtained_url)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.content.decode(), "Endpoint called with something different than GET")
+
+    @tag("unit")
+    def test_reqex_req_body_unit(self):
+        obtained_url = reverse('reqex')
+        expected_url = '/reqex/'
+
+        obtained_view_function = resolve(obtained_url).func
+        expected_view_function = reqex_view
+
+        self.assertEquals(obtained_url, expected_url)
+        self.assertEquals(obtained_view_function, expected_view_function)
+
+    # @tag("integration")
+    # def test_reqex_req_body_pattern_get(self):
+    #     url = 'www.google.com'
+    #     expected = "You entered " + url
+    #     client = Client()
+    #     obtained_url = reverse('try', kwargs={'url': url})
+    #     response = client.get(obtained_url)
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+    #     self.assertEqual(response.content.decode(), expected)
+    #
+    # @tag("integration")
+    # def test_reqex_req_body_pattern_post(self):
+    #     url = 'www.google.com'
+    #     client = Client()
+    #     obtained_url = reverse('try', kwargs={'url': url})
+    #     response = client.post(obtained_url)
+    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+    #     self.assertEqual(response.content.decode(), "Endpoint called with something different than GET")
