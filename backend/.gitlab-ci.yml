@@ -61,7 +61,7 @@ backend-test:
     - source venv/bin/activate # activate virtual environment
     - pip install --upgrade pip
     - pip install -r requirements.txt # update requirements
-    - python3 manage.py test
+    - python3 manage.py test app/tests
     - deactivate
   only:
     refs:

@@ -136,5 +136,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Colourful tests, for more readabilty when reading stacktraces :D
 TEST_RUNNER = "redgreenunittest.django.runner.RedGreenDiscoverRunner"
-
-
