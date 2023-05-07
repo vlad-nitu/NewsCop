@@ -1,3 +1,5 @@
+import http.client
+
 from django.test import Client, TestCase, tag
 from django.urls import resolve, reverse
 from rest_framework import status
@@ -75,16 +77,14 @@ class UrlsTest(TestCase):
         self.assertEquals(obtained_url, expected_url)
         self.assertEquals(obtained_view_function, expected_view_function)
 
-    # @tag("integration")
-    # def test_reqex_req_body_pattern_get(self):
-    #     url = 'www.google.com'
-    #     expected = "You entered " + url
-    #     client = Client()
-    #     obtained_url = reverse('try', kwargs={'url': url})
-    #     response = client.get(obtained_url)
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
-    #     self.assertEqual(response.content.decode(), expected)
-    #
+    @tag("integration")
+    def test_reqex_req_body_pattern_get(self):
+        client = Client()
+        obtained_url = reverse('reqex')
+        response = client.get(obtained_url)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.content.decode(), "Invalid request method")
+
     # @tag("integration")
     # def test_reqex_req_body_pattern_post(self):
     #     url = 'www.google.com'
