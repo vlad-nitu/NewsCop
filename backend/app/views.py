@@ -10,11 +10,13 @@ class ReactView(APIView):
     serializer_class = ReactSerializer
 
     def get(self, request):
-        obtained = [{'news': output.news, 'detail': output.detail} for output in React.objects.all()]
+        obtained = [{'news': output['news'], 'detail': output['detail']} for output in db.news_collection.find()]
         return Response(obtained)
 
     def post(self, request):
         srlzr = ReactSerializer(data=request.data)  # Pass data to React serializer method
+
         if srlzr.is_valid(raise_exception=True):
             srlzr.save()
+
         return Response(srlzr.data)
