@@ -61,7 +61,8 @@ backend-test:
     - source venv/bin/activate # activate virtual environment
     - pip install --upgrade pip
     - pip install -r requirements.txt # update requirements
-    - python3 manage.py test app/tests
+    - coverage run --omit="app/tests/*" manage.py test app/tests
+    - coverage html
     - deactivate
   only:
     refs:
