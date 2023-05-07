@@ -3,6 +3,7 @@ import NavbarComponent from './components/navbar'
 import MainPageBigImage from './components/mainPageBigImage'
 import Mission from './components/mission'
 import Services from './components/services'
+import Map from './components/map'
 
 function App () {
 
@@ -37,6 +38,7 @@ function App () {
       imageUrl={imageUrl}/>
       <Mission description={ourMission} imageUrl={ourMissionImage3} />
       <Services titles={titles} descriptions={descriptions} images={images}/>
+      <Map />
     </>
   )
 }
