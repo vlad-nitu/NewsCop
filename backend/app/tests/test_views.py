@@ -34,7 +34,7 @@ class TestTryView(TestCase):
     def test_get_request_with_valid_url(self):
         url = "www.google.com"
         request = self.factory.get(f"/try/{url}")
-        response = persist_url_view(request, url)
+        response = try_view(request, url)
 
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
