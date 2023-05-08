@@ -6,6 +6,17 @@ import Services from './components/services'
 import Map from './components/map'
 import Footer from './components/footer'
 
+/**
+ * The entire page was built around the Bootstrap library.
+ * 
+ * Important links from their documentation:
+ * https://getbootstrap.com/docs/5.0/utilities/spacing/
+ * https://getbootstrap.com/docs/5.0/layout/grid/
+ * https://getbootstrap.com/docs/5.0/utilities/flex/
+ * 
+ * @returns JSX Element containg the landing page.
+ * 
+ */
 function App () {
 
   // Below are listed the variables that represent the content of some sections from the main page.
