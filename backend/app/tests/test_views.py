@@ -18,6 +18,8 @@ class TestPersistUrlView(TestCase):
 
     def test_post_request_with_valid_url(self):
         url = "https://www.vlad.com"
+        db.nd_collection.delete_one({'_id': url})
+
         request = self.factory.post(f"/persistURL/{url}")
         response = persist_url_view(request, url)
 

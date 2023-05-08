@@ -27,11 +27,12 @@ class UrlsTest(TestCase):
 
     @tag("integration")
     def test_persist_url_pattern_post(self):
-
         expected_persisted_url = 'www.operatesonmaindb.com'
         client = Client()
 
         obtained_url = reverse('persist_url', kwargs={'url': expected_persisted_url})
+        db.nd_collection.delete_one({'_id': expected_persisted_url})
+
         response = client.post(obtained_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), expected_persisted_url)
