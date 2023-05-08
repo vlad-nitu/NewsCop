@@ -9,13 +9,14 @@ class ReactSerializer(DocumentSerializer):
         fields = ['url', 'published_date']
 
 
-class NewsDocumentSerializer(EmbeddedDocumentSerializer):
+class NewsDocumentSerializer(DocumentSerializer):
     class Meta:
         model = NewsDocument
         fields = ['url', 'published_date', 'fingerprints']
+        depth = 2
 
 
-class FingerprintSerializer(DocumentSerializer):
+class FingerprintSerializer(EmbeddedDocumentSerializer):
     class Meta:
         model = Fingerprint
         fields = ['shingle_hash', 'shingle_pos']

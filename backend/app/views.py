@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import render
 from rest_framework.views import APIView
 from .models import *
@@ -73,14 +74,11 @@ def persist_url_view(request, url):
         try:
             the_url = json.loads('{ "url"' + ": " + '"' + url + '"' + "}")
             #  Serialises the url into a json
-            dummy_fp = Fingerprint(shingle_hash=3, shingle_position=5)
-            srlzr = NewsDocumentSerializer(dummy_fp, data=the_url)
-            #  The json is further used by the serializer
-            if srlzr.is_valid(raise_exception=True):
-                srlzr.save()
-                return HttpResponse(srlzr.data["url"])
-            else:
-                return HttpResponseBadRequest("Invalid request method")
+            fp1 = Fingerprint(shingle_hash=3, shingle_position=5)
+            fp2 = Fingerprint(shingle_hash=6, shingle_position=10)
+            newsdoc = NewsDocument(url=url, published_date=datetime.now(), fingerprints=[fp1, fp2])
+            newsdoc.save()
+            return HttpResponse(newsdoc.url)
         except json.JSONDecodeError:
             return HttpResponseBadRequest("Invalid JSON data")
     else:
