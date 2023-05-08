@@ -26,7 +26,7 @@ class UrlsTest(TestCase):
         self.assertEquals(obtained_view_function, expected_view_function)
 
     @tag("integration")
-    def test_persist_url_pattern_post(self):
+    def test_persist_url_pattern_post(self): # TODO
 
         expected_persisted_url = 'www.operatesonmaindb.com'
         client = Client()
