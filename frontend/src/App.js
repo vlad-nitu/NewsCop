@@ -4,6 +4,7 @@ import MainPageBigImage from './components/mainPageBigImage'
 import Mission from './components/mission'
 import Services from './components/services'
 import Map from './components/map'
+import Footer from './components/footer'
 
 function App () {
 
@@ -39,6 +40,7 @@ function App () {
       <Mission description={ourMission} imageUrl={ourMissionImage3} />
       <Services titles={titles} descriptions={descriptions} images={images}/>
       <Map />
+      <Footer />
     </>
   )
 }

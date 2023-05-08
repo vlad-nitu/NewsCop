@@ -31,6 +31,15 @@
     background-color: #000;
 }
 
+.footerStyle a {
+    text-decoration: none;
+    color: #485A58;
+}
+
+.footerStyle a:hover{
+    color: #667f7c;
+}
+
 @media (max-width: 450px) {
     .title {
         width: 350px;

@@ -35,7 +35,7 @@ export default function Services({ titles, descriptions, images }) {
     }
     
     return (
-        <div style={{ backgroundColor: "#2E837E" }}>
+        <div id="services" style={{ backgroundColor: "#2E837E" }}>
             <Container className="py-5">
                 <h2 className="title">Services</h2>
                 <Row className="pt-3">

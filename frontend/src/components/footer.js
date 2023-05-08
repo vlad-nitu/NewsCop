@@ -1,0 +1,102 @@
+import Container from "react-bootstrap/Container";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+
+export default function Footer() {
+    const footerStyle = {
+        backgroundColor: '#D4DCDB',
+        color: '#485A58'
+    }
+
+    return (
+        <div>
+            <footer style={footerStyle} className="text-center text-lg-start footerStyle">
+                {/* Social Section */}
+                <section className="d-flex justify-content-between p-4 text-white" style={{backgroundColor: '#2E837E'}}>
+                    <div className="me-5">
+                        <span>Get connected with us on social networks:</span>
+                    </div>
+                    <div>
+                        <a href="" class="text-white me-4">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="" class="text-white me-4">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="" class="text-white me-4">
+                            <i class="fab fa-google"></i>
+                        </a>
+                        <a href="" class="text-white me-4">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="" class="text-white me-4">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </section>
+                {/* Main Footer Section */}
+                <section style={{color: '#485A58 !important'}}>
+                    <Container className="text-center text-md-start mt-5">
+                        <Row className="mt-3">
+                            <Col md={3} lg={4} xl={3} className="mx-auto mb-3">
+                                <h6 className="text-uppercase fw-bold">NewsCop</h6>
+                                <hr
+                                    className="mb-2 mt-0 d-inline-block mx-auto"
+                                    style={{width: '60px', backgroundColor: '#7c4dff', height: '2px'}}
+                                />
+                                <p>
+                                    Creating a platform that provides various ways of 
+                                    comparing news articles, helping users to identify 
+                                    overlapping content quickly and accurately and, 
+                                    consequently, decreasing the impact of missinformation 
+                                    and plagiarism in the media.
+                                </p>
+                            </Col>
+                            <Col md={2} lg={2} xl={2} className="mx-auto mb-4">
+                                <h6 className="text-uppercase fw-bold">Services</h6>
+                                <hr
+                                    className="mb-2 mt-0 d-inline-block mx-auto"
+                                    style={{width: '60px', backgroundColor: '#7c4dff', height: '2px'}}
+                                />
+                                <p>
+                                    <a href="#!">URL plagiarism checker</a>
+                                </p>
+                                <p>
+                                    <a href="#!">Text plagiarism checker</a>
+                                </p>
+                                <p>
+                                    <a href="#!">Text similarity checker</a>
+                                </p>
+                                <p>
+                                    <a href="#!">URL similarity checker</a>
+                                </p>
+                            </Col>
+                            {/* <Col md={3} lg={2} xl={2} className="mx-auto mb-4">
+                                <h6 className="text-uppercase fw-bold">Company</h6>
+                                <hr
+                                    className="mb-2 mt-0 d-inline-block mx-auto"
+                                    style={{width: '60px', backgroundColor: '#7c4dff', height: '2px'}}
+                                />
+                                <p>
+                                    <a href="#ourMission">About us</a>
+                                </p>
+                            </Col> */}
+                            <Col md={4} lg={3} xl={3} className="mx-auto mb-md-0 mb-4">
+                                <h6 className="text-uppercase fw-bold">Contact</h6>
+                                <hr
+                                    class="mb-2 mt-0 d-inline-block mx-auto"
+                                    style={{width: '60px', backgroundColor: '#7c4dff', height: '2px'}}
+                                />
+                                <p><i class="fas fa-envelope mr-3"></i> info@getsourcer.com </p>
+                            </Col>
+                        </Row>
+                    </Container>
+                </section>
+                {/* Copyright section */}
+                <div className="text-center p-3" style={{backgroundColor: 'rgba(0, 0, 0, 0.2)'}}>
+                    2023 © NewsCop
+                </div>
+            </footer>
+        </div>
+    );
+}
