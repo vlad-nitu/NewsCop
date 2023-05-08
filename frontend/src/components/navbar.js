@@ -2,6 +2,14 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
+/**
+ * Function that renders the Navbar component.
+ * It was built using the Bootstrap documentation:
+ * https://getbootstrap.com/docs/5.0/components/navbar/
+ * 
+ * @param {String} name  
+ * @returns React Component consisting in a navbar.
+ */
 export default function NavbarComponent({ name }) {
     return (
         <Navbar bg="light" expand="lg" className="border-bottom-navbar">

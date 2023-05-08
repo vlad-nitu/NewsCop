@@ -2,7 +2,16 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from "react-bootstrap/Col"
 
-
+/**
+ *
+ * A functional component that displays the company's mission.
+ * 
+ * @param {object} props - The props object containing the description and imageUrl.
+ * @param {string} props.description - The description of the company's mission.
+ * @param {string} props.imageUrl - The URL of the image to be displayed.
+ * 
+ * @returns {JSX.Element} - A JSX element representing the company's mission.
+*/
 export default function Mission({ description, imageUrl }) {
     return (
         <Container className="my-5" id="ourMission">

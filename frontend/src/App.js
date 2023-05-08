@@ -8,6 +8,7 @@ import Footer from './components/footer'
 
 function App () {
 
+  // Below are listed the variables that represent the content of some sections from the main page.
   const applicationName = "NewsCop"
   const applicationDescription = "NewsCop is a news article " + 
   "overlap detection platform that helps businesses stay on " + 
@@ -34,12 +35,23 @@ function App () {
 
   return (
     <>
+      {/* Navbar */}
       <NavbarComponent name={ applicationName } />
+
+      {/* Big image with text */}
       <MainPageBigImage description={ applicationDescription } projectName={ projectName } 
       imageUrl={imageUrl}/>
+
+      {/* Our Mission Section */}
       <Mission description={ourMission} imageUrl={ourMissionImage3} />
+
+      {/* Services Section */}
       <Services titles={titles} descriptions={descriptions} images={images}/>
+
+      {/* Map Section */}
       <Map />
+
+      {/* Footer */}
       <Footer />
     </>
   )

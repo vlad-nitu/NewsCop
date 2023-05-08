@@ -1,28 +1,29 @@
 import GoogleMapReact from 'google-map-react';
 
-const AnyReactComponent = ({ text }) => <div className="pin1"></div>
+/**
+ * 
+ * @returns HTML Element representing a pin for the map
+ */
+const AnyReactComponent = () => <div className="pin1"></div>
 
+/**
+ * Renders a Google Map component with a marker on a specific location.
+ * 
+ * TODO: Do conditional rendering based on the device's screen size and do two renderings.
+ * The renderings differ mostly on the position of the "location" box.
+ * Also, consider the option of NOT rendering the map on small devices.
+ * 
+ * @return {JSX.Element} The Google Map component with a marker on a specific location.
+ */
 export default function Map() {
+
+  // The default props for the Google Map component.
   const defaultProps = {
     center: {
       lat: 51.999631,
       lng: 4.378186
     },
     zoom: 15
-  };
-
-  const overlappingStyle = {
-    position: 'absolute',
-    top: '0',
-    left: '0',
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    zIndex: '1'
   };
 
   // TODO: Do conditional rendering based on the device's screen size and do two renderings.
@@ -39,7 +40,6 @@ export default function Map() {
                 <AnyReactComponent
                 lat={51.999631}
                 lng={4.378186}
-                text="My Marker"
                 />
             </GoogleMapReact>
             <div className="pt-3" style={{ position: 'absolute', left: '100px', top: '50%', transform: 'translateY(-50%)', backgroundColor: '#fff', padding: '10px', boxShadow: '0 0 10px rgba(0,0,0,0.3)' }}>

@@ -2,7 +2,14 @@ import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 
+/**
+ * Footer component displays the footer of the web page with social links, company information and contact information.
+ * 
+ * @returns {JSX.Element} Footer component JSX element.
+ * 
+ */
 export default function Footer() {
+    // Inline style object for footer section.
     const footerStyle = {
         backgroundColor: '#D4DCDB',
         color: '#485A58'
