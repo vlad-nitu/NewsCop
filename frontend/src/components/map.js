@@ -9,6 +9,9 @@ const AnyReactComponent = () => <div className="pin1"></div>
 /**
  * Renders a Google Map component with a marker on a specific location.
  * 
+ * The entire components was built following the tutorial from:
+ * https://www.npmjs.com/package/google-map-react
+ * 
  * TODO: Do conditional rendering based on the device's screen size and do two renderings.
  * The renderings differ mostly on the position of the "location" box.
  * Also, consider the option of NOT rendering the map on small devices.
