@@ -71,15 +71,12 @@ def persist_url_view(request, url):
 
     #  Ensure the request method is POST
     if request.method == 'POST':
-        try:
-            the_url = json.loads('{ "url"' + ": " + '"' + url + '"' + "}")
-            #  Serialises the url into a json
-            fp1 = Fingerprint(shingle_hash=3, shingle_position=5)
-            fp2 = Fingerprint(shingle_hash=6, shingle_position=10)
-            newsdoc = NewsDocument(url=url, published_date=datetime.now(), fingerprints=[fp1, fp2])
-            newsdoc.save()
-            return HttpResponse(newsdoc.url)
-        except json.JSONDecodeError:
-            return HttpResponseBadRequest("Invalid JSON data")
+        # the_url = json.loads('{ "url"' + ": " + '"' + url + '"' + "}") => example of serialising to JSON
+        #  Serialises the url into a json
+        fp1 = Fingerprint(shingle_hash=3, shingle_position=5)
+        fp2 = Fingerprint(shingle_hash=6, shingle_position=10)
+        newsdoc = NewsDocument(url=url, published_date=datetime.now(), fingerprints=[fp1, fp2])
+        newsdoc.save()
+        return HttpResponse(newsdoc.url)
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
