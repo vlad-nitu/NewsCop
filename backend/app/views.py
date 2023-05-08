@@ -16,7 +16,7 @@ class ReactView(APIView):
     def get(self, request):
         obtained = [{'url': output['_id'], 'published_date': output['published_date']}
                     for output in db.copy_collection.find()]
-        return Response(obtained)
+        return HttpResponse(obtained, status=200)
 
     def post(self, request):
         srlzr = ReactSerializer(data=request.data)  # Pass data to React serializer method
@@ -24,7 +24,7 @@ class ReactView(APIView):
         if srlzr.is_valid(raise_exception=True):
             srlzr.save()
 
-        return Response(srlzr.data)
+        return HttpResponse(srlzr.data, status=200)
 
 
 def try_view(request, url):

@@ -1,3 +1,5 @@
+import datetime
+
 from utils import db
 import http.client
 import json
@@ -10,6 +12,7 @@ from rest_framework import status
 from app.views import persist_url_view
 from app.views import try_view
 from app.views import reqex_view
+from app.views import ReactView
 
 
 class UrlsTest(TestCase):
@@ -118,3 +121,51 @@ class UrlsTest(TestCase):
         response = client.post(obtained_url, data=data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.content.decode(), "Invalid JSON data")
+
+    @tag("unit")
+    def test_react_unit(self):
+        obtained_url = reverse('main_view')
+        expected_url = '/'
+
+        obtained_view_function = resolve(obtained_url).func.view_class
+        expected_view_function = ReactView
+
+        self.assertEquals(obtained_url, expected_url)
+        self.assertEquals(obtained_view_function, expected_view_function)
+
+    @tag("integration")
+    def test_react_integration_get(self):
+        obtained_url = reverse('main_view')
+        client = Client()
+        db.copy_collection.delete_one({'_id': "www.google.com"})
+
+        response = client.get(obtained_url)
+        self.assertEquals(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.content.decode(), str(''))
+
+    @tag("integration")
+    def test_react_integration_post(self):
+        obtained_url = reverse('main_view')
+        client = Client()
+        db.copy_collection.delete_one(
+            {'_id': "www.google.com"})  # cleanup db, because adding the same thing twice leads to errors
+        data = {
+            'url': 'www.google.com',
+            'published_date': '2022-02-10T10:50:42.389Z',
+        }
+        json_data = json.dumps(data)
+        response = client.post(obtained_url, data=json_data, content_type='application/json')
+
+        self.assertEquals(response.status_code, status.HTTP_200_OK)
+        self.assertEquals(response.content.decode(), 'urlpublished_date')
+
+        obtained = [{'url': output['_id'], 'published_date': output['published_date']}
+                    for output in db.copy_collection.find()]
+        self.assertEquals(len(obtained), 1)
+        expected_data = {
+            'url': 'www.google.com',
+            'published_date': datetime.datetime(2022, 2, 10, 10, 50, 42, 389000)
+        }
+        self.assertEquals(obtained[0], expected_data)
+
+        db.copy_collection.delete_one({'_id': "www.google.com"})  # cleanup db

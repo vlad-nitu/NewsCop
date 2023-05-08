@@ -2,6 +2,14 @@ from django.test import TestCase
 
 from app.models import NewsDocument
 from app.models import Fingerprint
+from app.models import React
+
+class ReactTest(TestCase):
+    def test_react_typeof(self):
+        url = "www.test.com"
+        react = React(url=url)
+        self.assertIsInstance(react.url, str)
+        self.assertEqual(react.url, url)
 
 # Create your tests here.
 class FingerprintTest(TestCase):

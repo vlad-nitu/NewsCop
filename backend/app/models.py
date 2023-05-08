@@ -5,8 +5,6 @@ from mongoengine.fields import EmbeddedDocumentField, ListField, StringField, Da
 # Create your models here.
 class React(Document):
     url = StringField()
-    # TODO CHECK WHENEVER USERS ENTER URL THAT IT IS VALID URL, AND THAT THERE IS AN ACTUAL WEBSITE THERE
-
     published_date = DateTimeField()
 
     def save(self, *args, **kwargs):
