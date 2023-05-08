@@ -51,7 +51,7 @@ class TestTryView(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), "You entered " + url)
 
-    def test_post_request_with_valid_url(self): # TODO
+    def test_post_request_with_valid_url(self):  # TODO
         url = "www.google.com"
         request = self.factory.put(f"/try/{url}")
         response = try_view(request, url)
