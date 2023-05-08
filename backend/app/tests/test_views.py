@@ -1,4 +1,5 @@
 import json
+from unittest.mock import patch
 
 from django.test import TestCase, RequestFactory
 from django.http import HttpResponse, HttpResponseBadRequest
@@ -7,6 +8,8 @@ from rest_framework import status
 from app.views import persist_url_view
 from app.views import try_view
 from app.views import reqex_view
+
+from utils import db
 
 
 class TestPersistUrlView(TestCase):
@@ -21,6 +24,9 @@ class TestPersistUrlView(TestCase):
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), url)
+
+        res = db.nd_collection.delete_one({'_id': url})
+        self.assertEqual(res.deleted_count, 1)
 
     def test_post_request_with_invalid_method(self):
         url = "https://www.example.com"

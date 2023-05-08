@@ -1,5 +1,7 @@
+from utils import db
 import http.client
 import json
+import unittest
 
 from django.test import Client, TestCase, tag
 from django.urls import resolve, reverse
@@ -11,6 +13,7 @@ from app.views import reqex_view
 
 
 class UrlsTest(TestCase):
+
     @tag("unit")
     def test_persist_url_pattern_1(self):
         obtained_url = reverse('persist_url', kwargs={'url': 'www.vlad.com'})
@@ -24,12 +27,17 @@ class UrlsTest(TestCase):
 
     @tag("integration")
     def test_persist_url_pattern_post(self):
-        expected_persisted_url = 'www.vlad.com'
+
+        expected_persisted_url = 'www.operatesonmaindb.com'
         client = Client()
+
         obtained_url = reverse('persist_url', kwargs={'url': expected_persisted_url})
         response = client.post(obtained_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), expected_persisted_url)
+
+        res = db.nd_collection.delete_one({'_id': expected_persisted_url})
+        self.assertEqual(res.deleted_count, 1)
 
     @tag("integration")
     def test_persist_url_pattern_get_instead_of_post(self):

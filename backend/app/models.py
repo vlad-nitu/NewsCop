@@ -22,6 +22,7 @@ class Fingerprint(EmbeddedDocument):
 
 
 class NewsDocument(Document):
+
     url = StringField()
     published_date = DateTimeField()
     fingerprints = ListField(EmbeddedDocumentField(Fingerprint))
