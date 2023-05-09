@@ -1,5 +1,6 @@
 /* global test, expect */
 import { render, screen } from '@testing-library/react'
+import { MemoryRouter } from 'react-router'
 import Services from '../services'
 
 const titles = ['URL plagiarism checker', 'Text plagiarism checker', 'Text similarity checker']
@@ -8,7 +9,11 @@ const descriptions = ['NewsCop provides users with a way of checking the URL of 
 const images = ['https://scholarlykitchen.sspnet.org/wp-content/uploads/2020/05/iStock-1188116818.jpg', 'https://cdn.britannica.com/25/93825-050-D1300547/collection-newspapers.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/The_Indianapolis_Star%2C_2011.jpg/1200px-The_Indianapolis_Star%2C_2011.jpg']
 
 test('get descriptions', () => {
-  render(<Services titles={titles} descriptions={descriptions} images={images} />)
+  render(
+    <MemoryRouter>
+      <Services titles={titles} descriptions={descriptions} images={images} />
+    </MemoryRouter>
+  )
   const description1 = screen.getByText(descriptions[0])
   const description2 = screen.getByText(descriptions[1])
   const description3 = screen.getByText(descriptions[2])
@@ -18,7 +23,11 @@ test('get descriptions', () => {
 })
 
 test('get titles', () => {
-  render(<Services titles={titles} descriptions={descriptions} images={images} />)
+  render(
+    <MemoryRouter>
+      <Services titles={titles} descriptions={descriptions} images={images} />
+    </MemoryRouter>
+  ) 
   const title1 = screen.getByText(titles[0])
   const title2 = screen.getByText(titles[1])
   const title3 = screen.getByText(titles[2])
@@ -28,7 +37,11 @@ test('get titles', () => {
 })
 
 test('get image url', () => {
-  const { getByAltText } = render(<Services titles={titles} descriptions={descriptions} images={images} />)
+  const { getByAltText } = render(
+    <MemoryRouter>
+      <Services titles={titles} descriptions={descriptions} images={images} />
+    </MemoryRouter>
+  )
   const image1 = getByAltText('Service 1')
   const image2 = getByAltText('Service 2')
   const image3 = getByAltText('Service 3')
