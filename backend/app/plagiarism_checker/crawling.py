@@ -9,4 +9,5 @@ def crawl_url(url):
         text = article.maintext
     if hasattr(article, 'date_publish'):
         date = article.date_publish
+
     return text, date

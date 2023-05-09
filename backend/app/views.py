@@ -79,6 +79,8 @@ def persist_url_view(request):
         url = json.loads(request.body)["key"]
         article_text, article_date = crawl_url(url)
 
+
+        # print(compute_fingerprint(article_text))
         newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=compute_fingerprint(article_text))
         newsdoc.save()
         return HttpResponse(newsdoc.url)
