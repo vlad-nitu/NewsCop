@@ -27,7 +27,7 @@ test('get titles', () => {
     <MemoryRouter>
       <Services titles={titles} descriptions={descriptions} images={images} />
     </MemoryRouter>
-  ) 
+  )
   const title1 = screen.getByText(titles[0])
   const title2 = screen.getByText(titles[1])
   const title3 = screen.getByText(titles[2])
