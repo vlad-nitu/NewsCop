@@ -148,7 +148,7 @@ class UrlsTest(TestCase):
 
         response = client.get(obtained_url)
         self.assertEquals(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.content.decode(), str(''))
+        self.assertEqual(response.content.decode(), '[]')
 
     @tag("integration")
     def test_react_integration_post(self):
@@ -164,7 +164,8 @@ class UrlsTest(TestCase):
         response = client.post(obtained_url, data=json_data, content_type='application/json')
 
         self.assertEquals(response.status_code, status.HTTP_200_OK)
-        self.assertEquals(response.content.decode(), 'urlpublished_date')
+        self.assertEquals(response.content.decode(),
+                          '{"url":"www.google.com","published_date":"2022-02-10T10:50:42.389000Z"}')
 
         obtained = [{'url': output['_id'], 'published_date': output['published_date']}
                     for output in db.copy_collection.find()]
