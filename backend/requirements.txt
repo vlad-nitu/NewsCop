@@ -99,5 +99,6 @@ virtualenvwrapper==4.8.4
 virtualenvwrapper-win==1.2.7
 w3lib==2.1.1
 warcio==1.7.4
+winnowing==0.2.1
 yarg==0.1.9
 zope.interface==6.0

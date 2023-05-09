@@ -7,6 +7,10 @@ from .serializer import *
 from django.http import HttpResponse, HttpResponseBadRequest
 import json
 from django.views.decorators.csrf import csrf_exempt
+# from plagiarism_checker.crawling import crawl_url
+from .plagiarism_checker.fingerprinting import compute_fingerprint
+from .plagiarism_checker.crawling import crawl_url
+
 
 
 # Create your views here.
@@ -73,9 +77,9 @@ def persist_url_view(request, url):
     if request.method == 'POST':
         # the_url = json.loads('{ "url"' + ": " + '"' + url + '"' + "}") => example of serialising to JSON
         #  Serialises the url into a json
-        fp1 = Fingerprint(shingle_hash=3, shingle_position=5)
-        fp2 = Fingerprint(shingle_hash=6, shingle_position=10)
-        newsdoc = NewsDocument(url=url, published_date=datetime.now(), fingerprints=[fp1, fp2])
+        article_text, article_date = crawl_url(url)
+
+        newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=compute_fingerprint(article_text))
         newsdoc.save()
         return HttpResponse(newsdoc.url)
     else:
