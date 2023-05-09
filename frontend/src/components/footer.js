@@ -16,7 +16,7 @@ export default function Footer () {
   }
 
   return (
-    <div>
+    <div id="footer">
       <footer style={footerStyle} className='text-center text-lg-start footerStyle'>
         {/* Social Section */}
         <section className='d-flex justify-content-between p-4 text-white' style={{ backgroundColor: '#2E837E' }}>
@@ -24,19 +24,19 @@ export default function Footer () {
             <span>Get connected with us on social networks:</span>
           </div>
           <div>
-            <a href='' class='text-white me-4'>
+            <a href='#' class='text-white me-4'>
               <i class='fab fa-facebook-f' />
             </a>
-            <a href='' class='text-white me-4'>
+            <a href='#' class='text-white me-4'>
               <i class='fab fa-twitter' />
             </a>
-            <a href='' class='text-white me-4'>
+            <a href='#' class='text-white me-4'>
               <i class='fab fa-google' />
             </a>
-            <a href='' class='text-white me-4'>
+            <a href='#' class='text-white me-4'>
               <i class='fab fa-instagram' />
             </a>
-            <a href='' class='text-white me-4'>
+            <a href='#' class='text-white me-4'>
               <i class='fab fa-linkedin' />
             </a>
           </div>
