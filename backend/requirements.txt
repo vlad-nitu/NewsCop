@@ -20,6 +20,7 @@ distlib==0.3.6
 Django==4.2
 django-cors-headers==3.14.0
 django-debug-toolbar==4.0.0
+django-rest-framework-mongoengine==3.4.1
 djangorestframework==3.14.0
 dnspython==2.3.0
 docopt==0.6.2
@@ -43,6 +44,7 @@ jmespath==1.0.1
 joblib==1.2.0
 langdetect==1.0.9
 lxml==4.9.2
+mongoengine==0.27.0
 news-please==1.5.33
 newspaper3k==0.2.8
 nltk==3.8.1
@@ -63,6 +65,7 @@ pyasn1-modules==0.3.0
 pycodestyle==2.10.0
 pycparser==2.21
 PyDispatcher==2.0.7
+Pygments==2.15.1
 pymongo==3.12.3
 PyMySQL==1.0.3
 pyOpenSSL==23.1.1
@@ -71,6 +74,7 @@ pytz==2023.3
 PyYAML==6.0
 queuelib==1.6.2
 readability-lxml==0.8.1
+redgreenunittest==0.1.1
 regex==2023.3.23
 requests==2.29.0
 requests-file==1.5.1
