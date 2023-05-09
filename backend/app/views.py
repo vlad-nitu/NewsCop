@@ -64,7 +64,7 @@ def reqex_view(request):
         return HttpResponseBadRequest("Invalid request method")
 
 
-def persist_url_view(request, url):
+def persist_url_view(request):
     '''
     The endpoint that can be consumed by posting on localhost:8000/persistURL/<urlString>/. This will be used
     for the persist functionality of URLs.
@@ -75,8 +75,8 @@ def persist_url_view(request, url):
 
     #  Ensure the request method is POST
     if request.method == 'POST':
-        # the_url = json.loads('{ "url"' + ": " + '"' + url + '"' + "}") => example of serialising to JSON
-        #  Serialises the url into a json
+        #  Serialises the url into a json => use request body instead of path variable
+        url = json.loads(request.body)["key"]
         article_text, article_date = crawl_url(url)
 
         newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=compute_fingerprint(article_text))

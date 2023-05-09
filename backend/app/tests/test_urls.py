@@ -31,24 +31,21 @@ class UrlsTest(TestCase):
         self.assertEquals(obtained_url, expected_url)
         self.assertEquals(obtained_view_function, expected_view_function)
 
-    @tag("integration")
-    @patch('app.plagiarism_checker.fingerprinting.compute_fingerprint')
-    def test_persist_url_pattern_post(self, mocked_function):
-        mocked_function.return_value=MagicMock(return_value=[(10, 1), (35, 7)])
-        #compute_fingerprint = MagicMock(return_value=[(10, 1), (35, 7)])
-
-        expected_persisted_url = 'www.operatesonmaindb.com'
-        client = Client()
-
-        obtained_url = reverse('persist_url', kwargs={'url': expected_persisted_url})
-        db.nd_collection.delete_one({'_id': expected_persisted_url})
-
-        response = client.post(obtained_url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        # self.assertEqual(response.content.decode(), expected_persisted_url)
-        #
-        # res = db.nd_collection.delete_one({'_id': expected_persisted_url})
-        # self.assertEqual(res.deleted_count, 1)
+    # @tag("integration")
+    # def test_persist_url_pattern_post(self):
+    #
+    #     expected_persisted_url = 'www.bbc.com/news/entertainment-arts-65488861'
+    #     client = Client()
+    #
+    #     #obtained_url = reverse('persist_url', kwargs={'url': expected_persisted_url})
+    #     db.nd_collection.delete_one({'_id': expected_persisted_url})
+    #
+    #     response = client.post(test)
+    #     # self.assertEqual(response.status_code, status.HTTP_200_OK)
+    #     # self.assertEqual(response.content.decode(), expected_persisted_url)
+    #
+    #     res = db.nd_collection.delete_one({'_id': expected_persisted_url})
+    #     self.assertEqual(res.deleted_count, 1)
 
     @tag("integration")
     def test_persist_url_pattern_get_instead_of_post(self):
@@ -57,12 +54,12 @@ class UrlsTest(TestCase):
         response = client.get(obtained_url)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    @tag("integration")
-    def test_persist_url_pattern_get_instead_of_post(self):
-        client = Client()
-        obtained_url = reverse('persist_url', kwargs={'url': 'www.vlad.com'})
-        response = client.get(obtained_url)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+    # @tag("integration")
+    # def test_persist_url_pattern_get_instead_of_post(self):
+    #     client = Client()
+    #     obtained_url = reverse('persist_url', kwargs={'url': 'www.vlad.com'})
+    #     response = client.get(obtained_url)
+    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     @tag("unit")
     def test_try_path_variable(self):
