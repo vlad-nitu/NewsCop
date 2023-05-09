@@ -18,7 +18,8 @@ class CrawlerTest(TestCase):
         url = "https://www.bbc.com/sport/football/65494495"
         text, _ = crawl_url(url)
         self.assertIn("Another key is the fact he is never satisfied - always looking to improve.", text)
-        self.assertIn("Haaland is certainly aware that as huge a talent as he is, he is still a work in progress, which is a frightening prospect for the rest of the world.", text)
+        self.assertIn("Haaland is certainly aware that as huge a talent as he is, he is still a work in progress, "
+                      "which is a frightening prospect for the rest of the world.", text)
         self.assertNotIn("Messi Ronaldo", text)
 
-    # TODO: add bad weather tests
+        # TODO: add bad weather tests

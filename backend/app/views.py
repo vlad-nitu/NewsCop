@@ -12,7 +12,6 @@ from .plagiarism_checker.fingerprinting import compute_fingerprint
 from .plagiarism_checker.crawling import crawl_url
 
 
-
 # Create your views here.
 class ReactView(APIView):
     serializer_class = ReactSerializer
@@ -78,7 +77,6 @@ def persist_url_view(request):
         #  Serialises the url into a json => use request body instead of path variable
         url = json.loads(request.body)["key"]
         article_text, article_date = crawl_url(url)
-
 
         # print(compute_fingerprint(article_text))
         newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=compute_fingerprint(article_text))
