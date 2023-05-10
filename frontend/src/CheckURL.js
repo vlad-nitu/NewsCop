@@ -1,7 +1,7 @@
 import React from 'react'
-import { Nav } from 'react-bootstrap'
-import NavbarComponent from './components/navbar'
-import PlagiarismCheckerText from './PlagiarismCheckerText'
+import EnterURL from './components/EnterURL'
+import PlagiarismCheckerText from './components/PlagiarismCheckerText'
+import SecondaryNavbarComponent from './components/navbarSecondary'
 
 const checkURL = () => {
 
@@ -11,11 +11,14 @@ const checkURL = () => {
 
   return (
     <>
-      {/* Navbar */}
-      <NavbarComponent name={applicationName} />
+      {/* Secondary Navbar Component that routes back to the main page */}
+      <SecondaryNavbarComponent name={applicationName} />
 
       {/* Plagiarism checker Text section*/} 
       <PlagiarismCheckerText title={title} description={description} />
+
+      {/* Enter article's URL section*/} 
+      <EnterURL />
 
     </>
   ) 
