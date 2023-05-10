@@ -45,6 +45,7 @@ export default function EnterURL () {
             className='rounded-pill border-success'
             value={inputValue}
             onChange={handleInputChange}
+            disabled={buttonDisabled}
           />
         </Form.Group>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -54,7 +55,7 @@ export default function EnterURL () {
             className='mt-4 mx-auto rounded'
             style={buttonStyle}
             onClick={handleSubmit}
-            disabled={buttonDisabled}
+            disabled={buttonDisabled || !inputValue}
           >
             Submit
           </Button>
