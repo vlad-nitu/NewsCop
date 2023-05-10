@@ -1,7 +1,17 @@
 import React from 'react'
+import { Nav } from 'react-bootstrap'
+import NavbarComponent from './components/navbar'
 
-const ToBeImplemented = () => {
-  return <div>To be implemented</div>
+const checkURL = () => {
+
+  const applicationName = 'NewsCop'
+
+  return (
+    <>
+      {/* Navbar */}
+      <NavbarComponent name={applicationName} />
+    </>
+  ) 
 }
 
-export default ToBeImplemented
+export default checkURL
