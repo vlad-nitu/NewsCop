@@ -6,6 +6,12 @@
 .description-paragraph {
     font-size: 1.3rem;
 }
+.custom-textbox{
+    height: 600px;
+    width: 1200px;
+    font-size: 24px;
+    padding: 10px;
+}
 
 .title {
     font-size: 2rem;
