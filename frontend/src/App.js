@@ -2,6 +2,7 @@ import './css/general.css'
 import Home from './components/Home'
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import CheckOneText from './components/CheckOneText'
 
 /**
  * The entire page was built around the Bootstrap library.
@@ -11,7 +12,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
  * https://getbootstrap.com/docs/5.0/layout/grid/
  * https://getbootstrap.com/docs/5.0/utilities/flex/
  *
- * @returns JSX Element containg the landing page.
+ * @returns JSX Element contain the landing page.
  *
  */
 function App () {
@@ -20,6 +21,8 @@ function App () {
       <div>
         <Routes>
           <Route path='/' element={<Home />} />
+          <Route path='/checkOneText' element={<CheckOneText />} />
+
         </Routes>
       </div>
     </Router>
