@@ -6,11 +6,28 @@
 .description-paragraph {
     font-size: 1.3rem;
 }
-.custom-textbox{
+
+.custom-container {
+    width: 1000px;
+
+}
+
+.custom-textarea-container {
     height: 600px;
-    width: 1200px;
-    font-size: 24px;
-    padding: 10px;
+
+}
+#plagiarismChecker {
+    color: #000;
+    font-size: xxx-large;
+}
+
+.custom-textarea {
+    height: 80%; /* how much of the container is filled with the text box */
+    /*border-color: #2E837E;*/
+}
+
+#textBox {
+    border: 2px solid #2E837E;
 }
 
 .title {
@@ -26,7 +43,7 @@
     height: 20px;
     transform: rotate(-45deg);
 }
-  
+
 .pin1::after {
     content: '';
     width: 10px;
@@ -42,7 +59,7 @@
     color: #485A58;
 }
 
-.footerStyle a:hover{
+.footerStyle a:hover {
     color: #667f7c;
 }
 
