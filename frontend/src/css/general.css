@@ -3,6 +3,16 @@
     border-bottom: 1px solid black !important;
 }
 
+#submitButton {
+    width: 150px;
+    height: 50px;
+    background: #2E837E;
+    border: 4px solid #2E837E;
+    border-radius: 20px;
+    box-sizing: border-box;
+
+}
+
 .description-paragraph {
     font-size: 1.3rem;
 }
@@ -12,10 +22,15 @@
 
 }
 
+#divText {
+    margin-bottom: -100px;
+}
+
+
 .custom-textarea-container {
     height: 600px;
-
 }
+
 #plagiarismChecker {
     color: #000;
     font-size: xxx-large;
