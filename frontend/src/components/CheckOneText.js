@@ -1,4 +1,4 @@
-import NavbarComponent from './simpleNavbar'
+import NavbarComponent from './navbarFeatures'
 import Footer from './footer'
 
 export default function CheckOneText () {

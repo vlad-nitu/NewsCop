@@ -1,6 +1,7 @@
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import { useNavigate } from 'react-router-dom'
 
 /**
  *
@@ -10,11 +11,11 @@ import Col from 'react-bootstrap/Col'
  * @param {string[]} descriptions - The descriptions for each service card.
  * @param {string[]} images - The URLs for each image to be displayed on each service card.
  * @throws {Error} Will throw an error if the length of the titles array is different from the length of the descriptions array,
-    the length of the images array, or if the length of the descriptions array is different from the length of the images array.
+ the length of the images array, or if the length of the descriptions array is different from the length of the images array.
  *
  * @returns {JSX.Element} Returns a JSX element that renders the three service cards with the provided titles, descriptions, and images.
  *
-*/
+ */
 export default function Services ({ titles, descriptions, images }) {
   if (titles.length !== descriptions.length ||
         titles.length !== images.length ||
@@ -39,6 +40,12 @@ export default function Services ({ titles, descriptions, images }) {
     color: 'white'
   }
 
+  const navigate = useNavigate()
+
+  const handleClick = () => {
+    navigate('/checkOneText')
+  }
+
   // Renders a JSX element with information about services.
   return (
     <div id='services' style={{ backgroundColor: '#2E837E' }}>
@@ -55,7 +62,7 @@ export default function Services ({ titles, descriptions, images }) {
             <img style={imageStyle} src={images[1]} alt='Service 2' className='pb-3' />
             <h3 style={textStyle}>{titles[1]}</h3>
             <p style={textStyleParagraph}>{descriptions[1]}</p>
-            <button type='button' className='btn btn-outline-warning'>Try it</button>
+            <button type='button' onClick={handleClick} className='btn btn-outline-warning'>Try it</button>
           </Col>
           <Col md={4} className='pe-sm-4'>
             <img style={imageStyle} src={images[2]} alt='Service 3' className='pb-3' />
