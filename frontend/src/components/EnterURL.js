@@ -9,11 +9,11 @@ export default function EnterURL() {
         </h2>
       </div>
       <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-        <Form.Group controlId="formUrl" className="rounded p-5 border border-success border-2 rounded-3">
-          <Form.Control type="url" placeholder="Enter URL" />
+        <Form.Group controlId="formUrl">
+          <Form.Control type="url" placeholder="Enter URL" className="rounded-pill border-success"/>
         </Form.Group>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Button variant="primary" type="submit" className="mt-4 mx-auto rounded-pill" style={{ width: '50%' }}>
+          <Button variant="primary" type="submit" className="mt-4 mx-auto rounded" style={{ width: '25%', height: '6vh', fontWeight: 'bold', fontSize: '1.2rem', backgroundColor: '#2E837E'}}>
             Submit
           </Button>
         </div>
