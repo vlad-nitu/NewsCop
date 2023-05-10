@@ -59,13 +59,6 @@ class UrlsTest(TestCase):
         response = client.get(obtained_url)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    # @tag("integration")
-    # def test_persist_url_pattern_get_instead_of_post(self):
-    #     client = Client()
-    #     obtained_url = reverse('persist_url', kwargs={'url': 'www.vlad.com'})
-    #     response = client.get(obtained_url)
-    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
     @tag("unit")
     def test_try_path_variable(self):
         obtained_url = reverse('try', kwargs={'url': 'www.google.com'})
