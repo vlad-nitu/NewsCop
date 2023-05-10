@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import React from 'react'
+import Container from 'react-bootstrap/Container'
 
 /**
  * In the service of checking text from an article against plagiarism, we needed a text box to enter information,
@@ -9,14 +10,21 @@ import React from 'react'
  */
 const TextBox = () => {
   return (
-    <div className='d-flex justify-content-center'>
-      <div className='form-group custom-container'>
-        <label htmlFor='textBox'>Enter the article’s content to check for plagiarism</label>
-        <div className='custom-textarea-container'>
-          <textarea className='form-control custom-textarea' id='textBox' rows='4' />
+    <Container>
+      <div className='d-flex flex-column justify-content-center mx-auto'>
+        <div className='mb-3 mx-auto'>
+          <h2 className='description-paragraph'>Enter the article’s content to check for plagiarism</h2>
         </div>
       </div>
-    </div>
+      <div className='d-flex justify-content-center'>
+        <div className='form-group custom-container'>
+          <div className='custom-textarea-container'>
+            <textarea className='form-control custom-textarea' id='textBox' rows='4' />
+          </div>
+        </div>
+      </div>
+    </Container>
+
   )
 }
 
