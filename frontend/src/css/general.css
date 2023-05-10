@@ -1,0 +1,47 @@
+.border-bottom-navbar {
+    /* TODO: change color to dark grey */
+    border-bottom: 1px solid black !important;
+}
+
+.description-paragraph {
+    font-size: 1.3rem;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: bolder;
+    color: white;
+}
+
+.pin1 {
+    border-radius: 50% 50% 50% 0;
+    border: 4px solid red;
+    width: 20px;
+    height: 20px;
+    transform: rotate(-45deg);
+}
+  
+.pin1::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-left: -5px;
+    margin-top: -5px;
+    background-color: #000;
+}
+
+.footerStyle a {
+    text-decoration: none;
+    color: #485A58;
+}
+
+.footerStyle a:hover{
+    color: #667f7c;
+}
+
+@media (max-width: 450px) {
+    .title {
+        width: 350px;
+    }
+}
