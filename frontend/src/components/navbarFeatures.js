@@ -16,6 +16,7 @@ export default function NavbarComponent ({ name }) {
 
   const handleClick = () => {
     navigate('/')
+    window.scrollTo(0, 0)
   }
   return (
     <Navbar bg='light' expand='lg' className='border-bottom-navbar'>

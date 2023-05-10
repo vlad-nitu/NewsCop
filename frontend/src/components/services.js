@@ -44,6 +44,7 @@ export default function Services ({ titles, descriptions, images }) {
 
   const handleClick = () => {
     navigate('/checkOneText')
+    window.scrollTo(0, 0)
   }
 
   // Renders a JSX element with information about services.

@@ -20,6 +20,7 @@ export default function Footer () {
 
   const handleClick = () => {
     navigate('/checkOneText')
+    window.scrollTo(0, 0)
   }
 
   return (
@@ -31,19 +32,19 @@ export default function Footer () {
             <span>Get connected with us on social networks:</span>
           </div>
           <div>
-            <a href='#' class='text-white me-4'>
+            <a href='#!' class='text-white me-4'>
               <i class='fab fa-facebook-f' />
             </a>
-            <a href='#' class='text-white me-4'>
+            <a href='#!' class='text-white me-4'>
               <i class='fab fa-twitter' />
             </a>
-            <a href='#' class='text-white me-4'>
+            <a href='#!' class='text-white me-4'>
               <i class='fab fa-google' />
             </a>
-            <a href='#' class='text-white me-4'>
+            <a href='#!' class='text-white me-4'>
               <i class='fab fa-instagram' />
             </a>
-            <a href='#' class='text-white me-4'>
+            <a href='#!' class='text-white me-4'>
               <i class='fab fa-linkedin' />
             </a>
           </div>
@@ -73,16 +74,16 @@ export default function Footer () {
                   style={{ width: '60px', backgroundColor: '#7c4dff', height: '2px' }}
                 />
                 <p>
-                  <a href=''>URL plagiarism checker</a>
+                  <a href='#!'>URL plagiarism checker</a>
                 </p>
                 <p>
-                  <a href='' onClick={handleClick}>Text plagiarism checker</a>
+                  <a href='#!' onClick={handleClick}>Text plagiarism checker</a>
                 </p>
                 <p>
-                  <a href=''>Text similarity checker</a>
+                  <a href='#!'>Text similarity checker</a>
                 </p>
                 <p>
-                  <a href=''>URL similarity checker</a>
+                  <a href='#!'>URL similarity checker</a>
                 </p>
               </Col>
               {/* <Col md={3} lg={2} xl={2} className="mx-auto mb-4">
