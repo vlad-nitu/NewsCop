@@ -8,15 +8,15 @@ export default function EnterURL() {
           Enter the article's URL to check for plagiarism
         </h2>
       </div>
-      <div>
-        <Form.Group controlId="formUrl">
+      <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+        <Form.Group controlId="formUrl" className="rounded p-5 border border-success border-2 rounded-3">
           <Form.Control type="url" placeholder="Enter URL" />
         </Form.Group>
-      </div>
-      <div className="d-grid">
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Button variant="primary" type="submit" className="mt-4 mx-auto rounded-pill" style={{ width: '50%' }}>
+            Submit
+          </Button>
+        </div>
       </div>
     </Container>
   );
