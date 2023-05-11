@@ -9,9 +9,7 @@ const descriptions = ['NewsCop provides users with a way of checking the URL of 
 const images = ['https://scholarlykitchen.sspnet.org/wp-content/uploads/2020/05/iStock-1188116818.jpg', 'https://cdn.britannica.com/25/93825-050-D1300547/collection-newspapers.jpg', 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/The_Indianapolis_Star%2C_2011.jpg/1200px-The_Indianapolis_Star%2C_2011.jpg']
 
 test('get descriptions', () => {
-  render(<MemoryRouter>
-    <Services titles={titles} descriptions={descriptions} images={images} />
-         </MemoryRouter>)
+  render(<MemoryRouter> <Services titles={titles} descriptions={descriptions} images={images} /> </MemoryRouter>)
 
   const description1 = screen.getByText(descriptions[0])
   const description2 = screen.getByText(descriptions[1])

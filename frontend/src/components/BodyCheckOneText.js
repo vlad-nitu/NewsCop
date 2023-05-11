@@ -8,8 +8,8 @@ import Container from 'react-bootstrap/Container'
  * @returns {JSX.Element} that represents the plagiarism text and description
  */
 export default function BodyCheckOneText () {
-  const description = 'Plagiarism checker'
-  const secondDescription = 'Our plagiarism checker detects plagiarism in your news article.'
+  const description = 'News overlap checker'
+  const secondDescription = 'Our tool detects overlap in your news article.'
   return (
     <Container className='my-3 d-flex'>
       <div className='d-flex flex-column justify-content-center mx-auto'>
