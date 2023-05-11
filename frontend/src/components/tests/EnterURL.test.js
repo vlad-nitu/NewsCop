@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, getByPlaceholderText } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import EnterURL from '../EnterURL'
 
 describe('EnterURL', () => {
@@ -17,12 +17,12 @@ describe('EnterURL', () => {
     expect(promptElement).toBeInTheDocument()
 
     // Check if Link component successfully routes the text to '/checkText'
-//    const linkElement = screen.getByRole('link', { name: prompt })
-//    expect(linkElement).toHaveAttribute('href', '/checkText')
-//    expect(linkElement).toHaveClass('description-paragraph')
-//    expect(linkElement).toHaveStyle('color: black')
-//    expect(linkElement).toHaveStyle('fontSize: 150%')
-//    expect(linkElement).toHaveStyle('marginTop: 120px')
+    //    const linkElement = screen.getByRole('link', { name: prompt })
+    //    expect(linkElement).toHaveAttribute('href', '/checkText')
+    //    expect(linkElement).toHaveClass('description-paragraph')
+    //    expect(linkElement).toHaveStyle('color: black')
+    //    expect(linkElement).toHaveStyle('fontSize: 150%')
+    //    expect(linkElement).toHaveStyle('marginTop: 120px')
   })
 
   test('Change input form', () => {
@@ -32,11 +32,10 @@ describe('EnterURL', () => {
     const submitButton = getByText('Submit')
 
     fireEvent.change(input, { target: { value: 'http://example.com/article' } })
-    expect(input.value).toBe('http://example.com/article' )
+    expect(input.value).toBe('http://example.com/article')
 
     fireEvent.click(submitButton)
     // Even after pressing the Submit button (for 5 seconds), the text remains in the form; after 5 seconds, it gets erased
-    expect(input.value).toBe('http://example.com/article' )
-
+    expect(input.value).toBe('http://example.com/article')
   })
 })

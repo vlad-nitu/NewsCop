@@ -6,7 +6,7 @@ import BodyCheckOneText from '../BodyCheckOneText'
 
 describe('BodyCheckOneText', () => {
   it('renders the component with correct descriptions', () => {
-    render(<BodyCheckOneText />);
+    render(<BodyCheckOneText />)
 
     /* Check if the first description is rendered correctly */
     const firstDescriptionElement = screen.getByText('News overlap checker')
