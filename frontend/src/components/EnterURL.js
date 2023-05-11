@@ -1,34 +1,35 @@
-import { useState } from 'react'
-import { Container, Form, Button } from 'react-bootstrap'
+import { useState } from 'react';
+import { Container, Form, Button } from 'react-bootstrap';
 
-export default function EnterURL () {
-  const PreInputArticlePrompt = "Article's URL"
+export default function EnterURL() {
+  const PreInputArticlePrompt = "Article's URL";
   const buttonStyle = {
-    width: '25%',
-    height: '6vh',
-    fontWeight: 'bold',
-    fontSize: '1.2rem',
-    backgroundColor: '#2E837E'
-  }
+          width: '25%',
+          height: '50px',
+          fontWeight: 'bold',
+          fontSize: '1.2rem',
+          backgroundColor: '#2E837E',
+        }
 
-  const [inputValue, setInputValue] = useState('')
-  const [showInputValue, setShowInputValue] = useState(false)
-  const [buttonDisabled, setButtonDisabled] = useState(false)
+  const [inputValue, setInputValue] = useState('');
+  const [showInputValue, setShowInputValue] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+
 
   const handleSubmit = (event) => {
-    event.preventDefault()
-    setShowInputValue(true)
+    event.preventDefault();
+    setShowInputValue(true);
     setButtonDisabled(true)
     setTimeout(() => {
-      setShowInputValue(false)
-      setButtonDisabled(false)
-    }, 5000)
-  }
+      setShowInputValue(false);
+      setButtonDisabled(false);
+    }, 5000);
+  };
 
   const handleInputChange = (event) => {
-    setInputValue(event.target.value)
-    console.log(event.target.value)
-  }
+    setInputValue(event.target.value);
+    console.log(event.target.value);
+  };
 
   return (
     <Container className='my-3'>
@@ -67,5 +68,5 @@ export default function EnterURL () {
         )}
       </div>
     </Container>
-  )
+  );
 }
