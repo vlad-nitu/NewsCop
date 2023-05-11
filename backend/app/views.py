@@ -66,10 +66,9 @@ def reqex_view(request):
 
 def persist_url_view(request):
     '''
-    The endpoint that can be consumed by posting on localhost:8000/persistURL/<urlString>/. This will be used
-    for the persist functionality of URLs.
+    The endpoint that can be consumed by posting on localhost:8000/persistURL/ with the request body as <urlString>.
+    This will be used for the persist functionality of URLs.
     :param request: the request
-    :param url: the string path variable, which represents the URL
     :return: a HttpResponse with status 200, if successful else HttpResponseBadRequest with status 400
     '''
 
