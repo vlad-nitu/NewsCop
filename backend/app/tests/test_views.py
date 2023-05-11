@@ -58,6 +58,24 @@ class TestPersistUrlView(TestCase):
         res = db.nd_collection.delete_one({'_id': url})
         self.assertEqual(res.deleted_count, 1)
 
+    def test_post_request_with_invalid_url(self):
+        url = 'https://www.dianamicloiu.com'
+        # clear database
+        db.nd_collection.delete_one({'_id': url})
+
+        # create the request body
+        data = {
+            'key': url,
+        }
+        json_data = json.dumps(data)
+        request = self.factory.post("/persistURL/", data=json_data, content_type='application/json')
+
+        response = persist_url_view(request)
+
+        self.assertIsInstance(response, HttpResponse)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.content.decode(), "The url provided is invalid")
+
     def test_post_request_with_invalid_method(self):
         request = self.factory.get("/persistURL/")
         response = persist_url_view(request)
