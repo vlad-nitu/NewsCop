@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 # from plagiarism_checker.crawling import crawl_url
 from .plagiarism_checker.fingerprinting import compute_fingerprint
 from .plagiarism_checker.crawling import crawl_url
+from .plagiarism_checker.sanitizing import sanitizing_url
 
 
 # Create your views here.
@@ -76,6 +77,12 @@ def persist_url_view(request):
     if request.method == 'POST':
         #  Serialises the url into a json => use request body instead of path variable
         url = json.loads(request.body)["key"]
+
+        # check if the given url is indeed valid
+        if not sanitizing_url(url):
+            return HttpResponseBadRequest("The url provided is invalid")
+
+        # do crawling on the given url
         article_text, article_date = crawl_url(url)
 
         # print(compute_fingerprint(article_text))

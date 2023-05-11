@@ -21,5 +21,3 @@ class CrawlerTest(TestCase):
         self.assertIn("Haaland is certainly aware that as huge a talent as he is, he is still a work in progress, "
                       "which is a frightening prospect for the rest of the world.", text)
         self.assertNotIn("Messi Ronaldo", text)
-
-        # TODO: add bad weather tests
