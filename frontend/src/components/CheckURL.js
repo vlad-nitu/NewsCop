@@ -1,9 +1,9 @@
 import React from 'react'
-import EnterURL from './components/EnterURL'
-import PlagiarismCheckerText from './components/PlagiarismCheckerText'
-import SecondaryNavbarComponent from './components/navbarSecondary'
-import Footer from './components/footer'
-import ForwardToCheckText from './components/ForwardToCheckText'
+import EnterURL from './EnterURL'
+import PlagiarismCheckerText from './PlagiarismCheckerText'
+import SecondaryNavbarComponent from './navbarSecondary'
+import Footer from './footer'
+import ForwardToCheckText from './ForwardToCheckText'
 
 const checkURL = () => {
   const applicationName = 'NewsCop'
