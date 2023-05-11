@@ -22,13 +22,12 @@ const checkURL = () => {
       {/* Enter article's URL section */}
       <EnterURL />
 
-      {/* Component that routes /checkURL to /checkText 
-      if user wants to input a text fragment, not an URL that will be crawled*/}
-      <ForwardToCheckText prompt={prompt}/> 
+      {/* Component that routes /checkURL to /checkText
+      if user wants to input a text fragment, not an URL that will be crawled */}
+      <ForwardToCheckText prompt={prompt} />
 
       {/* Footer */}
       <Footer />
-
 
     </>
   )
