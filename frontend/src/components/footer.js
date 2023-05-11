@@ -1,6 +1,7 @@
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
+import { useNavigate } from 'react-router-dom'
 
 /**
  * Footer component displays the footer of the web page with social links, company information and contact information.
@@ -15,6 +16,13 @@ export default function Footer () {
     color: '#485A58'
   }
 
+  const navigate = useNavigate()
+
+  const handleClick = () => {
+    navigate('/checkOneText')
+    window.scrollTo(0, 0)
+  }
+
   return (
     <div id='footer'>
       <footer style={footerStyle} className='text-center text-lg-start footerStyle'>
@@ -24,19 +32,19 @@ export default function Footer () {
             <span>Get connected with us on social networks:</span>
           </div>
           <div>
-            <a href='#' class='text-white me-4'>
+            <a href='#!' class='text-white me-4'>
               <i class='fab fa-facebook-f' />
             </a>
-            <a href='#' class='text-white me-4'>
+            <a href='#!' class='text-white me-4'>
               <i class='fab fa-twitter' />
             </a>
-            <a href='#' class='text-white me-4'>
+            <a href='#!' class='text-white me-4'>
               <i class='fab fa-google' />
             </a>
-            <a href='#' class='text-white me-4'>
+            <a href='#!' class='text-white me-4'>
               <i class='fab fa-instagram' />
             </a>
-            <a href='#' class='text-white me-4'>
+            <a href='#!' class='text-white me-4'>
               <i class='fab fa-linkedin' />
             </a>
           </div>
@@ -69,7 +77,7 @@ export default function Footer () {
                   <a href='#!'>URL plagiarism checker</a>
                 </p>
                 <p>
-                  <a href='#!'>Text plagiarism checker</a>
+                  <a href='#!' onClick={handleClick}>Text plagiarism checker</a>
                 </p>
                 <p>
                   <a href='#!'>Text similarity checker</a>

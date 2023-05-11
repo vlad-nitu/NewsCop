@@ -4,6 +4,6 @@ from newsplease import NewsPlease
 # Create your tests here.
 class CrawlerTest(TestCase):
     def test_base_crawl(self):
-        url = "https://www.huffpost.com/entry/covid-boosters-uptake-us_n_632d719ee4b087fae6feaac9"
+        url = "https://www.bbc.com/news/entertainment-arts-65488861"
         article = NewsPlease.from_url(url)
-        self.assertIn("Over 4 Million", article.title)
+        self.assertIn("The Coronation", article.title)

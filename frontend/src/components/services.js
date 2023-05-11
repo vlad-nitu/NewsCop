@@ -40,6 +40,11 @@ export default function Services ({ titles, descriptions, images }) {
     color: 'white'
   }
 
+
+  const handleClick = () => {
+    window.scrollTo(0, 0)
+  }
+
   // Renders a JSX element with information about services.
   return (
     <div id='services' style={{ backgroundColor: '#2E837E' }}>
@@ -51,7 +56,7 @@ export default function Services ({ titles, descriptions, images }) {
             <h3 style={textStyle}>{titles[0]}</h3>
             <p style={textStyleParagraph}>{descriptions[0]}</p>
             <Link to='/checkURL'>
-              <button type='button' className='btn btn-outline-warning'>Try it</button>
+              <button type='button' onClick={handleClick} className='btn btn-outline-warning'>Try it</button>
             </Link>
           </Col>
           <Col md={4} className='pe-sm-4 mb-4 mb-sm-0'>
@@ -59,7 +64,7 @@ export default function Services ({ titles, descriptions, images }) {
             <h3 style={textStyle}>{titles[1]}</h3>
             <p style={textStyleParagraph}>{descriptions[1]}</p>
             <Link to='/checkText'>
-              <button type='button' className='btn btn-outline-warning'>Try it </button>
+              <button type='button' onClick={handleClick} className='btn btn-outline-warning'>Try it</button>
             </Link>
           </Col>
           <Col md={4} className='pe-sm-4'>

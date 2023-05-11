@@ -3,8 +3,46 @@
     border-bottom: 1px solid black !important;
 }
 
+#submitButton {
+    width: 150px;
+    height: 50px;
+    background: #2E837E;
+    border: 4px solid #2E837E;
+    border-radius: 20px;
+    box-sizing: border-box;
+
+}
+
 .description-paragraph {
     font-size: 1.3rem;
+}
+
+.custom-container {
+    width: 1000px;
+
+}
+
+#divText {
+    margin-bottom: -100px;
+}
+
+
+.custom-textarea-container {
+    height: 600px;
+}
+
+#plagiarismChecker {
+    color: #000;
+    font-size: xxx-large;
+}
+
+.custom-textarea {
+    height: 80%; /* how much of the container is filled with the text box */
+    /*border-color: #2E837E;*/
+}
+
+#textBox {
+    border: 2px solid #2E837E;
 }
 
 .title {
@@ -20,7 +58,7 @@
     height: 20px;
     transform: rotate(-45deg);
 }
-  
+
 .pin1::after {
     content: '';
     width: 10px;
@@ -36,7 +74,7 @@
     color: #485A58;
 }
 
-.footerStyle a:hover{
+.footerStyle a:hover {
     color: #667f7c;
 }
 
