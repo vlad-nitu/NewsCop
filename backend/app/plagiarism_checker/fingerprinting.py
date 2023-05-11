@@ -5,4 +5,4 @@ def compute_fingerprint(article_text):
     if article_text is None:
         return {}
 
-    return [{"shingle_hash": element[0], "shingle_position": element[1]} for element in winnow(article_text)]
+    return [{"shingle_hash": element[1], "shingle_position": element[0]} for element in winnow(article_text)]
