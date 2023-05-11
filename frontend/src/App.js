@@ -1,9 +1,8 @@
 import './css/general.css'
 import Home from './components/Home'
 
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import CheckOneText from './components/CheckOneText'
-import Swipe from 'bootstrap/js/src/util/swipe'
 
 /**
  * The entire page was built around the Bootstrap library.
@@ -19,10 +18,12 @@ import Swipe from 'bootstrap/js/src/util/swipe'
 function App () {
   return (
     <Router>
-      <Switch>
-        <Route path='/' element={<Home />} />
-        <Route path='/checkOneText' element={<CheckOneText />} />
-      </Switch>
+      <div>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/checkOneText' element={<CheckOneText />} />
+        </Routes>
+      </div>
     </Router>
   )
 }
