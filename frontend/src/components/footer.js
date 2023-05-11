@@ -1,7 +1,7 @@
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 /**
  * Footer component displays the footer of the web page with social links, company information and contact information.
@@ -16,10 +16,7 @@ export default function Footer () {
     color: '#485A58'
   }
 
-  const navigate = useNavigate()
-
   const handleClick = () => {
-    navigate('/checkOneText')
     window.scrollTo(0, 0)
   }
 
@@ -74,16 +71,23 @@ export default function Footer () {
                   style={{ width: '60px', backgroundColor: '#7c4dff', height: '2px' }}
                 />
                 <p>
-                  <a href='#!'>URL plagiarism checker</a>
+                  <Link to='/checkURL'>
+                    <a href='#!' onClick={handleClick}>URL plagiarism checker</a>
+                  </Link>
                 </p>
                 <p>
-                  <a href='#!' onClick={handleClick}>Text plagiarism checker</a>
+                  <Link to='/checkText'>
+
+                    <a href='#!' onClick={handleClick}>Text plagiarism checker</a>
+                  </Link>
+
                 </p>
+
                 <p>
                   <a href='#!'>Text similarity checker</a>
                 </p>
                 <p>
-                  <a href='#!'>URL similarity checker</a>
+                  <a href='#!' onClick={handleClick}>URL similarity checker</a>
                 </p>
               </Col>
               {/* <Col md={3} lg={2} xl={2} className="mx-auto mb-4">

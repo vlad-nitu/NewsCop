@@ -1,4 +1,4 @@
-import NavbarComponent from './navbarFeatures'
+import NavbarComponent from './navbarSecondary'
 import Footer from './footer'
 import BodyCheckOneText from './BodyCheckOneText'
 import TextBox from './TextBox'

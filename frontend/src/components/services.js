@@ -40,7 +40,6 @@ export default function Services ({ titles, descriptions, images }) {
     color: 'white'
   }
 
-
   const handleClick = () => {
     window.scrollTo(0, 0)
   }

@@ -11,6 +11,9 @@ import Navbar from 'react-bootstrap/Navbar'
  * @returns React Component consisting in a navbar.
  */
 export default function NavbarComponent ({ name }) {
+  const handleClick = () => {
+    window.scrollTo(0, 0)
+  }
   const scrollTo = (targetId) => {
     const targetElement = document.getElementById(targetId)
     targetElement.scrollIntoView({ behavior: 'smooth' })
@@ -25,7 +28,7 @@ export default function NavbarComponent ({ name }) {
           <Nav className='ml-auto'>
             <Nav.Link href='/#ourMission' onClick={() => scrollTo('ourMission')}>About us</Nav.Link>
             <Nav.Link href='/#services' onClick={() => scrollTo('services')}>Services</Nav.Link>
-            <Nav.Link href='/#footer' onClick={() => scrollTo('footer')}>Contact</Nav.Link>
+            <Nav.Link href='#footer' onClick={handleClick}>Contact</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
