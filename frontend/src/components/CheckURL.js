@@ -7,8 +7,6 @@ import BodyCheckOneText from './BodyCheckOneText'
 
 const checkURL = () => {
   const applicationName = 'NewsCop'
-  const title = 'Plagiarism checker'
-  const description = 'Our plagiarims checker detects plagiarism in your news article.'
   const prompt = '... or you may want to check a text paragraph for plagiarism'
 
   return (
