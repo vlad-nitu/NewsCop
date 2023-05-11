@@ -6,10 +6,8 @@ export default function ForwardToCheckText ({ prompt }) {
     <Container className='my-3 d-flex' id='plagiarismCheckerText'>
 
       <div className='d-flex flex-column justify-content-center mx-auto'>
-      <Link to='/checkText' style={{color: 'black'}}>
-        <div style={{marginTop: '120px'}}>
-          <p className='description-paragraph' style={{ fontSize: '150%'}}>{prompt}</p>
-        </div>
+      <Link to='/checkText' className='description-paragraph' style={{color: 'black', fontSize: '150%', marginTop: '120px'}}>
+          {prompt}
       </Link>
       </div>
     </Container>
