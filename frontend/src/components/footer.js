@@ -30,19 +30,19 @@ export default function Footer () {
           </div>
           <div>
             <a href='#!' class='text-white me-4'>
-              <i class='fab fa-facebook-f' />
+              <i data-testid="Facebook" class='fab fa-facebook-f' />
             </a>
             <a href='#!' class='text-white me-4'>
-              <i class='fab fa-twitter' />
+              <i data-testid="Twitter" class='fab fa-twitter' />
             </a>
             <a href='#!' class='text-white me-4'>
-              <i class='fab fa-google' />
+              <i data-testid="Google" class='fab fa-google' />
             </a>
             <a href='#!' class='text-white me-4'>
-              <i class='fab fa-instagram' />
+              <i data-testid="Instagram" class='fab fa-instagram' />
             </a>
             <a href='#!' class='text-white me-4'>
-              <i class='fab fa-linkedin' />
+              <i data-testid="LinkedIn" class='fab fa-linkedin' />
             </a>
           </div>
         </section>
@@ -56,11 +56,11 @@ export default function Footer () {
                   className='mb-2 mt-0 d-inline-block mx-auto'
                   style={{ width: '60px', backgroundColor: '#7c4dff', height: '2px' }}
                 />
-                <p>
+                <p data-testid ="FooterText">
                   Creating a platform that provides various ways of
                   comparing news articles, helping users to identify
                   overlapping content quickly and accurately and,
-                  consequently, decreasing the impact of missinformation
+                  consequently, decreasing the impact of misinformation
                   and plagiarism in the media.
                 </p>
               </Col>
@@ -72,22 +72,22 @@ export default function Footer () {
                 />
                 <p>
                   <Link to='/checkURL'>
-                    <a href='#!' onClick={handleClick}>URL plagiarism checker</a>
+                    <a href='#!'data-testid ="URLPlag" onClick={handleClick}>URL plagiarism checker</a>
                   </Link>
                 </p>
                 <p>
                   <Link to='/checkText'>
 
-                    <a href='#!' onClick={handleClick}>Text plagiarism checker</a>
+                    <a href='#!' data-testid ="TextPlag" onClick={handleClick}>Text plagiarism checker</a>
                   </Link>
 
                 </p>
 
                 <p>
-                  <a href='#!'>Text similarity checker</a>
+                  <a href='#!' data-testid ="TextSim">Text similarity checker</a>
                 </p>
                 <p>
-                  <a href='#!' onClick={handleClick}>URL similarity checker</a>
+                  <a href='#!' data-testid ="URLSim" onClick={handleClick}>URL similarity checker</a>
                 </p>
               </Col>
               {/* <Col md={3} lg={2} xl={2} className="mx-auto mb-4">
