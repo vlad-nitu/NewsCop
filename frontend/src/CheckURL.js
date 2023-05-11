@@ -2,6 +2,7 @@ import React from 'react'
 import EnterURL from './components/EnterURL'
 import PlagiarismCheckerText from './components/PlagiarismCheckerText'
 import SecondaryNavbarComponent from './components/navbarSecondary'
+import Footer from './components/footer'
 
 const checkURL = () => {
   const applicationName = 'NewsCop'
@@ -18,6 +19,9 @@ const checkURL = () => {
 
       {/* Enter article's URL section */}
       <EnterURL />
+
+      {/* Footer */}
+      <Footer />
 
     </>
   )
