@@ -58,7 +58,9 @@ export default function Services ({ titles, descriptions, images }) {
             <img style={imageStyle} src={images[1]} alt='Service 2' className='pb-3' />
             <h3 style={textStyle}>{titles[1]}</h3>
             <p style={textStyleParagraph}>{descriptions[1]}</p>
-            <button type='button' className='btn btn-outline-warning'>Try it </button>
+            <Link to='/checkText'>
+              <button type='button' className='btn btn-outline-warning'>Try it </button>
+            </Link>
           </Col>
           <Col md={4} className='pe-sm-4'>
             <img style={imageStyle} src={images[2]} alt='Service 3' className='pb-3' />
