@@ -10,6 +10,7 @@ from app.views import try_view
 from app.views import reqex_view
 
 from utils import db
+import sys
 
 
 class TestPersistUrlView(TestCase):
@@ -39,6 +40,7 @@ class TestPersistUrlView(TestCase):
 
     def test_post_request_with_valid_url_text(self):
         url = 'https://www.bbc.com/news/entertainment-arts-65488861'
+
         # clear database
         db.nd_collection.delete_one({'_id': url})
 
@@ -146,3 +148,23 @@ class TestReqExView(TestCase):
         self.assertIsInstance(response, HttpResponseBadRequest)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.content.decode(), "Invalid JSON data")
+
+class TestDatabase(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
+    # test database
+    def test_check_database_indexing(self):
+        url = 'www.matiboss157.com'
+
+        # make sure the url is not already in the database -> clean up
+        db.nd_collection.delete_one({'_id': url})
+
+        # add it
+        db.nd_collection.insert_one({'_id': 'www.matiboss157.com', 'published_date': '2023-05-09 01:00:00',
+                                     'fingerprints': [{'shingle_hash': {'$numberInt': '3'}}]})
+
+        self.assertTrue(sys.getsizeof(db.nd_collection.find({'fingerprints.shingle_hash': 3})) > 0)
+
+        # final clean up
+        db.nd_collection.delete_one({'_id': url})
