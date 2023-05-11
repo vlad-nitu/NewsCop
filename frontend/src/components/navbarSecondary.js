@@ -14,10 +14,7 @@ export default function NavbarComponent ({ name }) {
   const handleClick = () => {
     window.scrollTo(0, 0)
   }
-  const scrollTo = (targetId) => {
-    const targetElement = document.getElementById(targetId)
-    targetElement.scrollIntoView({ behavior: 'smooth' })
-  }
+
   return (
     <Navbar bg='light' expand='lg' className='border-bottom-navbar'>
       <Container>
@@ -26,8 +23,8 @@ export default function NavbarComponent ({ name }) {
         <Navbar.Collapse id='content-on-the-right' className='justify-content-end'>
           {/* ml-auto is used to align a particular element to the right side of its container. */}
           <Nav className='ml-auto'>
-            <Nav.Link href='/#ourMission' onClick={() => scrollTo('ourMission')}>About us</Nav.Link>
-            <Nav.Link href='/#services' onClick={() => scrollTo('services')}>Services</Nav.Link>
+            <Nav.Link href='/#ourMission' onClick={handleClick}>About us</Nav.Link>
+            <Nav.Link href='/#services' onClick={handleClick}>Services</Nav.Link>
             <Nav.Link href='#footer' onClick={handleClick}>Contact</Nav.Link>
           </Nav>
         </Navbar.Collapse>
