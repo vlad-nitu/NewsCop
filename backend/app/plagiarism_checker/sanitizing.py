@@ -13,7 +13,7 @@ def sanitizing_url(url):
 
     # check to see of the url accesses an existent internet resource
     try:
-        requests.get(url, timeout=3)
+        requests.get(url, timeout=10)
     except requests.ConnectionError as exception:
         return False
 
