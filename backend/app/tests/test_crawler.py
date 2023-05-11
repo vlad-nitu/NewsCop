@@ -1,6 +1,8 @@
 from django.test import TestCase
 from newsplease import NewsPlease
+
 from app.plagiarism_checker.crawling import crawl_url
+
 
 # Create your tests here.
 class CrawlerTest(TestCase):
@@ -22,4 +24,4 @@ class CrawlerTest(TestCase):
                       "which is a frightening prospect for the rest of the world.", text)
         self.assertNotIn("Messi Ronaldo", text)
 
-        # TODO: add bad weather tests
+    # TODO: add bad weather tests
