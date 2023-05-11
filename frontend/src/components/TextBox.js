@@ -19,7 +19,7 @@ const TextBox = () => {
       <div className='d-flex justify-content-center'>
         <div className='form-group custom-container'>
           <div className='custom-textarea-container'>
-            <textarea className='form-control custom-textarea' id='textBox' rows='4' />
+            <textarea placeholder='Enter your article here' className='form-control custom-textarea' id='textBox' rows='4' />
           </div>
         </div>
       </div>
