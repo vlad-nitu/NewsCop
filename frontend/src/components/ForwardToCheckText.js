@@ -1,6 +1,13 @@
 import { Container } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
+/**
+ * A functional React component that renders a container with a link to navigate to the '/checkText' page.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} props.prompt - The text to display in the link.
+ * @returns {JSX.Element} - The component's markup.
+ */
 export default function ForwardToCheckText ({ prompt }) {
   return (
     <Container className='my-3 d-flex' id='plagiarismCheckerText'>

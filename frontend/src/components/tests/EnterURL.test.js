@@ -15,14 +15,6 @@ describe('EnterURL', () => {
     // Check if the text element containing the prompt text
     const promptElement = screen.getByText(prompt)
     expect(promptElement).toBeInTheDocument()
-
-    // Check if Link component successfully routes the text to '/checkText'
-    //    const linkElement = screen.getByRole('link', { name: prompt })
-    //    expect(linkElement).toHaveAttribute('href', '/checkText')
-    //    expect(linkElement).toHaveClass('description-paragraph')
-    //    expect(linkElement).toHaveStyle('color: black')
-    //    expect(linkElement).toHaveStyle('fontSize: 150%')
-    //    expect(linkElement).toHaveStyle('marginTop: 120px')
   })
 
   test('Change input form', () => {

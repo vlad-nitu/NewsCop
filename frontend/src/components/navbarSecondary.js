@@ -6,8 +6,10 @@ import Navbar from 'react-bootstrap/Navbar'
  * Function that renders the Navbar component.
  * It was built using the Bootstrap documentation:
  * https://getbootstrap.com/docs/5.0/components/navbar/
+ * and adjusted for this secondary page needs (i.e: to route back to main page when `About us`
+ * is clicked, and at the bottom of the current page when `Contact` is clicked
  *
- * @param {String} name
+ * @param {String} name - the name of our application
  * @returns React Component consisting in a navbar.
  */
 export default function NavbarComponent ({ name }) {

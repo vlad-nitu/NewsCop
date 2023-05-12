@@ -5,6 +5,18 @@ import Footer from './footer'
 import ForwardToCheckText from './ForwardToCheckText'
 import BodyCheckOneText from './BodyCheckOneText'
 
+/**
+ * The entire page was built around the Bootstrap library.
+ *
+ * Important links from their documentation:
+ * https://getbootstrap.com/docs/5.0/utilities/spacing/
+ * https://getbootstrap.com/docs/5.0/layout/grid/
+ * https://getbootstrap.com/docs/5.0/utilities/flex/
+ *
+ * @returns JSX Element contain the secondary page, where the user is routed if he uses the "URL plagarism checker" feature. It is displayed at "/checkURL"
+ *
+ */
+
 const checkURL = () => {
   const applicationName = 'NewsCop'
   const prompt = '... or you may want to check a text paragraph for plagiarism'

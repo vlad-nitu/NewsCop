@@ -5,11 +5,13 @@ import Container from 'react-bootstrap/Container'
  * can be found on the Figma wireframe.
  *
  *
- * @returns {JSX.Element} that represents the plagiarism text and description
+ * @returns {JSX.Element} that represents the plagiarism text and description of our tool;
+ * Can be found directly under the navbar component of the page
  */
 export default function BodyCheckOneText () {
   const description = 'News overlap checker'
   const secondDescription = 'Our tool detects overlap in your news article.'
+
   return (
     <Container className='my-3 d-flex'>
       <div className='d-flex flex-column justify-content-center mx-auto'>
