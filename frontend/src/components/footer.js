@@ -1,6 +1,7 @@
 import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
+import { Link } from 'react-router-dom'
 
 /**
  * Footer component displays the footer of the web page with social links, company information and contact information.
@@ -15,6 +16,10 @@ export default function Footer () {
     color: '#485A58'
   }
 
+  const handleClick = () => {
+    window.scrollTo(0, 0)
+  }
+
   return (
     <div id='footer'>
       <footer style={footerStyle} className='text-center text-lg-start footerStyle'>
@@ -24,20 +29,20 @@ export default function Footer () {
             <span>Get connected with us on social networks:</span>
           </div>
           <div>
-            <a href='#' class='text-white me-4'>
-              <i class='fab fa-facebook-f' />
+            <a href='#!' class='text-white me-4'>
+              <i data-testid='Facebook' class='fab fa-facebook-f' />
             </a>
-            <a href='#' class='text-white me-4'>
-              <i class='fab fa-twitter' />
+            <a href='#!' class='text-white me-4'>
+              <i data-testid='Twitter' class='fab fa-twitter' />
             </a>
-            <a href='#' class='text-white me-4'>
-              <i class='fab fa-google' />
+            <a href='#!' class='text-white me-4'>
+              <i data-testid='Google' class='fab fa-google' />
             </a>
-            <a href='#' class='text-white me-4'>
-              <i class='fab fa-instagram' />
+            <a href='#!' class='text-white me-4'>
+              <i data-testid='Instagram' class='fab fa-instagram' />
             </a>
-            <a href='#' class='text-white me-4'>
-              <i class='fab fa-linkedin' />
+            <a href='#!' class='text-white me-4'>
+              <i data-testid='LinkedIn' class='fab fa-linkedin' />
             </a>
           </div>
         </section>
@@ -51,11 +56,11 @@ export default function Footer () {
                   className='mb-2 mt-0 d-inline-block mx-auto'
                   style={{ width: '60px', backgroundColor: '#7c4dff', height: '2px' }}
                 />
-                <p>
+                <p data-testid='FooterText'>
                   Creating a platform that provides various ways of
                   comparing news articles, helping users to identify
                   overlapping content quickly and accurately and,
-                  consequently, decreasing the impact of missinformation
+                  consequently, decreasing the impact of misinformation
                   and plagiarism in the media.
                 </p>
               </Col>
@@ -66,16 +71,23 @@ export default function Footer () {
                   style={{ width: '60px', backgroundColor: '#7c4dff', height: '2px' }}
                 />
                 <p>
-                  <a href='#!'>URL plagiarism checker</a>
+                  <Link to='/checkURL'>
+                    <a href='#!' data-testid='URLPlag' onClick={handleClick}>URL plagiarism checker</a>
+                  </Link>
                 </p>
                 <p>
-                  <a href='#!'>Text plagiarism checker</a>
+                  <Link to='/checkText'>
+
+                    <a href='#!' data-testid='TextPlag' onClick={handleClick}>Text plagiarism checker</a>
+                  </Link>
+
+                </p>
+
+                <p>
+                  <a href='#!' data-testid='TextSim'>Text similarity checker</a>
                 </p>
                 <p>
-                  <a href='#!'>Text similarity checker</a>
-                </p>
-                <p>
-                  <a href='#!'>URL similarity checker</a>
+                  <a href='#!' data-testid='URLSim' onClick={handleClick}>URL similarity checker</a>
                 </p>
               </Col>
               {/* <Col md={3} lg={2} xl={2} className="mx-auto mb-4">

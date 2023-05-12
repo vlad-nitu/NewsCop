@@ -1,6 +1,7 @@
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import { Link } from 'react-router-dom'
 
 /**
  *
@@ -39,6 +40,10 @@ export default function Services ({ titles, descriptions, images }) {
     color: 'white'
   }
 
+  const handleClick = () => {
+    window.scrollTo(0, 0)
+  }
+
   // Renders a JSX element with information about services.
   return (
     <div id='services' style={{ backgroundColor: '#2E837E' }}>
@@ -49,13 +54,17 @@ export default function Services ({ titles, descriptions, images }) {
             <img style={imageStyle} src={images[0]} alt='Service 1' className='pb-3' />
             <h3 style={textStyle}>{titles[0]}</h3>
             <p style={textStyleParagraph}>{descriptions[0]}</p>
-            <button type='button' className='btn btn-outline-warning'>Try it</button>
+            <Link to='/checkURL'>
+              <button type='button' onClick={handleClick} className='btn btn-outline-warning'>Try it</button>
+            </Link>
           </Col>
           <Col md={4} className='pe-sm-4 mb-4 mb-sm-0'>
             <img style={imageStyle} src={images[1]} alt='Service 2' className='pb-3' />
             <h3 style={textStyle}>{titles[1]}</h3>
             <p style={textStyleParagraph}>{descriptions[1]}</p>
-            <button type='button' className='btn btn-outline-warning'>Try it</button>
+            <Link to='/checkText'>
+              <button type='button' onClick={handleClick} className='btn btn-outline-warning'>Try it</button>
+            </Link>
           </Col>
           <Col md={4} className='pe-sm-4'>
             <img style={imageStyle} src={images[2]} alt='Service 3' className='pb-3' />
