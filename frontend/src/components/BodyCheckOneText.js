@@ -19,7 +19,7 @@ export default function BodyCheckOneText () {
           <h2 className='title' id='plagiarismChecker'>{description}</h2>
         </div>
         <div className='mb-4'>
-          <p className='description-paragraph'>{secondDescription}</p>
+          <p className='description-paragraph'  >{secondDescription}</p>
         </div>
       </div>
     </Container>
