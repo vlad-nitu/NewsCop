@@ -7,6 +7,10 @@ from .serializer import *
 from django.http import HttpResponse, HttpResponseBadRequest
 import json
 from django.views.decorators.csrf import csrf_exempt
+# from plagiarism_checker.crawling import crawl_url
+from .plagiarism_checker.fingerprinting import compute_fingerprint
+from .plagiarism_checker.crawling import crawl_url
+from .plagiarism_checker.sanitizing import sanitizing_url
 
 
 # Create your views here.
@@ -60,22 +64,28 @@ def reqex_view(request):
         return HttpResponseBadRequest("Invalid request method")
 
 
-def persist_url_view(request, url):
+def persist_url_view(request):
     '''
-    The endpoint that can be consumed by posting on localhost:8000/persistURL/<urlString>/. This will be used
-    for the persist functionality of URLs.
+    The endpoint that can be consumed by posting on localhost:8000/persistURL/ with the request body as <urlString>.
+    This will be used for the persist functionality of URLs.
     :param request: the request
-    :param url: the string path variable, which represents the URL
     :return: a HttpResponse with status 200, if successful else HttpResponseBadRequest with status 400
     '''
 
     #  Ensure the request method is POST
     if request.method == 'POST':
-        # the_url = json.loads('{ "url"' + ": " + '"' + url + '"' + "}") => example of serialising to JSON
-        #  Serialises the url into a json
-        fp1 = Fingerprint(shingle_hash=3, shingle_position=5)
-        fp2 = Fingerprint(shingle_hash=6, shingle_position=10)
-        newsdoc = NewsDocument(url=url, published_date=datetime.now(), fingerprints=[fp1, fp2])
+        #  Serialises the url into a json => use request body instead of path variable
+        url = json.loads(request.body)["key"]
+
+        # check if the given url is indeed valid
+        if not sanitizing_url(url):
+            return HttpResponseBadRequest("The url provided is invalid")
+
+        # do crawling on the given url
+        article_text, article_date = crawl_url(url)
+
+        # print(compute_fingerprint(article_text))
+        newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=compute_fingerprint(article_text))
         newsdoc.save()
         return HttpResponse(newsdoc.url)
     else:
