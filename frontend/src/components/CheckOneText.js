@@ -17,11 +17,13 @@ export default function CheckOneText () {
     <>
       {/* Navbar */}
       <NavbarComponent name={applicationName} />
-
+      {/* The description text about news overlap */}
       <BodyCheckOneText />
       <div id='divText'>
+        {/* Text area */}
         <TextBox />
       </div>
+      {/* The submit button */}
       <SubmitButton />
       {/* Footer */}
       <Footer />
