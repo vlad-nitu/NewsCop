@@ -1,24 +1,32 @@
-import logo from './logo.svg'
-import './App.css'
+import './css/general.css'
+import Home from './components/Home'
 
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import CheckOneText from './components/CheckOneText'
+import CheckURL from './components/CheckURL'
+
+/**
+ * The entire page was built around the Bootstrap library.
+ *
+ * Important links from their documentation:
+ * https://getbootstrap.com/docs/5.0/utilities/spacing/
+ * https://getbootstrap.com/docs/5.0/layout/grid/
+ * https://getbootstrap.com/docs/5.0/utilities/flex/
+ *
+ * @returns JSX Element contain the landing page.
+ *
+ */
 function App () {
   return (
-    <div className='App'>
-      <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className='App-link'
-          href='https://reactjs.org'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/checkText' element={<CheckOneText />} />
+          <Route exact path='/checkURL' element={<CheckURL />} />
+        </Routes>
+      </div>
+    </Router>
   )
 }
 

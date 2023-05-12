@@ -1,6 +1,34 @@
-from django.db import models
+from utils import db
+from mongoengine.fields import Document, EmbeddedDocument
+from mongoengine.fields import EmbeddedDocumentField, ListField, StringField, DateTimeField, IntField
 
 # Create your models here.
-class React(models.Model):
-    news = models.CharField(max_length = 30) 
-    detail = models.CharField(max_length = 400)
+class React(Document):
+    url = StringField()
+    published_date = DateTimeField()
+
+    def save(self, *args, **kwargs):
+        db.copy_collection.insert_one({
+            '_id': self.url,
+            'published_date': self.published_date,
+        })
+
+
+class Fingerprint(EmbeddedDocument):
+    shingle_hash = IntField()
+    shingle_position = IntField()
+
+
+class NewsDocument(Document):
+
+    url = StringField()
+    published_date = DateTimeField()
+    fingerprints = ListField(EmbeddedDocumentField(Fingerprint))
+
+    def save(self, *args, **kwargs):
+        fingerprints = [fp.to_mongo() for fp in self.fingerprints]
+        db.nd_collection.insert_one({
+            '_id': self.url,
+            'published_date': self.published_date,
+            'fingerprints': fingerprints 
+        })
