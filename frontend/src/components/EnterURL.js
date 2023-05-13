@@ -45,7 +45,9 @@ export default function EnterURL () {
     event.preventDefault()
     setShowInputValue(true)
     setButtonDisabled(true)
-    persistUrl("www.twitter.com");
+    persistUrl('{ "key":' +
+            '"https://www.bbc.com/news/world-middle-east-65585950"}'
+    )
     setTimeout(() => {
       setShowInputValue(false)
       setButtonDisabled(false)
