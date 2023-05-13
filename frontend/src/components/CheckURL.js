@@ -10,7 +10,7 @@ const persistUrlEndpoint = 'http://localhost:8000/api/'
 
 export const persistUrl = async () => {
   try {
-    const response = await axios.get(`${persistUrl()}`)
+    const response = await axios.post(`${persistUrlEndpoint()}`)
     return response.data
   } catch (error) {
     console.error(error)
