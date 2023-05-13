@@ -4,7 +4,19 @@ import SecondaryNavbarComponent from './navbarSecondary'
 import Footer from './footer'
 import ForwardToCheckText from './ForwardToCheckText'
 import BodyCheckOneText from './BodyCheckOneText'
+import axios from 'axios';
 
+const persistUrlEndpoint = 'http://localhost:8000/api/'
+
+export const persistUrl = async () => {
+  try {
+    const response = await axios.get(`${persistUrl()}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to persist url');
+  }
+};
 /**
  * The entire page was built around the Bootstrap library.
  *
@@ -16,7 +28,6 @@ import BodyCheckOneText from './BodyCheckOneText'
  * @returns JSX Element contain the secondary page, where the user is routed if he uses the "URL plagarism checker" feature. It is displayed at "/checkURL"
  *
  */
-
 const checkURL = () => {
   const applicationName = 'NewsCop'
   const prompt = '... or you may want to check a text paragraph for plagiarism'
