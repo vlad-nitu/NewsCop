@@ -6,9 +6,9 @@ import logging
 import time
 import pymongo.errors
 from newsplease import NewsPlease
-from models import NewsDocument
-from plagiarism_checker.crawling import crawl_url
-from plagiarism_checker.fingerprinting import compute_fingerprint
+from ..models import NewsDocument
+from ..plagiarism_checker.crawling import crawl_url
+from ..plagiarism_checker.fingerprinting import compute_fingerprint
 
 
 def setup_logging():
