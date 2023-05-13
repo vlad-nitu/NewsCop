@@ -1,16 +1,8 @@
-import logging
 import sys
-import time
-import pymongo.errors
-
-from newsplease import NewsPlease
-from models import NewsDocument
-from plagiarism_checker.crawling import crawl_url
-from plagiarism_checker.fingerprinting import compute_fingerprint
-
 sys.path.append('../')  # app
 sys.path.append('../../')  # backend root 
 
+import logging
 # create a logger for the root level: INFO:root
 logger = logging.getLogger()
 logger.setLevel(level=logging.INFO)
@@ -18,6 +10,14 @@ logger.setLevel(level=logging.INFO)
 # create a logger for newspleas: INFO:newsplease
 pipeline_logger = logging.getLogger('newsplease')
 pipeline_logger.setLevel(logging.WARNING)
+
+import time
+import pymongo.errors
+
+from newsplease import NewsPlease
+from models import NewsDocument
+from plagiarism_checker.crawling import crawl_url
+from plagiarism_checker.fingerprinting import compute_fingerprint
 
 
 start_time = time.time()
@@ -29,7 +29,6 @@ articles = []
 urls_seen = 0
 
 for url in urls:
-    print("DA")
     urls_seen += 1
     article = NewsPlease.from_url(url)
     if hasattr(article, 'language') and article.language == 'en':
