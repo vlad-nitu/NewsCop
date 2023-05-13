@@ -11,6 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .plagiarism_checker.fingerprinting import compute_fingerprint
 from .plagiarism_checker.crawling import crawl_url
 from .plagiarism_checker.sanitizing import sanitizing_url
+from .plagiarism_checker.similarity import compute_similarity
 
 
 # Create your views here.
@@ -80,13 +81,82 @@ def persist_url_view(request):
         # check if the given url is indeed valid
         if not sanitizing_url(url):
             return HttpResponseBadRequest("The url provided is invalid")
+        
+        # Check whether the current URL is present in the database
+        url_exists = db.nd_collection.find_one( { '_id': url } ) is not None
 
-        # do crawling on the given url
-        article_text, article_date = crawl_url(url)
+        # If current URL is not part of the database, persist it
+        if not url_exists:
+            # do crawling on the given url
+            article_text, article_date = crawl_url(url)
 
-        # print(compute_fingerprint(article_text))
-        newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=compute_fingerprint(article_text))
-        newsdoc.save()
-        return HttpResponse(newsdoc.url)
+            # print(compute_fingerprint(article_text))
+            newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=compute_fingerprint(article_text))
+            newsdoc.save()
+
+        print("persist_url_view: " + url)
+        return HttpResponse(url)
+    else:
+        return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
+    
+
+def url_similarity_checker(request):
+    #  Ensure the request method is POST
+    if request.method == 'POST':
+        
+        # Persist the submitted URL
+        url = str(persist_url_view(request).content)
+        url = url[2 : len(url) - 1]
+        
+        # Get the fingerprints for the current URL
+        submitted_url_fingerprints = db.nd_collection.find_one( { '_id': url } )['fingerprints']
+
+        # List of candidates
+        # Candidate: id, published_date, fingerprints
+        candidates = []
+        
+        i = 0
+
+        for fingerprint in submitted_url_fingerprints:
+            print("Current fingerprint: " + str(i))
+            i+=1
+
+            # Get current shingle hash value
+            curr_hash = fingerprint['shingle_hash']
+
+            # Get all documents that contain this shingle hash
+            candidates_for_curr_hash = db.nd_collection.find({'fingerprints.shingle_hash': curr_hash})
+
+            # Add found documents to the "candidates" list
+            candidates.extend(candidates_for_curr_hash)
+
+        high_similarity_article = None
+        high_similarity_threshold = 1e-4
+
+        # Remove duplicates from the candidates list
+        candidates = list({candidate['_id']: candidate for candidate in candidates}.values())
+
+        i = 0
+
+        for candidate in candidates:
+            if candidate['_id'] == url:
+                continue
+            
+            print("candidate no. " + str(i))
+            i+=1
+            similarity = compute_similarity(submitted_url_fingerprints, candidate['fingerprints'])
+            if similarity >= high_similarity_threshold:
+                high_similarity_article = candidate['_id']
+                break
+
+        body = None
+
+        if high_similarity_article is not None:
+            body = (True, high_similarity_article)
+        else:
+            body = (False, high_similarity_article)
+
+        return HttpResponse(body, status=200)
+
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
