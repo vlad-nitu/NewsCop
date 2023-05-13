@@ -1,6 +1,20 @@
 import { useState } from 'react'
 import { Container, Form, Button } from 'react-bootstrap'
 
+import axios from 'axios'
+
+const persistUrlEndpoint = 'http://localhost:8000/persistURL/'
+
+export const persistUrl = async (url) => {
+  try {
+    const response = await axios.post(`${persistUrlEndpoint}`, url)
+    return response.data
+  } catch (error) {
+    console.error(error)
+    throw new Error('Failed to persist url')
+  }
+}
+
 /**
  * Container that displays:
  * 1. The description of the form from 2.
@@ -31,6 +45,7 @@ export default function EnterURL () {
     event.preventDefault()
     setShowInputValue(true)
     setButtonDisabled(true)
+    persistUrl("www.twitter.com");
     setTimeout(() => {
       setShowInputValue(false)
       setButtonDisabled(false)
