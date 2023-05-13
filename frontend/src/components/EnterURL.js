@@ -5,6 +5,12 @@ import axios from 'axios'
 /* The endpoint that is going to be used for the request, see urls.py and views.py */
 const persistUrlEndpoint = 'http://localhost:8000/persistURL/'
 
+/**
+ * Persists a URL asynchronously, the URL will have to be stored as the value for "key" in
+ * a JSON format.
+ * @param url the URL, in the format above
+ * @returns {Promise<any>} the response after the persistance
+ */
 export const persistUrl = async (url) => {
   try {
     const response = await axios.post(`${persistUrlEndpoint}`, url)
