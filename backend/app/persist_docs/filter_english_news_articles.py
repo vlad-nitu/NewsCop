@@ -1,35 +1,34 @@
-import sys
-
-sys.path.append('../') # app
-sys.path.append('../../') # backend root 
-
 import logging
+import sys
+import time
+import pymongo.errors
+
+from newsplease import NewsPlease
+from models import NewsDocument
+from plagiarism_checker.crawling import crawl_url
+from plagiarism_checker.fingerprinting import compute_fingerprint
+
+sys.path.append('../')  # app
+sys.path.append('../../')  # backend root 
 
 # create a logger for the root level: INFO:root
 logger = logging.getLogger()
 logger.setLevel(level=logging.INFO)
 
-# create a logger for newsplease.pipeline
+# create a logger for newspleas: INFO:newsplease
 pipeline_logger = logging.getLogger('newsplease')
 pipeline_logger.setLevel(logging.WARNING)
 
-import time
-import pymongo.errors
-from newsplease import NewsPlease
-from models import NewsDocument
-
-from plagiarism_checker.crawling import crawl_url
-from plagiarism_checker.fingerprinting import compute_fingerprint
 
 start_time = time.time()
 
 with open('preprocessed_unique_urls.txt') as f:
-    urls = [url.strip() for url in f.readlines()] # remove '\n' that gets appended by `readlines()`
+    urls = [url.strip() for url in f.readlines()]  # remove '\n' that gets appended by `readlines()`
 
 articles = []
 urls_seen = 0
 
-for url in urls[1010:1050]:
+for url in urls:
     print("DA")
     urls_seen += 1
     article = NewsPlease.from_url(url)
@@ -43,8 +42,6 @@ for url in urls[1010:1050]:
         except pymongo.errors.DuplicateKeyError:
             logging.info(f'URL: {url} was already persisted in DB')
 
-
-        
     elif hasattr(article, 'language'):
         logging.info('Article found, but it is not written in EN')
 
@@ -54,5 +51,3 @@ duration = end_time - start_time
 logging.info(f'It took me {duration} seconds to process {urls_seen} articles')
 
 logging.info(f'There were {len(articles)} articles that were persisted in the DB')
-logging.info('\n'.join(articles))
-    
