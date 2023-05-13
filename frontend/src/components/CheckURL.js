@@ -4,19 +4,19 @@ import SecondaryNavbarComponent from './navbarSecondary'
 import Footer from './footer'
 import ForwardToCheckText from './ForwardToCheckText'
 import BodyCheckOneText from './BodyCheckOneText'
-import axios from 'axios';
+import axios from 'axios'
 
 const persistUrlEndpoint = 'http://localhost:8000/api/'
 
 export const persistUrl = async () => {
   try {
-    const response = await axios.get(`${persistUrl()}`);
-    return response.data;
+    const response = await axios.get(`${persistUrl()}`)
+    return response.data
   } catch (error) {
-    console.error(error);
-    throw new Error('Failed to persist url');
+    console.error(error)
+    throw new Error('Failed to persist url')
   }
-};
+}
 /**
  * The entire page was built around the Bootstrap library.
  *
