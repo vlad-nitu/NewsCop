@@ -76,8 +76,6 @@ class TestReadUniqueUrls(unittest.TestCase):
             'https://www.test4.com\n',
             'https://www.test5.com'
         ]
-        
-
 
         self.assertEquals(expected_urls, obtained_urls)
 

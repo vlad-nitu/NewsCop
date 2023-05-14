@@ -1,6 +1,8 @@
 import unittest
 from unittest.mock import patch, MagicMock
 from app.persist_docs.filter_english_news_articles import process_article
+from pymongo.errors import DuplicateKeyError
+import logging
 
 class TestProcessArticle(unittest.TestCase):
     @patch('app.persist_docs.filter_english_news_articles.NewsPlease')
@@ -58,3 +60,24 @@ class TestProcessArticle(unittest.TestCase):
         # Assertions
         mock_NewsPlease.from_url.assert_called_once_with(url)
         self.assertEqual(result, (url, False))
+
+    def test_duplicate_key_error(self):
+        with patch('app.persist_docs.filter_english_news_articles.NewsPlease.from_url') as mock_newsplease:
+            mock_article = MagicMock()
+            mock_article.language = 'en'
+            mock_newsplease.return_value = mock_article
+
+            with patch('app.persist_docs.filter_english_news_articles.crawl_url') as mock_crawl_url:
+                mock_article_text = 'Some article text'
+                mock_article_date = '2022-01-01'
+                mock_crawl_url.return_value = (mock_article_text, mock_article_date)
+
+                with patch('backend.app.persist_docs.filter_english_news_articles.NewsDocument') as mock_newsdoc:
+                    mock_newsdoc_instance = MagicMock()
+                    mock_newsdoc_instance.save.side_effect = DuplicateKeyError
+                    mock_newsdoc.return_value = mock_newsdoc_instance
+
+                    url = 'http://example.com'
+                    result = process_article(url)
+
+                    self.assertEqual(result, (url, False))

@@ -11,14 +11,13 @@ from ..plagiarism_checker.crawling import crawl_url
 from ..plagiarism_checker.fingerprinting import compute_fingerprint
 
 
-def setup_logging():
-    # create a logger for the root level: INFO:root
-    logger = logging.getLogger()
-    logger.setLevel(level=logging.INFO)
+# create a logger for the root level: INFO:root
+logger = logging.getLogger()
+logger.setLevel(level=logging.INFO)
 
-    # create a logger for newspleas: INFO:newsplease
-    pipeline_logger = logging.getLogger('newsplease')
-    pipeline_logger.setLevel(logging.WARNING)
+# create a logger for newspleas: INFO:newsplease
+pipeline_logger = logging.getLogger('newsplease')
+pipeline_logger.setLevel(logging.WARNING)
 
 
 def read_urls_from_file(filepath):
