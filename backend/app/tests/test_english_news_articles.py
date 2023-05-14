@@ -1,10 +1,8 @@
 import unittest
 from unittest.mock import patch, MagicMock
-
 import os
 from app.persist_docs.filter_english_news_articles import process_article, read_urls_from_file
 from pymongo.errors import DuplicateKeyError
-
 
 
 class TestProcessArticle(unittest.TestCase):
@@ -85,7 +83,6 @@ class TestProcessArticle(unittest.TestCase):
 
                     self.assertEqual(result, (url, False))
 
-    
 class TestReadUrls(unittest.TestCase):
     def test_read_urls_from_file(self):
         test_file = 'test_file.txt'
@@ -103,4 +100,3 @@ class TestReadUrls(unittest.TestCase):
 
         # Clean up
         os.remove(test_file)
-
