@@ -125,7 +125,7 @@ def url_similarity_checker(request):
             curr_hash = fingerprint['shingle_hash']
 
             # Get all documents that contain this shingle hash
-            candidates_for_curr_hash = db.nd_collection.find({'fingerprints.shingle_hash': curr_hash})
+            candidates_for_curr_hash = db.nd_collection.find({'fingerprints.shingle_hash': curr_hash}).project('_id')
 
             # Add found documents to the "candidates" list
             candidates.extend(candidates_for_curr_hash)
