@@ -11,13 +11,13 @@ def write_urls_to_file(urls, file_path):
     with open(file_path, "w") as out:
         out.write('\n'.join(urls))
 
-def main():
-    input_file = 'unique_urls.txt'
-    output_file = 'preprocessed_unique_urls.txt'
-
+def main(input_file, output_file):
     urls = read_urls_from_file(input_file)
     write_urls_to_file(urls, output_file)
 
 
 if __name__ == '__main__':
-    main()
+    input_file = 'unique_urls.txt'
+    output_file = 'preprocessed_unique_urls.txt'
+
+    main(input_file, output_file)
