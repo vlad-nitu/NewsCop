@@ -84,7 +84,7 @@ def process_urls(urls):
 
     articles = []
     urls_seen = 0
-    for url_id, url in enumerate(urls[-9430:]):
+    for url_id, url in enumerate(urls):
         logging.info(f'You are currently seeing URL_ID {url_id} being crawled.')
         urls_seen += 1
         signal.signal(signal.SIGALRM, timeout_handler)
