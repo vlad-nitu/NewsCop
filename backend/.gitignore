@@ -165,5 +165,5 @@ cython_debug/
 
 
 # Datasets .txt files 
-./app/persist_docs/preprocessed_unique_urls.txt
-./app/persist_docs/unique_urls.txt
+app/persist_docs/preprocessed_unique_urls.txt
+app/persist_docs/unique_urls.txt
