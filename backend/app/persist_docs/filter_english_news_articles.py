@@ -24,6 +24,7 @@ class TimeoutException(Exception):
 def timeout_handler(signum, frame):
     raise TimeoutException()
 
+
 """
 Setting up logging
 """
@@ -51,7 +52,8 @@ def process_article(url):
     url (str): The URL of the news article to process.
 
     Returns:
-    tuple: A tuple containing the URL and a boolean indicating whether the article was successfully persisted to the database.
+    tuple: A tuple containing the URL and a boolean
+    indicating whether the article was successfully persisted to the database.
     """  
 
     article = NewsPlease.from_url(url)

@@ -8,7 +8,8 @@ def read_urls_from_file(file_path):
     file_path (str): The path to the file containing URLs.
 
     Returns:
-    list: A list of URLs contained in the file, with leading and trailing spaces removed and non-'https://' URLs removed.
+    list: A list of URLs contained in the file, with leading and trailing spaces removed 
+     and non-'https://' URLs removed.
     """
 
     with open(file_path) as f:
