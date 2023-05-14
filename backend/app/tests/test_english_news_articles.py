@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch, MagicMock
 import os
-from app.persist_docs.filter_english_news_articles import process_article, read_urls_from_file
+from app.persist_docs.filter_english_news_articles import *
 from pymongo.errors import DuplicateKeyError
 
 
@@ -100,3 +100,31 @@ class TestReadUrls(unittest.TestCase):
 
         # Clean up
         os.remove(test_file)
+
+class TestProcessUrls(unittest.TestCase):
+    def test_process_urls_multiple_articles(self):
+        urls = ['https://www.example.com/article1', 'https://www.example.com/article2']
+        from_url_patch_path = 'app.persist_docs.filter_english_news_articles.NewsPlease.from_url'
+        crawl_url_patch_path = 'app.persist_docs.filter_english_news_articles.crawl_url'
+        with patch(from_url_patch_path, return_value=MagicMock(language='en')):
+            with patch(crawl_url_patch_path, return_value=('article text', '2022-05-12')):
+                with patch('app.models.NewsDocument.save', return_value=None):
+                    urls_seen, articles = process_urls(urls)
+                    self.assertEqual(urls_seen, 2)
+                    self.assertEqual(len(articles), 2)
+                    self.assertEqual(articles[0], urls[0])
+                    self.assertEqual(articles[1], urls[1])
+
+class TestMain(unittest.TestCase):
+    read_urls_patch_path = 'app.persist_docs.filter_english_news_articles.read_urls_from_file'
+    process_urls_patch_path = 'app.persist_docs.filter_english_news_articles.process_urls'
+    logging_patch_path = 'app.persist_docs.filter_english_news_articles.logging.info'
+
+    @patch(read_urls_patch_path, return_value=['https://www.example.com/article'])
+    @patch(process_urls_patch_path, return_value=(1, ['https://www.example.com/article']))
+    @patch(logging_patch_path)
+    def test_main(self, mock_log, mock_process_urls, mock_read_urls_from_file):
+        main()
+        mock_read_urls_from_file.assert_called_with(persist_docs_path + '/' + 'preprocessed_unique_urls.txt')
+        mock_process_urls.assert_called_with(['https://www.example.com/article'])
+        mock_log.assert_called_with('There were 1 articles that were persisted in the DB')

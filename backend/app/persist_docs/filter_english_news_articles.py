@@ -1,16 +1,10 @@
 import sys
 import os
-backend = os.path.abspath(os.curdir)
-persist_docs = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(backend)
-sys.path.append(persist_docs)
+backend_path = os.path.abspath(os.curdir)
+persist_docs_path = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(backend_path)
+sys.path.append(persist_docs_path)
 
-
-print(f'Root is: {os.path.abspath(os.curdir)}')
-
-print(f'sys paths are: \n')
-for pth in sys.path:
-    print(f'{pth}')
 
 import logging
 import time
@@ -66,7 +60,7 @@ def process_urls(urls):
 
 def main():
     start_time = time.time()
-    urls = read_urls_from_file(persist_docs + '/' + 'preprocessed_unique_urls.txt')
+    urls = read_urls_from_file(persist_docs_path + '/' + 'preprocessed_unique_urls.txt')
     urls_seen, articles = process_urls(urls)
     end_time = time.time()
     duration = end_time - start_time
