@@ -13,6 +13,13 @@ from newsplease import NewsPlease as NewsPlease
 from app.models import NewsDocument
 from app.plagiarism_checker.crawling import crawl_url
 from app.plagiarism_checker.fingerprinting import compute_fingerprint
+import signal
+
+class TimeoutException(Exception):
+    pass
+
+def timeout_handler(signum, frame):
+    raise TimeoutException()
 
 
 # create a logger for the root level: INFO:root
@@ -48,13 +55,19 @@ def process_article(url):
 def process_urls(urls):
     articles = []
     urls_seen = 0
-    for url_id, url in enumerate(urls):
+    for url_id, url in enumerate(urls[-9430:]):
         logging.info(f'You are currently seeing URL_ID {url_id} being crawled.')
         urls_seen += 1
-        url, persisted = process_article(url)
-        if persisted:
-            articles.append(url)
-            logging.info(f'Article w/ URL: {url} appended')
+        signal.signal(signal.SIGALRM, timeout_handler)
+        signal.alarm(10)  # 10 seconds timeout
+        try:
+            url, persisted = process_article(url)
+            signal.alarm(0)  # cancel the timeout
+            if persisted:
+                articles.append(url)
+                logging.info(f'Article w/ URL: {url} appended')
+        except TimeoutException:
+            logging.warning(f'Timeout occurred while processing article: {url}')
     return urls_seen, articles
 
 
