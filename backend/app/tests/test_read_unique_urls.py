@@ -7,7 +7,7 @@ from app.persist_docs.read_unique_urls import read_urls_from_file, write_urls_to
 
 class TestReadUniqueUrls(unittest.TestCase):
     def test_read_urls_from_file(self):
-        test_file = 'test_file.txt'
+        test_file = './test_file.txt'
         with open(test_file, 'w') as f:  # write \n so that we simulate the behavior of `unique_urls.txt` file
             f.write('  https://www.test1.com   \n')  # stripping
             f.write('""https://www.test2.com   \n')  # "" start

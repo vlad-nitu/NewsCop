@@ -1,14 +1,24 @@
 import sys
-sys.path.append('../')  # app
-sys.path.append('../../')  # backend root
+import os
+backend = os.path.abspath(os.curdir)
+persist_docs = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(backend)
+sys.path.append(persist_docs)
+
+
+print(f'Root is: {os.path.abspath(os.curdir)}')
+
+print(f'sys paths are: \n')
+for pth in sys.path:
+    print(f'{pth}')
 
 import logging
 import time
 import pymongo.errors
 from newsplease import NewsPlease as NewsPlease
-from ..models import NewsDocument
-from ..plagiarism_checker.crawling import crawl_url
-from ..plagiarism_checker.fingerprinting import compute_fingerprint
+from app.models import NewsDocument
+from app.plagiarism_checker.crawling import crawl_url
+from app.plagiarism_checker.fingerprinting import compute_fingerprint
 
 
 # create a logger for the root level: INFO:root
@@ -55,9 +65,8 @@ def process_urls(urls):
 
 
 def main():
-    setup_logging()
     start_time = time.time()
-    urls = read_urls_from_file('preprocessed_unique_urls.txt')
+    urls = read_urls_from_file(persist_docs + '/' + 'preprocessed_unique_urls.txt')
     urls_seen, articles = process_urls(urls)
     end_time = time.time()
     duration = end_time - start_time
