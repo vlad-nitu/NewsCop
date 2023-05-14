@@ -5,7 +5,7 @@ sys.path.append('../../')  # backend root
 import logging
 import time
 import pymongo.errors
-from newsplease import NewsPlease
+from newsplease import NewsPlease as NewsPlease
 from ..models import NewsDocument
 from ..plagiarism_checker.crawling import crawl_url
 from ..plagiarism_checker.fingerprinting import compute_fingerprint
