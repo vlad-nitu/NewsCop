@@ -1,8 +1,11 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from app.persist_docs.filter_english_news_articles import process_article
+
+import os
+from app.persist_docs.filter_english_news_articles import process_article, read_urls_from_file
 from pymongo.errors import DuplicateKeyError
-import logging
+
+
 
 class TestProcessArticle(unittest.TestCase):
     @patch('app.persist_docs.filter_english_news_articles.NewsPlease')
@@ -81,3 +84,23 @@ class TestProcessArticle(unittest.TestCase):
                     result = process_article(url)
 
                     self.assertEqual(result, (url, False))
+
+    
+class TestReadUrls(unittest.TestCase):
+    def test_read_urls_from_file(self):
+        test_file = 'test_file.txt'
+        with open(test_file, 'w') as f:  # write \n so that we simulate the behavior of `unique_urls.txt` file
+            f.write('  https://www.test1.com   \n')  # stripping
+            f.write('  https://www.test2.com \n')  # _ start
+            f.write('https://www.test3.com  \n')  # _ end
+
+        expected_output = ['https://www.test1.com',
+                           'https://www.test2.com',
+                           'https://www.test3.com',
+                           ]
+
+        self.assertEquals(read_urls_from_file(test_file), expected_output)
+
+        # Clean up
+        os.remove(test_file)
+
