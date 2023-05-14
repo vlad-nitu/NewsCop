@@ -81,9 +81,9 @@ def persist_url_view(request):
         # check if the given url is indeed valid
         if not sanitizing_url(url):
             return HttpResponseBadRequest("The url provided is invalid")
-        
+
         # Check whether the current URL is present in the database
-        url_exists = db.nd_collection.find_one( { '_id': url } ) is not None
+        url_exists = db.nd_collection.find_one({'_id': url}) is not None
 
         # If current URL is not part of the database, persist it
         if not url_exists:
@@ -98,28 +98,28 @@ def persist_url_view(request):
         return HttpResponse(url, status=200)
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
-    
+
 
 def url_similarity_checker(request):
     #  Ensure the request method is POST
     if request.method == 'POST':
-        
+
         # Persist the submitted URL
         url = str(persist_url_view(request).content)
-        url = url[2 : len(url) - 1]
-        
+        url = url[2: len(url) - 1]
+
         # Get the fingerprints for the current URL
-        submitted_url_fingerprints = db.nd_collection.find_one( { '_id': url } )['fingerprints']
+        submitted_url_fingerprints = db.nd_collection.find_one({'_id': url})['fingerprints']
 
         # List of candidates
         # Candidate: id, published_date, fingerprints
         candidates = []
-        
+
         i = 0
 
         for fingerprint in submitted_url_fingerprints:
             print("Current fingerprint: " + str(i))
-            i+=1
+            i += 1
 
             # Get current shingle hash value
             curr_hash = fingerprint['shingle_hash']
@@ -141,9 +141,9 @@ def url_similarity_checker(request):
         for candidate in candidates:
             if candidate['_id'] == url:
                 continue
-            
+
             print("candidate no. " + str(i))
-            i+=1
+            i += 1
             similarity = compute_similarity(submitted_url_fingerprints, candidate['fingerprints'])
             if similarity >= high_similarity_threshold:
                 high_similarity_article = candidate['_id']
