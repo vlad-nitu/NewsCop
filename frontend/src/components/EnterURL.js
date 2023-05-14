@@ -1,9 +1,13 @@
 import { useState } from 'react'
 import { Container, Form, Button } from 'react-bootstrap'
-
-import axios from 'axios'
+import CheckUrlDecision from './CheckUrlDecision'
 /* The endpoint that is going to be used for the request, see urls.py and views.py */
-const persistUrlEndpoint = 'http://localhost:8000/persistURL/'
+const persistUrlEndpoint = 'http://localhost:8000/urlsimilarity//'
+
+const articleTitle = 'Twitter takeover'
+const publishedDate = '12.05.2022'
+const decision = 'your article has been found to have high overlap'
+const axios = require('axios').default
 
 /**
  * Persists a URL asynchronously, the URL will have to be stored as the value for "key" in
@@ -32,7 +36,6 @@ export const persistUrl = async (url) => {
  * @returns {JSX.Element} that represents the overlapping description, form and submit button;
  * Can be found directly under the navbar component of the page
  */
-
 export default function EnterURL () {
   const PreInputArticlePrompt = "Article's URL"
   const buttonStyle = {
@@ -55,9 +58,9 @@ export default function EnterURL () {
             '"https://www.bbc.com/news/world-middle-east-65585950"}'
     )
     setTimeout(() => {
-      setShowInputValue(false)
+      // setShowInputValue(false)
       setButtonDisabled(false)
-    }, 5000)
+    }, 10000)
   }
 
   const handleInputChange = (event) => {
@@ -96,12 +99,11 @@ export default function EnterURL () {
             Submit
           </Button>
         </div>
-        {showInputValue && (
-          <div>
-            Input value: "{inputValue}"
-          </div>
-        )}
       </div>
+      {showInputValue && (
+        <CheckUrlDecision title={articleTitle} publishingDate={publishedDate} decision={decision} />
+      )}
     </Container>
+
   )
 }
