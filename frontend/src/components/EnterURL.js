@@ -1,13 +1,13 @@
+import axios from 'axios'
 import { useState } from 'react'
 import { Container, Form, Button } from 'react-bootstrap'
 import CheckUrlDecision from './CheckUrlDecision'
 /* The endpoint that is going to be used for the request, see urls.py and views.py */
-const persistUrlEndpoint = 'http://localhost:8000/urlsimilarity//'
+const persistUrlEndpoint = 'http://localhost:8000/persistURL/'
 
 const articleTitle = 'Twitter takeover'
 const publishedDate = '12.05.2022'
 const decision = 'your article has been found to have high overlap'
-const axios = require('axios').default
 
 /**
  * Persists a URL asynchronously, the URL will have to be stored as the value for "key" in
@@ -49,21 +49,39 @@ export default function EnterURL () {
   const [inputValue, setInputValue] = useState('')
   const [showInputValue, setShowInputValue] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(false)
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    setShowInputValue(true)
     setButtonDisabled(true)
-    persistUrl('{ "key":' +
-            '"https://www.bbc.com/news/world-middle-east-65585950"}'
-    )
+    const response = await axios.post(`${persistUrlEndpoint}`, '{ "key":' + `"${inputValue}"}`)
+      .catch(function (error) {
+        if (error.response) {
+          // https://stackoverflow.com/questions/49967779/axios-handling-errors
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data)
+          console.log(error.response.status)
+          console.log(error.response.headers)
+        } else if (error.request) {
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser
+          // and an instance of http.ClientRequest in node.js
+          console.log(error.request)
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message)
+        }
+      })
+    // console.log(response.data)
+    if (response != null) { setShowInputValue(true) }
     setTimeout(() => {
       // setShowInputValue(false)
       setButtonDisabled(false)
+      setInputValue('')
     }, 10000)
   }
 
   const handleInputChange = (event) => {
+    setShowInputValue(false)
     setInputValue(event.target.value)
     console.log(event.target.value)
   }

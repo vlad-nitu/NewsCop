@@ -95,7 +95,7 @@ def persist_url_view(request):
             newsdoc.save()
 
         print("persist_url_view: " + url)
-        return HttpResponse(url)
+        return HttpResponse(url, status=200)
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
     
