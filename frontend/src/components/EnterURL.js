@@ -1,6 +1,26 @@
 import { useState } from 'react'
 import { Container, Form, Button } from 'react-bootstrap'
 
+import axios from 'axios'
+/* The endpoint that is going to be used for the request, see urls.py and views.py */
+const persistUrlEndpoint = 'http://localhost:8000/persistURL/'
+
+/**
+ * Persists a URL asynchronously, the URL will have to be stored as the value for "key" in
+ * a JSON format.
+ * @param url the URL, in the format above
+ * @returns {Promise<any>} the response after the persistance
+ */
+export const persistUrl = async (url) => {
+  try {
+    const response = await axios.post(`${persistUrlEndpoint}`, url)
+    return response.data
+  } catch (error) {
+    console.error(error)
+    throw new Error('Failed to persist url')
+  }
+}
+
 /**
  * Container that displays:
  * 1. The description of the form from 2.
@@ -31,6 +51,9 @@ export default function EnterURL () {
     event.preventDefault()
     setShowInputValue(true)
     setButtonDisabled(true)
+    persistUrl('{ "key":' +
+            '"https://www.bbc.com/news/world-middle-east-65585950"}'
+    )
     setTimeout(() => {
       setShowInputValue(false)
       setButtonDisabled(false)
