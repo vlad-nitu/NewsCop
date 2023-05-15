@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import { Container, Form, Button } from 'react-bootstrap'
 import CheckUrlDecision from './CheckUrlDecision'
+import LoadingCircle from './LoadingCircle'
 /* The endpoint that is going to be used for the request, see urls.py and views.py */
 const persistUrlEndpoint = 'http://localhost:8000/persistURL/'
 
@@ -46,14 +47,17 @@ export default function EnterURL () {
   const [decisionValue, setDecisionValue] = useState('')
   const [inputValue, setInputValue] = useState('')
   const [showInputValue, setShowInputValue] = useState(false)
+  const [loadingValue, setLoadingValue] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(false)
   const handleSubmit = async (event) => {
     event.preventDefault()
     setButtonDisabled(true)
+    setLoadingValue(true)
     const response = await axios.post(`${persistUrlEndpoint}`,
       '{ "key":' + `"${inputValue}"}`)
       .catch(function (error) {
         if (error.response) {
+          setLoadingValue(false)
           // https://stackoverflow.com/questions/49967779/axios-handling-errors
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
@@ -61,17 +65,20 @@ export default function EnterURL () {
           console.log(error.response.status)
           console.log(error.response.headers)
         } else if (error.request) {
+          setLoadingValue(false)
           // The request was made but no response was received
           // `error.request` is an instance of XMLHttpRequest in the browser
           // and an instance of http.ClientRequest in node.js
           console.log(error.request)
         } else {
+          setLoadingValue(false)
           // Something happened in setting up the request that triggered an Error
           console.log('Error', error.message)
         }
       })
     // console.log(response.data)
     if (response != null) {
+      setLoadingValue(false)
       // setTitleValue(response.title)
       // setDateValue(response.date)
       // if(response.decision == true){
@@ -88,6 +95,7 @@ export default function EnterURL () {
     setTimeout(() => {
       // setShowInputValue(false)
       setButtonDisabled(false)
+      setLoadingValue(false)
       setInputValue('')
     }, 10000)
   }
@@ -133,6 +141,7 @@ export default function EnterURL () {
           </Button>
         </div>
       </div>
+      {loadingValue && (<LoadingCircle />)}
       {showInputValue && (
         <CheckUrlDecision title={titleValue} publishingDate={dateValue} decision={decisionValue} />
       )}
