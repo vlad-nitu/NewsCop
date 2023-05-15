@@ -1,6 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import EnterURL from '../EnterURL'
-
 describe('EnterURL', () => {
   test('renders the prompt text', () => {
     const prompt = 'Enter the article\'s URL to check for plagiarism'

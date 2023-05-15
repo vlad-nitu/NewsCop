@@ -1,7 +1,8 @@
+import axios from 'axios'
 import { useState } from 'react'
 import { Container, Form, Button } from 'react-bootstrap'
-
-import axios from 'axios'
+import CheckUrlDecision from './CheckUrlDecision'
+import LoadingCircle from './LoadingCircle'
 /* The endpoint that is going to be used for the request, see urls.py and views.py */
 const persistUrlEndpoint = 'http://localhost:8000/persistURL/'
 
@@ -32,7 +33,6 @@ export const persistUrl = async (url) => {
  * @returns {JSX.Element} that represents the overlapping description, form and submit button;
  * Can be found directly under the navbar component of the page
  */
-
 export default function EnterURL () {
   const PreInputArticlePrompt = "Article's URL"
   const buttonStyle = {
@@ -42,25 +42,69 @@ export default function EnterURL () {
     fontSize: '1.2rem',
     backgroundColor: '#2E837E'
   }
-
+  const [titleValue, setTitleValue] = useState('')
+  const [dateValue, setDateValue] = useState('')
+  const [decisionValue, setDecisionValue] = useState('')
   const [inputValue, setInputValue] = useState('')
   const [showInputValue, setShowInputValue] = useState(false)
+  const [loadingValue, setLoadingValue] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(false)
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    setShowInputValue(true)
     setButtonDisabled(true)
-    persistUrl('{ "key":' +
-            '"https://www.bbc.com/news/world-middle-east-65585950"}'
-    )
+    setLoadingValue(true)
+    const response = await axios.post(`${persistUrlEndpoint}`,
+      '{ "key":' + `"${inputValue}"}`)
+      .catch(function (error) {
+        if (error.response) {
+          setLoadingValue(false)
+          // https://stackoverflow.com/questions/49967779/axios-handling-errors
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data)
+          console.log(error.response.status)
+          console.log(error.response.headers)
+        } else if (error.request) {
+          setLoadingValue(false)
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser
+          // and an instance of http.ClientRequest in node.js
+          console.log(error.request)
+        } else {
+          setLoadingValue(false)
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message)
+        }
+      })
+    // console.log(response.data)
+    if (response != null) {
+      setLoadingValue(false)
+      // setTitleValue(response.title)
+      // setDateValue(response.date)
+      // if(response.decision == true){
+      //   setDecisionValue("We found high overlap")
+      // }
+      // else{
+      //   setDecisionValue("We found no overlap")
+      // }
+      setTitleValue('Netherlands is the happiest country')
+      setDateValue('12-02-2022')
+      setDecisionValue('We found no overlap.')
+      setShowInputValue(true)
+    }
     setTimeout(() => {
-      setShowInputValue(false)
+      // setShowInputValue(false)
       setButtonDisabled(false)
-    }, 5000)
+      setLoadingValue(false)
+      setInputValue('')
+    }, 10000)
   }
 
   const handleInputChange = (event) => {
+    setShowInputValue(false)
+    setTitleValue('')
+    setDateValue('')
+    setDecisionValue('')
     setInputValue(event.target.value)
     console.log(event.target.value)
   }
@@ -96,12 +140,12 @@ export default function EnterURL () {
             Submit
           </Button>
         </div>
-        {showInputValue && (
-          <div>
-            Input value: "{inputValue}"
-          </div>
-        )}
       </div>
+      {loadingValue && (<LoadingCircle />)}
+      {showInputValue && (
+        <CheckUrlDecision title={titleValue} publishingDate={dateValue} decision={decisionValue} />
+      )}
     </Container>
+
   )
 }

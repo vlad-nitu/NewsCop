@@ -27,7 +27,10 @@
     margin-bottom: -100px;
 }
 
+/*#loadingCircle {*/
+/*    border-color: #2E837E;*/
 
+/*}*/
 .custom-textarea-container {
     height: 600px;
 }
@@ -36,7 +39,11 @@
     color: #000;
     font-size: xxx-large;
 }
-
+#forArticle{
+    color: #000;
+    font-size: xx-large;
+    margin-top: 50px;
+}
 .custom-textarea {
     height: 80%; /* how much of the container is filled with the text box */
     /*border-color: #2E837E;*/
