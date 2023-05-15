@@ -5,10 +5,6 @@ import CheckUrlDecision from './CheckUrlDecision'
 /* The endpoint that is going to be used for the request, see urls.py and views.py */
 const persistUrlEndpoint = 'http://localhost:8000/persistURL/'
 
-const articleTitle = 'Twitter takeover'
-const publishedDate = '12.05.2022'
-const decision = 'your article has been found to have high overlap'
-
 /**
  * Persists a URL asynchronously, the URL will have to be stored as the value for "key" in
  * a JSON format.
@@ -45,14 +41,17 @@ export default function EnterURL () {
     fontSize: '1.2rem',
     backgroundColor: '#2E837E'
   }
-
+  const [titleValue, setTitleValue] = useState('')
+  const [dateValue, setDateValue] = useState('')
+  const [decisionValue, setDecisionValue] = useState('')
   const [inputValue, setInputValue] = useState('')
   const [showInputValue, setShowInputValue] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(false)
   const handleSubmit = async (event) => {
     event.preventDefault()
     setButtonDisabled(true)
-    const response = await axios.post(`${persistUrlEndpoint}`, '{ "key":' + `"${inputValue}"}`)
+    const response = await axios.post(`${persistUrlEndpoint}`,
+      '{ "key":' + `"${inputValue}"}`)
       .catch(function (error) {
         if (error.response) {
           // https://stackoverflow.com/questions/49967779/axios-handling-errors
@@ -72,7 +71,20 @@ export default function EnterURL () {
         }
       })
     // console.log(response.data)
-    if (response != null) { setShowInputValue(true) }
+    if (response != null) {
+      // setTitleValue(response.title)
+      // setDateValue(response.date)
+      // if(response.decision == true){
+      //   setDecisionValue("We found high overlap")
+      // }
+      // else{
+      //   setDecisionValue("We found no overlap")
+      // }
+      setTitleValue('Netherlands is the happiest country')
+      setDateValue('12-02-2022')
+      setDecisionValue('We found no overlap.')
+      setShowInputValue(true)
+    }
     setTimeout(() => {
       // setShowInputValue(false)
       setButtonDisabled(false)
@@ -82,6 +94,9 @@ export default function EnterURL () {
 
   const handleInputChange = (event) => {
     setShowInputValue(false)
+    setTitleValue('')
+    setDateValue('')
+    setDecisionValue('')
     setInputValue(event.target.value)
     console.log(event.target.value)
   }
@@ -119,7 +134,7 @@ export default function EnterURL () {
         </div>
       </div>
       {showInputValue && (
-        <CheckUrlDecision title={articleTitle} publishingDate={publishedDate} decision={decision} />
+        <CheckUrlDecision title={titleValue} publishingDate={dateValue} decision={decisionValue} />
       )}
     </Container>
 
