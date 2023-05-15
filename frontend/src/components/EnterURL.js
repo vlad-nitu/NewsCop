@@ -102,6 +102,7 @@ export default function EnterURL () {
 
   const handleInputChange = (event) => {
     setShowInputValue(false)
+    // setLoadingValue(true)
     setTitleValue('')
     setDateValue('')
     setDecisionValue('')
