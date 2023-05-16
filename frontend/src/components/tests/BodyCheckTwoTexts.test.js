@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import BodyCheckTwoTexts from "../BodyCheckTwoTexts";
+import BodyCheckTwoTexts from '../BodyCheckTwoTexts'
 
 describe('BodyCheckTwoTexts', () => {
   it('renders the component with correct descriptions', () => {

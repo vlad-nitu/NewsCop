@@ -24,11 +24,11 @@ export default function CheckTwoTexts () {
       <div className='parentBoxesContainer'>
         <div className='childBoxContainer'>
           {/* Text area */}
-          <TextBox description={originalTextBoxDescription}/>
+          <TextBox description={originalTextBoxDescription} />
         </div>
         <div className='childBoxContainer'>
           {/* Text area */}
-          <TextBox description={changedTextBoxDescription}/>
+          <TextBox description={changedTextBoxDescription} />
         </div>
       </div>
       {/* The submit button */}

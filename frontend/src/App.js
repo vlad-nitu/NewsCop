@@ -4,7 +4,7 @@ import Home from './components/Home'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import CheckOneText from './components/CheckOneText'
 import CheckURL from './components/CheckURL'
-import CheckTwoTexts from "./components/CheckTwoTexts";
+import CheckTwoTexts from './components/CheckTwoTexts'
 
 /**
  * The entire page was built around the Bootstrap library.
