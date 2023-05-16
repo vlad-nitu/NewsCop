@@ -16,7 +16,7 @@ export default function BodyCheckTwoTexts () {
     <Container className='my-3 d-flex'>
       <div className='d-flex flex-column justify-content-center mx-auto'>
         <div className='mb-3 mx-auto'>
-          <h2 className='title' id='plagiarismChecker'>{description}</h2>
+          <h2 className='title' id='plagiarismChecker' style={{ textAlign: 'center' }}>{description}</h2>
         </div>
         <div className='mb-4'>
           <p className='description-paragraph'>{secondDescription}</p>
