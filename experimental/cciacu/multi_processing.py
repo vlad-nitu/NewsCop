@@ -102,6 +102,52 @@ def persist_url_view(request):
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
 
 
+def collect_and_save_documents_that_contain_a_specific_hash(results_queue, submitted_url_fingerprints, i):
+
+    print(f"Batch: {i}.")
+    for fingerprint in submitted_url_fingerprints:
+
+        # Get current shingle hash value
+        curr_hash = fingerprint['shingle_hash']
+
+        # Get all documents that contain this shingle hash
+        candidates_for_curr_hash = db.nd_collection.find({'fingerprints.shingle_hash': curr_hash}, {'_id': 1})
+
+        # print(f"Size of queue: {results_queue.qsize()}")
+
+        # for candidate in candidates_for_curr_hash:
+        #     results_queue.put(candidate)
+
+    print(f"Finished batch: {i}.")
+
+
+def compute_candidates(results_queue, NUM_PROC, candidates, submitted_url_fingerprints):
+    # Start the timer
+    start_time = time.time()
+
+    divided_submitted_url_fingerprints = []
+    n = len(submitted_url_fingerprints) / NUM_PROC
+    for i in range(NUM_PROC):
+        divided_submitted_url_fingerprints.append(submitted_url_fingerprints[int(i * n) : int((i+1) * n)])
+
+    for i in range(NUM_PROC):
+        process = multiprocessing.Process(target=collect_and_save_documents_that_contain_a_specific_hash,
+                                            args=(results_queue, divided_submitted_url_fingerprints[i], i))
+        candidates.append(process)
+
+    for j in candidates:
+        j.start()
+
+    for j in candidates:
+        j.join()
+
+    # Calculate the elapsed time
+    elapsed_time = time.time() - start_time
+
+    # Print the elapsed time
+    print(f"Elapsed time: {elapsed_time} seconds")
+
+
 def url_similarity_checker(request):
     #  Ensure the request method is POST
     if request.method == 'POST':
@@ -115,52 +161,42 @@ def url_similarity_checker(request):
         # Get the fingerprints for the current URL
         submitted_url_fingerprints = db.nd_collection.find_one({'_id': url})['fingerprints']
 
-        # Set of candidates
+        NUM_PROC = 16
+
+        # List of candidates
         # Candidate: id
-        candidates = set()
+        candidates = []
+
+        # Initialize the shared queue
+        results_queue = multiprocessing.Queue()
 
         print("Ready to find candidates")
 
-        for fingerprint in submitted_url_fingerprints:
-            # Get current shingle hash value
-            curr_hash = fingerprint['shingle_hash']
-
-            # Get all documents that contain this shingle hash
-            candidates_for_curr_hash = db.nd_collection.find({'fingerprints.shingle_hash': curr_hash}, {'_id': 1})
-
-            # Iterate through the current candidates and add them to the set of all candidates
-            for candidate in candidates_for_curr_hash:
-                candidates.add(candidate['_id'])
+        compute_candidates(results_queue, NUM_PROC, candidates, submitted_url_fingerprints)
 
         high_similarity_article = None
         high_similarity_threshold = 1e-4
 
         i = 0
 
-        # Iterate through the candidates to find a match
-        for candidate in candidates:
-            if candidate == url:
+        while not results_queue.empty():
+            candidate = results_queue.get()
+            if candidate['_id'] == url:
                 continue
 
             print("candidate no. " + str(i))
             i += 1
 
-            # Transform the candidate from being an URL to being the entire object. 
-            # Object contains: url, publish_date and fingerprints
-            candidate = db.nd_collection.find_one({'_id': candidate})
+            candidate = db.nd_collection.find_one({'_id': candidate['_id']})
 
-            # Compute similarity between the input article and the current candidate
             similarity = compute_similarity(submitted_url_fingerprints, candidate['fingerprints'])
 
-            # If the similarity is above the threshold, then save the article and end the iteration
             if similarity >= high_similarity_threshold:
                 high_similarity_article = candidate['_id']
                 break
 
         body = None
 
-        # Return type:
-        # (similar_article_exists: Boolean, articles_url: String)
         if high_similarity_article is not None:
             body = (True, high_similarity_article)
         else:
