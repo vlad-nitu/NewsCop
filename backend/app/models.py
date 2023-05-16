@@ -2,10 +2,6 @@ from utils import db
 from mongoengine.fields import Document, EmbeddedDocument
 from mongoengine.fields import EmbeddedDocumentField, ListField, StringField, DateTimeField, IntField
 
-import sys
-sys.path.append('../')
-
-
 # Create your models here.
 class React(Document):
     url = StringField()

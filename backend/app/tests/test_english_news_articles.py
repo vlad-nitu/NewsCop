@@ -73,9 +73,9 @@ class TestProcessArticle(unittest.TestCase):
                 mock_article_date = '2022-01-01'
                 mock_crawl_url.return_value = (mock_article_text, mock_article_date)
 
-                with patch('backend.app.persist_docs.filter_english_news_articles.NewsDocument') as mock_newsdoc:
+                with patch('app.persist_docs.filter_english_news_articles.NewsDocument') as mock_newsdoc:
                     mock_newsdoc_instance = MagicMock()
-                    mock_newsdoc_instance.save.side_effect = DuplicateKeyError
+                    mock_newsdoc_instance.save.side_effect = DuplicateKeyError('The key was already persisted.')
                     mock_newsdoc.return_value = mock_newsdoc_instance
 
                     url = 'http://example.com'
