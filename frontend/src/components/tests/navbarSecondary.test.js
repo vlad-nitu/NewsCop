@@ -25,4 +25,23 @@ describe('NavbarComponent', () => {
     expect(window.scrollX).toBe(0)
     expect(window.scrollY).toBe(0)
   })
+
+  test('scrolls to top when "About us" link is clicked', () => {
+    render(<NavbarComponent name='My Website' />)
+    const aboutUsLink = screen.getByText('About us')
+    expect(aboutUsLink).toBeInTheDocument()
+    window.scrollTo = jest.fn() // Mock scrollTo function
+    fireEvent.click(aboutUsLink)
+    expect(window.scrollTo).toHaveBeenCalledWith(0, 0)
+  })
+
+  test('shows dropdown menu when hovering over "Services" option', () => {
+    render(<NavbarComponent name='My Website' />)
+    const servicesLink = screen.getByText('Services')
+    /* Find the hidden dropdown menu */
+    const dropdownMenu = screen.getByTestId('navbar', { hidden: true })
+    fireEvent.mouseEnter(servicesLink)
+    fireEvent.mouseLeave(servicesLink)
+    expect(dropdownMenu).toBeVisible()
+  })
 })

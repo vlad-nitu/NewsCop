@@ -18,14 +18,17 @@ export default function NavbarComponent ({ name }) {
   const handleClick = () => {
     window.scrollTo(0, 0)
   }
+
   /**
-     * Used for showing the dropdown menu on hover.
-     * See more here: https://stackoverflow.com/questions/60373789/react-bootstrap-dropdown-on-hover
-     */
+   * Used for showing the dropdown menu on hover of the mouse.
+   * See more here: https://stackoverflow.com/questions/60373789/react-bootstrap-dropdown-on-hover
+   */
   const [show, setShow] = useState(false)
+
   const showDropdown = (e) => {
     setShow(!show)
   }
+
   const hideDropdown = e => {
     setShow(false)
   }
@@ -39,11 +42,11 @@ export default function NavbarComponent ({ name }) {
           {/* ml-auto is used to align a particular element to the right side of its container. */}
           <Nav className='ml-auto'>
             <Nav.Link href='/#ourMission' onClick={handleClick}>About us</Nav.Link>
-            <NavDropdown title='Services' id='nav-dropdown' show={show} onMouseEnter={showDropdown} onMouseLeave={hideDropdown}>
-              <NavDropdown.Item href='/checkURL'>URL Similarity</NavDropdown.Item>
-              <NavDropdown.Item href='/checkText'>Text Similarity</NavDropdown.Item>
-              <NavDropdown.Item href='#action3'>URLs Comparison</NavDropdown.Item>
-              <NavDropdown.Item href='#action4'>Texts Comparison</NavDropdown.Item>
+            <NavDropdown title='Services' id='nav-dropdown' data-testid='navbar' show={show} onMouseEnter={showDropdown} onMouseLeave={hideDropdown}>
+              <NavDropdown.Item role='option' href='/checkURL'>URL Similarity</NavDropdown.Item>
+              <NavDropdown.Item role='option' href='/checkText'>Text Similarity</NavDropdown.Item>
+              <NavDropdown.Item role='option' href='#action3'>URLs Comparison</NavDropdown.Item>
+              <NavDropdown.Item role='option' href='#action4'>Texts Comparison</NavDropdown.Item>
             </NavDropdown>
             <Nav.Link href='#footer' onClick={handleClick}>Contact</Nav.Link>
           </Nav>
