@@ -61,31 +61,31 @@ export default function EnterTwoURLs () {
             <div style={{ maxWidth: '800px', margin: '0 auto' }}>
                 <Form.Group controlId='formUrl'>
                     <Row className='url-part'>
-                        <Col md={4} className='pe-sm-4 mb-4 mb-sm-0'>
-                    <Form.Control
-                        type='url'
-                        placeholder={PreInputArticlePromptOriginal}
-                        className='rounded-pill border-success'
-                        style={{ height: '50px' }}
-                        value={inputValueOriginal}
-                        onChange={handleInputChangeOriginal}
-                        disabled={buttonDisabled}
-                    />
-                            </Col>
-                        <Col md={4} className='pe-sm-4 mb-4 mb-sm-0'>
-                    <Form.Control
-                        type='url'
-                        placeholder={PreInputArticlePromptChanged}
-                        className='rounded-pill border-success'
-                        style={{ height: '50px' }}
-                        value={inputValueChanged}
-                        onChange={handleInputChangeChanged}
-                        disabled={buttonDisabled}
-                    />
+                        <Col md={6} className='pe-sm-6 mb-6 mb-sm-0'>
+                            <Form.Control
+                                type='url'
+                                placeholder={PreInputArticlePromptOriginal}
+                                className='rounded-pill border-success'
+                                style={{height: '50px'}}
+                                value={inputValueOriginal}
+                                onChange={handleInputChangeOriginal}
+                                disabled={buttonDisabled}
+                            />
+                        </Col>
+                        <Col md={6} className='pe-sm-6 mb-6 mb-sm-0'>
+                            <Form.Control
+                                type='url'
+                                placeholder={PreInputArticlePromptChanged}
+                                className='rounded-pill border-success'
+                                style={{height: '50px'}}
+                                value={inputValueChanged}
+                                onChange={handleInputChangeChanged}
+                                disabled={buttonDisabled}
+                            />
                         </Col>
                     </Row>
                 </Form.Group>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div style={{display: 'flex', justifyContent: 'space-between' }}>
                     <Button
                         variant='primary'
                         type='submit'
