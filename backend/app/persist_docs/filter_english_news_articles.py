@@ -49,10 +49,10 @@ def process_article(url):
     Crawls the article to retrieve its text and published date, computes its fingerprint, and saves it to the database.
 
     Parameters:
-    url (str): The URL of the news article to process.
+    url (str) -- The URL of the news article to process.
 
     Returns:
-    tuple: A tuple containing the URL and a boolean
+    tuple -- A tuple containing the URL and a boolean
     indicating whether the article was successfully persisted to the database.
     """  
 
@@ -76,10 +76,10 @@ def process_urls(urls):
     Calls process_article on each URL, and appends successfully persisted URLs to the articles list.
 
     Parameters:
-    urls (list): A list of news article URLs to process.
+    urls (list) -- A list of news article URLs to process.
 
     Returns:
-    tuple: A tuple containing the number of URLs processed and the list of successfully persisted articles.
+    tuple -- A tuple containing the number of URLs processed and the list of successfully persisted articles.
     """
 
     articles = []
