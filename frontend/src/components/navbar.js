@@ -1,8 +1,8 @@
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
-import {NavDropdown} from "react-bootstrap";
-import {useState} from "react";
+import { NavDropdown } from 'react-bootstrap'
+import { useState } from 'react'
 
 /**
  * Function that renders the Navbar component.
@@ -14,15 +14,15 @@ import {useState} from "react";
  * false if it is rendered in one of the feature pages
  * @returns React Component consisting in a navbar.
  */
-export default function NavbarComponent ({ name , mainPage}) {
+export default function NavbarComponent ({ name, mainPage }) {
   const handleClick = () => {
     window.scrollTo(0, 0)
   }
 
   /**
-   * Used for showing the dropdown menu on hover of the mouse.
-   * See more here: https://stackoverflow.com/questions/60373789/react-bootstrap-dropdown-on-hover
-   */
+     * Used for showing the dropdown menu on hover of the mouse.
+     * See more here: https://stackoverflow.com/questions/60373789/react-bootstrap-dropdown-on-hover
+     */
   const [show, setShow] = useState(false)
 
   const showDropdown = (e) => {
@@ -45,12 +45,16 @@ export default function NavbarComponent ({ name , mainPage}) {
             {mainPage && <Nav.Link href='#ourMission'>About us</Nav.Link>}
             {!mainPage && <Nav.Link href='/#ourMission' onClick={handleClick}>About us</Nav.Link>}
             {mainPage && <Nav.Link href='#services'>Services</Nav.Link>}
-            {!mainPage &&  <NavDropdown title='Services' id='nav-dropdown' data-testid='navbar' show={show} onMouseEnter={showDropdown} onMouseLeave={hideDropdown}>
-              <NavDropdown.Item role='option' href='/checkURL'>URL Similarity</NavDropdown.Item>
-              <NavDropdown.Item role='option' href='/checkText'>Text Similarity</NavDropdown.Item>
-              <NavDropdown.Item role='option' href='#action3'>URLs Comparison</NavDropdown.Item>
-              <NavDropdown.Item role='option' href='#action4'>Texts Comparison</NavDropdown.Item>
-            </NavDropdown>}
+            {!mainPage &&
+              <NavDropdown
+                title='Services' id='nav-dropdown' data-testid='navbar' show={show}
+                onMouseEnter={showDropdown} onMouseLeave={hideDropdown}
+              >
+                <NavDropdown.Item role='option' href='/checkURL'>URL Similarity</NavDropdown.Item>
+                <NavDropdown.Item role='option' href='/checkText'>Text Similarity</NavDropdown.Item>
+                <NavDropdown.Item role='option' href='#action3'>URLs Comparison</NavDropdown.Item>
+                <NavDropdown.Item role='option' href='#action4'>Texts Comparison</NavDropdown.Item>
+              </NavDropdown>}
             <Nav.Link href='#footer'>Contact</Nav.Link>
           </Nav>
         </Navbar.Collapse>
