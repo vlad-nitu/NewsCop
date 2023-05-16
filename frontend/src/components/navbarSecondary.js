@@ -1,7 +1,7 @@
 import Container from 'react-bootstrap/Container'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
-
+import { NavDropdown } from 'react-bootstrap'
 /**
  * Function that renders the Navbar component.
  * It was built using the Bootstrap documentation:
@@ -26,7 +26,12 @@ export default function NavbarComponent ({ name }) {
           {/* ml-auto is used to align a particular element to the right side of its container. */}
           <Nav className='ml-auto'>
             <Nav.Link href='/#ourMission' onClick={handleClick}>About us</Nav.Link>
-            <Nav.Link href='/#services' onClick={handleClick}>Services</Nav.Link>
+            <NavDropdown title='Services' id='basic-nav-dropdown'>
+              <NavDropdown.Item href='/checkURL'>URL Similarity</NavDropdown.Item>
+              <NavDropdown.Item href='/checkText'>Text Similarity</NavDropdown.Item>
+              <NavDropdown.Item href='#action3'>URLs Comparison</NavDropdown.Item>
+              <NavDropdown.Item href='#action3'>Texts Comparison</NavDropdown.Item>
+            </NavDropdown>
             <Nav.Link href='#footer' onClick={handleClick}>Contact</Nav.Link>
           </Nav>
         </Navbar.Collapse>
