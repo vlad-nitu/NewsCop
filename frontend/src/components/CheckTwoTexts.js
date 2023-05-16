@@ -3,6 +3,7 @@ import Footer from './footer'
 import BodyCheckTwoTexts from './BodyCheckTwoTexts'
 import TextBox from './TextBox'
 import SubmitButton from './submitButton'
+import { useState } from 'react'
 
 /**
  * The page for the checking two texts for overlapping. It contains all the components that will be present in the page,
@@ -14,7 +15,27 @@ export default function CheckTwoTexts () {
   const applicationName = 'NewsCop'
   const originalTextBoxDescription = 'Enter the original content'
   const changedTextBoxDescription = 'Enter the changed content'
+  const [loading, setLoading] = useState(false)
 
+  /**
+     * Disable a button after using it for 10 seconds.
+     * Source: https://stackoverflow.com/questions/63820933/how-to-disable-a-button-using-react-usestate-hook-inside-event-handler
+     *
+     * @param event an event, a click event in our case
+     * @returns {Promise<void>} after the time passes, the button will become usable again
+     */
+  async function handleSubmit (event) {
+    setLoading(true)
+    console.log(loading)
+    await new Promise((resolve) =>
+      setTimeout(() => {
+        resolve()
+      }, 10000)
+    )
+
+    setLoading(false)
+    console.log(loading)
+  }
   return (
     <>
       {/* Navbar */}
@@ -24,15 +45,15 @@ export default function CheckTwoTexts () {
       <div className='parentBoxesContainer'>
         <div className='childBoxContainer'>
           {/* Text area */}
-          <TextBox description={originalTextBoxDescription} />
+          <TextBox description={originalTextBoxDescription} disabled={loading} />
         </div>
         <div className='childBoxContainer'>
           {/* Text area */}
-          <TextBox description={changedTextBoxDescription} />
+          <TextBox description={changedTextBoxDescription} disabled={loading} />
         </div>
       </div>
       {/* The submit button */}
-      <SubmitButton />
+      <SubmitButton disabled={loading} onClickMethod={handleSubmit} />
       {/* Footer */}
       <Footer />
     </>
