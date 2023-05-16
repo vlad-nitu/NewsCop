@@ -84,3 +84,16 @@
         width: 350px;
     }
 }
+
+.parentBoxesContainer {
+  display: flex;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.childBoxContainer {
+  width: 50%;
+  float: left;
+  margin-bottom: -100px;
+}

@@ -70,7 +70,9 @@ export default function Services ({ titles, descriptions, images }) {
             <img style={imageStyle} src={images[2]} alt='Service 3' className='pb-3' />
             <h3 style={textStyle}>{titles[2]}</h3>
             <p style={textStyleParagraph}>{descriptions[2]}</p>
-            <button type='button' className='btn btn-outline-warning'>Try it</button>
+            <Link to='/compareTexts'>
+              <button type='button' className='btn btn-outline-warning'>Try it</button>
+            </Link>
           </Col>
         </Row>
       </Container>

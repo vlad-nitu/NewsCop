@@ -12,6 +12,7 @@ import SubmitButton from './submitButton'
  */
 export default function CheckOneText () {
   const applicationName = 'NewsCop'
+  const textBoxDescription = 'Enter the article’s content to check for plagiarism'
 
   return (
     <>
@@ -21,7 +22,7 @@ export default function CheckOneText () {
       <BodyCheckOneText />
       <div id='divText'>
         {/* Text area */}
-        <TextBox />
+        <TextBox description={textBoxDescription} />
       </div>
       {/* The submit button */}
       <SubmitButton />

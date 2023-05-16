@@ -8,12 +8,12 @@ import Container from 'react-bootstrap/Container'
  *
  * @returns {JSX.Element} that is a TextBox where users can enter the news article
  */
-const TextBox = () => {
+const TextBox = ({description}) => {
   return (
     <Container>
       <div className='d-flex flex-column justify-content-center mx-auto'>
         <div className='mb-3 mx-auto'>
-          <h2 className='description-paragraph'>Enter the article’s content to check for plagiarism</h2>
+          <h2 className='description-paragraph'>{description}</h2>
         </div>
       </div>
       <div className='d-flex justify-content-center'>
