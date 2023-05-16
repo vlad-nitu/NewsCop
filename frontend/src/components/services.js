@@ -49,7 +49,7 @@ export default function Services ({ titles, descriptions, images }) {
     <div id='services' style={{ backgroundColor: '#2E837E' }}>
       <Container className='py-5'>
         <h2 className='title'>Services</h2>
-        <div style={{ maxWidth: '15000px', margin: '0 auto' }}>
+        <div style={{ margin: '0 auto' }}>
           <Row className='pt-4'>
             <Col md={3} className='pe-sm-3 mb-3 mb-sm-0'>
               <img style={imageStyle} src={images[0]} alt='Service 1' className='pb-4' />

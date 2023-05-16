@@ -72,23 +72,23 @@ export default function Footer () {
                 />
                 <p>
                   <Link to='/checkURL'>
-                    <a href='#!' data-testid='URLPlag' onClick={handleClick}>URL plagiarism checker</a>
+                    <a href='#!' data-testid='URLPlag' onClick={handleClick}>URL similarity checker</a>
                   </Link>
                 </p>
                 <p>
                   <Link to='/checkText'>
 
-                    <a href='#!' data-testid='TextPlag' onClick={handleClick}>Text plagiarism checker</a>
+                    <a href='#!' data-testid='TextPlag' onClick={handleClick}>Text similarity checker</a>
                   </Link>
 
                 </p>
 
                 <p>
-                  <a href='#!' data-testid='TextSim'>Text similarity checker</a>
+                  <a href='#!' data-testid='TextSim'>Similarity checker for two texts</a>
                 </p>
                 <p>
                   <Link to='/compareURLs'>
-                    <a href='#!' data-testid='URLSim' onClick={handleClick}>URL similarity checker</a>
+                    <a href='#!' data-testid='URLSim' onClick={handleClick}>Similarity checker for two URLs</a>
                   </Link>
 
                 </p>

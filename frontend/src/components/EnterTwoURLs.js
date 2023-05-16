@@ -61,7 +61,7 @@ export default function EnterTwoURLs () {
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
         <Form.Group controlId='formUrl'>
           <Row className='url-part'>
-            <Col md={6} className='pe-sm-6 mb-6 mb-sm-0'>
+            <Col md={6} className='pe-sm-6 mb-6 mb-sm-0 pb-2 pb-sm-0'>
               <Form.Control
                 type='url'
                 placeholder={PreInputArticlePromptOriginal}
@@ -72,7 +72,7 @@ export default function EnterTwoURLs () {
                 disabled={buttonDisabled}
               />
             </Col>
-            <Col md={6} className='pe-sm-6 mb-6 mb-sm-0'>
+            <Col md={6} className='pe-sm-6 mb-6 mb-sm-0 pt-2 pt-sm-0'>
               <Form.Control
                 type='url'
                 placeholder={PreInputArticlePromptChanged}
