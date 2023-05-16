@@ -121,16 +121,17 @@ def url_similarity_checker(request):
 
         print("Ready to find candidates")
 
-        for fingerprint in submitted_url_fingerprints:
-            # Get current shingle hash value
-            curr_hash = fingerprint['shingle_hash']
+        # Extract all the shingle hashes from the submitted_url_fingerprints
+        shingle_hashes = [fingerprint['shingle_hash'] for fingerprint in submitted_url_fingerprints]
 
-            # Get all documents that contain this shingle hash
-            candidates_for_curr_hash = db.nd_collection.find({'fingerprints.shingle_hash': curr_hash}, {'_id': 1})
+        # Find documents that contain any of the shingle hashes
+        candidates_for_hashes = db.nd_collection.find(
+            {'fingerprints.shingle_hash': {'$in': shingle_hashes}}, {'_id': 1}
+        )
 
-            # Iterate through the current candidates and add them to the set of all candidates
-            for candidate in candidates_for_curr_hash:
-                candidates.add(candidate['_id'])
+        # Add the candidate IDs to the set of all candidates
+        for candidate in candidates_for_hashes:
+            candidates.add(candidate['_id'])
 
         high_similarity_article = None
         high_similarity_threshold = 1e-4
