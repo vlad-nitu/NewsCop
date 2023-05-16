@@ -10,22 +10,22 @@ export default function CheckUrlDecision ({ title, publishingDate, decision }) {
     <div>
       <div className='d-flex flex-column justify-content-center mx-auto'>
         <div className='mb-3 mx-auto'>
-          <h2 className='description-paragraph' id='forArticle'>For your article:</h2>
+          <h2 className='description-overlap' id='forArticle'>For your article:</h2>
         </div>
         <div className='mb-3'>
-          <p className='description-paragraph'>{title}</p>
+          <p className='description-overlap'>{title}</p>
         </div>
         <div className='mb-3'>
-          <p className='description-paragraph'>That was published on:</p>
+          <p className='description-overlap'>That was published on:</p>
         </div>
         <div className='mb-3'>
-          <p className='description-paragraph'>{publishingDate}</p>
+          <p className='description-overlap'>{publishingDate}</p>
         </div>
         <div className='mb-3'>
-          <p className='description-paragraph'>We found that your article:</p>
+          <p className='description-overlap'>We found that your article:</p>
         </div>
         <div className='mb-3'>
-          <p className='description-paragraph'>{decision}</p>
+          <p className='description-overlap'>{decision}</p>
         </div>
       </div>
     </div>

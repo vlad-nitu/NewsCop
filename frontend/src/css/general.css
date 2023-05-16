@@ -12,14 +12,17 @@
     box-sizing: border-box;
 
 }
-
+#forArticle{
+    color: #000;
+    font-size: xx-large;
+    margin-top: 50px;
+}
 .description-overlap{
     font-size: 1.3rem;
     text-align: center
 }
 .description-paragraph {
     font-size: 1.3rem;
-
 }
 
 .custom-container {
