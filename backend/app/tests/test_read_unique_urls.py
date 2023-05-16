@@ -1,5 +1,7 @@
 import unittest
 import os
+import logging
+from unittest.mock import patch
 
 
 from app.persist_docs.read_unique_urls import read_urls_from_file, write_urls_to_file, main
@@ -50,12 +52,12 @@ class TestReadUniqueUrls(unittest.TestCase):
         # Clean-up
         os.remove(test_file_path)
 
-    def test_main(self):
-        test_input_file = 'test_input_file.txt'
+    def test_main_first_path(self):
+        test_input_files = ['test_input_file.txt']
         test_output_file = 'test_output_file.txt'
 
         # Create test input file
-        with open(test_input_file, 'w') as f:
+        with open(test_input_files[0], 'w') as f:
             f.write('  https://www.test1.com   \n')
             f.write('""https://www.test2.com   \n')
             f.write('https://www.test3.com""\n')
@@ -63,7 +65,7 @@ class TestReadUniqueUrls(unittest.TestCase):
             f.write('https://www.test5.com\n\n')
 
         # Call the main function
-        main(test_input_file, test_output_file)
+        main(test_input_files, test_output_file)
 
         # Check that the output file contains the expected URLs
         with open(test_output_file) as f:
@@ -80,5 +82,47 @@ class TestReadUniqueUrls(unittest.TestCase):
         self.assertEquals(expected_urls, obtained_urls)
 
         # Clean up
-        os.remove(test_input_file)
+        os.remove(test_input_files[0])
         os.remove(test_output_file)
+
+    def test_main_secon_path(self):
+        test_input_files = ['wrong_path', 'test_input_file.txt']
+        test_output_file = 'test_output_file.txt'
+
+        # Create test input file
+        with open(test_input_files[1], 'w') as f:
+            f.write('  https://www.test1.com   \n')
+            f.write('""https://www.test2.com   \n')
+            f.write('https://www.test3.com""\n')
+            f.write(' ""https://www.test4.com"" \n')
+            f.write('https://www.test5.com\n\n')
+
+        # Call the main function
+        main(test_input_files, test_output_file)
+
+        # Check that the output file contains the expected URLs
+        with open(test_output_file) as f:
+            obtained_urls = f.readlines()
+
+        expected_urls = [
+            'https://www.test1.com\n',
+            'https://www.test2.com\n',
+            'https://www.test3.com\n',
+            'https://www.test4.com\n',
+            'https://www.test5.com'
+        ]
+
+        self.assertEquals(expected_urls, obtained_urls)
+
+        # Clean up
+        os.remove(test_input_files[1])
+        os.remove(test_output_file)
+
+    def test_no_input_file_found(self):
+        input_files = ['/path/to/nonexistent_file.txt']
+        output_file = '/path/to/output_file.txt'
+
+        with patch.object(logging, 'warning') as mock_warning:
+            main(input_files, output_file)
+
+            mock_warning.assert_called_once_with('No input file found')

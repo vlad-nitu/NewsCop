@@ -1,3 +1,11 @@
+import os
+import logging
+
+# create a logger for the root level: INFO:root
+logger = logging.getLogger()
+logger.setLevel(level=logging.INFO)
+
+
 def read_urls_from_file(file_path):
     """
     Reads URLs from a file located at the given file path.
@@ -35,24 +43,31 @@ def write_urls_to_file(urls, file_path):
     with open(file_path, "w") as out:
         out.write('\n'.join(urls))
 
-def main(input_file, output_file):
+def main(input_files, output_file):
     """
     Reads URLs from an input file, processes them, and writes the result to an output file.
 
     Parameters:
-    input_file (str) -- The path to the input file containing URLs.
+    input_files (list(str)) -- The possible paths the input file containing URLs.
     output_file (str) -- The path to the output file.
 
     Returns:
     None
     """
 
-    urls = read_urls_from_file(input_file)
-    write_urls_to_file(urls, output_file)
+    for file_path in input_files:
+        if os.path.isfile(file_path):
+            logging.info(f'File found at {file_path}')
+            urls = read_urls_from_file(file_path)
+            write_urls_to_file(urls, output_file)
+            logging.info(f'File {file_path} processed, validated and written all correct URLs in {output_file}')
+            return
+
+    logging.warning('No input file found')
 
 
 if __name__ == '__main__':
-    input_file = 'unique_urls.txt'
+    input_files = ['unique_urls.txt', 'app/persist_docs/unique_urls.txt']
     output_file = 'preprocessed_unique_urls.txt'
 
-    main(input_file, output_file)
+    main(input_files, output_file)
