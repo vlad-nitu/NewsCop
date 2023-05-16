@@ -3,7 +3,7 @@ import EnterTwoURLs from './EnterTwoURLs'
 import SecondaryNavbarComponent from './navbarSecondary'
 import Footer from './footer'
 import BodyCheckTwoURLs from './BodyCheckTwoURLs'
-import ForwardToCheckTwoTexts from "./ForwardToCheckTwoTexts";
+import ForwardToCheckTwoTexts from './ForwardToCheckTwoTexts'
 
 /**
  * The entire page was built around the Bootstrap library.
@@ -18,29 +18,29 @@ import ForwardToCheckTwoTexts from "./ForwardToCheckTwoTexts";
  */
 
 const checkTwoURLs = () => {
-    const applicationName = 'NewsCop'
-    const prompt = '... or you may want to check the similarity of two text paragraphs'
+  const applicationName = 'NewsCop'
+  const prompt = '... or you may want to check the similarity of two text paragraphs'
 
-    return (
-        <>
-            {/* Secondary Navbar Component that routes back to the main page */}
-            <SecondaryNavbarComponent name={applicationName} />
+  return (
+    <>
+      {/* Secondary Navbar Component that routes back to the main page */}
+      <SecondaryNavbarComponent name={applicationName} />
 
-            {/* Plagiarism checker Text section */}
-            <BodyCheckTwoURLs />
+      {/* Plagiarism checker Text section */}
+      <BodyCheckTwoURLs />
 
-            {/* Enter article's URLs section */}
-            <EnterTwoURLs />
+      {/* Enter article's URLs section */}
+      <EnterTwoURLs />
 
-            {/* Component that routes /checkURL to /checkText
+      {/* Component that routes /checkURL to /checkText
       if user wants to input a text fragment, not an URL that will be crawled */}
-            <ForwardToCheckTwoTexts prompt={prompt} />
+      <ForwardToCheckTwoTexts prompt={prompt} />
 
-            {/* Footer */}
-            <Footer />
+      {/* Footer */}
+      <Footer />
 
-        </>
-    )
+    </>
+  )
 }
 
 export default checkTwoURLs
