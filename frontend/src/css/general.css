@@ -13,9 +13,13 @@
 
 }
 
+.description-overlap{
+    font-size: 1.3rem;
+    text-align: center
+}
 .description-paragraph {
     font-size: 1.3rem;
-    text-align: center;
+
 }
 
 .custom-container {
@@ -27,6 +31,7 @@
     margin-bottom: -100px;
 }
 
+
 .custom-textarea-container {
     height: 600px;
 }
@@ -35,11 +40,7 @@
     color: #000;
     font-size: xxx-large;
 }
-#forArticle{
-    color: #000;
-    font-size: xx-large;
-    margin-top: 50px;
-}
+
 .custom-textarea {
     height: 80%; /* how much of the container is filled with the text box */
     /*border-color: #2E837E;*/
