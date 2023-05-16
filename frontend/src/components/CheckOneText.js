@@ -1,4 +1,4 @@
-import NavbarComponent from './navbarSecondary'
+import NavbarComponent from './navbar'
 import Footer from './footer'
 import BodyCheckOneText from './BodyCheckOneText'
 import TextBox from './TextBox'
@@ -16,7 +16,7 @@ export default function CheckOneText () {
   return (
     <>
       {/* Navbar */}
-      <NavbarComponent name={applicationName} />
+      <NavbarComponent name={applicationName} mainPage={false} />
       {/* The description text about news overlap */}
       <BodyCheckOneText />
       <div id='divText'>

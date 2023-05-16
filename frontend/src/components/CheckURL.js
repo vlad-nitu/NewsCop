@@ -1,10 +1,9 @@
 import React from 'react'
 import EnterURL from './EnterURL'
-import SecondaryNavbarComponent from './navbarSecondary'
 import Footer from './footer'
 import ForwardToCheckText from './ForwardToCheckText'
 import BodyCheckOneText from './BodyCheckOneText'
-
+import NavbarComponent from './navbar'
 /**
  * The entire page was built around the Bootstrap library.
  *
@@ -24,7 +23,7 @@ const checkURL = () => {
   return (
     <>
       {/* Secondary Navbar Component that routes back to the main page */}
-      <SecondaryNavbarComponent name={applicationName} />
+      <NavbarComponent name={applicationName} mainPage={false} />
 
       {/* Plagiarism checker Text section */}
       <BodyCheckOneText />
