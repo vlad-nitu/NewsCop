@@ -1,5 +1,5 @@
 import React from 'react'
-import EnterURL from './EnterURL'
+import EnterTwoURLs from './EnterTwoURLs'
 import SecondaryNavbarComponent from './navbarSecondary'
 import Footer from './footer'
 import BodyCheckTwoURLs from './BodyCheckTwoURLs'
@@ -30,8 +30,7 @@ const checkTwoURLs = () => {
             <BodyCheckTwoURLs />
 
             {/* Enter article's URLs section */}
-            <EnterURL />
-            <EnterURL />
+            <EnterTwoURLs />
 
             {/* Component that routes /checkURL to /checkText
       if user wants to input a text fragment, not an URL that will be crawled */}
