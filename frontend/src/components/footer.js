@@ -64,7 +64,7 @@ export default function Footer () {
                   and plagiarism in the media.
                 </p>
               </Col>
-              <Col md={2} lg={2} xl={2} className='mx-auto mb-4'>
+              <Col md={2} lg={2} xl={3} className='mx-auto mb-4'>
                 <h6 className='text-uppercase fw-bold'>Services</h6>
                 <hr
                   className='mb-2 mt-0 d-inline-block mx-auto'
