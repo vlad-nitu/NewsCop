@@ -87,7 +87,10 @@ export default function Footer () {
                   <a href='#!' data-testid='TextSim'>Text similarity checker</a>
                 </p>
                 <p>
-                  <a href='#!' data-testid='URLSim' onClick={handleClick}>URL similarity checker</a>
+                  <Link to='/compareURLs'>
+                    <a href='#!' data-testid='URLSim' onClick={handleClick}>URL similarity checker</a>
+                  </Link>
+
                 </p>
               </Col>
               {/* <Col md={3} lg={2} xl={2} className="mx-auto mb-4">
