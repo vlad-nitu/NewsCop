@@ -13,7 +13,7 @@ import ForwardToCheckTwoTexts from './ForwardToCheckTwoTexts'
  * https://getbootstrap.com/docs/5.0/layout/grid/
  * https://getbootstrap.com/docs/5.0/utilities/flex/
  *
- * @returns JSX Element contain the secondary page, where the user is routed if he uses the "URL similarity checker" feature. It is displayed at "/checkURL"
+ * @returns JSX Element contain the secondary page, where the user is routed if he uses the "Similarity checker for two URLs" feature. It is displayed at "/compareURLs"
  *
  */
 
@@ -26,14 +26,14 @@ const checkTwoURLs = () => {
       {/* Secondary Navbar Component that routes back to the main page */}
       <SecondaryNavbarComponent name={applicationName} />
 
-      {/* Plagiarism checker Text section */}
+      {/* Similarity checker two URLs section */}
       <BodyCheckTwoURLs />
 
       {/* Enter article's URLs section */}
       <EnterTwoURLs />
 
-      {/* Component that routes /checkURL to /checkText
-      if user wants to input a text fragment, not an URL that will be crawled */}
+      {/* Component that routes /compareURLs to /compareTexts
+      if user wants to input two text paragraphs, not two URLs that will be crawled */}
       <ForwardToCheckTwoTexts prompt={prompt} />
 
       {/* Footer */}

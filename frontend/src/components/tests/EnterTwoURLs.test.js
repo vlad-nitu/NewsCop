@@ -4,10 +4,6 @@ import EnterTwoURLs from '../EnterTwoURLs'
 describe('EnterTwoURLs', () => {
   test('Renders the prompt text', () => {
     const prompt = 'Enter the article\'s URLs to check for similarity'
-    /*
-         * By wrapping the ForwardToCheckText component with the MemoryRouter,
-         * we provide a routing context that the component can use to render the Link element and trigger navigation events during testing.
-        */
     render(
       <EnterTwoURLs />
     )
@@ -29,9 +25,11 @@ describe('EnterTwoURLs', () => {
     fireEvent.change(inputLeft, { target: { value: 'http://example.com/article' } })
     expect(inputLeft.value).toBe('http://example.com/article')
 
+    // change the url on the right
     fireEvent.change(inputRight, { target: { value: 'http://example.com/article' } })
     expect(inputRight.value).toBe('http://example.com/article')
 
+    // press submit and do checks fro both text boxes
     fireEvent.click(submitButton)
     // Even after pressing the Submit button (for 5 seconds), the text remains in the form; after 5 seconds, it gets erased
     expect(inputLeft.value).toBe('http://example.com/article')
