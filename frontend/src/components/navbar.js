@@ -50,10 +50,10 @@ export default function NavbarComponent ({ name, mainPage }) {
                 title='Services' id='nav-dropdown' data-testid='navbar' show={show}
                 onMouseEnter={showDropdown} onMouseLeave={hideDropdown}
               >
-                <NavDropdown.Item role='option' href='/checkURL'>URL Similarity</NavDropdown.Item>
-                <NavDropdown.Item role='option' href='/checkText'>Text Similarity</NavDropdown.Item>
-                <NavDropdown.Item role='option' href='#action3'>URLs Comparison</NavDropdown.Item>
-                <NavDropdown.Item role='option' href='#action4'>Texts Comparison</NavDropdown.Item>
+                <NavDropdown.Item role='option' href='/checkURL'>URL Similarity Checker</NavDropdown.Item>
+                <NavDropdown.Item role='option' href='/checkText'>Text Similarity Checker</NavDropdown.Item>
+                <NavDropdown.Item role='option' href='#action3'>Similarity Checker for two Texts</NavDropdown.Item>
+                <NavDropdown.Item role='option' href='#action4'>Similarity Checker for two URLs</NavDropdown.Item>
               </NavDropdown>}
             <Nav.Link href='#footer'>Contact</Nav.Link>
           </Nav>
