@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Container, Form, Button } from 'react-bootstrap'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import axios from 'axios'
 
 /**
  * Container that displays:
@@ -30,13 +31,39 @@ export default function EnterTwoURLs () {
   const [inputValueChanged, setInputValueChanged] = useState('')
   const [showInputValue, setShowInputValue] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(false)
+  const [outputValue, setOutputValue] = useState('')
 
-  const handleSubmit = (event) => {
+  const compareURLsEndpoint = "http://localhost:8000/compareURLs"
+
+  const createRequestBody = (data_left, data_right) => {
+    return {
+      url_left: data_left,
+      url_right: data_right
+    }
+  }
+
+  const handleSubmit = async (event) => {
     event.preventDefault()
     setShowInputValue(true)
     setButtonDisabled(true)
+
+
+    const response = await axios.post(`${compareURLsEndpoint}`, createRequestBody(inputValueOriginal, inputValueChanged))
+        .catch(function (error) {
+            setOutputValue(response.statusText)
+    })
+
+    if(response != null) {
+      setOutputValue('The two news articles given have similarity level of ' + `${response.value}` + '%')
+    } else {
+      setOutputValue('SOMETHING WENT WRONG!')
+    }
+
+    // show the result
+    setShowInputValue(true)
+
     setTimeout(() => {
-      setShowInputValue(false)
+      // setShowInputValue(true)
       setButtonDisabled(false)
     }, 5000)
   }
@@ -99,7 +126,7 @@ export default function EnterTwoURLs () {
         </div>
         {showInputValue && (
           <div>
-            Input value: "{inputValueOriginal + ' and ' + inputValueChanged}"
+            outputValue
           </div>
         )}
       </div>
