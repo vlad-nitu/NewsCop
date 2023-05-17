@@ -4,6 +4,9 @@ import BodyCheckTwoTexts from './BodyCheckTwoTexts'
 import TextBox from './TextBox'
 import SubmitButton from './submitButton'
 import { useState } from 'react'
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import Container from "react-bootstrap/Container";
 
 /**
  * The page for the checking two texts for overlapping. It contains all the components that will be present in the page,
@@ -38,22 +41,34 @@ export default function CheckTwoTexts () {
   }
   return (
     <>
-      {/* Navbar */}
-      <NavbarComponent name={applicationName} />
-      {/* The description text about news overlap */}
-      <BodyCheckTwoTexts />
-      <div className='parentBoxesContainer'>
-        <div className='childBoxContainer'>
-          {/* Text area */}
-          <TextBox description={originalTextBoxDescription} disabled={loading} />
-        </div>
-        <div className='childBoxContainer'>
-          {/* Text area */}
-          <TextBox description={changedTextBoxDescription} disabled={loading} />
-        </div>
+      <div className="h-100 d-flex flex-column">
+          {/* Navbar */}
+          <NavbarComponent name={applicationName} />
+          {/* The description text about news overlap */}
+          <BodyCheckTwoTexts />
+          <Container>
+              <Row>
+                  <Col md={6}>
+                      <TextBox description={originalTextBoxDescription} disabled={loading} />
+                  </Col>
+                  <Col md={6}>
+                      <TextBox description={changedTextBoxDescription} disabled={loading} />
+                  </Col>
+              </Row>
+              {/*<div className='parentBoxesContainer'>*/}
+              {/*  <div className='childBoxContainer'>*/}
+              {/*    /!* Text area *!/*/}
+              {/*    c
+              {/*  </div>*/}
+              {/*  <div className='childBoxContainer'>*/}
+              {/*    /!* Text area *!/*/}
+              {/*    <TextBox description={changedTextBoxDescription} disabled={loading} />*/}
+              {/*  </div>*/}
+              {/*</div>*/}
+              {/* The submit button */}
+              <SubmitButton disabled={loading} onClickMethod={handleSubmit} />
+          </Container>
       </div>
-      {/* The submit button */}
-      <SubmitButton disabled={loading} onClickMethod={handleSubmit} />
       {/* Footer */}
       <Footer />
     </>
