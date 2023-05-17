@@ -55,35 +55,46 @@ export default function Services ({ titles, descriptions, images }) {
               <img style={imageStyle} src={images[0]} alt='Service 1' className='pb-4' />
               <h3 style={textStyle}>{titles[0]}</h3>
               <p style={textStyleParagraph}>{descriptions[0]}</p>
+            </Col>
+            <Col md={3} className='pe-sm-3 mb-3 mb-sm-0'>
+              <img style={imageStyle} src={images[1]} alt='Service 2' className='pb-4' />
+              <h3 style={textStyle}>{titles[1]}</h3>
+              <p style={textStyleParagraph}>{descriptions[1]}</p>
+            </Col>
+            <Col md={3} className='pe-sm-3 mb-3 mb-sm-0'>
+              <img style={imageStyle} src={images[2]} alt='Service 3' className='pb-4' />
+              <h3 style={textStyle}>{titles[2]}</h3>
+              <p style={textStyleParagraph}>{descriptions[2]}</p>
+            </Col>
+            <Col md={3} cclassName='pe-sm-3 mb-3 mb-sm-0'>
+              <img style={imageStyle} src={images[3]} alt='Service 4' className='pb-4' />
+              <h3 style={textStyle}>{titles[3]}</h3>
+              <p style={textStyleParagraph}>{descriptions[3]}</p>
+            </Col>
+          </Row>
+          <Row className='pt-4'>
+            <Col md={3} className='pe-sm-3 mb-3 mb-sm-0'>
               <Link to='/checkURL'>
                 <button type='button' onClick={handleClick} className='btn btn-outline-warning'>Try it
                 </button>
               </Link>
             </Col>
             <Col md={3} className='pe-sm-3 mb-3 mb-sm-0'>
-              <img style={imageStyle} src={images[1]} alt='Service 2' className='pb-4' />
-              <h3 style={textStyle}>{titles[1]}</h3>
-              <p style={textStyleParagraph}>{descriptions[1]}</p>
               <Link to='/checkText'>
                 <button type='button' onClick={handleClick} className='btn btn-outline-warning'>Try it
                 </button>
               </Link>
             </Col>
             <Col md={3} className='pe-sm-3 mb-3 mb-sm-0'>
-              <img style={imageStyle} src={images[2]} alt='Service 3' className='pb-4' />
-              <h3 style={textStyle}>{titles[2]}</h3>
-              <p style={textStyleParagraph}>{descriptions[2]}</p>
               <button type='button' className='btn btn-outline-warning'>Try it</button>
             </Col>
             <Col md={3} cclassName='pe-sm-3 mb-3 mb-sm-0'>
-              <img style={imageStyle} src={images[3]} alt='Service 4' className='pb-4' />
-              <h3 style={textStyle}>{titles[3]}</h3>
-              <p style={textStyleParagraph}>{descriptions[3]}</p>
               <Link to='/compareURLs'>
                 <button type='button' onClick={handleClick} className='btn btn-outline-warning'>Try it
                 </button>
               </Link>
             </Col>
+
           </Row>
         </div>
       </Container>
