@@ -12,7 +12,7 @@ import NavbarComponent from './navbar'
  * https://getbootstrap.com/docs/5.0/layout/grid/
  * https://getbootstrap.com/docs/5.0/utilities/flex/
  *
- * @returns JSX Element contain the secondary page, where the user is routed if he uses the "URL plagarism checker" feature. It is displayed at "/checkURL"
+ * @returns JSX Element contain the secondary page, where the user is routed if he uses the "URL similarity checker" feature. It is displayed at "/checkURL"
  *
  */
 

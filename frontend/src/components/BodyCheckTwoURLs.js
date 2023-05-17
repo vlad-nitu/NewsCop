@@ -8,9 +8,9 @@ import Container from 'react-bootstrap/Container'
  * @returns {JSX.Element} that represents the similarity text and description of our tool;
  * Can be found directly under the navbar component of the page
  */
-export default function BodyCheckOneText () {
+export default function BodyCheckTwoURLs () {
   const description = 'News overlap checker'
-  const secondDescription = 'Our tool detects overlap in your news article.'
+  const secondDescription = 'Our similarity checker determines the similarity levels between the content of two news URLs.'
 
   return (
     <Container className='my-3 d-flex'>
