@@ -1,14 +1,19 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
+import { fireEvent, render, screen } from '@testing-library/react'
 import Footer from '../footer'
+import { MemoryRouter } from 'react-router'
+
+Object.defineProperty(window, 'scrollTo', {
+  value: jest.fn(),
+  writable: true
+})
 
 describe('Footer', () => {
   test('renders the footer component with correct content and styles', () => {
     render(
-      <BrowserRouter>
+      <MemoryRouter>
         <Footer />
-      </BrowserRouter>
+      </MemoryRouter>
     )
 
     /* Check if the social section is rendered */
@@ -36,5 +41,9 @@ describe('Footer', () => {
 
     /* Check if the copyright section is rendered */
     expect(screen.getByText('2023 © NewsCop')).toBeInTheDocument()
+
+    fireEvent.click(screen.getByTestId('TextPlag'))
+    expect(window.scrollX).toBe(0)
+    expect(window.scrollY).toBe(0)
   })
 })
