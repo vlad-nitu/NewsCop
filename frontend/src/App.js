@@ -22,7 +22,7 @@ function App () {
       <div>
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/checkText' element={<CheckOneText />} />
+          <Route path='/checkText' element={<CheckOneText applicationName='NewsCop' />} />
           <Route exact path='/checkURL' element={<CheckURL />} />
         </Routes>
       </div>

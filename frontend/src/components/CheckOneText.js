@@ -10,9 +10,7 @@ import SubmitButton from './submitButton'
  *
  * @returns {JSX.Element} the check text for plagiarism component
  */
-export default function CheckOneText () {
-  const applicationName = 'NewsCop'
-
+export default function CheckOneText ({ applicationName }) {
   return (
     <>
       {/* Navbar */}
