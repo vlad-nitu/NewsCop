@@ -63,7 +63,7 @@ export default function Services ({ titles, descriptions, images }) {
             <h3 style={textStyle}>{titles[1]}</h3>
             <p style={textStyleParagraph}>{descriptions[1]}</p>
             <Link to='/checkText'>
-              <button type='button' onClick={handleClick} className='btn btn-outline-warning'>Try it</button>
+              <button type='button' data-testid='ButtonTest' onClick={handleClick} className='btn btn-outline-warning'>Try it</button>
             </Link>
           </Col>
           <Col md={4} className='pe-sm-4'>
