@@ -11,20 +11,8 @@ import Map from './map'
  * @returns {JSX.Element} that hosts all the elements in our main page
  */
 export default function Home ({ applicationName, applicationDescription, ourMission }) {
-  // const applicationName = 'NewsCop'
-  // const applicationDescription = 'NewsCop is a news article ' +
-  //       'overlap detection platform that helps businesses stay on ' +
-  //       "top of competitors' news coverage. Our service quickly " +
-  //       'checks for duplicated stories, allowing you to spot ' +
-  //       'trends and identify opportunities to maximize coverage. ' +
-  //       "With NewsCop, you'll never miss a story."
   const projectName = 'News article overlap'
   const imageUrl = './background_image.png'
-
-  // const ourMission = 'Creating a platform that provides various ways of ' +
-  //       'comparing news articles, helping users to identify overlapping content ' +
-  //       'quickly and accurately and, consequently, decreasing the impact of ' +
-  //       'missinformation and plagiarism in the media.'
 
   // const ourMissionImage = 'https://gcdnb.pbrd.co/images/e5PfBZ9MCJqB.jpg?o=1'
   // const ourMissionImage2 = 'https://thumbs.dreamstime.com/b/man-looking-over-newspaper-62558573.jpg'
