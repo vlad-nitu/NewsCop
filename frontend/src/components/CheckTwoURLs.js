@@ -1,6 +1,6 @@
 import React from 'react'
 import EnterTwoURLs from './EnterTwoURLs'
-import SecondaryNavbarComponent from './navbarSecondary'
+import NavbarComponent from './navbar'
 import Footer from './footer'
 import BodyCheckTwoURLs from './BodyCheckTwoURLs'
 import ForwardToCheckTwoTexts from './ForwardToCheckTwoTexts'
@@ -24,7 +24,7 @@ const checkTwoURLs = () => {
   return (
     <>
       {/* Secondary Navbar Component that routes back to the main page */}
-      <SecondaryNavbarComponent name={applicationName} />
+      <NavbarComponent name={applicationName} mainPage={false} />
 
       {/* Similarity checker two URLs section */}
       <BodyCheckTwoURLs />
