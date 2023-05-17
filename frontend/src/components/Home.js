@@ -38,7 +38,7 @@ export default function Home () {
   return (
     <>
       {/* Navbar */}
-      <NavbarComponent name={applicationName} />
+      <NavbarComponent name={applicationName} mainPage />
 
       {/* Big image with text */}
       <MainPageBigImage
