@@ -11,6 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .plagiarism_checker.fingerprinting import compute_fingerprint
 from .plagiarism_checker.crawling import crawl_url
 from .plagiarism_checker.sanitizing import sanitizing_url
+from .plagiarism_checker.similarity import compute_similarity
 
 
 # Create your views here.
@@ -88,5 +89,22 @@ def persist_url_view(request):
         newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=compute_fingerprint(article_text))
         newsdoc.save()
         return HttpResponse(newsdoc.url)
+    else:
+        return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
+
+def compare_texts_view(request):
+
+    if request.method == 'POST':
+        data = json.loads(request.body)
+
+        print(data)
+
+        text1 = data["original_text"]
+        text2 = data["compare_text"]
+
+        fingerprint1 = compute_fingerprint(text1)
+        fingerprint2 = compute_fingerprint(text2)
+
+        return HttpResponse(compute_similarity(fingerprint1, fingerprint2))
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")

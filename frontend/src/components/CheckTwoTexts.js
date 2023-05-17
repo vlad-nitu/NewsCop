@@ -1,3 +1,4 @@
+import axios from 'axios'
 import NavbarComponent from './navbarSecondary'
 import Footer from './footer'
 import BodyCheckTwoTexts from './BodyCheckTwoTexts'
@@ -13,9 +14,12 @@ import { useState } from 'react'
  */
 export default function CheckTwoTexts () {
   const applicationName = 'NewsCop'
-  const originalTextBoxDescription = 'Enter the original content'
-  const changedTextBoxDescription = 'Enter the changed content'
+  const [originalTextBoxDescription, setOriginalTextBoxDescription] = useState('')
+  const [changedTextBoxDescription, setChangedTextBoxDescription] = useState('')
+  const [similarity, setSimilarity] = useState(0)
+  const [displaySimilarity, setDisplaySimilarity] = useState(false)
   const [loading, setLoading] = useState(false)
+
 
   /**
      * Disable a button after using it for 10 seconds.
@@ -26,14 +30,17 @@ export default function CheckTwoTexts () {
      */
   async function handleSubmit (event) {
     setLoading(true)
+    setDisplaySimilarity(false)
     console.log(loading)
     await new Promise((resolve) =>
       setTimeout(() => {
         resolve()
-      }, 10000)
+      }, 3000)
     )
 
     setLoading(false)
+    setDisplaySimilarity(true)
+    setSimilarity(Math.round(await (compareTexts(originalTextBoxDescription, changedTextBoxDescription)) * 100))
     console.log(loading)
   }
 
@@ -47,11 +54,15 @@ export default function CheckTwoTexts () {
    */
   const compareTexts = async (originalText, compareText) => {
     try {
-      const response = await axios.post(`${persistUrlEndpoint}`, {originalText, compareText})
+      const data = {
+        original_text: originalText,
+        compare_text: compareText
+      }
+      const response = await axios.post(`${compareTextsEndpoint}`, data)
       return response.data
     } catch (error) {
       console.error(error)
-      throw new Error('Failed to persist url')
+      throw new Error('Failed to compute similarity')
     }
   }
 
@@ -64,15 +75,19 @@ export default function CheckTwoTexts () {
       <div className='parentBoxesContainer'>
         <div className='childBoxContainer'>
           {/* Text area */}
-          <TextBox description={originalTextBoxDescription} disabled={loading} />
+          <TextBox description={'Enter the original content'} disabled={loading} textAreaValue={originalTextBoxDescription} setTextAreaValue={setOriginalTextBoxDescription}/>
         </div>
         <div className='childBoxContainer'>
           {/* Text area */}
-          <TextBox description={changedTextBoxDescription} disabled={loading} />
+          <TextBox description={'Enter the changed content'} disabled={loading} textAreaValue={changedTextBoxDescription} setTextAreaValue={setChangedTextBoxDescription}/>
         </div>
       </div>
       {/* The submit button */}
       <SubmitButton disabled={loading} onClickMethod={handleSubmit} />
+      {/* Similarity display*/}
+      <div>
+        {displaySimilarity === true && <p>The two given text files have a similarity level of {similarity}%</p>}
+      </div>
       {/* Footer */}
       <Footer />
     </>

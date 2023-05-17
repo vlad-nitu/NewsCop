@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
-import React from 'react'
+import React, {useState} from 'react'
 import Container from 'react-bootstrap/Container'
 
 /**
@@ -8,7 +8,11 @@ import Container from 'react-bootstrap/Container'
  *
  * @returns {JSX.Element} that is a TextBox where users can enter the news article
  */
-const TextBox = ({ description, disabled }) => {
+const TextBox = ({ description, disabled, textAreaValue, setTextAreaValue }) => {
+  const handleTextAreaChange = (event) => {
+      setTextAreaValue(event.target.value)
+  }
+
   return (
     <Container>
       <div className='d-flex flex-column justify-content-center mx-auto'>
@@ -19,7 +23,7 @@ const TextBox = ({ description, disabled }) => {
       <div className='d-flex justify-content-center'>
         <div className='form-group custom-container'>
           <div className='custom-textarea-container'>
-            <textarea disabled={disabled} placeholder='Enter your article here' className='form-control custom-textarea' id='textBox' rows='4' />
+            <textarea value={textAreaValue} disabled={disabled} placeholder='Enter your article here' className='form-control custom-textarea' id='textBox' rows='4' onChange={handleTextAreaChange}/>
           </div>
         </div>
       </div>
