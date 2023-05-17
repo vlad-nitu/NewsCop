@@ -88,7 +88,7 @@ export default function Services ({ titles, descriptions, images }) {
             <Col md={3} className='pe-sm-3 mb-3 mb-sm-0'>
               <button type='button' className='btn btn-outline-warning'>Try it</button>
             </Col>
-            <Col md={3} cclassName='pe-sm-3 mb-3 mb-sm-0'>
+            <Col md={3} className='pe-sm-3 mb-3 mb-sm-0'>
               <Link to='/compareURLs'>
                 <button type='button' onClick={handleClick} className='btn btn-outline-warning'>Try it
                 </button>
