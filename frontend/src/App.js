@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import CheckOneText from './components/CheckOneText'
 import CheckURL from './components/CheckURL'
 import CheckTwoTexts from './components/CheckTwoTexts'
+import CheckTwoURLs from './components/CheckTwoURLs'
 
 /**
  * The entire page was built around the Bootstrap library.
@@ -26,6 +27,7 @@ function App () {
           <Route path='/checkText' element={<CheckOneText />} />
           <Route exact path='/checkURL' element={<CheckURL />} />
           <Route exact path='/compareTexts' element={<CheckTwoTexts />} />
+          <Route exact path='/compareURLs' element={<CheckTwoURLs />} />
         </Routes>
       </div>
     </Router>
