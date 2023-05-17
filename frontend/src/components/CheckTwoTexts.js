@@ -36,6 +36,25 @@ export default function CheckTwoTexts () {
     setLoading(false)
     console.log(loading)
   }
+
+  const compareTextsEndpoint = 'http://localhost:8000/compareTexts/'
+
+  /**
+   * Send request to compute similarity between two pieces of text.
+   * @param originalText the first text which is checked
+   * @param compareText the second text which is checked
+   * @returns {Promise<any>} the response after the similarity coefficient is computed
+   */
+  const compareTexts = async (originalText, compareText) => {
+    try {
+      const response = await axios.post(`${persistUrlEndpoint}`, {originalText, compareText})
+      return response.data
+    } catch (error) {
+      console.error(error)
+      throw new Error('Failed to persist url')
+    }
+  }
+
   return (
     <>
       {/* Navbar */}
