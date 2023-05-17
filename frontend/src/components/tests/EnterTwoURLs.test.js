@@ -29,7 +29,7 @@ describe('EnterTwoURLs', () => {
     fireEvent.change(inputRight, { target: { value: 'http://example.com/article' } })
     expect(inputRight.value).toBe('http://example.com/article')
 
-    // press submit and do checks fro both text boxes
+    // press submit and do checks for both text boxes
     fireEvent.click(submitButton)
     // Even after pressing the Submit button (for 5 seconds), the text remains in the form; after 5 seconds, it gets erased
     expect(inputLeft.value).toBe('http://example.com/article')
