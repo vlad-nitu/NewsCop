@@ -13,9 +13,9 @@ import Container from 'react-bootstrap/Container'
  */
 const SubmitButton = ({ disabled, onClickMethod }) => {
   return (
-    <Container>
+    <Container className='pt-3'>
       <div className='d-flex'>
-        <div className='mb-3 mx-auto'>
+        <div className='mx-auto'>
           <Button
             onClick={onClickMethod} disabled={disabled}
             variant='primary' className='mb-4'

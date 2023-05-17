@@ -38,16 +38,18 @@ export default function CheckOneText () {
   }
   return (
     <>
-      {/* Navbar */}
-      <NavbarComponent name={applicationName} />
-      {/* The description text about news overlap */}
-      <BodyCheckOneText />
-      <div id='divText'>
-        {/* Text area */}
-        <TextBox description={textBoxDescription} disabled={loading} />
+      <div className='d-flex flex-column' style={{ height: '100vh' }}>
+        {/* Navbar */}
+        <NavbarComponent name={applicationName} />
+        {/* The description text about news overlap */}
+        <BodyCheckOneText />
+        <div style={{ height: '100%' }}>
+          {/* Text area */}
+          <TextBox description={textBoxDescription} disabled={loading} />
+        </div>
+        {/* The submit button */}
+        <SubmitButton disabled={loading} onClickMethod={handleSubmit} />
       </div>
-      {/* The submit button */}
-      <SubmitButton disabled={loading} onClickMethod={handleSubmit} />
       {/* Footer */}
       <Footer />
     </>
