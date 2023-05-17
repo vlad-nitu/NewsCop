@@ -1,4 +1,4 @@
-import NavbarComponent from './navbarSecondary'
+import NavbarComponent from './navbar'
 import Footer from './footer'
 import BodyCheckTwoTexts from './BodyCheckTwoTexts'
 import TextBox from './TextBox'
@@ -43,7 +43,7 @@ export default function CheckTwoTexts () {
     <>
       <div className='d-flex flex-column' style={{ height: '100vh' }}>
         {/* Navbar */}
-        <NavbarComponent name={applicationName} />
+        <NavbarComponent name={applicationName} mainPage={false} />
         {/* The description text about news overlap */}
         <BodyCheckTwoTexts />
         <Container style={{ height: 'calc(100% - 90px)' }}>
