@@ -40,7 +40,7 @@ describe('EnterTwoURLs', () => {
     expect(inputLeft).toBeDisabled()
 
     act(() => {
-      jest.advanceTimersByTime(5000) /* Advance timer by 5000 seconds */
+      jest.advanceTimersByTime(5000) /* Advance timer by 5 seconds */
     })
 
     await waitFor(() => {
