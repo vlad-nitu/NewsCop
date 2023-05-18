@@ -33,37 +33,41 @@ export default function EnterTwoURLs () {
   const [buttonDisabled, setButtonDisabled] = useState(false)
   const [outputValue, setOutputValue] = useState('')
 
-  const compareURLsEndpoint = "http://localhost:8000/compareURLs"
+  const compareURLsEndpoint = 'http://localhost:8000/compareURLs/'
 
-  const createRequestBody = (data_left, data_right) => {
+  const createRequestBody = (Data_Left, Data_Right) => {
     return {
-      url_left: data_left,
-      url_right: data_right
+      url_left: Data_Left,
+      url_right: Data_Right
     }
   }
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    setShowInputValue(true)
     setButtonDisabled(true)
 
+    // set output value to be empty before
+    setShowInputValue(false)
+    setOutputValue('')
 
-    const response = await axios.post(`${compareURLsEndpoint}`, createRequestBody(inputValueOriginal, inputValueChanged))
-        .catch(function (error) {
-            setOutputValue(response.statusText)
-    })
+    await axios.post(`${compareURLsEndpoint}`, createRequestBody(inputValueOriginal, inputValueChanged))
+      .then(response => {
+        if (response != null) {
+          setOutputValue('The two news articles given have similarity level of ' + `${Math.round(100 * response.data)}` + '%')
+          // show result
+        } else {
+          setOutputValue('SOMETHING WENT WRONG!')
+          // show result
+        }
+      })
+      .catch(error => {
+        console.log(error)
+        setOutputValue('Please provide a valid input!')
+      })
 
-    if(response != null) {
-      setOutputValue('The two news articles given have similarity level of ' + `${response.value}` + '%')
-    } else {
-      setOutputValue('SOMETHING WENT WRONG!')
-    }
-
-    // show the result
     setShowInputValue(true)
 
     setTimeout(() => {
-      // setShowInputValue(true)
       setButtonDisabled(false)
     }, 5000)
   }
@@ -126,7 +130,7 @@ export default function EnterTwoURLs () {
         </div>
         {showInputValue && (
           <div>
-            outputValue
+            {outputValue}
           </div>
         )}
       </div>
