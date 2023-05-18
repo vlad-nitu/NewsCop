@@ -64,7 +64,7 @@ export default function Footer () {
                   and plagiarism in the media.
                 </p>
               </Col>
-              <Col md={2} lg={2} xl={2} className='mx-auto mb-4'>
+              <Col md={2} lg={2} xl={3} className='mx-auto mb-4'>
                 <h6 className='text-uppercase fw-bold'>Services</h6>
                 <hr
                   className='mb-2 mt-0 d-inline-block mx-auto'
@@ -72,23 +72,26 @@ export default function Footer () {
                 />
                 <p>
                   <Link to='/checkURL'>
-                    <a href='#!' data-testid='URLPlag' onClick={handleClick}>URL plagiarism checker</a>
+                    <a href='#!' data-testid='URLPlag' onClick={handleClick}>URL similarity checker</a>
                   </Link>
                 </p>
                 <p>
                   <Link to='/checkText'>
-                    <a href='#!' data-testid='TextPlag' onClick={handleClick}>Text plagiarism checker</a>
+                    <a href='#!' data-testid='TextPlag' onClick={handleClick}>Text similarity checker</a>
                   </Link>
 
                 </p>
 
                 <p>
                   <Link to='/compareTexts'>
-                    <a href='#!' data-testid='TextSim' onClick={handleClick}>Text similarity checker</a>
+                    <a href='#!' data-testid='TextSim' onClick={handleClick}>Similarity checker for two texts</a>
                   </Link>
                 </p>
                 <p>
-                  <a href='#!' data-testid='URLSim' onClick={handleClick}>URL similarity checker</a>
+                  <Link to='/compareURLs'>
+                    <a href='#!' data-testid='URLSim' onClick={handleClick}>Similarity checker for two URLs</a>
+                  </Link>
+
                 </p>
               </Col>
               {/* <Col md={3} lg={2} xl={2} className="mx-auto mb-4">

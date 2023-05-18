@@ -1,10 +1,13 @@
 import axios from 'axios'
-import NavbarComponent from './navbarSecondary'
+import NavbarComponent from './navbar'
 import Footer from './footer'
 import BodyCheckTwoTexts from './BodyCheckTwoTexts'
 import TextBox from './TextBox'
 import SubmitButton from './submitButton'
 import { useState } from 'react'
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
+import Container from 'react-bootstrap/Container'
 
 /**
  * The page for the checking two texts for overlapping. It contains all the components that will be present in the page,
@@ -68,22 +71,26 @@ export default function CheckTwoTexts () {
 
   return (
     <>
-      {/* Navbar */}
-      <NavbarComponent name={applicationName} />
-      {/* The description text about news overlap */}
-      <BodyCheckTwoTexts />
-      <div className='parentBoxesContainer'>
-        <div className='childBoxContainer'>
-          {/* Text area */}
-          <TextBox description={'Enter the original content'} disabled={loading} textAreaValue={originalTextBoxDescription} setTextAreaValue={setOriginalTextBoxDescription}/>
-        </div>
-        <div className='childBoxContainer'>
-          {/* Text area */}
-          <TextBox description={'Enter the changed content'} disabled={loading} textAreaValue={changedTextBoxDescription} setTextAreaValue={setChangedTextBoxDescription}/>
-        </div>
+      <div className='d-flex flex-column' style={{ height: '100vh' }}>
+        {/* Navbar */}
+        <NavbarComponent name={applicationName} mainPage={false} />
+        {/* The description text about news overlap */}
+        <BodyCheckTwoTexts />
+        <Container style={{ height: 'calc(100% - 90px)' }}>
+          <Row style={{ height: '100%' }}>
+            <Col md={6}>
+              {/* Text area */}
+              <TextBox description={'Enter the original content'} disabled={loading} textAreaValue={originalTextBoxDescription} setTextAreaValue={setOriginalTextBoxDescription} />
+            </Col>
+            <Col md={6}>
+              {/* Text area */}
+              <TextBox description={'Enter the changed content'} disabled={loading} textAreaValue={changedTextBoxDescription} setTextAreaValue={setChangedTextBoxDescription} />
+            </Col>
+          </Row>
+        </Container>
+        {/* The submit button */}
+        <SubmitButton disabled={loading} onClickMethod={handleSubmit} />
       </div>
-      {/* The submit button */}
-      <SubmitButton disabled={loading} onClickMethod={handleSubmit} />
       {/* Similarity display*/}
       <div>
         {displaySimilarity === true && <p>The two given text files have a similarity level of {similarity}%</p>}

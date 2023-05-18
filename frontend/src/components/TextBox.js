@@ -14,16 +14,16 @@ const TextBox = ({ description, disabled, textAreaValue, setTextAreaValue }) => 
   }
 
   return (
-    <Container>
+    <Container style={{ height: 'calc(100% - 50px)' }}>
       <div className='d-flex flex-column justify-content-center mx-auto'>
         <div className='mb-3 mx-auto'>
           <h2 className='description-paragraph'>{description}</h2>
         </div>
       </div>
-      <div className='d-flex justify-content-center'>
-        <div className='form-group custom-container'>
-          <div className='custom-textarea-container'>
-            <textarea value={textAreaValue} disabled={disabled} placeholder='Enter your article here' className='form-control custom-textarea' id='textBox' rows='4' onChange={handleTextAreaChange}/>
+      <div className='d-flex justify-content-center' style={{ height: '100%' }}>
+        <div className='form-group custom-container' style={{ height: '100%' }}>
+          <div className='custom-textarea-container' style={{ height: '100%' }}>
+            <textarea value={textAreaValue} disabled={disabled} placeholder='Enter your article here' className='form-control custom-textarea' id='textBox' rows='4' onChange={handleTextAreaChange} style={{ height: '100%' }}/>
           </div>
         </div>
       </div>
