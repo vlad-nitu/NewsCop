@@ -22,7 +22,7 @@ export default function CheckTwoTexts () {
 
 
   /**
-     * Disable a button after using it for 10 seconds.
+     * Disable a button after using it for 3 seconds.
      * Source: https://stackoverflow.com/questions/63820933/how-to-disable-a-button-using-react-usestate-hook-inside-event-handler
      *
      * @param event an event, a click event in our case
@@ -31,16 +31,16 @@ export default function CheckTwoTexts () {
   async function handleSubmit (event) {
     setLoading(true)
     setDisplaySimilarity(false)
+    setSimilarity(Math.round(await (compareTexts(originalTextBoxDescription, changedTextBoxDescription)) * 100))
+    setDisplaySimilarity(true)
     console.log(loading)
     await new Promise((resolve) =>
       setTimeout(() => {
         resolve()
-      }, 3000)
+      }, 4000)
     )
 
     setLoading(false)
-    setDisplaySimilarity(true)
-    setSimilarity(Math.round(await (compareTexts(originalTextBoxDescription, changedTextBoxDescription)) * 100))
     console.log(loading)
   }
 

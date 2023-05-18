@@ -97,8 +97,6 @@ def compare_texts_view(request):
     if request.method == 'POST':
         data = json.loads(request.body)
 
-        print(data)
-
         text1 = data["original_text"]
         text2 = data["compare_text"]
 
