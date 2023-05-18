@@ -69,7 +69,7 @@ export default function CheckTwoTexts () {
   }
 
   const getOutputPrompt = () => {
-    return "The two given texts have a similarity level of " + similarity + "%."
+    return 'The two given texts have a similarity level of ' + similarity + '%.'
   }
 
   return (

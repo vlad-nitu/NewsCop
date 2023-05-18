@@ -31,7 +31,6 @@ class UrlsTest(TestCase):
         self.assertEquals(obtained_url, expected_url)
         self.assertEquals(obtained_view_function, expected_view_function)
 
-
     @tag("integration")
     def test_compare_texts_get_instead_of_post(self):
         client = Client()
