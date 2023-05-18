@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import './css/general.css'
 import Home from './components/Home'
 
