@@ -77,14 +77,15 @@ export default function Footer () {
                 </p>
                 <p>
                   <Link to='/checkText'>
-
                     <a href='#!' data-testid='TextPlag' onClick={handleClick}>Text similarity checker</a>
                   </Link>
 
                 </p>
 
                 <p>
-                  <a href='#!' data-testid='TextSim'>Similarity checker for two texts</a>
+                  <Link to='/compareTexts'>
+                    <a href='#!' data-testid='TextSim' onClick={handleClick}>Similarity checker for two texts</a>
+                  </Link>
                 </p>
                 <p>
                   <Link to='/compareURLs'>
