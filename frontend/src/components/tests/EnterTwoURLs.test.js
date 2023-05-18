@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react'
 import EnterTwoURLs from '../EnterTwoURLs'
 
 describe('EnterTwoURLs', () => {
@@ -13,7 +13,8 @@ describe('EnterTwoURLs', () => {
     expect(promptElement).toBeInTheDocument()
   })
 
-  test('Input two URLs good', () => {
+  test('Input two URLs good', async () => {
+    jest.useFakeTimers() /* Mock the timer */
     const PreInputArticlePromptOriginal = 'Enter the original URL'
     const PreInputArticlePromptChanged = 'Enter the changed URL'
     const { getByPlaceholderText, getByText } = render(<EnterTwoURLs />)
@@ -32,6 +33,21 @@ describe('EnterTwoURLs', () => {
     // press submit and do checks for both text boxes
     fireEvent.click(submitButton)
     // Even after pressing the Submit button (for 5 seconds), the text remains in the form; after 5 seconds, it gets erased
+    expect(inputLeft.value).toBe('http://example.com/article')
+    expect(inputRight.value).toBe('http://example.com/article')
+    expect(submitButton).toBeDisabled()
+    expect(inputRight).toBeDisabled()
+    expect(inputLeft).toBeDisabled()
+
+    act(() => {
+      jest.advanceTimersByTime(5000) /* Advance timer by 5000 seconds */
+    })
+
+    await waitFor(() => {
+      expect(submitButton).toBeEnabled() /* Button should be re-enabled after 10 seconds */
+    })
+    expect(inputLeft).toBeEnabled()
+    expect(inputRight).toBeEnabled()
     expect(inputLeft.value).toBe('http://example.com/article')
     expect(inputRight.value).toBe('http://example.com/article')
   })
