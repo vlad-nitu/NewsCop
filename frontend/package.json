@@ -52,16 +52,5 @@
     "env": {
       "jest": true
     }
-  },
-  "nyc": {
-    "all": true,
-    "include": [
-      "src/components/*.js"
-    ],
-    "exclude": [
-      "src/reportWebVitals.js",
-      "src/index.js",
-      "src/App.js"
-    ]
   }
 }
