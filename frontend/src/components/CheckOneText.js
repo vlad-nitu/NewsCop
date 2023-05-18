@@ -44,7 +44,7 @@ export default function CheckOneText ({ applicationName }) {
         <BodyCheckOneText />
         <div style={{ height: '100%' }}>
           {/* Text area */}
-          <TextBox description={textBoxDescription} disabled={loading} />
+          <TextBox description={textBoxDescription} disabled={loading} placeholder='Enter your article here' />
         </div>
         {/* The submit button */}
         <SubmitButton disabled={loading} onClickMethod={handleSubmit} />
