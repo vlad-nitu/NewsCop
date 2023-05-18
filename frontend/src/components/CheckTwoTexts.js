@@ -68,6 +68,10 @@ export default function CheckTwoTexts () {
     }
   }
 
+  const getOutputPrompt = () => {
+    return "The two given texts have a similarity level of " + similarity + "%."
+  }
+
   return (
     <>
       <div className='d-flex flex-column' style={{ height: '100vh' }}>
@@ -75,7 +79,7 @@ export default function CheckTwoTexts () {
         <NavbarComponent name={applicationName} mainPage={false} />
         {/* The description text about news overlap */}
         <BodyCheckTwoTexts />
-        <Container style={{ height: 'calc(100% - 90px)' }}>
+        <Container style={{ height: 'calc(60% - 90px)' }}>
           <Row style={{ height: '100%' }}>
             <Col md={6}>
               {/* Text area */}
@@ -89,11 +93,13 @@ export default function CheckTwoTexts () {
         </Container>
         {/* The submit button */}
         <SubmitButton disabled={loading} onClickMethod={handleSubmit} />
+        {displaySimilarity && (
+          <div style={{ display: 'flex', justifyContent: 'center', fontSize: '140%', marginTop: '60px', textAlign: 'center' }}>
+            {getOutputPrompt()}
+          </div>
+        )}
       </div>
       {/* Similarity display */}
-      <div>
-        {displaySimilarity === true && <p>The two given text files have a similarity level of {similarity}%</p>}
-      </div>
       {/* Footer */}
       <Footer />
     </>
