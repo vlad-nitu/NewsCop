@@ -1,6 +1,7 @@
 import {render, screen, fireEvent, act, waitFor} from '@testing-library/react'
 import EnterTwoURLs from '../EnterTwoURLs'
 import {MemoryRouter} from "react-router-dom";
+import axios from "axios";
 
 describe('EnterTwoURLs', () => {
     test('Renders the prompt text', () => {
@@ -34,6 +35,9 @@ describe('EnterTwoURLs', () => {
         fireEvent.change(inputRight, {target: {value: 'https://getbootstrap.com/docs/5.0/forms/validation/'}})
         expect(inputRight.value).toBe('https://getbootstrap.com/docs/5.0/forms/validation/')
 
+        jest.mock('axios')
+        const expectedData = {similarity: 0.13}
+        axios.post = jest.fn().mockResolvedValueOnce({data: expectedData})
 
 
         fireEvent.click(submitButton)
@@ -45,17 +49,18 @@ describe('EnterTwoURLs', () => {
         expect(inputRight).toBeDisabled()
         expect(inputLeft).toBeDisabled()
 
-        // await act(async () => {
+        // act(() => {
         //     jest.advanceTimersByTime(5000) /* Advance timer by 5 seconds */
         // })
         //
         // await waitFor(() => {
         //     expect(submitButton).toBeEnabled()
         // }) /* Button should be re-enabled after 5 seconds */
+        //
         // expect(inputLeft).toBeEnabled()
         // expect(inputRight).toBeEnabled()
-        // expect(inputLeft.value).toBe('http://example.com/article')
-        // expect(inputRight.value).toBe('http://example.com/article')
+        // expect(inputLeft.value).toBe('https://getbootstrap.com/docs/5.0/forms/layout/')
+        // expect(inputRight.value).toBe('https://getbootstrap.com/docs/5.0/forms/validation/')
 
     })
 
