@@ -54,10 +54,8 @@ export default function EnterTwoURLs () {
       .then(response => {
         if (response != null) {
           setOutputValue('The two news articles given have similarity level of ' + `${Math.round(100 * response.data)}` + '%')
-          // show result
         } else {
-          setOutputValue('SOMETHING WENT WRONG!')
-          // show result
+          setOutputValue('Please provide a valid input!')
         }
       })
       .catch(error => {
