@@ -114,7 +114,7 @@ def compare_URLs(request):
 
         # check if the given right url is indeed valid
         if not sanitizing_url(url_right):
-            return HttpResponseBadRequest("The original url provided is invalid.")
+            return HttpResponseBadRequest("The changed url provided is invalid.")
 
         # do crawling on the given urls
         article_text_left, _ = crawl_url(url_left)
