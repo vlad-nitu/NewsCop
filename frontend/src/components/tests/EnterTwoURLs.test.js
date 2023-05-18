@@ -64,6 +64,13 @@ describe('EnterTwoURLs', () => {
 
     })
 
+    test('Input two empty URLs', () => {
+        render(<EnterTwoURLs />);
+        const submitButton = screen.getByText('Submit');
+
+        expect(submitButton).toBeDisabled();
+    });
+
     test('Input two URLs only the left', () => {
         const PreInputArticlePromptOriginal = 'Enter the original URL'
         const {getByPlaceholderText, getByText} = render(<EnterTwoURLs/>)
