@@ -11,8 +11,7 @@ import { useState } from 'react'
  *
  * @returns {JSX.Element} the check text for similarity component
  */
-export default function CheckOneText () {
-  const applicationName = 'NewsCop'
+export default function CheckOneText ({ applicationName }) {
   const textBoxDescription = 'Enter the article’s content to check for plagiarism'
   const [loading, setLoading] = useState(false)
 
@@ -45,7 +44,7 @@ export default function CheckOneText () {
         <BodyCheckOneText />
         <div style={{ height: '100%' }}>
           {/* Text area */}
-          <TextBox description={textBoxDescription} disabled={loading} />
+          <TextBox description={textBoxDescription} disabled={loading} placeholder='Enter your article here' />
         </div>
         {/* The submit button */}
         <SubmitButton disabled={loading} onClickMethod={handleSubmit} />

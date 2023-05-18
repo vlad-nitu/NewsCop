@@ -14,8 +14,7 @@ import Container from 'react-bootstrap/Container'
  *
  * @returns {JSX.Element} the check text for plagiarism component
  */
-export default function CheckTwoTexts () {
-  const applicationName = 'NewsCop'
+export default function CheckTwoTexts ({ applicationName, firstPlaceholder, secondPlaceholder }) {
   const originalTextBoxDescription = 'Enter the original content'
   const changedTextBoxDescription = 'Enter the changed content'
   const [loading, setLoading] = useState(false)
@@ -50,11 +49,11 @@ export default function CheckTwoTexts () {
           <Row style={{ height: '100%' }}>
             <Col md={6}>
               {/* Text area */}
-              <TextBox description={originalTextBoxDescription} disabled={loading} />
+              <TextBox description={originalTextBoxDescription} disabled={loading} placeholder={firstPlaceholder} />
             </Col>
             <Col md={6}>
               {/* Text area */}
-              <TextBox description={changedTextBoxDescription} disabled={loading} />
+              <TextBox description={changedTextBoxDescription} disabled={loading} placeholder={secondPlaceholder} />
             </Col>
           </Row>
         </Container>

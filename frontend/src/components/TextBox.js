@@ -8,7 +8,7 @@ import Container from 'react-bootstrap/Container'
  *
  * @returns {JSX.Element} that is a TextBox where users can enter the news article
  */
-const TextBox = ({ description, disabled }) => {
+const TextBox = ({ description, disabled, placeholder }) => {
   return (
     <Container style={{ height: 'calc(100% - 50px)' }}>
       <div className='d-flex flex-column justify-content-center mx-auto'>
@@ -19,7 +19,7 @@ const TextBox = ({ description, disabled }) => {
       <div className='d-flex justify-content-center' style={{ height: '100%' }}>
         <div className='form-group custom-container' style={{ height: '100%' }}>
           <div className='custom-textarea-container' style={{ height: '100%' }}>
-            <textarea disabled={disabled} placeholder='Enter your article here' className='form-control custom-textarea' id='textBox' rows='4' style={{ height: '100%' }} />
+            <textarea disabled={disabled} placeholder={placeholder} className='form-control custom-textarea' id='textBox' rows='4' style={{ height: '100%' }} />
           </div>
         </div>
       </div>

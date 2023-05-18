@@ -10,22 +10,9 @@ import Map from './map'
  *
  * @returns {JSX.Element} that hosts all the elements in our main page
  */
-export default function Home () {
-  const applicationName = 'NewsCop'
-  const applicationDescription = 'NewsCop is a news article ' +
-        'overlap detection platform that helps businesses stay on ' +
-        "top of competitors' news coverage. Our service quickly " +
-        'checks for duplicated stories, allowing you to spot ' +
-        'trends and identify opportunities to maximize coverage. ' +
-        "With NewsCop, you'll never miss a story."
+export default function Home ({ applicationName, applicationDescription, ourMission }) {
   const projectName = 'News article overlap'
   const imageUrl = './background_image.png'
-
-  const ourMission = 'Creating a platform that provides various ways of ' +
-        'comparing news articles, helping users to identify overlapping content ' +
-        'quickly and accurately and, consequently, decreasing the impact of ' +
-        'missinformation and plagiarism in the media.'
-
   // const ourMissionImage = 'https://gcdnb.pbrd.co/images/e5PfBZ9MCJqB.jpg?o=1'
   // const ourMissionImage2 = 'https://thumbs.dreamstime.com/b/man-looking-over-newspaper-62558573.jpg'
   const ourMissionImage3 = './ourMissionImage.png'
@@ -33,7 +20,7 @@ export default function Home () {
   const titles = ['URL similarity checker', 'Text similarity checker', 'Similarity checker for two texts', 'Similarity checker for two URLs']
   const descriptions = ['NewsCop provides users with a way of checking the URL of a news article against a large database of articles for fast and accurate plagiarism detection.',
     'NewsCop provides users with a way of checking the text of a news article against a large database of articles for fast and accurate plagiarism detection.', 'Test the similarity between two news articles by using this powerful tool which enables you to input two paragraphs of media content and see the alikeness of the two',
-    'Test the similarity between two news articles by using this powerful tool which enables you to input two URLs of media content and see the alikeness of the two']
+    'Test the similarity between two news articles by using this powerful tool which enables you to input two URLs of media content and see the likeness of the two']
   const images = ['service1.jpeg', 'service2.webp', 'service3.jpeg', 'service4.jpeg']
 
   return (
