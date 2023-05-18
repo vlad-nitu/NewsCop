@@ -212,7 +212,6 @@ class TestCompareURLs(TestCase):
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-
     def test_left_invalid(self):
         url_left = 'https://dianamicloiu.com/'
         url_right = 'https://getbootstrap.com/docs/5.0/forms/validation/'
@@ -232,7 +231,6 @@ class TestCompareURLs(TestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.content.decode(), 'The original url provided is invalid.')
 
-
     def test_right_invalid(self):
         url_left = 'https://getbootstrap.com/docs/5.0/forms/validation/'
         url_right = 'https://dianamicloiu.com/'
@@ -251,7 +249,6 @@ class TestCompareURLs(TestCase):
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.content.decode(), 'The changed url provided is invalid.')
-
 
     def test_invalid_request(self):
         request = self.factory.get("/compareURLs/")
