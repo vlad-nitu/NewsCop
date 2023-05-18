@@ -83,11 +83,11 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
           <Row style={{ height: '100%' }}>
             <Col md={6}>
               {/* Text area */}
-              <TextBox description='Enter the original content'  disabled={loading} textAreaValue={originalTextBoxDescription} setTextAreaValue={setOriginalTextBoxDescription} placeholder={firstPlaceholder}/>
+              <TextBox description='Enter the original content' disabled={loading} textAreaValue={originalTextBoxDescription} setTextAreaValue={setOriginalTextBoxDescription} placeholder={firstPlaceholder} />
             </Col>
             <Col md={6}>
               {/* Text area */}
-              <TextBox description='Enter the changed content' disabled={loading} textAreaValue={changedTextBoxDescription} setTextAreaValue={setChangedTextBoxDescription} placeholder={secondPlaceholder}/>
+              <TextBox description='Enter the changed content' disabled={loading} textAreaValue={changedTextBoxDescription} setTextAreaValue={setChangedTextBoxDescription} placeholder={secondPlaceholder} />
             </Col>
           </Row>
         </Container>

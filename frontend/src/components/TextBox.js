@@ -9,8 +9,7 @@ import Container from 'react-bootstrap/Container'
  */
 const TextBox = ({ description, disabled, textAreaValue, setTextAreaValue, placeholder }) => {
   const handleTextAreaChange = (event) => {
-    if (setTextAreaValue != null)
-        setTextAreaValue(event.target.value)
+    if (setTextAreaValue != null) { setTextAreaValue(event.target.value) }
   }
 
   return (
