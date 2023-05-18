@@ -32,6 +32,7 @@ export default function EnterTwoURLs () {
   const [showInputValue, setShowInputValue] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(false)
   const [outputValue, setOutputValue] = useState('')
+  const [outputColor, setOutputColor] = useState('black')
 
   const compareURLsEndpoint = 'http://localhost:8000/compareURLs/'
 
@@ -53,13 +54,20 @@ export default function EnterTwoURLs () {
     await axios.post(`${compareURLsEndpoint}`, createRequestBody(inputValueOriginal, inputValueChanged))
       .then(response => {
         if (response != null) {
-          setOutputValue('The two news articles given have similarity level of ' + `${Math.round(100 * response.data)}` + '%')
+          const answer = Math.round(100 * response.data)
+
+          // change color accordingly
+          if (answer >= 80) setOutputColor('red')
+          else setOutputColor('green')
+
+          setOutputValue('The two news articles given have similarity level of ' + `${answer}` + '%')
         } else {
           setOutputValue('Please provide a valid input!')
         }
       })
       .catch(error => {
         console.log(error)
+        setOutputColor('dark-blue')
         setOutputValue('Please provide a valid input!')
       })
 
@@ -127,7 +135,7 @@ export default function EnterTwoURLs () {
           </Button>
         </div>
         {showInputValue && (
-          <div>
+          <div style={{ display: 'flex', justifyContent: 'center', color: outputColor, fontSize: '120%', marginTop: '60px', textAlign: 'center' }}>
             {outputValue}
           </div>
         )}
