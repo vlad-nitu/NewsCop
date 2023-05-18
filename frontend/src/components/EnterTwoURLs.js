@@ -35,10 +35,10 @@ export default function EnterTwoURLs () {
 
   const compareURLsEndpoint = 'http://localhost:8000/compareURLs/'
 
-  const createRequestBody = (Data_Left, Data_Right) => {
+  const createRequestBody = (dataLeft, dataRight) => {
     return {
-      url_left: Data_Left,
-      url_right: Data_Right
+      url_left: dataLeft,
+      url_right: dataRight
     }
   }
 
