@@ -11,26 +11,25 @@ import Container from 'react-bootstrap/Container'
 
 const compareTextsEndpoint = 'http://localhost:8000/compareTexts/'
 
-  /**
+/**
    * Send request to compute similarity between two pieces of text.
    * @param originalText the first text which is checked
    * @param compareText the second text which is checked
    * @returns {Promise<any>} the response after the similarity coefficient is computed
    */
 export const compareTexts = async (originalText, compareText) => {
-    try {
-      const data = {
-        original_text: originalText,
-        compare_text: compareText
-      }
-      const response = await axios.post(`${compareTextsEndpoint}`, data)
-      return response.data
-    } catch (error) {
-      console.error(error)
-      throw new Error('Failed to compute similarity')
+  try {
+    const data = {
+      original_text: originalText,
+      compare_text: compareText
     }
+    const response = await axios.post(`${compareTextsEndpoint}`, data)
+    return response.data
+  } catch (error) {
+    console.error(error)
+    throw new Error('Failed to compute similarity')
   }
-
+}
 
 /**
  * The page for the checking two texts for overlapping. It contains all the components that will be present in the page,
@@ -68,8 +67,6 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
     setLoading(false)
     console.log(loading)
   }
-
-
 
   const getOutputPrompt = () => {
     return 'The two given texts have a similarity level of ' + similarity + '%.'

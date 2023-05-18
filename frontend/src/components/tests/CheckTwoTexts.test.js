@@ -1,8 +1,7 @@
 import { act, fireEvent, render, screen } from '@testing-library/react'
-import CheckTwoTexts from '../CheckTwoTexts'
+import CheckTwoTexts, { compareTexts } from '../CheckTwoTexts'
 import { MemoryRouter } from 'react-router-dom'
-import axios from 'axios';
-import { compareTexts } from '../CheckTwoTexts';
+import axios from 'axios'
 
 describe('CheckTwoTexts', () => {
   test('renders the prompt text', async () => {
@@ -68,32 +67,31 @@ describe('CheckTwoTexts', () => {
     expect(footer).toBeInTheDocument()
   })
 
+  jest.mock('axios')
 
-jest.mock('axios');
+  describe('compareTexts', () => {
+    it('should return similarity data', async () => {
+      const expectedData = { similarity: 0.85 }
+      axios.post = jest.fn().mockResolvedValueOnce({ data: expectedData })
 
-describe('compareTexts', () => {
-  it('should return similarity data', async () => {
-    const expectedData = { similarity: 0.85 };
-    axios.post = jest.fn().mockResolvedValueOnce({ data: expectedData });
+      const originalText = 'This is the original text'
+      const compareText = 'This is the compare text'
+      const result = await compareTexts(originalText, compareText)
 
-    const originalText = 'This is the original text';
-    const compareText = 'This is the compare text';
-    const result = await compareTexts(originalText, compareText);
+      expect(result).toEqual(expectedData)
+      expect(axios.post).toHaveBeenCalledWith('http://localhost:8000/compareTexts/', {
+        original_text: originalText,
+        compare_text: compareText
+      })
+    })
 
-    expect(result).toEqual(expectedData);
-    expect(axios.post).toHaveBeenCalledWith('http://localhost:8000/compareTexts/', {
-      original_text: originalText,
-      compare_text: compareText
-    });
-  });
+    it('should throw an error on failure', async () => {
+      const error = new Error('Failed to compute similarity')
+      axios.post = jest.fn().mockRejectedValueOnce(error)
 
-  it('should throw an error on failure', async () => {
-    const error = new Error('Failed to compute similarity');
-    axios.post = jest.fn().mockRejectedValueOnce(error);
-
-    const originalText = 'This is the original text';
-    const compareText = 'This is the compare text';
-    await expect(compareTexts(originalText, compareText)).rejects.toThrow('Failed to compute similarity');
-  });
-});
+      const originalText = 'This is the original text'
+      const compareText = 'This is the compare text'
+      await expect(compareTexts(originalText, compareText)).rejects.toThrow('Failed to compute similarity')
+    })
+  })
 })
