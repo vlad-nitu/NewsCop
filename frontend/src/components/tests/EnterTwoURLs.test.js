@@ -62,6 +62,22 @@ describe('EnterTwoURLs', () => {
     // expect(inputRight.value).toBe('https://getbootstrap.com/docs/5.0/forms/validation/')
   })
 
+  test('Displays "Please provide a valid input!" when API request fails', async () => {
+    jest.spyOn(axios, 'post').mockRejectedValue(new Error('Request failed'))
+
+    render(<EnterTwoURLs />)
+
+    const originalUrlInput = screen.getByPlaceholderText('Enter the original URL')
+    const changedUrlInput = screen.getByPlaceholderText('Enter the changed URL')
+    const submitButton = screen.getByText('Submit')
+
+    fireEvent.change(originalUrlInput, { target: { value: 'https://example.com/original' } })
+    fireEvent.change(changedUrlInput, { target: { value: 'https://example.com/changed' } })
+    fireEvent.click(submitButton)
+
+    expect(await screen.findByText('Please provide a valid input!')).toBeInTheDocument()
+  })
+
   test('Input two empty URLs', () => {
     render(<EnterTwoURLs />)
     const submitButton = screen.getByText('Submit')
