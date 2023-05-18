@@ -35,7 +35,7 @@ describe('EnterURL', () => {
     expect(submitButton).toBeDisabled()
 
     act(() => {
-      jest.advanceTimersByTime(5000) /* Advance timer by 10 seconds */
+      jest.advanceTimersByTime(5000) /* Advance timer by 5 seconds */
     })
 
     await waitFor(() => {

@@ -18,7 +18,7 @@ const SubmitButton = ({ disabled, onClickMethod }) => {
         <div className='mx-auto'>
           <Button
             onClick={onClickMethod} disabled={disabled}
-            variant='primary' className='mb-4'
+            variant='primary' className='mb-4' data-testid='submit_button'
             id='submitButton' role='button'
           ><p className='description-paragraph'>Submit</p>
           </Button>
