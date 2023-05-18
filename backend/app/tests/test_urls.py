@@ -10,6 +10,7 @@ from django.test import Client, TestCase, tag
 from django.urls import resolve, reverse
 from rest_framework import status
 
+from app.views import compare_texts_view
 from app.views import persist_url_view
 from app.views import try_view
 from app.views import reqex_view
@@ -19,6 +20,40 @@ from app.plagiarism_checker.fingerprinting import compute_fingerprint
 
 
 class UrlsTest(TestCase):
+    @tag("unit")
+    def test_compare_texts(self):
+        obtained_url = reverse('compare_texts')
+        expected_url = '/compareTexts/'
+
+        obtained_view_function = resolve(obtained_url).func
+        expected_view_function = compare_texts_view
+
+        self.assertEquals(obtained_url, expected_url)
+        self.assertEquals(obtained_view_function, expected_view_function)
+
+
+    @tag("integration")
+    def test_compare_texts_get_instead_of_post(self):
+        client = Client()
+        obtained_url = reverse('compare_texts')
+        response = client.get(obtained_url)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    @tag("integration")
+    def test_compare_texts_post(self):
+        data = {
+            'original_text': 'A do run run run, a do run run',
+            'compare_text': 'run run',
+        }
+
+        expected_similarity = 1 / 3
+        json_data = json.dumps(data)
+        obtained_url = reverse('compare_texts')
+        client = Client()
+
+        response = client.post(obtained_url, data=json_data, content_type='application/json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.content.decode(), str(expected_similarity))
 
     @tag("unit")
     def test_persist_url_pattern_1(self):

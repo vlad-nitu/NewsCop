@@ -23,7 +23,6 @@ export default function CheckTwoTexts () {
   const [displaySimilarity, setDisplaySimilarity] = useState(false)
   const [loading, setLoading] = useState(false)
 
-
   /**
      * Disable a button after using it for 3 seconds.
      * Source: https://stackoverflow.com/questions/63820933/how-to-disable-a-button-using-react-usestate-hook-inside-event-handler
@@ -80,18 +79,18 @@ export default function CheckTwoTexts () {
           <Row style={{ height: '100%' }}>
             <Col md={6}>
               {/* Text area */}
-              <TextBox description={'Enter the original content'} disabled={loading} textAreaValue={originalTextBoxDescription} setTextAreaValue={setOriginalTextBoxDescription} />
+              <TextBox description='Enter the original content' disabled={loading} textAreaValue={originalTextBoxDescription} setTextAreaValue={setOriginalTextBoxDescription} />
             </Col>
             <Col md={6}>
               {/* Text area */}
-              <TextBox description={'Enter the changed content'} disabled={loading} textAreaValue={changedTextBoxDescription} setTextAreaValue={setChangedTextBoxDescription} />
+              <TextBox description='Enter the changed content' disabled={loading} textAreaValue={changedTextBoxDescription} setTextAreaValue={setChangedTextBoxDescription} />
             </Col>
           </Row>
         </Container>
         {/* The submit button */}
         <SubmitButton disabled={loading} onClickMethod={handleSubmit} />
       </div>
-      {/* Similarity display*/}
+      {/* Similarity display */}
       <div>
         {displaySimilarity === true && <p>The two given text files have a similarity level of {similarity}%</p>}
       </div>

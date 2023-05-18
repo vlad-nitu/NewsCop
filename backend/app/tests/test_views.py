@@ -5,6 +5,7 @@ from django.test import TestCase, RequestFactory
 from django.http import HttpResponse, HttpResponseBadRequest
 from rest_framework import status
 
+from app.views import compare_texts_view
 from app.views import persist_url_view
 from app.views import try_view
 from app.views import reqex_view
@@ -16,6 +17,23 @@ import sys
 class TestPersistUrlView(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
+
+    def test_post_request_compare_texts(self):
+
+        # create the request body
+        data = {
+            'original_text': 'A do run run run, a do run run',
+            'compare_text': 'run run',
+        }
+
+        json_data = json.dumps(data)
+        request = self.factory.post("/compareTexts/", data=json_data, content_type='application/json')
+
+        response = compare_texts_view(request)
+
+        self.assertIsInstance(response, HttpResponse)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.content.decode(), str(1 / 3))
 
     def test_post_request_with_valid_url_no_text(self):
         url = 'https://www.vlad.com'

@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import Container from 'react-bootstrap/Container'
 
 /**
@@ -10,7 +10,7 @@ import Container from 'react-bootstrap/Container'
  */
 const TextBox = ({ description, disabled, textAreaValue, setTextAreaValue }) => {
   const handleTextAreaChange = (event) => {
-      setTextAreaValue(event.target.value)
+    setTextAreaValue(event.target.value)
   }
 
   return (
@@ -23,7 +23,7 @@ const TextBox = ({ description, disabled, textAreaValue, setTextAreaValue }) => 
       <div className='d-flex justify-content-center' style={{ height: '100%' }}>
         <div className='form-group custom-container' style={{ height: '100%' }}>
           <div className='custom-textarea-container' style={{ height: '100%' }}>
-            <textarea value={textAreaValue} disabled={disabled} placeholder='Enter your article here' className='form-control custom-textarea' id='textBox' rows='4' onChange={handleTextAreaChange} style={{ height: '100%' }}/>
+            <textarea value={textAreaValue} disabled={disabled} placeholder='Enter your article here' className='form-control custom-textarea' id='textBox' rows='4' onChange={handleTextAreaChange} style={{ height: '100%' }} />
           </div>
         </div>
       </div>
