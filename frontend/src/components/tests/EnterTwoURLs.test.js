@@ -44,7 +44,7 @@ describe('EnterTwoURLs', () => {
     })
 
     await waitFor(() => {
-      expect(submitButton).toBeEnabled() /* Button should be re-enabled after 10 seconds */
+      expect(submitButton).toBeEnabled() /* Button should be re-enabled after 5 seconds */
     })
     expect(inputLeft).toBeEnabled()
     expect(inputRight).toBeEnabled()
