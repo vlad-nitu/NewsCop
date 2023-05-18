@@ -1,18 +1,23 @@
 import NavbarComponent from './navbar'
 import Footer from './footer'
-import BodyCheckOneText from './BodyCheckOneText'
+import BodyCheckTwoTexts from './BodyCheckTwoTexts'
 import TextBox from './TextBox'
 import SubmitButton from './submitButton'
 import { useState } from 'react'
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
+import Container from 'react-bootstrap/Container'
 
 /**
- * The page for the check text for similarity page. It contains all the components that will be present in the page,
+ * The page for the checking two texts for overlapping. It contains all the components that will be present in the page,
  * and reuses some of the elements that can be found in the main page.
  *
- * @returns {JSX.Element} the check text for similarity component
+ * @returns {JSX.Element} the check text for plagiarism component
  */
-export default function CheckOneText ({ applicationName }) {
-  const textBoxDescription = 'Enter the article’s content to check for plagiarism'
+export default function CheckTwoTexts () {
+  const applicationName = 'NewsCop'
+  const originalTextBoxDescription = 'Enter the original content'
+  const changedTextBoxDescription = 'Enter the changed content'
   const [loading, setLoading] = useState(false)
 
   /**
@@ -25,7 +30,6 @@ export default function CheckOneText ({ applicationName }) {
   async function handleSubmit (event) {
     setLoading(true)
     console.log(loading)
-
     await new Promise((resolve) =>
       setTimeout(() => {
         resolve()
@@ -41,11 +45,19 @@ export default function CheckOneText ({ applicationName }) {
         {/* Navbar */}
         <NavbarComponent name={applicationName} mainPage={false} />
         {/* The description text about news overlap */}
-        <BodyCheckOneText />
-        <div style={{ height: '100%' }}>
-          {/* Text area */}
-          <TextBox description={textBoxDescription} disabled={loading} />
-        </div>
+        <BodyCheckTwoTexts />
+        <Container style={{ height: 'calc(100% - 90px)' }}>
+          <Row style={{ height: '100%' }}>
+            <Col md={6}>
+              {/* Text area */}
+              <TextBox description={originalTextBoxDescription} disabled={loading} />
+            </Col>
+            <Col md={6}>
+              {/* Text area */}
+              <TextBox description={changedTextBoxDescription} disabled={loading} />
+            </Col>
+          </Row>
+        </Container>
         {/* The submit button */}
         <SubmitButton disabled={loading} onClickMethod={handleSubmit} />
       </div>
