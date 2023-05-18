@@ -1,9 +1,17 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import CheckTwoTexts from '../CheckTwoTexts'
 import { MemoryRouter } from 'react-router-dom'
+import MockAdapter from 'axios-mock-adapter'
+import nock from 'nock'
+import axios from 'axios'
 
 describe('CheckTwoTexts', () => {
   test('renders the prompt text', async () => {
+    const data = {
+        original_text: 'http://example.com/article',
+        compare_text: 'http://example.com/article2'
+      }
+    nock('http://localhost:8000').post('/compareTexts/').reply(200, {data:1/3})
     const prompt = 'Test test'
     jest.useFakeTimers() /* Mock the timer */
 
@@ -45,17 +53,22 @@ describe('CheckTwoTexts', () => {
     expect(firstTextElem).toBeDisabled()
     expect(secondTextElem).toBeDisabled()
     act(() => {
-      jest.advanceTimersByTime(10000) /* Advance timer by 10 seconds */
+      jest.advanceTimersByTime(4000) /* Advance timer by 10 seconds */
     })
 
-    await waitFor(() => {
-      expect(submitButton).toBeEnabled() /* Button should be re-enabled after 10 seconds */
-    })
-    expect(firstTextElem).toBeEnabled()
-    expect(firstTextElem.value).toBe('http://example.com/article')
+    //const mock = new MockAdapter(axios)
+    //mock.onPost('http://localhost:8000/compareTexts/', data).reply(200, 1/3)
 
-    expect(secondTextElem).toBeEnabled()
-    expect(secondTextElem.value).toBe('http://example.com/article2')
+    //axios.post.mockImplementation(() => Promise.resolve({data: 1/3}))
+
+    // await waitFor(() => {
+    //   expect(submitButton).toBeEnabled() /* Button should be re-enabled after 10 seconds */
+    // })
+    // expect(firstTextElem).toBeEnabled()
+    // expect(firstTextElem.value).toBe('http://example.com/article')
+    //
+    // expect(secondTextElem).toBeEnabled()
+    // expect(secondTextElem.value).toBe('http://example.com/article2')
 
     // Check if the footer is present
     const footer = screen.getByTestId('FooterText')

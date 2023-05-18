@@ -17,7 +17,6 @@ import Container from 'react-bootstrap/Container'
  */
 
 export default function CheckTwoTexts ({ applicationName, firstPlaceholder, secondPlaceholder }) {
-  const applicationName = 'NewsCop'
   const [originalTextBoxDescription, setOriginalTextBoxDescription] = useState('')
   const [changedTextBoxDescription, setChangedTextBoxDescription] = useState('')
   const [similarity, setSimilarity] = useState(0)
@@ -84,7 +83,7 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
           <Row style={{ height: '100%' }}>
             <Col md={6}>
               {/* Text area */}
-              <TextBox description='Enter the original content' disabled={loading} textAreaValue={originalTextBoxDescription} setTextAreaValue={setOriginalTextBoxDescription} placeholder={firstPlaceholder}/>
+              <TextBox description='Enter the original content'  disabled={loading} textAreaValue={originalTextBoxDescription} setTextAreaValue={setOriginalTextBoxDescription} placeholder={firstPlaceholder}/>
             </Col>
             <Col md={6}>
               {/* Text area */}
