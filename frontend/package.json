@@ -7,7 +7,6 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
-    "axios-mock-adapter": "^1.21.4",
     "bootstrap": "^5.2.3",
     "build": "^0.1.4",
     "enzyme": "^3.11.0",

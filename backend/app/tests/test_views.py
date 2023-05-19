@@ -9,6 +9,7 @@ from app.views import compare_texts_view
 from app.views import persist_url_view
 from app.views import try_view
 from app.views import reqex_view
+from app.views import compare_URLs
 
 from utils import db
 import sys
@@ -186,3 +187,91 @@ class TestDatabase(TestCase):
 
         # final clean up
         db.nd_collection.delete_one({'_id': url})
+
+
+class TestCompareURLs(TestCase):
+
+    def setUp(self):
+        self.factory = RequestFactory()
+
+    def test_same_url(self):
+        url = 'https://getbootstrap.com/docs/5.0/forms/layout/'
+
+        # create the request body
+        data = {
+            'url_left': url,
+            'url_right': url
+        }
+
+        json_data = json.dumps(data)
+        request = self.factory.post("/compareURLs/", data=json_data, content_type='application/json')
+
+        response = compare_URLs(request)
+
+        self.assertIsInstance(response, HttpResponse)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.content.decode(), '1.0')
+
+    def test_different_urls_valid(self):
+        url_left = 'https://getbootstrap.com/docs/5.0/forms/layout/'
+        url_right = 'https://getbootstrap.com/docs/5.0/forms/validation/'
+
+        # create the request body
+        data = {
+            'url_left': url_left,
+            'url_right': url_right
+        }
+
+        json_data = json.dumps(data)
+        request = self.factory.post("/compareURLs/", data=json_data, content_type='application/json')
+
+        response = compare_URLs(request)
+
+        self.assertIsInstance(response, HttpResponse)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_left_invalid(self):
+        url_left = 'https://dianamicloiu.com/'
+        url_right = 'https://getbootstrap.com/docs/5.0/forms/validation/'
+
+        # create the request body
+        data = {
+            'url_left': url_left,
+            'url_right': url_right
+        }
+
+        json_data = json.dumps(data)
+        request = self.factory.post("/compareURLs/", data=json_data, content_type='application/json')
+
+        response = compare_URLs(request)
+
+        self.assertIsInstance(response, HttpResponse)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.content.decode(), 'The original url provided is invalid.')
+
+    def test_right_invalid(self):
+        url_left = 'https://getbootstrap.com/docs/5.0/forms/validation/'
+        url_right = 'https://dianamicloiu.com/'
+
+        # create the request body
+        data = {
+            'url_left': url_left,
+            'url_right': url_right
+        }
+
+        json_data = json.dumps(data)
+        request = self.factory.post("/compareURLs/", data=json_data, content_type='application/json')
+
+        response = compare_URLs(request)
+
+        self.assertIsInstance(response, HttpResponse)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.content.decode(), 'The changed url provided is invalid.')
+
+    def test_invalid_request(self):
+        request = self.factory.get("/compareURLs/")
+        response = compare_URLs(request)
+
+        self.assertIsInstance(response, HttpResponseBadRequest)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.content.decode(), "Expected POST, but got GET instead")
