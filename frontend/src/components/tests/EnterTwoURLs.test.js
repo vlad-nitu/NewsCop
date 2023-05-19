@@ -2,6 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import EnterTwoURLs from '../EnterTwoURLs'
 import { MemoryRouter } from 'react-router-dom'
 import axios from 'axios'
+import { act } from 'react-dom/test-utils'
 
 describe('EnterTwoURLs', () => {
   test('Renders the prompt text', () => {
@@ -109,5 +110,38 @@ describe('EnterTwoURLs', () => {
     expect(inputRight.value).toBe('http://example.com/article')
 
     expect(submitButton).toBeDisabled()
+  })
+
+  test('Button becomes enabled after 5 seconds', async () => {
+    // Mock the axios post to return a resolved promise with a dummy response
+    axios.post.mockResolvedValue({ data: { dummyResponse: 'success' } })
+
+    const { getByText, getByPlaceholderText } = render(<EnterTwoURLs />)
+    const submitButton = getByText('Submit')
+    const inputLeft = getByPlaceholderText('Enter the original URL')
+    const inputRight = getByPlaceholderText('Enter the changed URL')
+
+    // Change the input values
+    fireEvent.change(inputLeft, { target: { value: 'https://getbootstrap.com/docs/5.0/forms/layout/' } })
+    fireEvent.change(inputRight, { target: { value: 'https://getbootstrap.com/docs/5.0/forms/validation/' } })
+
+    // Click the submit button
+    fireEvent.click(submitButton)
+
+    // Assert that the button is disabled initially
+    expect(submitButton).toBeDisabled()
+
+    // Resolve the axios post promise
+    await act(async () => {
+      await axios.post.mock.results[0].value
+    })
+
+    // Advance the timer by 5 seconds
+    act(() => {
+      jest.advanceTimersByTime(5000)
+    })
+
+    // Assert that the button becomes enabled after 5 seconds
+    expect(submitButton).toBeEnabled()
   })
 })
