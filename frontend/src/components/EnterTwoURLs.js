@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { Container, Form, Button } from 'react-bootstrap'
+import { Container, Form } from 'react-bootstrap'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import axios from 'axios'
+import SubmitButton from './submitButton'
 
 /**
  * Container that displays:
@@ -19,13 +20,6 @@ import axios from 'axios'
 export default function EnterTwoURLs () {
   const PreInputArticlePromptOriginal = 'Enter the original URL'
   const PreInputArticlePromptChanged = 'Enter the changed URL'
-  const buttonStyle = {
-    width: '25%',
-    height: '50px',
-    fontWeight: 'bold',
-    fontSize: '1.2rem',
-    backgroundColor: '#2E837E'
-  }
 
   const [inputValueOriginal, setInputValueOriginal] = useState('')
   const [inputValueChanged, setInputValueChanged] = useState('')
@@ -122,18 +116,7 @@ export default function EnterTwoURLs () {
             </Col>
           </Row>
         </Form.Group>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Button
-            variant='primary'
-            type='submit'
-            className='mt-4 mx-auto rounded'
-            style={buttonStyle}
-            onClick={handleSubmit}
-            disabled={buttonDisabled || !inputValueChanged || !inputValueOriginal}
-          >
-            Submit
-          </Button>
-        </div>
+        <SubmitButton onClickMethod={handleSubmit} disabled={buttonDisabled || !inputValueChanged || !inputValueOriginal} />
         {showInputValue && (
           <div style={{ display: 'flex', justifyContent: 'center', color: outputColor, fontSize: '120%', marginTop: '60px', textAlign: 'center' }}>
             {outputValue}
