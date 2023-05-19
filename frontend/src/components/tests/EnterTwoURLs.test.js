@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import {render, screen, fireEvent, act, waitFor} from '@testing-library/react'
 import EnterTwoURLs from '../EnterTwoURLs'
 import { MemoryRouter } from 'react-router-dom'
 import axios from 'axios'
@@ -18,8 +18,9 @@ describe('EnterTwoURLs', () => {
     expect(promptElement).toBeInTheDocument()
   })
 
-  test('Input two URLs good', async () => {
-    jest.useFakeTimers() /* Mock the timer */
+  test('Input two URLs good percentage < 0.8', async () => {
+    // Mock the timer
+    jest.useFakeTimers()
 
     const PreInputArticlePromptOriginal = 'Enter the original URL'
     const PreInputArticlePromptChanged = 'Enter the changed URL'
@@ -49,18 +50,25 @@ describe('EnterTwoURLs', () => {
     expect(inputRight).toBeDisabled()
     expect(inputLeft).toBeDisabled()
 
-    // act(() => {
-    //     jest.advanceTimersByTime(5000) /* Advance timer by 5 seconds */
-    // })
-    //
-    // await waitFor(() => {
-    //     expect(submitButton).toBeEnabled()
-    // }) /* Button should be re-enabled after 5 seconds */
-    //
-    // expect(inputLeft).toBeEnabled()
-    // expect(inputRight).toBeEnabled()
-    // expect(inputLeft.value).toBe('https://getbootstrap.com/docs/5.0/forms/layout/')
-    // expect(inputRight.value).toBe('https://getbootstrap.com/docs/5.0/forms/validation/')
+    // Resolve the axios post promise
+    await act(async () => {
+      await axios.post.mock.results[0].value;
+    });
+
+    // Advance timer by 5 seconds
+    act(() => {
+        jest.advanceTimersByTime(5000)
+    })
+
+    // Button should be re-enabled after 5 seconds
+    await waitFor(() => {
+        expect(submitButton).toBeEnabled()
+    })
+
+    expect(inputLeft).toBeEnabled()
+    expect(inputRight).toBeEnabled()
+    expect(inputLeft.value).toBe('https://getbootstrap.com/docs/5.0/forms/layout/')
+    expect(inputRight.value).toBe('https://getbootstrap.com/docs/5.0/forms/validation/')
   })
 
   test('Displays "Please provide a valid input!" when API request fails', async () => {
