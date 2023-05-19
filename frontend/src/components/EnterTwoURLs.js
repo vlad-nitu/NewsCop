@@ -60,14 +60,14 @@ export default function EnterTwoURLs () {
           if (answer >= 80) setOutputColor('red')
           else setOutputColor('green')
 
-          setOutputValue('The two news articles given have similarity level of ' + `${answer}` + '%')
+          setOutputValue(`The two news articles given have similarity level of ${answer} %`)
         } else {
           setOutputValue('Please provide a valid input!')
         }
       })
       .catch(error => {
         console.log(error)
-        setOutputColor('dark-blue')
+        setOutputColor(`darkred`)
         setOutputValue('Please provide a valid input!')
       })
 
