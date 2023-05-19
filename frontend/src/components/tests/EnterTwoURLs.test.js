@@ -1,4 +1,4 @@
-import {render, screen, fireEvent, act, waitFor} from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import EnterTwoURLs from '../EnterTwoURLs'
 import { MemoryRouter } from 'react-router-dom'
 import axios from 'axios'
@@ -52,17 +52,17 @@ describe('EnterTwoURLs', () => {
 
     // Resolve the axios post promise
     await act(async () => {
-      await axios.post.mock.results[0].value;
-    });
+      await axios.post.mock.results[0].value
+    })
 
     // Advance timer by 5 seconds
     act(() => {
-        jest.advanceTimersByTime(5000)
+      jest.advanceTimersByTime(5000)
     })
 
     // Button should be re-enabled after 5 seconds
     await waitFor(() => {
-        expect(submitButton).toBeEnabled()
+      expect(submitButton).toBeEnabled()
     })
 
     expect(inputLeft).toBeEnabled()
