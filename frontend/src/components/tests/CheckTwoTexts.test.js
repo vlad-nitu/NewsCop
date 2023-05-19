@@ -1,11 +1,16 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
-import CheckTwoTexts from '../CheckTwoTexts'
+import CheckTwoTexts, { compareTexts } from '../CheckTwoTexts'
 import { MemoryRouter } from 'react-router-dom'
+import axios from 'axios'
+
+jest.mock('axios')
 
 describe('CheckTwoTexts', () => {
   test('renders the prompt text', async () => {
     const prompt = 'Test test'
     jest.useFakeTimers() /* Mock the timer */
+    const expectedData = 0.85
+    axios.post = jest.fn().mockResolvedValueOnce({ data: expectedData })
 
     render(
       <MemoryRouter>
@@ -44,21 +49,42 @@ describe('CheckTwoTexts', () => {
     expect(submitButton).toBeDisabled()
     expect(firstTextElem).toBeDisabled()
     expect(secondTextElem).toBeDisabled()
+
+    // Resolve the axios post promise
+    await act(async () => {
+      await axios.post.mock.results[0].value
+    })
+
     act(() => {
-      jest.advanceTimersByTime(10000) /* Advance timer by 10 seconds */
+      jest.advanceTimersByTime(4000) /* Advance timer by 4 seconds */
     })
 
     await waitFor(() => {
       expect(submitButton).toBeEnabled() /* Button should be re-enabled after 10 seconds */
     })
+
     expect(firstTextElem).toBeEnabled()
     expect(firstTextElem.value).toBe('http://example.com/article')
-
+    //
     expect(secondTextElem).toBeEnabled()
     expect(secondTextElem.value).toBe('http://example.com/article2')
+
+    const outputPrompt = 'The two given texts have a similarity level of 85%.'
+    const outputText = screen.getByText(outputPrompt)
+    expect(outputText).toBeInTheDocument()
 
     // Check if the footer is present
     const footer = screen.getByTestId('FooterText')
     expect(footer).toBeInTheDocument()
+  })
+  describe('compareTexts', () => {
+    it('should throw an error on failure', async () => {
+      const error = new Error('Failed to compute similarity')
+      axios.post = jest.fn().mockRejectedValueOnce(error)
+
+      const originalText = 'This is the original text'
+      const compareText = 'This is the compare text'
+      await expect(compareTexts(originalText, compareText)).rejects.toThrow('Failed to compute similarity')
+    })
   })
 })

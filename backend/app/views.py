@@ -92,6 +92,33 @@ def persist_url_view(request):
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
 
+def compare_texts_view(request):
+    '''
+    The endpoint that can be consumed by posting on localhost:8000/compareTexts/ having two texts attached in the body
+    of the request
+    This will be used for computing the similarity between the two texts
+    :param request: the request
+    :return: a HttpResponse with status 200 and the computed similarity, if successful
+    else HttpResponseBadRequest with status 400
+    '''
+
+    #  Ensure the request method is POST
+    if request.method == 'POST':
+        data = json.loads(request.body)
+
+        # extract the two texts from the request
+        text1 = data["original_text"]
+        text2 = data["compare_text"]
+
+        # compute the fingerprints of the two texts
+        fingerprint1 = compute_fingerprint(text1)
+        fingerprint2 = compute_fingerprint(text2)
+
+        # compute and return the similarity between the two texts
+        return HttpResponse(compute_similarity(fingerprint1, fingerprint2))
+    else:
+        return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
+
 
 def compare_URLs(request):
     '''
