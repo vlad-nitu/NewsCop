@@ -1,5 +1,5 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
-import CheckTwoTexts, {compareTexts} from '../CheckTwoTexts'
+import CheckTwoTexts, { compareTexts } from '../CheckTwoTexts'
 import { MemoryRouter } from 'react-router-dom'
 import axios from 'axios'
 
@@ -9,7 +9,7 @@ describe('CheckTwoTexts', () => {
   test('renders the prompt text', async () => {
     const prompt = 'Test test'
     jest.useFakeTimers() /* Mock the timer */
-    const expectedData =  0.85
+    const expectedData = 0.85
     axios.post = jest.fn().mockResolvedValueOnce({ data: expectedData })
 
     render(
