@@ -66,7 +66,7 @@ export default function Services ({ titles, descriptions, images }) {
               <h3 style={textStyle}>{titles[2]}</h3>
               <p style={textStyleParagraph}>{descriptions[2]}</p>
             </Col>
-            <Col md={3} cclassName='pe-sm-3 mb-3 mb-sm-0'>
+            <Col md={3} className='pe-sm-3 mb-3 mb-sm-0'>
               <img style={imageStyle} src={images[3]} alt='Service 4' className='pb-4' />
               <h3 style={textStyle}>{titles[3]}</h3>
               <p style={textStyleParagraph}>{descriptions[3]}</p>
