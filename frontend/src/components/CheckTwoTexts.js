@@ -70,7 +70,7 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
           </Row>
         </Container>
         {/* The submit button */}
-        <SubmitButton disabled={loading} onClickMethod={handleSubmit} />
+        <SubmitButton disabled={loading || (originalTextBoxDescription === '' || changedTextBoxDescription === '')} onClickMethod={handleSubmit} />
         {displaySimilarity && (
           <div style={{ display: 'flex', justifyContent: 'center', fontSize: '140%', marginTop: '60px', textAlign: 'center' }}>
             {getOutputPrompt()}
