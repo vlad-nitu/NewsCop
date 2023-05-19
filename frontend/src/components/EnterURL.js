@@ -16,12 +16,17 @@ import { Container, Form, Button } from 'react-bootstrap'
 export default function EnterURL () {
   const PreInputArticlePrompt = "Article's URL"
   const buttonStyle = {
-    width: '25%',
-    height: '50px',
+    width: '50%',
+    height: '8vh',
     fontWeight: 'bold',
-    fontSize: '1.2rem',
-    backgroundColor: '#2E837E'
-  }
+    fontSize: 'calc(1vh + 1vw)', // Adjust the font size as needed
+    backgroundColor: '#2E837E',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: '25%',
+    marginRight: '25%',
+  };
 
   const [inputValue, setInputValue] = useState('')
   const [showInputValue, setShowInputValue] = useState(false)
@@ -49,7 +54,7 @@ export default function EnterURL () {
           Enter the article's URL to check for plagiarism
         </h2>
       </div>
-      <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '60vh', margin: '0 auto' }}>
         <Form.Group controlId='formUrl'>
           <Form.Control
             type='url'
@@ -61,7 +66,7 @@ export default function EnterURL () {
             disabled={buttonDisabled}
           />
         </Form.Group>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', maxWidth: '50%'}}>
           <Button
             variant='primary'
             type='submit'
