@@ -4,8 +4,9 @@ import { Container, Form, Button } from 'react-bootstrap';
 export default function EnterURL() {
   const PreInputArticlePrompt = "Article's URL";
   const buttonStyle = {
-    width: '50%',
-    height: '8vh',
+    width: '30%',
+    height: '7vh',
+    maxHeight: '100px',
     fontWeight: 'bold',
     fontSize: 'calc(1vh + 1vw)', // Adjust the font size as needed
     backgroundColor: '#2E837E',
@@ -42,7 +43,7 @@ export default function EnterURL() {
           Enter the article's URL to check for plagiarism
         </h2>
       </div>
-      <div style={{ maxWidth: '60vh', margin: '0 auto' }}>
+      <div style={{ maxWidth: '70vh', margin: '0 auto' }}>
         <Form.Group controlId='formUrl'>
           <Form.Control
             type='url'
