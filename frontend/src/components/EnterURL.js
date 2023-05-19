@@ -8,7 +8,7 @@ export default function EnterURL () {
     height: '7vh',
     maxHeight: '100px',
     fontWeight: 'bold',
-    fontSize: 'calc(1vh + 1vw)', // Adjust the font size as needed
+    fontSize: 'min(calc(1vh + 1vw), 50px)', // Adjust the font size as needed
     backgroundColor: '#2E837E',
     display: 'flex',
     justifyContent: 'center',
