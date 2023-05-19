@@ -9,28 +9,6 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
 
-const compareTextsEndpoint = 'http://localhost:8000/compareTexts/'
-
-/**
-   * Send request to compute similarity between two pieces of text.
-   * @param originalText the first text which is checked
-   * @param compareText the second text which is checked
-   * @returns {Promise<any>} the response after the similarity coefficient is computed
-   */
-export const compareTexts = async (originalText, compareText) => {
-  try {
-    const data = {
-      original_text: originalText,
-      compare_text: compareText
-    }
-    const response = await axios.post(`${compareTextsEndpoint}`, data)
-    return response.data
-  } catch (error) {
-    console.error(error)
-    throw new Error('Failed to compute similarity')
-  }
-}
-
 /**
  * The page for the checking two texts for overlapping. It contains all the components that will be present in the page,
  * and reuses some of the elements that can be found in the main page.
@@ -46,7 +24,7 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
   const [loading, setLoading] = useState(false)
 
   /**
-     * Disable a button after using it for 3 seconds.
+     * Disable a button after using it for 4 seconds.
      * Source: https://stackoverflow.com/questions/63820933/how-to-disable-a-button-using-react-usestate-hook-inside-event-handler
      *
      * @param event an event, a click event in our case
@@ -104,4 +82,26 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
       <Footer />
     </>
   )
+}
+
+const compareTextsEndpoint = 'http://localhost:8000/compareTexts/'
+
+/**
+   * Send request to compute similarity between two pieces of text.
+   * @param originalText the first text which is checked
+   * @param compareText the second text which is checked
+   * @returns {Promise<any>} the response after the similarity coefficient is computed
+   */
+export const compareTexts = async (originalText, compareText) => {
+  try {
+    const data = {
+      original_text: originalText,
+      compare_text: compareText
+    }
+    const response = await axios.post(`${compareTextsEndpoint}`, data)
+    return response.data
+  } catch (error) {
+    console.error(error)
+    throw new Error('Failed to compute similarity')
+  }
 }

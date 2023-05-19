@@ -1,12 +1,16 @@
-import { act, fireEvent, render, screen } from '@testing-library/react'
-import CheckTwoTexts, { compareTexts } from '../CheckTwoTexts'
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import CheckTwoTexts, {compareTexts} from '../CheckTwoTexts'
 import { MemoryRouter } from 'react-router-dom'
 import axios from 'axios'
+
+jest.mock('axios')
 
 describe('CheckTwoTexts', () => {
   test('renders the prompt text', async () => {
     const prompt = 'Test test'
     jest.useFakeTimers() /* Mock the timer */
+    const expectedData =  0.85
+    axios.post = jest.fn().mockResolvedValueOnce({ data: expectedData })
 
     render(
       <MemoryRouter>
@@ -45,46 +49,35 @@ describe('CheckTwoTexts', () => {
     expect(submitButton).toBeDisabled()
     expect(firstTextElem).toBeDisabled()
     expect(secondTextElem).toBeDisabled()
-    act(() => {
-      jest.advanceTimersByTime(4000) /* Advance timer by 10 seconds */
+
+    // Resolve the axios post promise
+    await act(async () => {
+      await axios.post.mock.results[0].value
     })
 
-    //  jest.mock('axios');
-    //  axios.post.mockResolvedValue({data:1/3})
+    act(() => {
+      jest.advanceTimersByTime(4000) /* Advance timer by 4 seconds */
+    })
 
-    // await waitFor(() => {
-    //   expect(submitButton).toBeEnabled() /* Button should be re-enabled after 10 seconds */
-    // })
+    await waitFor(() => {
+      expect(submitButton).toBeEnabled() /* Button should be re-enabled after 10 seconds */
+    })
 
-    // expect(firstTextElem).toBeEnabled()
-    // expect(firstTextElem.value).toBe('http://example.com/article')
+    expect(firstTextElem).toBeEnabled()
+    expect(firstTextElem.value).toBe('http://example.com/article')
     //
-    // expect(secondTextElem).toBeEnabled()
-    // expect(secondTextElem.value).toBe('http://example.com/article2')
+    expect(secondTextElem).toBeEnabled()
+    expect(secondTextElem.value).toBe('http://example.com/article2')
+
+    const outputPrompt = 'The two given texts have a similarity level of 85%.'
+    const outputText = screen.getByText(outputPrompt)
+    expect(outputText).toBeInTheDocument()
 
     // Check if the footer is present
     const footer = screen.getByTestId('FooterText')
     expect(footer).toBeInTheDocument()
   })
-
-  jest.mock('axios')
-
   describe('compareTexts', () => {
-    it('should return similarity data', async () => {
-      const expectedData = { similarity: 0.85 }
-      axios.post = jest.fn().mockResolvedValueOnce({ data: expectedData })
-
-      const originalText = 'This is the original text'
-      const compareText = 'This is the compare text'
-      const result = await compareTexts(originalText, compareText)
-
-      expect(result).toEqual(expectedData)
-      expect(axios.post).toHaveBeenCalledWith('http://localhost:8000/compareTexts/', {
-        original_text: originalText,
-        compare_text: compareText
-      })
-    })
-
     it('should throw an error on failure', async () => {
       const error = new Error('Failed to compute similarity')
       axios.post = jest.fn().mockRejectedValueOnce(error)
