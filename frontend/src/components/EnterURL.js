@@ -1,7 +1,17 @@
 import { useState } from 'react'
 import { Container, Form, Button } from 'react-bootstrap'
 
-export default function EnterURL () {
+/**
+ * Container that displays:
+ * 1. The description of the form from 2.
+ * 2. The `Article's URL` form where the user will input the URL that he wants to
+ * check for overlapping with other articles stored in our database
+ * 3. The `Submit button` that sends the URL to the backend server to do the computations
+ * Can also be found on the Figma wireframe.
+ *
+ * @returns {JSX.Element} that represents the overlapping description, form and submit button;
+ * Can be found directly under the navbar component of the page
+ */export default function EnterURL () {
   const PreInputArticlePrompt = "Article's URL"
   const buttonStyle = {
     width: '30%',
