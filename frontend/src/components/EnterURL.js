@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Container, Form, Button } from 'react-bootstrap'
+import { Container, Form } from 'react-bootstrap'
+import SubmitButton from './submitButton'
 
 /**
  * Container that displays:
@@ -13,19 +14,6 @@ import { Container, Form, Button } from 'react-bootstrap'
  * Can be found directly under the navbar component of the page
  */export default function EnterURL () {
   const PreInputArticlePrompt = "Article's URL"
-  const buttonStyle = {
-    width: '30%',
-    height: '7vh',
-    maxHeight: '100px',
-    fontWeight: 'bold',
-    fontSize: 'min(calc(1vh + 1vw), 50px)', // Adjust the font size as needed
-    backgroundColor: '#2E837E',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: '25%',
-    marginRight: '25%'
-  }
 
   const [inputValue, setInputValue] = useState('')
   const [showInputValue, setShowInputValue] = useState(false)
@@ -53,30 +41,19 @@ import { Container, Form, Button } from 'react-bootstrap'
           Enter the article's URL to check for plagiarism
         </h2>
       </div>
-      <div style={{ maxWidth: '70vh', margin: '0 auto' }}>
+      <div style={{ maxWidth: '60vh', margin: '0 auto' }}>
         <Form.Group controlId='formUrl'>
           <Form.Control
             type='url'
             placeholder={PreInputArticlePrompt}
             className='rounded-pill border-success'
-            style={{ height: '50px' }}
+            style={{ height: '55px' }}
             value={inputValue}
             onChange={handleInputChange}
             disabled={buttonDisabled}
           />
         </Form.Group>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            variant='primary'
-            type='submit'
-            className='mt-4 rounded'
-            style={buttonStyle}
-            onClick={handleSubmit}
-            disabled={buttonDisabled || !inputValue}
-          >
-            Submit
-          </Button>
-        </div>
+        <SubmitButton onClickMethod={handleSubmit} disabled={buttonDisabled || !inputValue} />
         {showInputValue && <div>Input value: "{inputValue}"</div>}
       </div>
     </Container>
