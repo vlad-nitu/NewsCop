@@ -1,6 +1,6 @@
 from utils import db
 from mongoengine.fields import Document, EmbeddedDocument
-from mongoengine.fields import EmbeddedDocumentField, ListField, StringField, DateTimeField, IntField
+from mongoengine.fields import ListField, StringField, DateTimeField, IntField
 
 # Create your models here.
 class React(Document):
@@ -23,12 +23,14 @@ class NewsDocument(Document):
 
     url = StringField()
     published_date = DateTimeField()
-    fingerprints = ListField(EmbeddedDocumentField(Fingerprint))
+    fingerprints = ListField(IntField())
 
     def save(self, *args, **kwargs):
-        fingerprints = [fp.to_mongo() for fp in self.fingerprints]
-        db.nd_collection.insert_one({
+        db.rares_news_collection.insert_one({
             '_id': self.url,
             'published_date': self.published_date,
-            'fingerprints': fingerprints 
+            'fingerprints': self.fingerprints
         })
+        # fingerprints = [fp.() for fp in self.fingerprints]
+
+        # db.rares_inverted_index.insert_one({})

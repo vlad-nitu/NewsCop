@@ -1,4 +1,5 @@
 import json
+import time
 from unittest.mock import patch
 from unittest.mock import MagicMock
 
@@ -68,9 +69,9 @@ class TestPersistUrlView(TestCase):
         self.factory = RequestFactory()
 
     def test_post_request_with_valid_url_no_text(self):
-        url = 'https://www.vlad.com'
+        url = 'https://www.bbc.com/news/world-asia-65657996'
         # clear database
-        db.nd_collection.delete_one({'_id': url})
+        db.rares_news_collection.delete_one({'_id': url})
 
         # create the request body
         data = {
@@ -84,15 +85,14 @@ class TestPersistUrlView(TestCase):
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), url)
-
-        res = db.nd_collection.delete_one({'_id': url})
+        res = db.rares_news_collection.delete_one({'_id': url})
         self.assertEqual(res.deleted_count, 1)
 
     def test_post_request_with_valid_url_text(self):
-        url = 'https://www.bbc.com/news/entertainment-arts-65488861'
+        url = 'https://www.bbc.com/news/world-asia-65657996'
 
         # clear database
-        db.nd_collection.delete_one({'_id': url})
+        db.rares_news_collection.delete_one({'_id': url})
 
         # create the request body
         data = {
@@ -106,8 +106,7 @@ class TestPersistUrlView(TestCase):
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), url)
-
-        res = db.nd_collection.delete_one({'_id': url})
+        res = db.rares_news_collection.delete_one({'_id': url})
         self.assertEqual(res.deleted_count, 1)
 
     def test_post_request_with_invalid_url(self):

@@ -43,13 +43,13 @@ class UrlsTest(TestCase):
         obtained_url = reverse('persist_url')
         client = Client()
 
-        db.nd_collection.delete_one({'_id': expected_persisted_url})
+        db.rares_news_collection.delete_one({'_id': expected_persisted_url})
 
         response = client.post(obtained_url, data=json_data, content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), expected_persisted_url)
 
-        res = db.nd_collection.delete_one({'_id': expected_persisted_url})
+        res = db.rares_news_collection.delete_one({'_id': expected_persisted_url})
         self.assertEqual(res.deleted_count, 1)
 
     @tag("integration")

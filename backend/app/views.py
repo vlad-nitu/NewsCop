@@ -85,15 +85,17 @@ def persist_url_view(request):
             return HttpResponseBadRequest("The url provided is invalid")
 
         # Check whether the current URL is present in the database
-        url_exists = db.nd_collection.find_one({'_id': url}) is not None
+        url_exists = db.rares_news_collection.find_one({'_id': url}) is not None
 
         # If current URL is not part of the database, persist it
         if not url_exists:
             # do crawling on the given url
             article_text, article_date = crawl_url(url)
 
-            # print(compute_fingerprint(article_text))
-            newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=compute_fingerprint(article_text))
+            fingerprints = compute_fingerprint(article_text)
+            only_shingle_values = [i['shingle_hash'] for i in fingerprints]
+            # print(only_shingle_values)
+            newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=only_shingle_values)
             newsdoc.save()
 
         print("persist_url_view: " + url)
