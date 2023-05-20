@@ -41,4 +41,3 @@ class NewsDocument(Document):
                     '_id': i,
                     'hashes': hash_set
                 })
-        # db.rares_inverted_index.insert_one({})
