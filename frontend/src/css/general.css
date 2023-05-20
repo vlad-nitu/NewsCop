@@ -97,3 +97,7 @@
   float: left;
   margin-bottom: -100px;
 }
+
+iframe.custom-iframe-height {
+    height: calc(100vh - 57px);
+}

@@ -7,6 +7,7 @@ import CheckOneText from './components/CheckOneText'
 import CheckURL from './components/CheckURL'
 import CheckTwoTexts from './components/CheckTwoTexts'
 import CheckTwoURLs from './components/CheckTwoURLs'
+import SideBySideRender from './components/SideBySideRender'
 
 /**
  * The entire page was built around the Bootstrap library.
@@ -31,11 +32,15 @@ function App () {
           'comparing news articles, helping users to identify overlapping content ' +
           'quickly and accurately and, consequently, decreasing the impact of ' +
           'missinformation and plagiarism in the media.'
+
+  const inputUrl = "https://awakecanada.org/eric-clapton-speaking-out-about-pain-and-agony-from-covid-vaccine-led-to-alienation-broken-friendships/"
+
   return (
     <Router>
       <div>
         <Routes>
           <Route path='/' element={<Home applicationName={applicationName} applicationDescription={applicationDescription} ourMission={ourMission} />} />
+          {/* <Route path='/' element={<SideBySideRender urlLeft={inputUrl} urlRight={inputUrl} applicationName='NewsCop' />} /> */}
           <Route path='/checkText' element={<CheckOneText applicationName='NewsCop' />} />
           <Route exact path='/checkURL' element={<CheckURL />} />
           <Route exact path='/compareTexts' element={<CheckTwoTexts applicationName='NewsCop' firstPlaceholder='Enter your first article here' secondPlaceholder='Enter your second article here' />} />
