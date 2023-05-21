@@ -179,7 +179,7 @@ def url_similarity_checker(request):
         # else:
         #     body = (False, high_similarity_article)
 
-        return HttpResponse((x, y), status=200)
+        return HttpResponse((max_count, max_string), status=200)
 
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
