@@ -36,7 +36,7 @@ class NewsDocument(Document):
             if hash_exists:
                 db.rares_hashes.update_one({"_id": i}, {"$addToSet": {"hashes": self.url}})
             else:
-                hash_set = list(self.url)
+                hash_set = [self.url]
                 db.rares_hashes.insert_one({
                     '_id': i,
                     'hashes': hash_set
