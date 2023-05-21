@@ -128,22 +128,11 @@ def url_similarity_checker(request):
                 }
             },
             {
-                '$lookup': {
-                    'from': 'rares_news_collection',
-                    'localField': '_id',
-                    'foreignField': '_id',
-                    'as': 'strings'
-                }
-            },
-            {
-                '$unwind': '$strings'
-            },
-            {
-                '$unwind': '$strings.value'
+                '$unwind': '$hash'
             },
             {
                 '$group': {
-                    '_id': '$strings.value',
+                    '_id': '$hashes',
                     'count': {'$sum': 1}
                 }
             },
@@ -151,7 +140,7 @@ def url_similarity_checker(request):
                 '$sort': {'count': -1}
             },
             {
-                '$limit': 2
+                '$limit': 1
             }
         ]
         result = db.rares_hashes.aggregate(pipeline)
