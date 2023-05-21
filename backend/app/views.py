@@ -1,4 +1,6 @@
 from datetime import datetime
+
+import numpy as np
 from django.shortcuts import render
 from rest_framework.views import APIView
 from .models import *
@@ -115,61 +117,95 @@ def url_similarity_checker(request):
         url = url[2: len(url) - 1]
 
         # Get the fingerprints for the current URL
-        submitted_url_fingerprints = db.nd_collection.find_one({'_id': url})['fingerprints']
-
+        submitted_url_fingerprints = db.rares_news_collection.find_one({'_id': url})['fingerprints']
+        # print(submitted_url_fingerprints)
         # Set of candidates
         # Candidate: id
-        candidates = set()
+        pipeline = [
+            {
+                '$match': {
+                    '_id': {'$in': submitted_url_fingerprints}
+                }
+            },
+            {
+                '$lookup': {
+                    'from': 'rares_news_collection',
+                    'localField': '_id',
+                    'foreignField': '_id',
+                    'as': 'strings'
+                }
+            },
+            {
+                '$unwind': '$strings'
+            },
+            {
+                '$unwind': '$strings.value'
+            },
+            {
+                '$group': {
+                    '_id': '$strings.value',
+                    'count': {'$sum': 1}
+                }
+            },
+            {
+                '$sort': {'count': -1}
+            },
+            {
+                '$limit': 2
+            }
+        ]
+        result = db.rares_hashes.aggregate(pipeline)
+        x = ''
+        y = 0
+        for doc in result:
+            x = result['_id'] == "https://nbafamily.fandom.com/wiki/Kobe_Bryant"
+            y = result['count']
+        # candidates = []
+        #
+        # print("Ready to find candidates")
+        # print(len(submitted_url_fingerprints))
+        # for i in range(len(submitted_url_fingerprints)):
+        #     cur_set = db.rares_hashes.find_one({'_id': submitted_url_fingerprints[i]})['hashes']
+        #     print(i)
+        #     # candidates.extend(cur_set)
+        #     # candidates.add(db.rares_hashes.find_one({'_id':i}))
+        # print(candidates)
+        # print("DONE")
+        # high_similarity_article = None
+        # high_similarity_threshold = 1e-4
+        #
+        # i = 0
+        #
+        # # Iterate through the candidates to find a match
+        # for candidate in candidates:
+        #     if candidate == url:
+        #         continue
+        #
+        #     print("candidate no. " + str(i))
+        #     i += 1
+        #
+        #     # Transform the candidate from being an URL to being the entire object.
+        #     # Object contains: url, publish_date and fingerprints
+        #     candidate = db.nd_collection.find_one({'_id': candidate})
+        #
+        #     # Compute similarity between the input article and the current candidate
+        #     similarity = compute_similarity(submitted_url_fingerprints, candidate['fingerprints'])
+        #
+        #     # If the similarity is above the threshold, then save the article and end the iteration
+        #     if similarity >= high_similarity_threshold:
+        #         high_similarity_article = candidate['_id']
+        #         break
+        #
+        # body = None
+        #
+        # # Return type:
+        # # (similar_article_exists: Boolean, articles_url: String)
+        # if high_similarity_article is not None:
+        #     body = (True, high_similarity_article)
+        # else:
+        #     body = (False, high_similarity_article)
 
-        print("Ready to find candidates")
-
-        # Extract all the shingle hashes from the submitted_url_fingerprints
-        shingle_hashes = [fingerprint['shingle_hash'] for fingerprint in submitted_url_fingerprints]
-
-        # Find documents that contain any of the shingle hashes
-        candidates_for_hashes = db.nd_collection.find(
-            {'fingerprints.shingle_hash': {'$in': shingle_hashes}}, {'_id': 1}
-        )
-
-        # Add the candidate IDs to the set of all candidates
-        for candidate in candidates_for_hashes:
-            candidates.add(candidate['_id'])
-
-        high_similarity_article = None
-        high_similarity_threshold = 1e-4
-
-        i = 0
-
-        # Iterate through the candidates to find a match
-        for candidate in candidates:
-            if candidate == url:
-                continue
-
-            print("candidate no. " + str(i))
-            i += 1
-
-            # Transform the candidate from being an URL to being the entire object. 
-            # Object contains: url, publish_date and fingerprints
-            candidate = db.nd_collection.find_one({'_id': candidate})
-
-            # Compute similarity between the input article and the current candidate
-            similarity = compute_similarity(submitted_url_fingerprints, candidate['fingerprints'])
-
-            # If the similarity is above the threshold, then save the article and end the iteration
-            if similarity >= high_similarity_threshold:
-                high_similarity_article = candidate['_id']
-                break
-
-        body = None
-
-        # Return type:
-        # (similar_article_exists: Boolean, articles_url: String)
-        if high_similarity_article is not None:
-            body = (True, high_similarity_article)
-        else:
-            body = (False, high_similarity_article)
-
-        return HttpResponse(body, status=200)
+        return HttpResponse((x, y), status=200)
 
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")

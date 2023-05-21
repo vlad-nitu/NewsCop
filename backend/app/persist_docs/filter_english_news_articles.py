@@ -90,7 +90,7 @@ def process_urls(urls):
         signal.signal(signal.SIGALRM, timeout_handler)
         signal.alarm(10)  # 10 seconds timeout
         try:
-            if(url != 579):
+            if (url != 579):
                 url, persisted = process_article(url)
                 signal.alarm(0)  # cancel the timeout
                 if persisted:
