@@ -128,7 +128,7 @@ def url_similarity_checker(request):
         for entry in entries:
             string_list = entry['hashes']
             for string in string_list:
-                 string_counts[string] = string_counts.get(string, 0) + 1
+                string_counts[string] = string_counts.get(string, 0) + 1
 
         max_string = max(string_counts, key=string_counts.get)
         max_count = string_counts[max_string]
