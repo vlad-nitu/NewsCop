@@ -121,28 +121,7 @@ def url_similarity_checker(request):
         # print(submitted_url_fingerprints)
         # Set of candidates
         # Candidate: id
-        pipeline = [
-            {
-                '$match': {
-                    '_id': {'$in': submitted_url_fingerprints}
-                }
-            },
-            {
-                '$unwind': '$hash'
-            },
-            {
-                '$group': {
-                    '_id': '$hashes',
-                    'count': {'$sum': 1}
-                }
-            },
-            {
-                '$sort': {'count': -1}
-            },
-            {
-                '$limit': 1
-            }
-        ]
+
         result = db.rares_hashes.aggregate(pipeline)
         x = ''
         y = 0
