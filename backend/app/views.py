@@ -121,13 +121,15 @@ def url_similarity_checker(request):
         # print(submitted_url_fingerprints)
         # Set of candidates
         # Candidate: id
+        entries = db.hashes.find({'_id': {'$in': integer_list}})
 
-        result = db.rares_hashes.aggregate(pipeline)
-        x = ''
-        y = 0
-        for doc in result:
-            x = result['_id'] == "https://nbafamily.fandom.com/wiki/Kobe_Bryant"
-            y = result['count']
+        # Aggregate values and count occurrences of each string
+        string_counts = {}
+        for entry in entries:
+            string_list = entry['hashes']
+            for string in string_list:
+                string_counts[string] = string_counts.get(string, 0) + 1
+
         # candidates = []
         #
         # print("Ready to find candidates")
