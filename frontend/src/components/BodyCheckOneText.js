@@ -1,11 +1,11 @@
 import Container from 'react-bootstrap/Container'
 
 /**
- * A container that will hold the plagiarism header and description subheader that
+ * A container that will hold the similarity header and description subheader that
  * can be found on the Figma wireframe.
  *
  *
- * @returns {JSX.Element} that represents the plagiarism text and description of our tool;
+ * @returns {JSX.Element} that represents the similarity text and description of our tool;
  * Can be found directly under the navbar component of the page
  */
 export default function BodyCheckOneText () {

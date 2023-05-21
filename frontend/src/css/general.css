@@ -26,7 +26,7 @@
 }
 
 .custom-container {
-    width: 1000px;
+    width: 100%;
 
 }
 
@@ -36,7 +36,7 @@
 
 
 .custom-textarea-container {
-    height: 600px;
+    height: 100%;
 }
 
 #plagiarismChecker {
@@ -90,4 +90,17 @@
     .title {
         width: 350px;
     }
+}
+
+.parentBoxesContainer {
+  display: flex;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.childBoxContainer {
+  width: 50%;
+  float: left;
+  margin-bottom: -100px;
 }

@@ -1,10 +1,9 @@
 import React from 'react'
 import EnterURL from './EnterURL'
-import SecondaryNavbarComponent from './navbarSecondary'
 import Footer from './footer'
 import ForwardToCheckText from './ForwardToCheckText'
 import BodyCheckOneText from './BodyCheckOneText'
-
+import NavbarComponent from './navbar'
 /**
  * The entire page was built around the Bootstrap library.
  *
@@ -13,7 +12,7 @@ import BodyCheckOneText from './BodyCheckOneText'
  * https://getbootstrap.com/docs/5.0/layout/grid/
  * https://getbootstrap.com/docs/5.0/utilities/flex/
  *
- * @returns JSX Element contain the secondary page, where the user is routed if he uses the "URL plagarism checker" feature. It is displayed at "/checkURL"
+ * @returns JSX Element contain the secondary page, where the user is routed if he uses the "URL similarity checker" feature. It is displayed at "/checkURL"
  *
  */
 const checkURL = () => {
@@ -23,7 +22,7 @@ const checkURL = () => {
   return (
     <>
       {/* Secondary Navbar Component that routes back to the main page */}
-      <SecondaryNavbarComponent name={applicationName} />
+      <NavbarComponent name={applicationName} mainPage={false} />
 
       {/* Plagiarism checker Text section */}
       <BodyCheckOneText />
