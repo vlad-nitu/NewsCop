@@ -180,6 +180,12 @@ def url_similarity_checker(request):
             ]
         concurrent.futures.wait(helper)
 
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            # Submit similarity computations for each candidate
+            helper = [
+                executor.submit(partial(process_url, length_first=length_first), x) for x in visited
+            ]
+        concurrent.futures.wait(helper)
         # pool = multiprocessing.Pool()
         # pool.map(partial(process_document, url=url), matching_documents)
         # pool.close()
