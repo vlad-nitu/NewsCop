@@ -18,8 +18,7 @@ from .plagiarism_checker.sanitizing import sanitizing_url
 from .plagiarism_checker.similarity import compute_similarity
 import multiprocessing
 import time
-import pymongoarrow as pma
-from pymongoarrow.api import Schema, aggregate_arrow_all, aggregate_numpy_all
+
 
 
 # Create your views here.
@@ -150,9 +149,9 @@ def url_similarity_checker(request):
                 }
             }
         ]
-        # schema = Schema({'_id': int, 'hashes': list_(str_)})
-        result = aggregate_numpy_all(db.rares_hashes, pipeline)
-        print(result)
+
+        result = list(db.rares_hashes.aggregate(pipeline))
+        # print(result)
         # if result:
         #     string_list = result[0]['string_list']
         #     print(string_list)
