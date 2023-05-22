@@ -18,8 +18,6 @@ from .plagiarism_checker.similarity import compute_similarity
 import multiprocessing
 import time
 
-
-
 # Create your views here.
 class ReactView(APIView):
     serializer_class = ReactSerializer
