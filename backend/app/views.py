@@ -173,16 +173,22 @@ def url_similarity_checker(request):
         matching_documents = db.rares_hashes.find(query)
 
         # string_list = {}
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            # Submit similarity computations for each candidate
+            helper = [
+                executor.submit(partial(process_document, url=url), document) for document in matching_documents
+            ]
+        concurrent.futures.wait(helper)
 
-        pool = multiprocessing.Pool()
-        pool.map(partial(process_document, url=url), matching_documents)
-        pool.close()
-        pool.join()
-
-        pool = multiprocessing.Pool()
-        pool.map(partial(process_url, length_first= length_first), visited)
-        pool.close()
-        pool.join()
+        # pool = multiprocessing.Pool()
+        # pool.map(partial(process_document, url=url), matching_documents)
+        # pool.close()
+        # pool.join()
+        #
+        # pool = multiprocessing.Pool()
+        # pool.map(partial(process_url, length_first= length_first), visited)
+        # pool.close()
+        # pool.join()
         # for url_helper in visited:
         #     document = db.rares_news_collection.find_one({'_id': url_helper})
         #     if (document is not None and 'fingerprints' in document):
@@ -193,6 +199,7 @@ def url_similarity_checker(request):
         #         if comp > max:
         #             max = comp
         #             max_url = url_helper
+
         # print(result)
         # if result:
         #     string_list = result[0]['string_list']
