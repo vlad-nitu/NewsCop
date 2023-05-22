@@ -1,3 +1,4 @@
+import concurrent.futures
 from datetime import datetime
 from functools import partial
 
@@ -116,6 +117,16 @@ def persist_url_view(request):
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
 
 
+def process_document(url_helper, length_first, string_list):
+    document = db.rares_news_collection.find_one({'_id': url_helper})
+    if (document is not None and 'fingerprints' in document):
+        second = len(set(document['fingerprints']))
+        inters = string_list[url_helper]
+        comp = inters / (second + length_first - inters)
+        return (url_helper, comp)
+    return None
+
+
 def url_similarity_checker(request):
     #  Ensure the request method is POST
     if request.method == 'POST':
@@ -134,7 +145,7 @@ def url_similarity_checker(request):
         visited = set()  # visited hashes
 
         # Get the length of the fingerprints for later use when computing Jaccard Similarity
-        length_first = len(list(submitted_url_fingerprints))
+        length_first = len(set(submitted_url_fingerprints))
 
         # First query to find candidates and prefilter to only consider "informative hashes"
         query = {
@@ -153,9 +164,6 @@ def url_similarity_checker(request):
         matching_documents = db.rares_hashes.find(query)
 
         string_list = {}
-        fing_size = {}
-        max = -1
-        max_url = ''
         for document in matching_documents:
             hashes = document["hashes"]
             for x in hashes:
@@ -163,18 +171,30 @@ def url_similarity_checker(request):
                     visited.add(x)
                     string_list[x] = string_list.get(x, 0) + 1
 
-        for url_helper in visited:
-            document = db.rares_news_collection.find_one({'_id': url_helper})
-            if (document is not None and 'fingerprints' in document):
-                second = len(list(document['fingerprints']))
-                inters = string_list[url_helper]
-                comp = inters / (second + length_first - inters)
-                fing_size[second] = comp
-                if comp > max:
-                    max = comp
+        fing_size = {}
+
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            # Submit tasks for processing documents
+            futures = [
+                executor.submit(partial(process_document, length_first=length_first, string_list=string_list), document)
+                for document in matching_documents]
+
+        # pool = multiprocessing.Pool()
+        # results = pool.map(partial(process_document, length_first=length_first, string_list=string_list), visited)
+        # pool.close()
+        # pool.join()
+        max_val = -1
+        max_url = ''
+
+        for result in futures:
+            if result is not None:
+                url_helper, comp = result
+                fing_size[url_helper] = comp
+                if comp > max_val:
+                    max_val = comp
                     max_url = url_helper
 
-        return HttpResponse((max_url, max), status=200)
+        return HttpResponse((max_url, max_val), status=200)
 
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
