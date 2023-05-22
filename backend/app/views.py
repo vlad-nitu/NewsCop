@@ -19,6 +19,7 @@ import multiprocessing
 import time
 from collections import Counter
 
+
 # Create your views here.
 class ReactView(APIView):
     serializer_class = ReactSerializer
@@ -69,11 +70,13 @@ def reqex_view(request):
     else:
         return HttpResponseBadRequest("Invalid request method")
 
+
 def find_max_count_string(strings):
     counter = Counter(strings)
     max_count = max(counter.values())
     max_strings = [string for string, count in counter.items() if count == max_count]
     return max_strings, max_count
+
 
 def persist_url_view(request):
     '''
@@ -127,13 +130,44 @@ def url_similarity_checker(request):
         # print(submitted_url_fingerprints)
         visited = set()  # visited hashes
         final_candidates = set()
-        print(len(list(submitted_url_fingerprints)))
+        length_first = len(list(submitted_url_fingerprints))
+        print(length_first)
         query = {
             "_id": {"$in": submitted_url_fingerprints},
-            "hashes": {"$size": {"$lte": 20}}
+            "$expr": {"$lte": [{"$size": "$hashes"}, 5]}
+        }
+        projection = {'_id': 1}
+        matching_documents = db.rares_hashes.find(query, projection)
+        candidates = [i['_id'] for i in matching_documents]
+        print(len(candidates))
+        query = {
+            "_id": {"$in": candidates},
+            "hashes": {"$exists": True}
         }
         matching_documents = db.rares_hashes.find(query)
-        print("done", matching_documents)
+        string_list = {}
+        fing_size = {}
+        max = -1
+        max_url = ''
+        for document in matching_documents:
+            hashes = document["hashes"]
+            for x in hashes:
+                if x != url:
+                    visited.add(x)
+                    string_list[x] = string_list.get(x, 0) + 1
+
+        for url_helper in visited:
+            document = db.rares_news_collection.find_one({'_id': url_helper})
+            if (document is not None and 'fingerprints' in document):
+                second = len(list(document['fingerprints']))
+                inters = string_list[url_helper]
+                comp = inters / (second + length_first - inters)
+                fing_size[second] = comp
+                if comp > max:
+                    max = comp
+                    max_url = url_helper
+
+        print(max, max_url)
 
         # print(result)
         # if result:
@@ -198,7 +232,7 @@ def url_similarity_checker(request):
         # else:
         #     body = (False, high_similarity_article)
 
-        return HttpResponse((0, 0), status=200)
+        return HttpResponse(max, status=200)
 
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
