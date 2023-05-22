@@ -3,7 +3,6 @@ from datetime import datetime
 import numpy as np
 from django.shortcuts import render
 from numpy import str_
-from pyarrow import list_
 from rest_framework.views import APIView
 from .models import *
 from rest_framework.response import Response
