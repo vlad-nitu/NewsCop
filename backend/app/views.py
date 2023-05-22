@@ -123,8 +123,8 @@ def process_document(url_helper, length_first, string_list):
         second = len(set(document['fingerprints']))
         inters = string_list[url_helper]
         comp = inters / (second + length_first - inters)
-        return (url_helper, comp)
-    return None
+        return url_helper, comp
+    return '', -1
 
 
 def url_similarity_checker(request):
@@ -176,18 +176,16 @@ def url_similarity_checker(request):
         with concurrent.futures.ThreadPoolExecutor() as executor:
             # Submit tasks for processing documents
             futures = [
-                executor.submit(partial(process_document, length_first=length_first, string_list=string_list), document)
-                for document in matching_documents]
+                executor.submit(partial(process_document, length_first=length_first, string_list=string_list),
+                                helper_url)
+                for helper_url in visited]
 
-        # pool = multiprocessing.Pool()
-        # results = pool.map(partial(process_document, length_first=length_first, string_list=string_list), visited)
-        # pool.close()
-        # pool.join()
         max_val = -1
         max_url = ''
 
-        for result in futures:
-            if result is not None:
+        for future in concurrent.futures.as_completed(futures):
+            result = future.result()
+            if result[0] != '':
                 url_helper, comp = result
                 fing_size[url_helper] = comp
                 if comp > max_val:
