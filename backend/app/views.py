@@ -1,4 +1,5 @@
 from datetime import datetime
+from functools import partial
 
 import numpy as np
 from django.shortcuts import render
@@ -115,10 +116,35 @@ def persist_url_view(request):
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
 
 
+import concurrent.futures
+
+string_list = {}
+visited = set()
+
+
+def process_document(document, url):
+    hashes = document["hashes"]
+    for x in hashes:
+        if x != url:
+            visited.add(x)
+            string_list[x] = string_list.get(x, 0) + 1
+
+
+fing_size = {}
+
+
+def process_url(helper_url, length_first):
+    document = db.rares_news_collection.find_one({'_id': helper_url})
+    if document is not None and 'fingerprints' in document:
+        second = len(set(document['fingerprints']))
+        inters = string_list[helper_url]
+        comp = inters / (second + length_first - inters)
+        fing_size[second] = comp
+
+
 def url_similarity_checker(request):
     #  Ensure the request method is POST
     if request.method == 'POST':
-
         # Persist the submitted URL
         url = str(persist_url_view(request).content)
 
@@ -128,9 +154,9 @@ def url_similarity_checker(request):
         # Get the fingerprints for the current URL
         submitted_url_fingerprints = db.rares_news_collection.find_one({'_id': url})['fingerprints']
         # print(submitted_url_fingerprints)
-        visited = set()  # visited hashes
+        # visited = set()  # visited hashes
         final_candidates = set()
-        length_first = len(list(submitted_url_fingerprints))
+        length_first = len(set(submitted_url_fingerprints))
         print(length_first)
         query = {
             "_id": {"$in": submitted_url_fingerprints},
@@ -145,30 +171,28 @@ def url_similarity_checker(request):
             "hashes": {"$exists": True}
         }
         matching_documents = db.rares_hashes.find(query)
-        string_list = {}
-        fing_size = {}
-        max = -1
-        max_url = ''
-        for document in matching_documents:
-            hashes = document["hashes"]
-            for x in hashes:
-                if x != url:
-                    visited.add(x)
-                    string_list[x] = string_list.get(x, 0) + 1
 
-        for url_helper in visited:
-            document = db.rares_news_collection.find_one({'_id': url_helper})
-            if (document is not None and 'fingerprints' in document):
-                second = len(list(document['fingerprints']))
-                inters = string_list[url_helper]
-                comp = inters / (second + length_first - inters)
-                fing_size[second] = comp
-                if comp > max:
-                    max = comp
-                    max_url = url_helper
+        # string_list = {}
 
-        print(max, max_url)
+        pool = multiprocessing.Pool()
+        pool.map(partial(process_document, url=url), matching_documents)
+        pool.close()
+        pool.join()
 
+        pool = multiprocessing.Pool()
+        pool.map(partial(process_url, length_first= length_first), visited)
+        pool.close()
+        pool.join()
+        # for url_helper in visited:
+        #     document = db.rares_news_collection.find_one({'_id': url_helper})
+        #     if (document is not None and 'fingerprints' in document):
+        #         second = len(set(document['fingerprints']))
+        #         inters = string_list[url_helper]
+        #         comp = inters / (second + length_first - inters)
+        #         fing_size[second] = comp
+        #         if comp > max:
+        #             max = comp
+        #             max_url = url_helper
         # print(result)
         # if result:
         #     string_list = result[0]['string_list']
@@ -232,7 +256,7 @@ def url_similarity_checker(request):
         # else:
         #     body = (False, high_similarity_article)
 
-        return HttpResponse(max, status=200)
+        return HttpResponse(True, status=200)
 
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
