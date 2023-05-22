@@ -2,6 +2,8 @@ from datetime import datetime
 
 import numpy as np
 from django.shortcuts import render
+from numpy import str_
+from pyarrow import list_
 from rest_framework.views import APIView
 from .models import *
 from rest_framework.response import Response
@@ -16,6 +18,8 @@ from .plagiarism_checker.sanitizing import sanitizing_url
 from .plagiarism_checker.similarity import compute_similarity
 import multiprocessing
 import time
+import pymongoarrow as pma
+from pymongoarrow.api import Schema, aggregate_arrow_all, aggregate_numpy_all
 
 
 # Create your views here.
@@ -121,19 +125,51 @@ def url_similarity_checker(request):
         # print(submitted_url_fingerprints)
         # Set of candidates
         # Candidate: id
-        entries = db.rares_hashes.find({'_id': {'$in': submitted_url_fingerprints}})
+        # entries = db.rares_hashes.find({'_id': {'$in': submitted_url_fingerprints}})
+        pipeline = [
+            {
+                '$match': {
+                    '_id': {'$in': submitted_url_fingerprints}
+                }
+            },
+            {
+                '$unwind': '$hashes'
+                # Replace 'your_list_field' with the actual field name containing the list of strings
+            },
+            {
+                '$group': {
+                    '_id': None,
+                    'string_list': {'$push': '$hashes'}
+                    # Replace 'your_list_field' with the actual field name containing the list of strings
+                }
+            },
+            {
+                '$project': {
+                    '_id': 0,
+                    'string_list': 1
+                }
+            }
+        ]
+        # schema = Schema({'_id': int, 'hashes': list_(str_)})
+        result = aggregate_numpy_all(db.rares_hashes, pipeline)
+        print(result)
+        # if result:
+        #     string_list = result[0]['string_list']
+        #     print(string_list)
+        # else:
+        #     print("No matching documents found.")
 
         # Aggregate values and count occurrences of each string
-        string_counts = {}
-        for entry in entries:
-            string_list = entry['hashes']
-            for string in string_list:
-                string_counts[string] = string_counts.get(string, 0) + 1
-
-        max_string = max(string_counts, key=string_counts.get)
-        max_count = string_counts[max_string]
-        print(max_string)
-        print(max_count)
+        # string_counts = {}
+        # for entry in entries:
+        #     string_list = entry['hashes']
+        #     for string in string_list:
+        #         string_counts[string] = string_counts.get(string, 0) + 1
+        #
+        # max_string = max(string_counts, key=string_counts.get)
+        # max_count = string_counts[max_string]
+        # print(max_string)
+        # print(max_count)
         # candidates = []
         #
         # print("Ready to find candidates")
@@ -179,7 +215,7 @@ def url_similarity_checker(request):
         # else:
         #     body = (False, high_similarity_article)
 
-        return HttpResponse((max_count, max_string), status=200)
+        return HttpResponse((0, 0), status=200)
 
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
