@@ -195,69 +195,6 @@ def url_similarity_checker(request):
         #             max = comp
         #             max_url = url_helper
 
-        # print(result)
-        # if result:
-        #     string_list = result[0]['string_list']
-        #     print(string_list)
-        # else:
-        #     print("No matching documents found.")
-
-        # Aggregate values and count occurrences of each string
-        # string_counts = {}
-        # for entry in entries:
-        #     string_list = entry['hashes']
-        #     for string in string_list:
-        #         string_counts[string] = string_counts.get(string, 0) + 1
-        #
-        # max_string = max(string_counts, key=string_counts.get)
-        # max_count = string_counts[max_string]
-        # print(max_string)
-        # print(max_count)
-        # candidates = []
-        #
-        # print("Ready to find candidates")
-        # print(len(submitted_url_fingerprints))
-        # for i in range(len(submitted_url_fingerprints)):
-        #     cur_set = db.rares_hashes.find_one({'_id': submitted_url_fingerprints[i]})['hashes']
-        #     print(i)
-        #     # candidates.extend(cur_set)
-        #     # candidates.add(db.rares_hashes.find_one({'_id':i}))
-        # print(candidates)
-        # print("DONE")
-        # high_similarity_article = None
-        # high_similarity_threshold = 1e-4
-        #
-        # i = 0
-        #
-        # # Iterate through the candidates to find a match
-        # for candidate in candidates:
-        #     if candidate == url:
-        #         continue
-        #
-        #     print("candidate no. " + str(i))
-        #     i += 1
-        #
-        #     # Transform the candidate from being an URL to being the entire object.
-        #     # Object contains: url, publish_date and fingerprints
-        #     candidate = db.nd_collection.find_one({'_id': candidate})
-        #
-        #     # Compute similarity between the input article and the current candidate
-        #     similarity = compute_similarity(submitted_url_fingerprints, candidate['fingerprints'])
-        #
-        #     # If the similarity is above the threshold, then save the article and end the iteration
-        #     if similarity >= high_similarity_threshold:
-        #         high_similarity_article = candidate['_id']
-        #         break
-        #
-        # body = None
-        #
-        # # Return type:
-        # # (similar_article_exists: Boolean, articles_url: String)
-        # if high_similarity_article is not None:
-        #     body = (True, high_similarity_article)
-        # else:
-        #     body = (False, high_similarity_article)
-
         return HttpResponse(True, status=200)
 
     else:
