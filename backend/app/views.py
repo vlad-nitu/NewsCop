@@ -149,6 +149,7 @@ def url_similarity_checker(request):
         matching_documents = db.rares_hashes.find(query)
         string_list = {}
         visited = set()
+
         for document in matching_documents:
             hashes = document["hashes"]
             for x in hashes:
@@ -169,10 +170,11 @@ def url_similarity_checker(request):
         max_url = ''
         max_val = -1
         for url_helper in visited:
-            helper = fing_size[url_helper]
-            if (helper > max_val):
-                max_val = helper
-                max_url = url_helper
+            if url_helper in fing_size:
+                helper = fing_size[url_helper]
+                if (helper > max_val):
+                    max_val = helper
+                    max_url = url_helper
         return HttpResponse((max_url, max_val), status=200)
 
     else:
