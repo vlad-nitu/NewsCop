@@ -145,34 +145,34 @@ def process_url(helper_url, length_first):
 def url_similarity_checker(request):
     #  Ensure the request method is POST
     if request.method == 'POST':
-        # Persist the submitted URL
-        url = str(persist_url_view(request).content)
 
-        # Filter the received URL
-        url = url[2: len(url) - 1]
+        # Retrieve the URL from the request body
+        url = json.loads(request.body)["key"]
+        # If the URL has not been persisted yet, persist it in the DB
+        if (db.rares_news_collection.find_one({'_id': url}) is None):
+            persist_url_view(request)
 
         # Get the fingerprints for the current URL
         submitted_url_fingerprints = db.rares_news_collection.find_one({'_id': url})['fingerprints']
-        # print(submitted_url_fingerprints)
-        # visited = set()  # visited hashes
-        final_candidates = set()
+
+        # Get the length of the fingerprints for later use when computing Jaccard Similarity
         length_first = len(set(submitted_url_fingerprints))
-        print(length_first)
+
+        # First query to find candidates and prefilter to only consider "informative hashes"
         query = {
             "_id": {"$in": submitted_url_fingerprints},
-            "$expr": {"$lte": [{"$size": "$hashes"}, 5]}
+            "$expr": {"$lte": [{"$size": "$hashes"}, 20]}
         }
         projection = {'_id': 1}
         matching_documents = db.rares_hashes.find(query, projection)
         candidates = [i['_id'] for i in matching_documents]
-        print(len(candidates))
+        # Second query to find only the candidates after filtering
         query = {
             "_id": {"$in": candidates},
             "hashes": {"$exists": True}
         }
-        matching_documents = db.rares_hashes.find(query)
 
-        # string_list = {}
+        matching_documents = db.rares_hashes.find(query)
 
         pool = multiprocessing.Pool()
         pool.map(partial(process_document, url=url), matching_documents)
@@ -180,9 +180,10 @@ def url_similarity_checker(request):
         pool.join()
 
         pool2 = multiprocessing.Pool()
-        pool2.map(partial(process_url, length_first= length_first), visited)
+        pool2.map(partial(process_url, length_first=length_first), visited)
         pool2.close()
         pool2.join()
+
         # for url_helper in visited:
         #     document = db.rares_news_collection.find_one({'_id': url_helper})
         #     if (document is not None and 'fingerprints' in document):
