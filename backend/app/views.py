@@ -17,6 +17,7 @@ from .plagiarism_checker.sanitizing import sanitizing_url
 from .plagiarism_checker.similarity import compute_similarity
 import multiprocessing
 import time
+from collections import Counter
 
 # Create your views here.
 class ReactView(APIView):
@@ -68,6 +69,11 @@ def reqex_view(request):
     else:
         return HttpResponseBadRequest("Invalid request method")
 
+def find_max_count_string(strings):
+    counter = Counter(strings)
+    max_count = max(counter.values())
+    max_strings = [string for string, count in counter.items() if count == max_count]
+    return max_strings, max_count
 
 def persist_url_view(request):
     '''
@@ -148,6 +154,8 @@ def url_similarity_checker(request):
         ]
 
         result = list(db.rares_hashes.aggregate(pipeline))
+        str_list = result[0]['string_list']
+        print(str_list)
         # print(result)
         # if result:
         #     string_list = result[0]['string_list']
