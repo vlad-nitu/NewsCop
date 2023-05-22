@@ -116,32 +116,6 @@ def persist_url_view(request):
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
 
 
-import concurrent.futures
-
-string_list = {}
-visited = set()
-
-
-def process_document(document, url):
-    hashes = document["hashes"]
-    for x in hashes:
-        if x != url:
-            visited.add(x)
-            string_list[x] = string_list.get(x, 0) + 1
-
-
-fing_size = {}
-
-
-def process_url(helper_url, length_first):
-    document = db.rares_news_collection.find_one({'_id': helper_url})
-    if document is not None and 'fingerprints' in document:
-        second = len(set(document['fingerprints']))
-        inters = string_list[helper_url]
-        comp = inters / (second + length_first - inters)
-        fing_size[second] = comp
-
-
 def url_similarity_checker(request):
     #  Ensure the request method is POST
     if request.method == 'POST':
@@ -173,16 +147,25 @@ def url_similarity_checker(request):
         }
 
         matching_documents = db.rares_hashes.find(query)
+        string_list = {}
+        visited = set()
+        for document in matching_documents:
+            hashes = document["hashes"]
+            for x in hashes:
+                if x != url:
+                    visited.add(x)
+                    string_list[x] = string_list.get(x, 0) + 1
 
-        pool = multiprocessing.Pool()
-        pool.map(partial(process_document, url=url), matching_documents)
-        pool.close()
-        pool.join()
+        fing_size = {}
 
-        pool2 = multiprocessing.Pool()
-        pool2.map(partial(process_url, length_first=length_first), visited)
-        pool2.close()
-        pool2.join()
+        for helper_url in visited:
+            document = db.rares_news_collection.find_one({'_id': helper_url})
+            if document is not None and 'fingerprints' in document:
+                second = len(set(document['fingerprints']))
+                inters = string_list[helper_url]
+                comp = inters / (second + length_first - inters)
+                fing_size[second] = comp
+
         max_url = ''
         max_val = -1
         for url_helper in visited:
