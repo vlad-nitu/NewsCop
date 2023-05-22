@@ -118,6 +118,14 @@ def persist_url_view(request):
 
 
 def process_document(url_helper, length_first, string_list):
+    '''
+    This is a helper function that is used to process tasks in parallel for
+    computing the jaccard similarity between the candidate urls and the input url.
+    :param url_helper: the candidate url
+    :param length_first: the fingerprint size of the input url
+    :param string_list: the frequency count
+    :return: the url and its jaccard similarity with the input url
+    '''
     document = db.rares_news_collection.find_one({'_id': url_helper})
     if (document is not None and 'fingerprints' in document):
         second = len(set(document['fingerprints']))
@@ -128,6 +136,12 @@ def process_document(url_helper, length_first, string_list):
 
 
 def url_similarity_checker(request):
+    '''
+    The endpoint that will be used in the CheckURL page.
+    :param request: the request body.
+    :return: a HTTP response with status 200, and a pair of url and jaccard similarity,
+    with this url being the most similar to the input url present in the request body
+    '''
     #  Ensure the request method is POST
     if request.method == 'POST':
 
@@ -170,11 +184,12 @@ def url_similarity_checker(request):
                 if x != url:
                     visited.add(x)
                     string_list[x] = string_list.get(x, 0) + 1
-
+        # fing_size will store a dictionary, where the key is the url,
+        # and the value will eventually be the jaccard similarity of the input url and that url
         fing_size = {}
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
-            # Submit tasks for processing documents
+            # Submit tasks for processing urls
             futures = [
                 executor.submit(partial(process_document, length_first=length_first, string_list=string_list),
                                 helper_url)
