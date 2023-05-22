@@ -122,6 +122,7 @@ def url_similarity_checker(request):
 
         # Retrieve the URL from the request body
         url = json.loads(request.body)["key"]
+
         # If the URL has not been persisted yet, persist it in the DB
         if (db.rares_news_collection.find_one({'_id': url}) is None):
             persist_url_view(request)
@@ -130,7 +131,10 @@ def url_similarity_checker(request):
         submitted_url_fingerprints = db.rares_news_collection.find_one({'_id': url})['fingerprints']
 
         # Get the length of the fingerprints for later use when computing Jaccard Similarity
-        length_first = len(set(submitted_url_fingerprints))
+        visited = set()  # visited hashes
+
+        # Get the length of the fingerprints for later use when computing Jaccard Similarity
+        length_first = len(list(submitted_url_fingerprints))
 
         # First query to find candidates and prefilter to only consider "informative hashes"
         query = {
@@ -140,16 +144,18 @@ def url_similarity_checker(request):
         projection = {'_id': 1}
         matching_documents = db.rares_hashes.find(query, projection)
         candidates = [i['_id'] for i in matching_documents]
+
         # Second query to find only the candidates after filtering
         query = {
             "_id": {"$in": candidates},
             "hashes": {"$exists": True}
         }
-
         matching_documents = db.rares_hashes.find(query)
-        string_list = {}
-        visited = set()
 
+        string_list = {}
+        fing_size = {}
+        max = -1
+        max_url = ''
         for document in matching_documents:
             hashes = document["hashes"]
             for x in hashes:
@@ -157,25 +163,18 @@ def url_similarity_checker(request):
                     visited.add(x)
                     string_list[x] = string_list.get(x, 0) + 1
 
-        fing_size = {}
-
-        for helper_url in visited:
-            document = db.rares_news_collection.find_one({'_id': helper_url})
-            if document is not None and 'fingerprints' in document:
-                second = len(set(document['fingerprints']))
-                inters = string_list[helper_url]
+        for url_helper in visited:
+            document = db.rares_news_collection.find_one({'_id': url_helper})
+            if (document is not None and 'fingerprints' in document):
+                second = len(list(document['fingerprints']))
+                inters = string_list[url_helper]
                 comp = inters / (second + length_first - inters)
                 fing_size[second] = comp
-
-        max_url = ''
-        max_val = -1
-        for url_helper in visited:
-            if url_helper in fing_size:
-                helper = fing_size[url_helper]
-                if (helper > max_val):
-                    max_val = helper
+                if comp > max:
+                    max = comp
                     max_url = url_helper
-        return HttpResponse((max_url, max_val), status=200)
+
+        return HttpResponse((max_url, max), status=200)
 
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
