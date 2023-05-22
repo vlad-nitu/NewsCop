@@ -125,37 +125,16 @@ def url_similarity_checker(request):
         # Get the fingerprints for the current URL
         submitted_url_fingerprints = db.rares_news_collection.find_one({'_id': url})['fingerprints']
         # print(submitted_url_fingerprints)
-        # Set of candidates
-        # Candidate: id
-        # entries = db.rares_hashes.find({'_id': {'$in': submitted_url_fingerprints}})
-        pipeline = [
-            {
-                '$match': {
-                    '_id': {'$in': submitted_url_fingerprints}
-                }
-            },
-            {
-                '$unwind': '$hashes'
-                # Replace 'your_list_field' with the actual field name containing the list of strings
-            },
-            {
-                '$group': {
-                    '_id': None,
-                    'string_list': {'$push': '$hashes'}
-                    # Replace 'your_list_field' with the actual field name containing the list of strings
-                }
-            },
-            {
-                '$project': {
-                    '_id': 0,
-                    'string_list': 1
-                }
-            }
-        ]
+        visited = set()  # visited hashes
+        final_candidates = set()
+        print(len(list(submitted_url_fingerprints)))
+        query = {
+            "_id": {"$in": submitted_url_fingerprints},
+            "hashes": {"$size": {"$lte": 20}}
+        }
+        matching_documents = db.rares_hashes.find(query)
+        print("done", matching_documents)
 
-        result = list(db.rares_hashes.aggregate(pipeline))
-        str_list = result[0]['string_list']
-        print(str_list)
         # print(result)
         # if result:
         #     string_list = result[0]['string_list']
