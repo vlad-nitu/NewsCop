@@ -183,19 +183,14 @@ def url_similarity_checker(request):
         pool2.map(partial(process_url, length_first=length_first), visited)
         pool2.close()
         pool2.join()
-
-        # for url_helper in visited:
-        #     document = db.rares_news_collection.find_one({'_id': url_helper})
-        #     if (document is not None and 'fingerprints' in document):
-        #         second = len(set(document['fingerprints']))
-        #         inters = string_list[url_helper]
-        #         comp = inters / (second + length_first - inters)
-        #         fing_size[second] = comp
-        #         if comp > max:
-        #             max = comp
-        #             max_url = url_helper
-
-        return HttpResponse(True, status=200)
+        max_url = ''
+        max_val = -1
+        for url_helper in visited:
+            helper = fing_size[url_helper]
+            if (helper > max_val):
+                max_val = helper
+                max_url = url_helper
+        return HttpResponse((max_url, max_val), status=200)
 
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
