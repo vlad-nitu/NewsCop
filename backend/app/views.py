@@ -179,10 +179,10 @@ def url_similarity_checker(request):
         pool.close()
         pool.join()
 
-        pool = multiprocessing.Pool()
-        pool.map(partial(process_url, length_first= length_first), visited)
-        pool.close()
-        pool.join()
+        pool2 = multiprocessing.Pool()
+        pool2.map(partial(process_url, length_first= length_first), visited)
+        pool2.close()
+        pool2.join()
         # for url_helper in visited:
         #     document = db.rares_news_collection.find_one({'_id': url_helper})
         #     if (document is not None and 'fingerprints' in document):
