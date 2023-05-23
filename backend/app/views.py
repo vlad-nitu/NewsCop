@@ -20,9 +20,6 @@ import multiprocessing
 import time
 from collections import Counter, defaultdict
 
-import logging, sys
-logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
-
 # Create your views here.
 class ReactView(APIView):
     serializer_class = ReactSerializer
@@ -221,7 +218,6 @@ def url_similarity_checker(request):
 
         for future in concurrent.futures.as_completed(futures):
             result = future.result()
-            logging.debug(result)
             if result[0] != '':
                 url_helper, comp = result
                 if comp > max_sim:
@@ -231,5 +227,68 @@ def url_similarity_checker(request):
         print(f'Similarity is: {max_sim}')
         return HttpResponse((max_url, max_sim), status=200)
 
+    else:
+        return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
+
+def compare_texts_view(request):
+    '''
+    The endpoint that can be consumed by posting on localhost:8000/compareTexts/ having two texts attached in the body
+    of the request
+    This will be used for computing the similarity between the two texts
+    :param request: the request
+    :return: a HttpResponse with status 200 and the computed similarity, if successful
+    else HttpResponseBadRequest with status 400
+    '''
+
+    #  Ensure the request method is POST
+    if request.method == 'POST':
+        data = json.loads(request.body)
+
+        # extract the two texts from the request
+        text1 = data["original_text"]
+        text2 = data["compare_text"]
+
+        # compute the fingerprints of the two texts
+        fingerprint1 = compute_fingerprint(text1)
+        fingerprint2 = compute_fingerprint(text2)
+
+        # compute and return the similarity between the two texts
+        return HttpResponse(compute_similarity(fingerprint1, fingerprint2))
+    else:
+        return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
+
+
+def compare_URLs(request):
+    '''
+    The endpoint that can be consumed by posting on localhost:8000/compareURLs/ with the request body
+    containing two URL strings.
+    This will be used for the similarity computation between two given URLs.
+    :param request: the request
+    :return: a HttpResponse with status 200, if successful else HttpResponseBadRequest with status 400
+    '''
+
+    #  Ensure the request method is POST
+    if request.method == 'POST':
+        #  Serialises the url into a json => use request body instead of path variable
+        url_left = json.loads(request.body)["url_left"]
+        url_right = json.loads(request.body)["url_right"]
+
+        # check if the given left url is indeed valid
+        if not sanitizing_url(url_left):
+            return HttpResponseBadRequest("The original url provided is invalid.")
+
+        # check if the given right url is indeed valid
+        if not sanitizing_url(url_right):
+            return HttpResponseBadRequest("The changed url provided is invalid.")
+
+        # do crawling on the given urls
+        article_text_left, _ = crawl_url(url_left)
+        article_text_right, _ = crawl_url(url_right)
+
+        # compute fingerprints for both urls
+        fingerprint_left = compute_fingerprint(article_text_left)
+        fingerprint_right = compute_fingerprint(article_text_right)
+
+        return HttpResponse(compute_similarity(fingerprint_left, fingerprint_right))
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")

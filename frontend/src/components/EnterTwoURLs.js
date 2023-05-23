@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Container, Form, Button } from 'react-bootstrap'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import axios from 'axios'
 
 /**
  * Container that displays:
@@ -30,13 +31,49 @@ export default function EnterTwoURLs () {
   const [inputValueChanged, setInputValueChanged] = useState('')
   const [showInputValue, setShowInputValue] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(false)
+  const [outputValue, setOutputValue] = useState('')
+  const [outputColor, setOutputColor] = useState('black')
 
-  const handleSubmit = (event) => {
+  const compareURLsEndpoint = 'http://localhost:8000/compareURLs/'
+
+  const createRequestBody = (dataLeft, dataRight) => {
+    return {
+      url_left: dataLeft,
+      url_right: dataRight
+    }
+  }
+
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    setShowInputValue(true)
     setButtonDisabled(true)
+
+    // set output value to be empty before
+    setShowInputValue(false)
+    setOutputValue('')
+
+    await axios.post(`${compareURLsEndpoint}`, createRequestBody(inputValueOriginal, inputValueChanged))
+      .then(response => {
+        if (response != null) {
+          const answer = Math.round(100 * response.data)
+
+          // change color accordingly
+          if (answer >= 80) setOutputColor('red')
+          else setOutputColor('green')
+
+          setOutputValue(`The two news articles given have similarity level of ${answer} %`)
+        } else {
+          setOutputValue('Please provide a valid input!')
+        }
+      })
+      .catch(error => {
+        console.log(error)
+        setOutputColor('darkred')
+        setOutputValue('Please provide a valid input!')
+      })
+
+    setShowInputValue(true)
+
     setTimeout(() => {
-      setShowInputValue(false)
       setButtonDisabled(false)
     }, 5000)
   }
@@ -98,8 +135,8 @@ export default function EnterTwoURLs () {
           </Button>
         </div>
         {showInputValue && (
-          <div>
-            Input value: "{inputValueOriginal + ' and ' + inputValueChanged}"
+          <div style={{ display: 'flex', justifyContent: 'center', color: outputColor, fontSize: '120%', marginTop: '60px', textAlign: 'center' }}>
+            {outputValue}
           </div>
         )}
       </div>
