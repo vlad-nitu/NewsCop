@@ -59,7 +59,18 @@ def process_article(url):
     article = NewsPlease.from_url(url)
     if hasattr(article, 'language') and article.language == 'en':
         article_text, article_date = crawl_url(url)
-        newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=compute_fingerprint(article_text))
+        fps = compute_fingerprint(article_text)
+        only_shingle_values = [i['shingle_hash'] for i in fps]
+
+        # verify if it has more than 2000 hashes
+        if len(only_shingle_values) > 2000:
+            return url, False
+
+        # verify if it has any fingerprints
+        if len(only_shingle_values) == 0:
+            return url, False
+
+        newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=only_shingle_values)
         try:
             newsdoc.save()
             return url, True
