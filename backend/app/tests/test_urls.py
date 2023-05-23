@@ -52,7 +52,7 @@ class UrlsTest(TestCase):
         client = Client()
         response = client.post(obtained_url, data=json_data, content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.content.decode(), str(0.0))
+        self.assertEqual(response.content.decode(), str(1/3))
 
     @tag("unit")
     def test_persist_url_pattern_1(self):
