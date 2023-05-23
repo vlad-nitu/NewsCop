@@ -26,3 +26,8 @@ class FingerprintingTest(TestCase):
         expected = [shingle]
 
         self.assertEqual(expected, compute_fingerprint(text))
+
+    def test_fingerprinting_empty(self):
+        text = None
+        shingle = {}
+        self.assertEqual(shingle, compute_fingerprint(text))

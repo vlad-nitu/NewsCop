@@ -227,15 +227,9 @@ class UrlsTest(TestCase):
 
     @tag("integration")
     def test_check_url_pattern_post_bad(self):
-        data = {
-            'key': 'https://www.bbc.com/news/uk-65609209',
-        }
-
         the_url = 'https://www.bbc.com/news/uk-65609209'
-        json_data = json.dumps(data)
         obtained_url = reverse('url_similarity_checker')
         client = Client()
-
         db.rares_news_collection.delete_one({'_id': the_url})
 
         response = client.get(obtained_url)
@@ -245,9 +239,19 @@ class UrlsTest(TestCase):
         res = db.rares_news_collection.delete_one({'_id': the_url})  # check that the url was not actually added
         self.assertEqual(res.deleted_count, 0)
 
-    # @tag("integration")
-    # def test_persist_url_pattern_get_instead_of_post(self):
-    #     client = Client()
-    #     obtained_url = reverse('persist_url')
-    #     response = client.get(obtained_url)
-    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+    @tag("integration")
+    def test_check_url_pattern_post_success(self):
+        data = {
+            'key': 'https://www.bbc.com/news/uk-65609209',
+        }
+        the_url = 'https://www.bbc.com/news/uk-65609209'
+        db.rares_news_collection.delete_one({'_id': the_url})
+        json_data = json.dumps(data)
+        client = Client()
+        obtained_url = reverse('url_similarity_checker')
+        response = client.post(obtained_url, data=json_data, content_type="application/json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        res = db.rares_news_collection.delete_one({'_id': the_url})  # check that the url was actually persisted
+        self.assertEqual(res.deleted_count, 1)
+
