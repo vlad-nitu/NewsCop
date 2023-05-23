@@ -148,6 +148,7 @@ def url_similarity_checker(request):
 
         # Get the fingerprints for the current URL
         submitted_url_fingerprints = db.rares_news_collection.find_one({'_id': url})['fingerprints']
+        published_date = db.rares_news_collection.find_one({'_id': url})['published_date']
 
         # Get the length of the fingerprints for later use when computing Jaccard Similarity
         visited = set()  # visited hashes
@@ -199,11 +200,16 @@ def url_similarity_checker(request):
                 if comp > max_val:
                     max_val = comp
                     max_url = url_helper
-
-        return HttpResponse((max_url, max_val), status=200)
+        response = {
+            "max_url": max_url,
+            "max_val": max_val,
+            "date": str(published_date)
+        }
+        return HttpResponse(json.dumps(response), status=200, content_type="application/json")
 
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
+
 
 def compare_texts_view(request):
     '''

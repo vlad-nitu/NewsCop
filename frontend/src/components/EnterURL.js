@@ -4,7 +4,7 @@ import { Container, Form, Button } from 'react-bootstrap'
 import CheckUrlDecision from './CheckUrlDecision'
 import LoadingCircle from './LoadingCircle'
 /* The endpoint that is going to be used for the request, see urls.py and views.py */
-const persistUrlEndpoint = 'http://localhost:8000/persistURL/'
+const persistUrlEndpoint = 'http://localhost:8000/urlsimilarity/'
 
 /**
  * Persists a URL asynchronously, the URL will have to be stored as the value for "key" in
@@ -84,6 +84,7 @@ export default function EnterURL () {
       })
     // console.log(response.data)
     if (response != null) {
+      console.log(response.data)
       setLoadingValue(false)
       // setTitleValue(response.title)
       // setDateValue(response.date)
@@ -93,9 +94,9 @@ export default function EnterURL () {
       // else{
       //   setDecisionValue("We found no overlap")
       // }
-      setTitleValue('Netherlands is the happiest country')
-      setDateValue('12-02-2022')
-      setDecisionValue('We found no overlap.')
+      setTitleValue('We found that your article ' + inputValue)
+      setDateValue(response.data["date"])
+      setDecisionValue('Has a maximum overlap of ' +  Math.round(100 * response.data["max_val"]) + "% with "+response.data["max_url"])
       setShowInputValue(true)
     }
     setTimeout(() => {
