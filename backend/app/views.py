@@ -161,6 +161,14 @@ def url_similarity_checker(request):
         # Get the length of the fingerprints for later use when computing Jaccard Similarity
         length_first = len(set(submitted_url_fingerprints))
 
+        # verify if it has more than 2000 hashes
+        if length_first > 2000:
+            return HttpResponseBadRequest("The article given has exceeded the maximum size supported.")
+
+        # verify if it has any fingerprints
+        if length_first == 0:
+            return HttpResponseBadRequest("The article provided has no text.")
+
         # First query to find candidates and prefilter to only consider "informative hashes"
         query = {
             "_id": {"$in": submitted_url_fingerprints},
