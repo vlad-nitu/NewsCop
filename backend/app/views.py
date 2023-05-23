@@ -12,15 +12,16 @@ from .serializer import *
 from django.http import HttpResponse, HttpResponseBadRequest
 import json
 from django.views.decorators.csrf import csrf_exempt
-# from plagiarism_checker.crawling import crawl_url
 from .plagiarism_checker.fingerprinting import compute_fingerprint
 from .plagiarism_checker.crawling import crawl_url
 from .plagiarism_checker.sanitizing import sanitizing_url
 from .plagiarism_checker.similarity import compute_similarity
 import multiprocessing
 import time
-from collections import Counter
+from collections import Counter, defaultdict
 
+import logging, sys
+logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 
 # Create your views here.
 class ReactView(APIView):
@@ -106,7 +107,7 @@ def persist_url_view(request):
             article_text, article_date = crawl_url(url)
 
             fingerprints = compute_fingerprint(article_text)
-            only_shingle_values = [i['shingle_hash'] for i in fingerprints]
+            only_shingle_values = [fp['shingle_hash'] for fp in fingerprints]
 
             # verify if it has more than 2000 hashes
             if len(only_shingle_values) > 2000:
@@ -122,16 +123,8 @@ def persist_url_view(request):
 
             print(len(only_shingle_values))
 
-
-            if len(only_shingle_values) == 0 or len(only_shingle_values) <= 2000:
-                # print(only_shingle_values)
-                newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=only_shingle_values)
-                newsdoc.save()
-
-                print("persist_url_view: " + url)
-                return HttpResponse(url, status=200)
-            else:
-                return HttpResponseBadRequest(f'The article you provided is too large OR does not have any text')
+            print("persist_url_view: " + url)
+            return HttpResponse(url, status=200)
 
     else:
         return HttpResponseBadRequest(f'Expected POST, but got {request.method} instead')
@@ -139,7 +132,7 @@ def persist_url_view(request):
 
 def process_document(url_helper, length_first, string_list):
     '''
-    This is a helper function that is used to process tasks in parallel for
+    Helper function that is used to process tasks in parallel for
     computing the jaccard similarity between the candidate urls and the input url.
     :param url_helper: the candidate url
     :param length_first: the fingerprint size of the input url
@@ -148,11 +141,12 @@ def process_document(url_helper, length_first, string_list):
     '''
     document = db.rares_news_collection.find_one({'_id': url_helper})
     if (document is not None and 'fingerprints' in document):
-        second = len(set(document['fingerprints']))
+        length_second = len(set(document['fingerprints']))
         inters = string_list[url_helper]
-        comp = inters / (second + length_first - inters)
+        comp = inters / (length_second + length_first - inters)
         return url_helper, comp
-    return '', -1
+    else:
+        return '', -1
 
 
 def url_similarity_checker(request):
@@ -170,9 +164,8 @@ def url_similarity_checker(request):
 
         # If the URL has not been persisted yet, persist it in the DB
         if (db.rares_news_collection.find_one({'_id': url}) is None):
-            print('da')
             response = persist_url_view(request)
-            if response.status_code == 400:
+            if response.status_code == 400: #  Cannot persist URL as either it is too long, or it does not have text.
                 return response
 
         # Get the fingerprints for the current URL
@@ -195,7 +188,7 @@ def url_similarity_checker(request):
         # First query to find candidates and prefilter to only consider "informative hashes"
         query = {
             "_id": {"$in": submitted_url_fingerprints},
-            "$expr": {"$lte": [{"$size": "$hashes"}, 20]}
+            "$expr": {"$lte": [{"$size": "$urls"}, 21]}
         }
         projection = {'_id': 1}
         matching_documents = db.rares_hashes.find(query, projection)
@@ -204,20 +197,17 @@ def url_similarity_checker(request):
         # Second query to find only the candidates after filtering
         query = {
             "_id": {"$in": candidates},
-            "hashes": {"$exists": True}
+            "urls": {"$exists": True}
         }
         matching_documents = db.rares_hashes.find(query)
 
-        string_list = {}
+        string_list = defaultdict(int)
         for document in matching_documents:
-            hashes = document["hashes"]
-            for x in hashes:
+            urls = document["urls"]
+            for x in urls:
                 if x != url:
                     visited.add(x)
-                    string_list[x] = string_list.get(x, 0) + 1
-        # fing_size will store a dictionary, where the key is the url,
-        # and the value will eventually be the jaccard similarity of the input url and that url
-        fing_size = {}
+                    string_list[x] += 1
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
             # Submit tasks for processing urls
@@ -231,9 +221,9 @@ def url_similarity_checker(request):
 
         for future in concurrent.futures.as_completed(futures):
             result = future.result()
+            logging.debug(result)
             if result[0] != '':
                 url_helper, comp = result
-                fing_size[url_helper] = comp
                 if comp > max_sim:
                     max_sim  = comp
                     max_url = url_helper
