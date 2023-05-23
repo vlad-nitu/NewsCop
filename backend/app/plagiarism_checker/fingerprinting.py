@@ -1,4 +1,4 @@
-from winnowing import winnow, sanitize, kgrams, select_min, winnowing_hash
+from winnowing import sanitize, kgrams, select_min
 
 
 def compute_fingerprint(article_text):
@@ -42,5 +42,16 @@ def modified_hash(text):
     return hs
 
 
-# change the winnowing hash_function to the new one created
-winnow.hash_function = modified_hash
+def winnowing_hash(kgram):
+    """
+    :param kgram: e.g., [(0, 'a'), (2, 'd'), (3, 'o'), (5, 'r'), (6, 'u')]
+    """
+    kgram = zip(*kgram)
+    kgram = list(kgram)
+
+    text = "".join(kgram[1]) if len(kgram) > 1 else ""
+
+    hs = modified_hash(text)
+
+    return kgram[0][0] if len(kgram) > 1 else -1, hs
+
