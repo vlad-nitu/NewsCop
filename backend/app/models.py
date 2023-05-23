@@ -17,7 +17,6 @@ class React(Document):
 
 class Fingerprint(EmbeddedDocument):
     shingle_hash = IntField()
-    shingle_position = IntField()
 
 
 class NewsDocument(Document):

@@ -107,14 +107,22 @@ def persist_url_view(request):
 
             fingerprints = compute_fingerprint(article_text)
             only_shingle_values = [i['shingle_hash'] for i in fingerprints]
-            # print(only_shingle_values)
-            newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=only_shingle_values)
-            newsdoc.save()
 
-        print("persist_url_view: " + url)
-        return HttpResponse(url, status=200)
+            print(len(only_shingle_values))
+
+
+            if len(only_shingle_values) <= 2000:
+                # print(only_shingle_values)
+                newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=only_shingle_values)
+                newsdoc.save()
+
+                print("persist_url_view: " + url)
+                return HttpResponse(url, status=200)
+            else:
+                return HttpResponseBadRequest(f'The article you provided is too large')
+
     else:
-        return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
+        return HttpResponseBadRequest(f'Expected POST, but got {request.method} instead')
 
 
 def process_document(url_helper, length_first, string_list):
@@ -150,7 +158,10 @@ def url_similarity_checker(request):
 
         # If the URL has not been persisted yet, persist it in the DB
         if (db.rares_news_collection.find_one({'_id': url}) is None):
-            persist_url_view(request)
+            print('da')
+            response = persist_url_view(request)
+            if response.status_code == 400:
+                return response
 
         # Get the fingerprints for the current URL
         submitted_url_fingerprints = db.rares_news_collection.find_one({'_id': url})['fingerprints']
@@ -195,7 +206,7 @@ def url_similarity_checker(request):
                                 helper_url)
                 for helper_url in visited]
 
-        max_val = -1
+        max_sim = -1
         max_url = ''
 
         for future in concurrent.futures.as_completed(futures):
@@ -203,11 +214,12 @@ def url_similarity_checker(request):
             if result[0] != '':
                 url_helper, comp = result
                 fing_size[url_helper] = comp
-                if comp > max_val:
-                    max_val = comp
+                if comp > max_sim:
+                    max_sim  = comp
                     max_url = url_helper
 
-        return HttpResponse((max_url, max_val), status=200)
+        print(f'Similarity is: {max_sim}')
+        return HttpResponse((max_url, max_sim), status=200)
 
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
