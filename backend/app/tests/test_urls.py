@@ -87,7 +87,6 @@ class UrlsTest(TestCase):
         self.assertEqual(res.deleted_count, 1)
         db.rares_hashes.delete_many({'urls': expected_persisted_url})
 
-
     @tag("integration")
     def test_persist_url_pattern_get_instead_of_post(self):
         client = Client()
@@ -259,4 +258,3 @@ class UrlsTest(TestCase):
         res = db.rares_news_collection.delete_one({'_id': the_url})  # check that the url was actually persisted
         self.assertEqual(res.deleted_count, 1)
         db.rares_hashes.delete_many({'urls': the_url})
-

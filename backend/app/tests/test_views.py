@@ -17,6 +17,7 @@ from app.views import compare_URLs
 from utils import db
 import sys
 
+
 # class TestUrlSimilarityChecker(TestCase):
 #     def setUp(self):
 #         self.request = MagicMock()
@@ -71,7 +72,6 @@ class TestPersistUrlView(TestCase):
         self.factory = RequestFactory()
 
     def test_post_request_compare_texts(self):
-
         # create the request body
         data = {
             'original_text': 'A do run run run, a do run run',
@@ -108,7 +108,6 @@ class TestPersistUrlView(TestCase):
         self.assertEqual(res.deleted_count, 1)
         db.rares_hashes.delete_many({'urls': url})
 
-
     def test_post_request_with_valid_url_text(self):
         url = 'https://www.bbc.com/news/world-asia-65657996'
 
@@ -130,7 +129,6 @@ class TestPersistUrlView(TestCase):
         res = db.rares_news_collection.delete_one({'_id': url})
         self.assertEqual(res.deleted_count, 1)
         db.rares_hashes.delete_many({'urls': url})
-
 
     def test_post_request_with_invalid_url(self):
         url = 'https://www.dianamicloiu.com'
@@ -220,6 +218,7 @@ class TestReqExView(TestCase):
         self.assertIsInstance(response, HttpResponseBadRequest)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.content.decode(), "Invalid JSON data")
+
 
 class TestDatabase(TestCase):
     def setUp(self):
