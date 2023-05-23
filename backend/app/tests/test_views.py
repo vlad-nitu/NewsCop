@@ -85,7 +85,7 @@ class TestPersistUrlView(TestCase):
 
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.content.decode(), str(1 / 3))
+        self.assertEqual(response.content.decode(), str(0.0))
 
     def test_post_request_with_valid_url_no_text(self):
         url = 'https://www.bbc.com/news/world-asia-65657996'

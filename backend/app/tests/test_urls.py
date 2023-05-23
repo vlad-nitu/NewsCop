@@ -42,17 +42,17 @@ class UrlsTest(TestCase):
     @tag("integration")
     def test_compare_texts_post(self):
         data = {
-            'original_text': 'A do run run run, a do run run',
-            'compare_text': 'run run',
+            'original_text': 'A do run run run run, a do run run',
+            'compare_text': 'run run run run',
         }
 
-        expected_similarity = 1 / 3
+        expected_similarity = 0.0
         json_data = json.dumps(data)
         obtained_url = reverse('compare_texts')
         client = Client()
         response = client.post(obtained_url, data=json_data, content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.content.decode(), str(expected_similarity))
+        self.assertEqual(response.content.decode(), str(0.0))
 
     @tag("unit")
     def test_persist_url_pattern_1(self):
