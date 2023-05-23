@@ -106,6 +106,8 @@ class TestPersistUrlView(TestCase):
         self.assertEqual(response.content.decode(), url)
         res = db.rares_news_collection.delete_one({'_id': url})
         self.assertEqual(res.deleted_count, 1)
+        db.rares_hashes.delete_many({'urls': url})
+
 
     def test_post_request_with_valid_url_text(self):
         url = 'https://www.bbc.com/news/world-asia-65657996'
@@ -127,6 +129,8 @@ class TestPersistUrlView(TestCase):
         self.assertEqual(response.content.decode(), url)
         res = db.rares_news_collection.delete_one({'_id': url})
         self.assertEqual(res.deleted_count, 1)
+        db.rares_hashes.delete_many({'urls': url})
+
 
     def test_post_request_with_invalid_url(self):
         url = 'https://www.dianamicloiu.com'

@@ -50,4 +50,5 @@ class NewsDocument(Document):
         to_insert = []
         for i in need_to_insert_fps:
             to_insert.append({"_id": i, "urls": [self.url]})
-        db.rares_hashes.insert_many(to_insert)
+        if len(to_insert) != 0:
+            db.rares_hashes.insert_many(to_insert)
