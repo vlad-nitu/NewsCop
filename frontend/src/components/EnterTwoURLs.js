@@ -56,7 +56,7 @@ export default function EnterTwoURLs () {
 
     // set output value to be empty before
     setShowInputValue(false)
-    setShowCompareButton(false)
+    setShowCompareButton(true)
     setOutputValue('')
 
     await axios.post(`${compareURLsEndpoint}`, createRequestBody(inputValueOriginal, inputValueChanged))
@@ -151,7 +151,7 @@ export default function EnterTwoURLs () {
             <div className='d-flex justify-content-center pt-3'>
               {showCompareButton && (
                 <div>
-                  <Button className='mx-auto' variant='outline-success' onClick={handleShow}>View Side-by-Side</Button>
+                  <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={handleShow}>View Side-by-Side</Button>
                   <SideBySideRender urlLeft={inputValueOriginal} urlRight={inputValueChanged} show={show} handleClose={handleClose} />
                 </div>
               )}

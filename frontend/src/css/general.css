@@ -108,3 +108,9 @@ a.custom_cursor:hover {
     color: #333333 !important;
     transition: 0.2s !important;
 }
+
+.custom-outline-button.btn-outline-success{
+    --bs-btn-color: rgb(46, 131, 126) !important;
+    --bs-btn-border-color: rgb(46, 131, 126) !important;
+    --bs-btn-hover-border-color: rgb(46, 131, 126) !important;
+}

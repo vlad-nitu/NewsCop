@@ -13,7 +13,7 @@ export default function SideBySideRender ({ urlLeft, urlRight, show, handleClose
         </a>
       </ModalHeader>
       <ModalBody style={{ padding: 0 }}>
-        <div className='d-flex flex-column' style={{ height: '100%', backgroundColor: '#000' }}>
+        <div className='d-flex flex-column' style={{ height: '100%' }}>
           <Container fluid style={{ height: '100%' }}>
             <Row style={{ height: '100%' }}>
               <Col md={6} className='ps-md-0 custom-iframe-height' style={{ height: '100%' }} id='left_article'>
