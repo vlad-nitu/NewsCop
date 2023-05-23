@@ -33,10 +33,10 @@ class NewsDocument(Document):
         for i in self.fingerprints:
             hash_exists = db.rares_hashes.find_one({'_id': i}) is not None
             if hash_exists:
-                db.rares_hashes.update_one({"_id": i}, {"$addToSet": {"hashes": self.url}})
+                db.rares_hashes.update_one({"_id": i}, {"$addToSet": {"urls": self.url}})
             else:
-                hash_set = [self.url]
+                urls = [self.url]
                 db.rares_hashes.insert_one({
                     '_id': i,
-                    'hashes': hash_set
+                    'urls': urls
                 })

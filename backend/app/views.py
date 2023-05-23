@@ -111,7 +111,7 @@ def persist_url_view(request):
             print(len(only_shingle_values))
 
 
-            if len(only_shingle_values) <= 2000:
+            if len(only_shingle_values) == 0 or len(only_shingle_values) <= 2000:
                 # print(only_shingle_values)
                 newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=only_shingle_values)
                 newsdoc.save()
@@ -119,7 +119,7 @@ def persist_url_view(request):
                 print("persist_url_view: " + url)
                 return HttpResponse(url, status=200)
             else:
-                return HttpResponseBadRequest(f'The article you provided is too large')
+                return HttpResponseBadRequest(f'The article you provided is too large OR does not have any text')
 
     else:
         return HttpResponseBadRequest(f'Expected POST, but got {request.method} instead')
