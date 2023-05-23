@@ -176,7 +176,6 @@ def url_similarity_checker(request):
             "hashes": {"$exists": True}
         }
         matching_documents = db.rares_hashes.find(query)
-
         string_list = {}
         for document in matching_documents:
             hashes = document["hashes"]
