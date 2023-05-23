@@ -82,21 +82,12 @@ export default function EnterURL () {
           console.log('Error', error.message)
         }
       })
-    // console.log(response.data)
     if (response != null) {
       console.log(response.data)
       setLoadingValue(false)
-      // setTitleValue(response.title)
-      // setDateValue(response.date)
-      // if(response.decision == true){
-      //   setDecisionValue("We found high overlap")
-      // }
-      // else{
-      //   setDecisionValue("We found no overlap")
-      // }
       setTitleValue(inputValue)
-      setDateValue(response.data["date"])
-      setDecisionValue('Has a maximum overlap of ' +  Math.round(100 * response.data["max_val"]) + "% with "+response.data["max_url"])
+      setDateValue(response.data.date)
+      setDecisionValue('Has a maximum overlap of ' + Math.round(100 * response.data.max_val) + '% with ' + response.data.max_url)
       setShowInputValue(true)
     }
     setTimeout(() => {
