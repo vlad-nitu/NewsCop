@@ -1,3 +1,4 @@
+from pymongo import InsertOne, UpdateOne
 from utils import db
 from mongoengine.fields import Document, EmbeddedDocument
 from mongoengine.fields import ListField, StringField, DateTimeField, IntField
@@ -24,19 +25,27 @@ class NewsDocument(Document):
     published_date = DateTimeField()
     fingerprints = ListField(IntField())
 
-    def save(self, *args, **kwargs):
-        db.rares_news_collection.insert_one({
+    def save(self): # Implemented in a batch processing fashion
+        # Batch operations for inserting fingerprints and updating hashes
+        bulk_operations = []
+
+        doc = {
             '_id': self.url,
             'published_date': self.published_date,
             'fingerprints': self.fingerprints
-        })
-        for i in self.fingerprints:
-            hash_exists = db.rares_hashes.find_one({'_id': i}) is not None
+        }
+        db.rares_news_collection.insert_one(doc)
+
+        for fp in self.fingerprints:
+            hash_exists = db.rares_hashes.find_one({'_id': fp}) is not None
             if hash_exists:
-                db.rares_hashes.update_one({"_id": i}, {"$addToSet": {"urls": self.url}})
+                bulk_operations.append(UpdateOne({"_id": fp}, {"$addToSet": {"urls": self.url}}))
             else:
                 urls = [self.url]
-                db.rares_hashes.insert_one({
-                    '_id': i,
+                doc = {
+                    '_id': fp,
                     'urls': urls
-                })
+                }
+                bulk_operations.append(InsertOne(doc))
+        # Execute the bulk operations
+        db.rares_hashes.bulk_write(bulk_operations)
