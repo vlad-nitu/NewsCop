@@ -23,6 +23,7 @@ from .plagiarism_checker.similarity import compute_similarity
 
 from collections import Counter, defaultdict
 
+
 # Create your views here.
 class ReactView(APIView):
     serializer_class = ReactSerializer
@@ -157,9 +158,9 @@ def url_similarity_checker(request):
         url = json.loads(request.body)["key"]
 
         # If the URL has not been persisted yet, persist it in the DB
-        if (db.rares_news_collection.find_one({'_id': url}) is None):
+        if db.rares_news_collection.find_one({'_id': url}) is None:
             response = persist_url_view(request)
-            if response.status_code == 400: #  Cannot persist URL as either it is too long, or it does not have text.
+            if response.status_code == 400:  # Cannot persist URL as either it is too long, or it does not have text.
                 return response
 
         # Get the fingerprints for the current URL
@@ -171,7 +172,6 @@ def url_similarity_checker(request):
 
         # Get the length of the fingerprints for later use when computing Jaccard Similarity
         length_first = len(set(submitted_url_fingerprints))
-
 
         # First query to find candidates and prefilter to only consider "informative hashes"
         query = {
@@ -212,7 +212,7 @@ def url_similarity_checker(request):
             if result[0] != '':
                 url_helper, comp = result
                 if comp > max_sim:
-                    max_sim  = comp
+                    max_sim = comp
                     max_url = url_helper
 
         print(f'Similarity is: {max_sim}')

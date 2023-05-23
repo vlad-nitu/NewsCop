@@ -8,7 +8,7 @@ class FingerprintingTest(TestCase):
     def test_fingerprinting1(self):
         text = 'A do run run run, a do run run'
 
-        shingle1 = {"shingle_hash":  518139119}
+        shingle1 = {"shingle_hash": 518139119}
         shingle2 = {"shingle_hash": 491236388}
         shingle3 = {"shingle_hash": 1020016737}
 

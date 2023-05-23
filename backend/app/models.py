@@ -25,7 +25,8 @@ class NewsDocument(Document):
     published_date = DateTimeField()
     fingerprints = ListField(IntField())
 
-    def save(self): # Implemented in a batch processing fashion
+    def save(self):
+        # Implemented in a batch processing fashion
         # Batch operations for inserting fingerprints and updating hashes
         bulk_operations = []
         visited_fps = set()
@@ -39,7 +40,7 @@ class NewsDocument(Document):
         db.rares_news_collection.insert_one(doc)
 
         for fp in self.fingerprints:
-           if fp not in visited_fps:
+            if fp not in visited_fps:
                 visited_fps.add(fp)
 
         # Update matching documents in rares_hashes collection

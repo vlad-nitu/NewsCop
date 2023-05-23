@@ -254,4 +254,3 @@ class UrlsTest(TestCase):
 
         res = db.rares_news_collection.delete_one({'_id': the_url})  # check that the url was actually persisted
         self.assertEqual(res.deleted_count, 1)
-

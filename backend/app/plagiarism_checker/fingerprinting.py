@@ -54,4 +54,3 @@ def winnowing_hash(kgram):
     hs = modified_hash(text)
 
     return kgram[0][0] if len(kgram) > 1 else -1, hs
-
