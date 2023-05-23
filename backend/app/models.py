@@ -27,11 +27,7 @@ class NewsDocument(Document):
 
     def save(self):
         # Implemented in a batch processing fashion
-        # Batch operations for inserting fingerprints and updating hashes
-        bulk_operations = []
-        visited_fps = set()
-        mp = {}
-
+        visited_fps = set()  # the fingerprints that the current document has
         doc = {
             '_id': self.url,
             'published_date': self.published_date,
@@ -42,8 +38,15 @@ class NewsDocument(Document):
         for fp in self.fingerprints:
             if fp not in visited_fps:
                 visited_fps.add(fp)
-
+        existing_fps = set(list(db.rares_hashes.find({}, {"_id": 1})))  # the already existing fps in the collection
+        need_to_update_fps = visited_fps & existing_fps  # the already existing fp_s
+        need_to_insert_fps = visited_fps - need_to_update_fps  # the fp_s that need to be inserted
         # Update matching documents in rares_hashes collection
-        filter_condition = {"_id": {"$in": list(visited_fps)}}
+
+        filter_condition = {"_id": {"$in": list(need_to_update_fps)}}
         update_query = {"$addToSet": {"urls": self.url}}
         db.rares_hashes.update_many(filter_condition, update_query)
+        to_insert = []
+        for i in need_to_insert_fps:
+            to_insert.append({"_id": i, "urls": [self.url]})
+        db.rares_hashes.insert_many(to_insert)
