@@ -218,7 +218,7 @@ def url_similarity_checker(request):
         print(f'Similarity is: {max_sim}')
         response = {
             "max_url": max_url,
-            "max_val": max_val,
+            "max_val": max_sim,
             "date": str(published_date)
         }
         return HttpResponse(json.dumps(response), status=200, content_type="application/json")
