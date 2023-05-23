@@ -15,6 +15,7 @@ from app.views import persist_url_view
 from app.views import try_view
 from app.views import reqex_view
 from app.views import ReactView
+from app.views import url_similarity_checker
 
 from app.plagiarism_checker.fingerprinting import compute_fingerprint
 
@@ -49,7 +50,6 @@ class UrlsTest(TestCase):
         json_data = json.dumps(data)
         obtained_url = reverse('compare_texts')
         client = Client()
-
         response = client.post(obtained_url, data=json_data, content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), str(expected_similarity))
@@ -213,3 +213,41 @@ class UrlsTest(TestCase):
         self.assertEquals(obtained[0], expected_data)
 
         db.copy_collection.delete_one({'_id': "www.google.com"})  # cleanup db
+
+    @tag("unit")
+    def test_check_url_pattern_1(self):
+        obtained_url = reverse('url_similarity_checker')
+        expected_url = '/urlsimilarity/'
+
+        obtained_view_function = resolve(obtained_url).func
+        expected_view_function = url_similarity_checker
+
+        self.assertEquals(obtained_url, expected_url)
+        self.assertEquals(obtained_view_function, expected_view_function)
+
+    @tag("integration")
+    def test_check_url_pattern_post_bad(self):
+        data = {
+            'key': 'https://www.bbc.com/news/uk-65609209',
+        }
+
+        the_url = 'https://www.bbc.com/news/uk-65609209'
+        json_data = json.dumps(data)
+        obtained_url = reverse('url_similarity_checker')
+        client = Client()
+
+        db.rares_news_collection.delete_one({'_id': the_url})
+
+        response = client.get(obtained_url)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.content.decode(), 'Expected POST, but got GET instead')
+
+        res = db.rares_news_collection.delete_one({'_id': the_url})  # check that the url was not actually added
+        self.assertEqual(res.deleted_count, 0)
+
+    # @tag("integration")
+    # def test_persist_url_pattern_get_instead_of_post(self):
+    #     client = Client()
+    #     obtained_url = reverse('persist_url')
+    #     response = client.get(obtained_url)
+    #     self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

@@ -74,13 +74,6 @@ def reqex_view(request):
         return HttpResponseBadRequest("Invalid request method")
 
 
-def find_max_count_string(strings):
-    counter = Counter(strings)
-    max_count = max(counter.values())
-    max_strings = [string for string, count in counter.items() if count == max_count]
-    return max_strings, max_count
-
-
 def persist_url_view(request):
     '''
     The endpoint that can be consumed by posting on localhost:8000/persistURL/ with the request body as <urlString>.

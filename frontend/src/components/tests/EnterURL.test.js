@@ -23,8 +23,15 @@ describe('EnterURL', () => {
 
     test('Change input form', async () => {
         jest.useFakeTimers() /* Mock the timer */
-        const expectedData = 's'
-        axios.post = jest.fn().mockResolvedValueOnce({data: expectedData})
+        const axiosResponse = {
+            data: { message: "Success" }, // Response data
+            status: 200, // HTTP status code
+            statusText: "OK", // HTTP status message
+            headers: { "Content-Type": "application/json" }, // Response headers
+            config: {}, // Axios request config
+            request: {} // XMLHttpRequest object (optional)
+        };
+        axios.post = jest.fn().mockResolvedValueOnce({data:axiosResponse})
 
         const PreInputArticlePrompt = "Article's URL"
         render(<EnterURL/>)
@@ -44,7 +51,7 @@ describe('EnterURL', () => {
         })
 
         act(() => {
-            jest.advanceTimersByTime(5000) /* Advance timer by 5 seconds */
+            jest.advanceTimersByTime(10000) /* Advance timer by 5 seconds */
         })
         await waitFor(() => {
             expect(submitButton).toBeEnabled() /* Button should be re-enabled after 10 seconds */
