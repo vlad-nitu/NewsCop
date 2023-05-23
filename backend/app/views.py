@@ -107,6 +107,15 @@ def persist_url_view(request):
 
             fingerprints = compute_fingerprint(article_text)
             only_shingle_values = [i['shingle_hash'] for i in fingerprints]
+
+            # verify if it has more than 2000 hashes
+            if len(only_shingle_values) > 2000:
+                return HttpResponseBadRequest("The article given has exceeded the maximum size supported.")
+
+            # verify if it has any fingerprints
+            if len(only_shingle_values) == 0:
+                return HttpResponseBadRequest("The article provided has no text.")
+
             # print(only_shingle_values)
             newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=only_shingle_values)
             newsdoc.save()
