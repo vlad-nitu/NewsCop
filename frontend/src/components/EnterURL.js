@@ -94,7 +94,7 @@ export default function EnterURL () {
       // else{
       //   setDecisionValue("We found no overlap")
       // }
-      setTitleValue('We found that your article ' + inputValue)
+      setTitleValue(inputValue)
       setDateValue(response.data["date"])
       setDecisionValue('Has a maximum overlap of ' +  Math.round(100 * response.data["max_val"]) + "% with "+response.data["max_url"])
       setShowInputValue(true)
