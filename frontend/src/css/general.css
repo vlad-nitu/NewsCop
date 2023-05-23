@@ -98,6 +98,13 @@
   margin-bottom: -100px;
 }
 
-iframe.custom-iframe-height {
-    height: calc(100vh - 57px);
+a.custom_cursor {
+    color: #000 !important;
+    text-decoration: none !important;
+}
+
+a.custom_cursor:hover {
+    cursor: pointer !important;
+    color: #333333 !important;
+    transition: 0.2s !important;
 }
