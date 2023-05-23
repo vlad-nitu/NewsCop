@@ -33,7 +33,7 @@ function App () {
           'quickly and accurately and, consequently, decreasing the impact of ' +
           'missinformation and plagiarism in the media.'
 
-  const inputUrl = "https://awakecanada.org/eric-clapton-speaking-out-about-pain-and-agony-from-covid-vaccine-led-to-alienation-broken-friendships/"
+  const inputUrl = 'https://awakecanada.org/eric-clapton-speaking-out-about-pain-and-agony-from-covid-vaccine-led-to-alienation-broken-friendships/'
 
   return (
     <Router>
