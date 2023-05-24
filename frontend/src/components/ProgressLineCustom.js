@@ -24,6 +24,7 @@ const ProgressLineCustom = ({ progress }) => {
         </ProgressBar>
         <div
           className='pointer'
+          data-testid='progress-line-pointer'
           style={{ left: `${progress}%` }}
         />
       </div>
