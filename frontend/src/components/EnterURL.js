@@ -168,7 +168,7 @@ export default function EnterURL () {
       {errorPrompt && (<ErrorPrompt prompt={errorVal} />)}
       {showInputValue && (
         <div>
-          <CheckUrlDecision title={titleValue} publishingDate={dateValue} decision={decisionValue} />
+          <CheckUrlDecision title={titleValue} />
           <ProgressBarCustom similarity={similarityValue} />
           <ProgressLineCustom progress={similarityValue} />
         </div>
