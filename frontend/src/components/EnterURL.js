@@ -5,6 +5,8 @@ import CheckUrlDecision from './CheckUrlDecision'
 import ErrorPrompt from './ErrorPrompt'
 import LoadingCircle from './LoadingCircle'
 import ProgressBarCustom from './ProgressBarCustom'
+import ProgressLineCustom from './ProgressLineCustom'
+import CustomProgressLine from './ProgressLineCustom'
 
 /* The endpoint that is going to be used for the request, see urls.py and views.py */
 const persistUrlEndpoint = 'http://localhost:8000/urlsimilarity/'
@@ -169,6 +171,7 @@ export default function EnterURL () {
         <div>
           <CheckUrlDecision title={titleValue} publishingDate={dateValue} decision={decisionValue} />
           <ProgressBarCustom similarity={similarityValue} />
+          <ProgressLineCustom progress={similarityValue} />
         </div>
       )}
 
