@@ -18,7 +18,7 @@ import NavbarComponent from './navbar'
 
 const checkURL = () => {
   const applicationName = 'NewsCop'
-  const prompt = '... or you may want to check a text paragraph for plagiarism'
+  const prompt = '... or you may want to check a text paragraph for similarity against our stored articles'
 
   return (
     <>
