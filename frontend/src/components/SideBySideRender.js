@@ -20,10 +20,10 @@ export default function SideBySideRender ({ urlLeft, urlRight, show, handleClose
         <div className='d-flex flex-column' style={{ height: '100%', backgroundColor: backgroundColorLeft === backgroundColorRight && backgroundColorLeft === '#000' ? '#000' : '#fff' }}>
           <Container fluid style={{ height: '100%' }}>
             <Row style={{ height: '100%' }}>
-              <Col xs={6} className='ps-0 h-100 custom-iframe-height' id='left_article'>
+              <Col sm={6} className='px-0 pe-sm-2 pb-2 pb-sm-0 custom-iframe-height' id='left_article'>
                 <IframeRenderer url={urlLeft} id='left_article' changeBackground={() => setBackgroundColorLeft('#000')} />
               </Col>
-              <Col xs={6} className='pe-0 h-100 custom-iframe-height' id='right_article'>
+              <Col sm={6} className='px-0 ps-sm-2 pt-2 pt-sm-0 custom-iframe-height' id='right_article'>
                 <IframeRenderer url={urlRight} id='right_article' changeBackground={() => setBackgroundColorRight('#000')} />
               </Col>
             </Row>

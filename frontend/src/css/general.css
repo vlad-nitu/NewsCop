@@ -117,3 +117,13 @@ a.custom_cursor:hover {
     --bs-btn-active-bg: rgb(46, 131, 126) !important;
     --bs-btn-active-border-color: rgb(46, 131, 126) !important;
 }
+
+.custom-iframe-height {
+    height: 50%;
+}
+
+@media (min-width: 576px) {
+    .custom-iframe-height {
+        height: 100%;
+    }
+}
