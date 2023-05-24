@@ -1,6 +1,12 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import ForwardToCheckTwoTexts from '../ForwardToCheckTwoTexts'
+
+// Mock `window.scrollTo() behavior
+Object.defineProperty(window, 'scrollTo', {
+  value: jest.fn(),
+  writable: true
+})
 
 describe('ForwardToCheckTwoTexts', () => {
   test('Renders the prompt text', () => {
@@ -26,5 +32,10 @@ describe('ForwardToCheckTwoTexts', () => {
     expect(linkElement).toHaveStyle('color: black')
     expect(linkElement).toHaveStyle('fontSize: 150%')
     expect(linkElement).toHaveStyle('marginTop: 120px')
+
+    /* Test the scrolling to top behaviour */
+    window.scrollTo = jest.fn() // Mock scrollTo function
+    fireEvent.click(linkElement)
+    expect(window.scrollTo).toHaveBeenCalledWith(0, 0)
   })
 })
