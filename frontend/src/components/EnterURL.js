@@ -4,6 +4,8 @@ import { Container, Form, Button } from 'react-bootstrap'
 import CheckUrlDecision from './CheckUrlDecision'
 import ErrorPrompt from './ErrorPrompt'
 import LoadingCircle from './LoadingCircle'
+import ProgressBarCustom from './ProgressBarCustom'
+
 /* The endpoint that is going to be used for the request, see urls.py and views.py */
 const persistUrlEndpoint = 'http://localhost:8000/urlsimilarity/'
 
@@ -52,6 +54,7 @@ export default function EnterURL () {
   const [titleValue, setTitleValue] = useState('')
   const [dateValue, setDateValue] = useState('')
   const [decisionValue, setDecisionValue] = useState('')
+  const [similarityValue, setSimilarityValue] = useState(0)
   const [inputValue, setInputValue] = useState('')
   const [showInputValue, setShowInputValue] = useState(false)
   const [loadingValue, setLoadingValue] = useState(false)
@@ -103,6 +106,7 @@ export default function EnterURL () {
         // To be used later
         // if (response.data.date === 'None') { setDateValue('The publishing date of this article is unfortunately unknown!') } else { setDateValue(response.data.date) }
         setTitleValue('Your article has a maximum overlap of ' + similarity + '% with ' + response.data.max_url)
+        setSimilarityValue(similarity)
         setShowInputValue(true)
       }
     }
@@ -122,6 +126,7 @@ export default function EnterURL () {
     setTitleValue('')
     setDateValue('')
     setDecisionValue('')
+    setSimilarityValue(0)
     setInputValue(event.target.value)
     console.log(event.target.value)
   }
@@ -161,7 +166,10 @@ export default function EnterURL () {
       {loadingValue && (<LoadingCircle />)}
       {errorPrompt && (<ErrorPrompt prompt={errorVal} />)}
       {showInputValue && (
+        <div> 
         <CheckUrlDecision title={titleValue} publishingDate={dateValue} decision={decisionValue} />
+        <ProgressBarCustom similarity={similarityValue} />
+        </div>
       )}
 
     </Container>
