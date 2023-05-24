@@ -29,7 +29,7 @@ export default function ProgressBarCustom(similarity) {
   };
 
   return (
-    <div className='mb-3' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <div className='mb-3 mt-5' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <ProgressBar
         radius={100}
         progress={similarity.similarity}

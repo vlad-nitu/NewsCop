@@ -3,6 +3,7 @@ import { Container, Form, Button } from 'react-bootstrap'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import axios from 'axios'
+import ProgressBarCustom from './ProgressBarCustom'
 
 /**
  * Container that displays:
@@ -30,6 +31,7 @@ export default function EnterTwoURLs () {
   const [inputValueOriginal, setInputValueOriginal] = useState('')
   const [inputValueChanged, setInputValueChanged] = useState('')
   const [showInputValue, setShowInputValue] = useState(false)
+  const [answerValue, setAnswerValue] = useState(0)
   const [buttonDisabled, setButtonDisabled] = useState(false)
   const [outputValue, setOutputValue] = useState('')
   const [outputColor, setOutputColor] = useState('black')
@@ -50,6 +52,7 @@ export default function EnterTwoURLs () {
     // set output value to be empty before
     setShowInputValue(false)
     setOutputValue('')
+    setAnswerValue(0)
 
     await axios.post(`${compareURLsEndpoint}`, createRequestBody(inputValueOriginal, inputValueChanged))
       .then(response => {
@@ -61,6 +64,7 @@ export default function EnterTwoURLs () {
           else setOutputColor('green')
 
           setOutputValue(`The two news articles given have similarity level of ${answer} %`)
+          setAnswerValue(answer)
         } else {
           setOutputValue('Please provide a valid input!')
         }
@@ -135,8 +139,11 @@ export default function EnterTwoURLs () {
           </Button>
         </div>
         {showInputValue && (
-          <div style={{ display: 'flex', justifyContent: 'center', color: outputColor, fontSize: '120%', marginTop: '60px', textAlign: 'center' }}>
-            {outputValue}
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'center', color: outputColor, fontSize: '120%', marginTop: '60px', textAlign: 'center' }}>
+              {outputValue}
+            </div>
+            <ProgressBarCustom similarity={answerValue} />
           </div>
         )}
       </div>
