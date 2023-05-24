@@ -1,22 +1,23 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import ForwardToCheckText from '../ForwardToCheckText'
+import ForwardToPage from '../ForwardToPage'
 
 // Mock `window.scrollTo() behavior
 Object.defineProperty(window, 'scrollTo', {
   value: jest.fn(),
   writable: true
 })
-describe('ForwardToCheckText', () => {
-  test('renders the prompt text', () => {
-    const prompt = 'Check your text for plagiarism'
+
+describe('ForwardToPageTest', () => {
+  test('Renders the prompt text', () => {
+    const prompt = '... or you may want to check a text paragraph for similarity against our stored articles'
     /*
-     * By wrapping the ForwardToCheckText component with the MemoryRouter,
-     * we provide a routing context that the component can use to render the Link element and trigger navigation events during testing.
-    */
+             * By wrapping the ForwardToPage component with the MemoryRouter,
+             * we provide a routing context that the component can use to render the Link element and trigger navigation events during testing.
+            */
     render(
       <MemoryRouter>
-        <ForwardToCheckText prompt={prompt} />
+        <ForwardToPage page='/checkText' prompt={prompt} />
       </MemoryRouter>
     )
 
