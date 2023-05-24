@@ -22,22 +22,24 @@ const checkURL = () => {
 
   return (
     <>
-      {/* Secondary Navbar Component that routes back to the main page */}
-      <NavbarComponent name={applicationName} mainPage={false} />
+      <div className='d-flex flex-column' style={{ height: '100vh' }}>
 
-      {/* Plagiarism checker Text section */}
-      <BodyCheckOneText />
+        {/* Secondary Navbar Component that routes back to the main page */}
+        <NavbarComponent name={applicationName} mainPage={false} />
 
-      {/* Enter article's URL section */}
-      <EnterURL />
+        {/* Plagiarism checker Text section */}
+        <BodyCheckOneText />
 
-      {/* Component that routes /checkURL to /checkText
+        {/* Enter article's URL section */}
+        <EnterURL />
+
+        {/* Component that routes /checkURL to /checkText
       if user wants to input a text fragment, not an URL that will be crawled */}
-      <ForwardToCheckText prompt={prompt} />
+        <ForwardToCheckText prompt={prompt} />
+      </div>
 
       {/* Footer */}
       <Footer />
-
     </>
   )
 }
