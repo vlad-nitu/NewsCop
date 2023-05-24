@@ -152,4 +152,65 @@ describe('EnterTwoURLs', () => {
     // Assert that the button becomes enabled after 5 seconds
     expect(submitButton).toBeEnabled()
   })
+
+  test('Input two URLs good percentage >= 0.8', async () => {
+    // Mock the timer
+    jest.useFakeTimers()
+
+    const PreInputArticlePromptOriginal = 'Enter the original URL'
+    const PreInputArticlePromptChanged = 'Enter the changed URL'
+    const { getByPlaceholderText, getByText } = render(<EnterTwoURLs />)
+    const inputLeft = getByPlaceholderText(PreInputArticlePromptOriginal)
+    const inputRight = getByPlaceholderText(PreInputArticlePromptChanged)
+    const submitButton = getByText('Submit')
+
+    // change the url on the left
+    const sameURL = 'https://getbootstrap.com/docs/5.0/forms/layout/'
+    fireEvent.change(inputLeft, { target: { value: sameURL} })
+    expect(inputLeft.value).toBe(sameURL)
+
+    // change the url on the right
+    fireEvent.change(inputRight, { target: { value: sameURL} })
+    expect(inputRight.value).toBe(sameURL)
+
+    jest.mock('axios')
+    const axiosResponse = {
+        data: 0.85, // Example response data for answer >= 80
+        status: 200,
+        statusText: 'OK',
+        headers: { 'Content-Type': 'application/json' },
+        config: {},
+        request: {}
+      }
+    axios.post = jest.fn().mockResolvedValueOnce(axiosResponse)
+
+    fireEvent.click(submitButton)
+
+    // Even after pressing the Submit button (for 5 seconds), the text remains in the form; after 5 seconds, it gets erased
+    expect(inputLeft.value).toBe(sameURL)
+    expect(inputRight.value).toBe(sameURL)
+    expect(submitButton).toBeDisabled()
+    expect(inputRight).toBeDisabled()
+    expect(inputLeft).toBeDisabled()
+
+    // Resolve the axios post promise
+    await act(async () => {
+      await axios.post.mock.results[0].value
+    })
+
+    // Advance timer by 5 seconds
+    act(() => {
+      jest.advanceTimersByTime(5000)
+    })
+
+    // Button should be re-enabled after 5 seconds
+    await waitFor(() => {
+      expect(submitButton).toBeEnabled()
+    })
+
+    expect(inputLeft).toBeEnabled()
+    expect(inputRight).toBeEnabled()
+    expect(inputLeft.value).toBe(sameURL)
+    expect(inputRight.value).toBe(sameURL)
+  })
 })
