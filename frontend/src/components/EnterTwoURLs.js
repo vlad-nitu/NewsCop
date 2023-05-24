@@ -56,7 +56,7 @@ export default function EnterTwoURLs () {
 
     // set output value to be empty before
     setShowInputValue(false)
-    setShowCompareButton(true)
+    setShowCompareButton(false)
     setOutputValue('')
 
     await axios.post(`${compareURLsEndpoint}`, createRequestBody(inputValueOriginal, inputValueChanged))
