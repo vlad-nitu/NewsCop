@@ -57,14 +57,14 @@ export default function EnterTwoURLs () {
 
     await axios.post(`${compareURLsEndpoint}`, createRequestBody(inputValueOriginal, inputValueChanged))
       .then(response => {
-          const answer = Math.round(100 * response.data)
+        const answer = Math.round(100 * response.data)
 
-          // change color accordingly
-          if (answer >= 80) setOutputColor('red')
-          else setOutputColor('green')
+        // change color accordingly
+        if (answer >= 80) setOutputColor('red')
+        else setOutputColor('green')
 
-          setOutputValue(`The two news articles given have similarity level of ${answer} %`)
-          setAnswerValue(answer)
+        setOutputValue(`The two news articles given have similarity level of ${answer} %`)
+        setAnswerValue(answer)
       })
       .catch(error => {
         console.log(error)

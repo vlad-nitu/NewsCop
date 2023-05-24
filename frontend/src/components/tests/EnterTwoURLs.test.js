@@ -166,22 +166,22 @@ describe('EnterTwoURLs', () => {
 
     // change the url on the left
     const sameURL = 'https://getbootstrap.com/docs/5.0/forms/layout/'
-    fireEvent.change(inputLeft, { target: { value: sameURL} })
+    fireEvent.change(inputLeft, { target: { value: sameURL } })
     expect(inputLeft.value).toBe(sameURL)
 
     // change the url on the right
-    fireEvent.change(inputRight, { target: { value: sameURL} })
+    fireEvent.change(inputRight, { target: { value: sameURL } })
     expect(inputRight.value).toBe(sameURL)
 
     jest.mock('axios')
     const axiosResponse = {
-        data: 0.85, // Example response data for answer >= 80
-        status: 200,
-        statusText: 'OK',
-        headers: { 'Content-Type': 'application/json' },
-        config: {},
-        request: {}
-      }
+      data: 0.85, // Example response data for answer >= 80
+      status: 200,
+      statusText: 'OK',
+      headers: { 'Content-Type': 'application/json' },
+      config: {},
+      request: {}
+    }
     axios.post = jest.fn().mockResolvedValueOnce(axiosResponse)
 
     fireEvent.click(submitButton)
