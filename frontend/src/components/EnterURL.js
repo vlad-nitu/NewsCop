@@ -100,9 +100,9 @@ export default function EnterURL () {
         setErrorPrompt(true)
       } else {
         setLoadingValue(false)
-        setTitleValue(inputValue)
-        if (response.data.date === 'None') { setDateValue('The publishing date of this article is unfortunately unknown!') } else { setDateValue(response.data.date) }
-        setDecisionValue('Has a maximum overlap of ' + similarity + '% with ' + response.data.max_url)
+        // To be used later
+        // if (response.data.date === 'None') { setDateValue('The publishing date of this article is unfortunately unknown!') } else { setDateValue(response.data.date) }
+        setTitleValue('Your article has a maximum overlap of ' + similarity + '% with ' + response.data.max_url)
         setShowInputValue(true)
       }
     }
