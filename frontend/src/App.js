@@ -7,7 +7,6 @@ import CheckOneText from './components/CheckOneText'
 import CheckURL from './components/CheckURL'
 import CheckTwoTexts from './components/CheckTwoTexts'
 import CheckTwoURLs from './components/CheckTwoURLs'
-import SideBySideRender from './components/SideBySideRender'
 
 /**
  * The entire page was built around the Bootstrap library.
@@ -32,8 +31,6 @@ function App () {
           'comparing news articles, helping users to identify overlapping content ' +
           'quickly and accurately and, consequently, decreasing the impact of ' +
           'missinformation and plagiarism in the media.'
-
-  const inputUrl = 'https://awakecanada.org/eric-clapton-speaking-out-about-pain-and-agony-from-covid-vaccine-led-to-alienation-broken-friendships/'
 
   return (
     <Router>

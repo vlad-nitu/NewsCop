@@ -11,7 +11,7 @@ describe('SideBySideRender', () => {
     const handleClose = jest.fn()
 
     // Render the component
-    const { container } = render(
+    render(
       <SideBySideRender
         urlLeft='http://example.com/left'
         urlRight='http://example.com/right'
