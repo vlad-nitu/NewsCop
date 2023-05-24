@@ -1,40 +1,30 @@
-import { Row, Col, Container, Modal, ModalBody, ModalHeader, ModalTitle } from 'react-bootstrap'
-import Iframe from 'react-iframe'
+import { Row, Col, Container, Modal, ModalBody, ModalHeader } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons'
+import IframeRenderer from './IframeRenderer'
+import { useState } from 'react'
 
 export default function SideBySideRender ({ urlLeft, urlRight, show, handleClose }) {
+  const [backgroundColorLeft, setBackgroundColorLeft] = useState('#fff')
+  const [backgroundColorRight, setBackgroundColorRight] = useState('#fff')
+
   return (
     <Modal show={show} onHide={handleClose} fullscreen>
       <ModalHeader>
-        <a onClick={handleClose} className='custom_cursor'>
+        <a onClick={() => { handleClose(); setBackgroundColorLeft('#fff') }} className='custom_cursor'>
           <FontAwesomeIcon icon={faChevronLeft} className='pe-1' />
           <span>Go back</span>
         </a>
       </ModalHeader>
       <ModalBody style={{ padding: 0 }}>
-        <div className='d-flex flex-column' style={{ height: '100%' }}>
+        <div className='d-flex flex-column' style={{ height: '100%', backgroundColor: backgroundColorLeft === backgroundColorRight && backgroundColorLeft === '#000' ? '#000' : '#fff' }}>
           <Container fluid style={{ height: '100%' }}>
             <Row style={{ height: '100%' }}>
-              <Col md={6} className='ps-md-0 custom-iframe-height' style={{ height: '100%' }} id='left_article'>
-                <Iframe
-                  url={urlLeft}
-                  width='100%'
-                  height='100%'
-                  id='left_article'
-                  display='block'
-                  position='relative'
-                />
+              <Col xs={6} className='ps-0 custom-iframe-height' style={{ height: '100%' }} id='left_article'>
+                <IframeRenderer url={urlLeft} id='left_article' changeBackground={() => setBackgroundColorLeft('#000')} />
               </Col>
-              <Col md={6} className='pe-md-0 custom-iframe-height' style={{ height: '100%' }}>
-                <Iframe
-                  url={urlRight}
-                  width='100%'
-                  height='100%'
-                  id='right_article'
-                  display='block'
-                  position='relative'
-                />
+              <Col xs={6} className='pe-0 custom-iframe-height' style={{ height: '100%' }} id='right_article'>
+                <IframeRenderer url={urlRight} id='right_article' changeBackground={() => setBackgroundColorRight('#000')} />
               </Col>
             </Row>
           </Container>
