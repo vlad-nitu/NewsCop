@@ -16,8 +16,11 @@ const ProgressLineCustom = ({ progress }) => {
         <ProgressBar style={{ height: '20px' }}>
           {subProgress.map((sub, index) => (
             <ProgressBar
+              striped
+              animated
               key={index}
               now={sub.value}
+              label={`${sub.value * index} - ${sub.value * (index + 1)}%`}
               style={{ backgroundColor: sub.color }}
             />
           ))}
