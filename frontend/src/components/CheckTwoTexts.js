@@ -4,10 +4,11 @@ import Footer from './footer'
 import BodyCheckTwoTexts from './BodyCheckTwoTexts'
 import TextBox from './TextBox'
 import SubmitButton from './submitButton'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
+import ForwardToPage from './ForwardToPage'
 
 /**
  * The page for the checking two texts for overlapping. It contains all the components that will be present in the page,
@@ -76,6 +77,10 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
             {getOutputPrompt()}
           </div>
         )}
+        {/* Component that routes /compareTexts to /compareURLs
+        if user wants to input two text paragraphs, not two URLs that will be crawled */}
+        <ForwardToPage prompt='... or you may want to check the similarity of two news articles with their URLs' page='/compareURLs' />
+
       </div>
       {/* Similarity display */}
       {/* Footer */}

@@ -4,7 +4,6 @@ import NavbarComponent from './navbar'
 import Footer from './footer'
 import BodyCheckTwoURLs from './BodyCheckTwoURLs'
 import ForwardToPage from './ForwardToPage'
-import { compareTexts } from './CheckTwoTexts'
 
 /**
  * The entire page was built around the Bootstrap library.
@@ -34,11 +33,11 @@ const checkTwoURLs = () => {
 
         {/* Enter article's URLs section */}
         <EnterTwoURLs />
+
         {/* Component that routes /compareURLs to /compareTexts
       if user wants to input two text paragraphs, not two URLs that will be crawled */}
-        <ForwardToPage prompt={prompt} page={compareTexts} />
+        <ForwardToPage prompt={prompt} page='/compareTexts' />
       </div>
-
       {/* Footer */}
       <Footer />
 
