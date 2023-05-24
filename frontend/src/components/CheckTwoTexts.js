@@ -9,6 +9,7 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
 import CustomProgressBar from './ProgressBarCustom'
+import ProgressLineCustom from './ProgressLineCustom'
 
 /**
  * The page for the checking two texts for overlapping. It contains all the components that will be present in the page,
@@ -78,6 +79,7 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
               {getOutputPrompt()}
             </div>
             <CustomProgressBar similarity={similarity} />
+            <ProgressLineCustom progress={similarity} />
           </div>
         )}
       </div>

@@ -4,6 +4,8 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import axios from 'axios'
 import ProgressBarCustom from './ProgressBarCustom'
+import CustomProgressBar from './ProgressBarCustom'
+import ProgressLineCustom from './ProgressLineCustom'
 
 /**
  * Container that displays:
@@ -144,6 +146,7 @@ export default function EnterTwoURLs () {
               {outputValue}
             </div>
             <ProgressBarCustom similarity={answerValue} />
+            <ProgressLineCustom progress={answerValue} />
           </div>
         )}
       </div>
