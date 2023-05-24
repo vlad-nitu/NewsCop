@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import { Container, Form, Button } from 'react-bootstrap'
 import CheckUrlDecision from './CheckUrlDecision'
+import ErrorPrompt from './ErrorPrompt'
 import LoadingCircle from './LoadingCircle'
 /* The endpoint that is going to be used for the request, see urls.py and views.py */
 const persistUrlEndpoint = 'http://localhost:8000/urlsimilarity/'
@@ -55,6 +56,8 @@ export default function EnterURL () {
   const [showInputValue, setShowInputValue] = useState(false)
   const [loadingValue, setLoadingValue] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(false)
+  const [errorPrompt, setErrorPrompt] = useState(false)
+  const [errorVal, setErrorVal] = useState('')
   const handleSubmit = async (event) => {
     event.preventDefault()
     setButtonDisabled(true)
@@ -67,6 +70,8 @@ export default function EnterURL () {
           // https://stackoverflow.com/questions/49967779/axios-handling-errors
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
+          setErrorVal('You entered an invalid URL!')
+          setErrorPrompt(true)
           console.log(error.response.data)
           console.log(error.response.status)
           console.log(error.response.headers)
@@ -75,26 +80,39 @@ export default function EnterURL () {
           // The request was made but no response was received
           // `error.request` is an instance of XMLHttpRequest in the browser
           // and an instance of http.ClientRequest in node.js
+          setErrorVal('The server might not be running!')
+          setErrorPrompt(true)
           console.log(error.request)
         } else {
           setLoadingValue(false)
           // Something happened in setting up the request that triggered an Error
+          setErrorVal('An error occurred, please try again later!')
+          setErrorPrompt(true)
           console.log('Error', error.message)
         }
       })
     if (response != null) {
       console.log(response.data)
-      setLoadingValue(false)
-      setTitleValue(inputValue)
-      setDateValue(response.data.date)
-      setDecisionValue('Has a maximum overlap of ' + Math.round(100 * response.data.max_val) + '% with ' + response.data.max_url)
-      setShowInputValue(true)
+      const similarity = Math.round(100 * response.data.max_val)
+      if (similarity === -100) {
+        setLoadingValue(false)
+        setErrorVal('Our system has not found no match for your news article!')
+        setErrorPrompt(true)
+      } else {
+        setLoadingValue(false)
+        setTitleValue(inputValue)
+        if (response.data.date === 'None') { setDateValue('The publishing date of this article is unfortunately unknown!') } else { setDateValue(response.data.date) }
+        setDecisionValue('Has a maximum overlap of ' + similarity + '% with ' + response.data.max_url)
+        setShowInputValue(true)
+      }
     }
     setTimeout(() => {
       // setShowInputValue(false)
       setButtonDisabled(false)
       setLoadingValue(false)
       setInputValue('')
+      setErrorVal('')
+      setErrorPrompt(false)
     }, 10000)
   }
 
@@ -141,9 +159,11 @@ export default function EnterURL () {
         </div>
       </div>
       {loadingValue && (<LoadingCircle />)}
+      {errorPrompt && (<ErrorPrompt prompt={errorVal} />)}
       {showInputValue && (
         <CheckUrlDecision title={titleValue} publishingDate={dateValue} decision={decisionValue} />
       )}
+
     </Container>
 
   )

@@ -17,6 +17,12 @@
     font-size: xx-large;
     margin-top: 50px;
 }
+
+#forErrorPrompt{
+    color: #ba2121;
+    font-size: xx-large;
+    margin-top: 50px;
+}
 .description-overlap{
     font-size: 1.3rem;
     text-align: center
