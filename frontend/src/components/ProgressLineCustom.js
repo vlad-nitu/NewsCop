@@ -1,66 +1,34 @@
-import React from 'react';
-import ProgressBar from 'react-bootstrap/ProgressBar';
+import React from 'react'
+import ProgressBar from 'react-bootstrap/ProgressBar'
 
 const ProgressLineCustom = ({ progress }) => {
-  const getVariant = (value) => {
-    if (value <= 20) {
-      return 'success'; // Green
-    } else if (value <= 40) {
-      return 'warning'; // Yellow
-    } else if (value <= 60) {
-      return 'light'; // Light orange
-    } else if (value <= 80) {
-      return 'dark'; // Dark orange
-    } else {
-      return 'danger'; // Red
-    }
-  };
-
-  const getColor = (variant) => {
-    switch (variant) {
-      case 'success':
-        return '#28a745'; // Green
-      case 'warning':
-        return '#ffc107'; // Yellow
-      case 'light':
-        return '#ff7f50'; // Light orange
-      case 'dark':
-        return '#ff4500'; // Dark orange
-      case 'danger':
-        return '#dc3545'; // Red
-      default:
-        return '#dc3545'; // Red (fallback)
-    }
-  };
+  const subProgress = [
+    { value: 20, color: '#22a24b' }, // Green
+    { value: 20, color: '#bdd537' }, // Yellow
+    { value: 20, color: '#f0dd1f' }, // Light orange
+    { value: 20, color: '#ef9e29' }, // Dark orange
+    { value: 20, color: '#eb282c' } // Red
+  ]
 
   return (
-    <div className='mb-3 mt-5 d-flex justify-content-center'>
-      <ProgressBar now={progress} variant={getVariant(progress)} style={{ width: '400px' }} />
-      <style>
-        {`
-          .progress-bar-success {
-            background-color: ${getColor('success')};
-          }
-
-          .progress-bar-warning {
-            background-color: ${getColor('warning')};
-          }
-
-          .progress-bar-light {
-            background-color: ${getColor('light')};
-          }
-
-          .progress-bar-dark {
-            background-color: ${getColor('dark')};
-          }
-
-          .progress-bar-danger {
-            background-color: ${getColor('danger')};
-          }
-        `}
-      </style>
+    <div className='mb-3 mt-5' style={{ display: 'flex', justifyContent: 'center' }}>
+      <div style={{ width: '400px', position: 'relative' }}>
+        <ProgressBar style={{ height: '20px' }}>
+          {subProgress.map((sub, index) => (
+            <ProgressBar
+              key={index}
+              now={sub.value}
+              style={{ backgroundColor: sub.color }}
+            />
+          ))}
+        </ProgressBar>
+        <div
+          className='pointer'
+          style={{ left: `${progress}%` }}
+        />
+      </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProgressLineCustom;
+export default ProgressLineCustom

@@ -110,3 +110,14 @@
   float: left;
   margin-bottom: -100px;
 }
+
+
+.pointer {
+  position: absolute;
+  top: -10px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 10px solid black; /* Pointer color */
+}
