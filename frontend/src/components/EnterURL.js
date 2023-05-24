@@ -37,8 +37,6 @@ export default function EnterURL () {
     marginRight: '25%'
   }
   const [titleValue, setTitleValue] = useState('')
-  const [dateValue, setDateValue] = useState('')
-  const [decisionValue, setDecisionValue] = useState('')
   const [similarityValue, setSimilarityValue] = useState(0)
   const [inputValue, setInputValue] = useState('')
   const [showInputValue, setShowInputValue] = useState(false)
@@ -88,8 +86,6 @@ export default function EnterURL () {
         setErrorPrompt(true)
       } else {
         setLoadingValue(false)
-        // To be used later
-        // if (response.data.date === 'None') { setDateValue('The publishing date of this article is unfortunately unknown!') } else { setDateValue(response.data.date) }
         setTitleValue('Your article has a maximum overlap of ' + similarity + '% with ' + response.data.max_url)
         setSimilarityValue(similarity)
         setShowInputValue(true)
@@ -109,8 +105,6 @@ export default function EnterURL () {
     setShowInputValue(false)
     // setLoadingValue(true)
     setTitleValue('')
-    setDateValue('')
-    setDecisionValue('')
     setSimilarityValue(0)
     setInputValue(event.target.value)
     console.log(event.target.value)
