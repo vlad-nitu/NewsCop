@@ -26,7 +26,7 @@ describe('EnterURL', () => {
     const promptElement = screen.getByText(prompt)
     expect(promptElement).toBeInTheDocument()
   })
-  test('handles successful form submission', async () => {
+  test('handles successful form submission positive', async () => {
     const mockedResponse = {
       data: {
         max_val: 0.75,
@@ -55,6 +55,29 @@ describe('EnterURL', () => {
       expect(screen.getByText('Your article has a maximum overlap of 75% with https://example.com')).toBeInTheDocument()
     })
   })
+  test('handles successful form submission negative', async () => {
+    const theMockResponse = {
+      data: {
+        max_val: -1,
+        max_url: 'https://example.com',
+        date: '2023-05-01'
+      }
+    }
+    axios.post.mockResolvedValueOnce(theMockResponse)
+
+    render(<EnterURL />)
+
+    const input = screen.getByPlaceholderText('Article\'s URL')
+    const submitButton = screen.getByText('Submit')
+    fireEvent.change(input, { target: { value: 'article' } })
+    fireEvent.click(submitButton)
+    expect(submitButton).toBeDisabled()
+    expect(screen.getByRole('status')).toBeInTheDocument()
+    await waitFor(() => {
+      expect(screen.queryByTestId('loading-circle')).not.toBeInTheDocument()
+      expect(screen.getByText('Our system has not found no match for your news article!')).toBeInTheDocument()
+    })
+  })
   test('handles error response from server', async () => {
     const mockedErrorResponse = {
       response: {
@@ -80,7 +103,9 @@ describe('EnterURL', () => {
       expect(screen.queryByTestId('loading-circle')).not.toBeInTheDocument()
       expect(screen.getByText('You entered an invalid URL!')).toBeInTheDocument()
     })
+    expect(screen.queryByRole('status')).not.toBeInTheDocument()
   })
+
   test('handles request error', async () => {
     const mockedError = {
       request: 'Failed to make request'
@@ -102,6 +127,25 @@ describe('EnterURL', () => {
     await waitFor(() => {
       expect(screen.queryByTestId('loading-circle')).not.toBeInTheDocument()
       expect(screen.getByText('The server might not be running!')).toBeInTheDocument()
+    })
+  })
+
+  test('handles another error', async () => {
+    const mockedError = new Error('Request failed')
+
+    axios.post.mockRejectedValue(mockedError)
+    render(<EnterURL />)
+
+    const inputForm = screen.getByPlaceholderText("Article's URL")
+    const submitButton = screen.getByText('Submit')
+    fireEvent.change(inputForm, { target: { value: 'example' } })
+    fireEvent.click(submitButton)
+    expect(submitButton).toBeDisabled()
+    expect(screen.getByRole('status')).toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('loading-circle')).not.toBeInTheDocument()
+      expect(screen.getByText('An error occurred, please try again later!')).toBeInTheDocument()
     })
   })
 })
