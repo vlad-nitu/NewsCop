@@ -1,9 +1,9 @@
 import React from 'react'
 import EnterURL from './EnterURL'
 import Footer from './footer'
-import ForwardToCheckText from './ForwardToCheckText'
 import BodyCheckOneText from './BodyCheckOneText'
 import NavbarComponent from './navbar'
+import ForwardToPage from './ForwardToPage'
 /**
  * The entire page was built around the Bootstrap library.
  *
@@ -32,10 +32,9 @@ const checkURL = () => {
 
         {/* Enter article's URL section */}
         <EnterURL />
-
         {/* Component that routes /checkURL to /checkText
       if user wants to input a text fragment, not an URL that will be crawled */}
-        <ForwardToCheckText prompt={prompt} />
+        <ForwardToPage page='/checkText' prompt={prompt} />
       </div>
 
       {/* Footer */}

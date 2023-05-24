@@ -3,8 +3,8 @@ import Footer from './footer'
 import BodyCheckOneText from './BodyCheckOneText'
 import TextBox from './TextBox'
 import SubmitButton from './submitButton'
-import ForwardToCheckURL from './ForwardToCheckURL'
-import { useState } from 'react'
+import React, { useState } from 'react'
+import ForwardToPage from './ForwardToPage'
 
 /**
  * The page for the check text for similarity page. It contains all the components that will be present in the page,
@@ -51,7 +51,8 @@ export default function CheckOneText ({ applicationName }) {
         {/* The submit button */}
         <SubmitButton disabled={loading} onClickMethod={handleSubmit} />
 
-        <ForwardToCheckURL prompt='... or you may want to check a news article via an URL for similarity' />
+        {/* Routes the user to the check URL service */}
+        <ForwardToPage page='/checkURL' prompt='... or you may want to check a news article via an URL for similarity' />
       </div>
 
       {/* Footer */}
