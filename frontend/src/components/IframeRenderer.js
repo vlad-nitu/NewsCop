@@ -21,7 +21,7 @@ export default function IframeRenderer ({ url, id, changeBackground }) {
     <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       {loading === true
         ? <ClipLoader
-            color='#000'
+            color='rgb(46, 131, 126)'
             size={100}
             loading={loading}
             aria-label='Loading Spinner'

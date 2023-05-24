@@ -113,4 +113,7 @@ a.custom_cursor:hover {
     --bs-btn-color: rgb(46, 131, 126) !important;
     --bs-btn-border-color: rgb(46, 131, 126) !important;
     --bs-btn-hover-border-color: rgb(46, 131, 126) !important;
+    --bs-btn-hover-bg: rgb(46, 131, 126) !important;
+    --bs-btn-active-bg: rgb(46, 131, 126) !important;
+    --bs-btn-active-border-color: rgb(46, 131, 126) !important;
 }
