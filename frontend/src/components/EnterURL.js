@@ -8,22 +8,6 @@ import LoadingCircle from './LoadingCircle'
 const persistUrlEndpoint = 'http://localhost:8000/urlsimilarity/'
 
 /**
- * Persists a URL asynchronously, the URL will have to be stored as the value for "key" in
- * a JSON format.
- * @param url the URL, in the format above
- * @returns {Promise<any>} the response after the persistance
- */
-export const persistUrl = async (url) => {
-  try {
-    const response = await axios.post(`${persistUrlEndpoint}`, url)
-    return response.data
-  } catch (error) {
-    console.error(error)
-    throw new Error('Failed to persist url')
-  }
-}
-
-/**
  * Container that displays:
  * 1. The description of the form from 2.
  * 2. The `Article's URL` form where the user will input the URL that he wants to
@@ -50,8 +34,6 @@ export default function EnterURL () {
     marginRight: '25%'
   }
   const [titleValue, setTitleValue] = useState('')
-  const [dateValue, setDateValue] = useState('')
-  const [decisionValue, setDecisionValue] = useState('')
   const [inputValue, setInputValue] = useState('')
   const [showInputValue, setShowInputValue] = useState(false)
   const [loadingValue, setLoadingValue] = useState(false)
@@ -120,8 +102,6 @@ export default function EnterURL () {
     setShowInputValue(false)
     // setLoadingValue(true)
     setTitleValue('')
-    setDateValue('')
-    setDecisionValue('')
     setInputValue(event.target.value)
     console.log(event.target.value)
   }
@@ -161,7 +141,7 @@ export default function EnterURL () {
       {loadingValue && (<LoadingCircle />)}
       {errorPrompt && (<ErrorPrompt prompt={errorVal} />)}
       {showInputValue && (
-        <CheckUrlDecision title={titleValue} publishingDate={dateValue} decision={decisionValue} />
+        <CheckUrlDecision title={titleValue} />
       )}
 
     </Container>
