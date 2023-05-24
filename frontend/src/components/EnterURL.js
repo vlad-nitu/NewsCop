@@ -11,22 +11,6 @@ import ProgressLineCustom from './ProgressLineCustom'
 const persistUrlEndpoint = 'http://localhost:8000/urlsimilarity/'
 
 /**
- * Persists a URL asynchronously, the URL will have to be stored as the value for "key" in
- * a JSON format.
- * @param url the URL, in the format above
- * @returns {Promise<any>} the response after the persistance
- */
-export const persistUrl = async (url) => {
-  try {
-    const response = await axios.post(`${persistUrlEndpoint}`, url)
-    return response.data
-  } catch (error) {
-    console.error(error)
-    throw new Error('Failed to persist url')
-  }
-}
-
-/**
  * Container that displays:
  * 1. The description of the form from 2.
  * 2. The `Article's URL` form where the user will input the URL that he wants to
