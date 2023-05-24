@@ -166,9 +166,9 @@ export default function EnterURL () {
       {loadingValue && (<LoadingCircle />)}
       {errorPrompt && (<ErrorPrompt prompt={errorVal} />)}
       {showInputValue && (
-        <div> 
-        <CheckUrlDecision title={titleValue} publishingDate={dateValue} decision={decisionValue} />
-        <ProgressBarCustom similarity={similarityValue} />
+        <div>
+          <CheckUrlDecision title={titleValue} publishingDate={dateValue} decision={decisionValue} />
+          <ProgressBarCustom similarity={similarityValue} />
         </div>
       )}
 
