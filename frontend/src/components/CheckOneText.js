@@ -3,6 +3,7 @@ import Footer from './footer'
 import BodyCheckOneText from './BodyCheckOneText'
 import TextBox from './TextBox'
 import SubmitButton from './submitButton'
+import ForwardToCheckURL from './ForwardToCheckURL'
 import { useState } from 'react'
 
 /**
@@ -37,18 +38,19 @@ export default function CheckOneText ({ applicationName }) {
   }
   return (
     <>
-      <div className='d-flex flex-column' style={{ height: '100vh' }}>
-        {/* Navbar */}
-        <NavbarComponent name={applicationName} mainPage={false} />
-        {/* The description text about news overlap */}
-        <BodyCheckOneText />
-        <div style={{ height: '100%' }}>
-          {/* Text area */}
-          <TextBox description={textBoxDescription} disabled={loading} placeholder='Enter your article here' />
-        </div>
-        {/* The submit button */}
-        <SubmitButton disabled={loading} onClickMethod={handleSubmit} />
+      {/* Navbar */}
+      <NavbarComponent name={applicationName} mainPage={false} />
+      {/* The description text about news overlap */}
+      <BodyCheckOneText />
+      <div style={{ height: '100%' }}>
+        {/* Text area */}
+        <TextBox description={textBoxDescription} disabled={loading} placeholder='Enter your article here' />
       </div>
+      {/* The submit button */}
+      <SubmitButton disabled={loading} onClickMethod={handleSubmit} />
+
+      <ForwardToCheckURL prompt='... or you may want to check a news article via an URL for similarity' />
+
       {/* Footer */}
       <Footer />
     </>
