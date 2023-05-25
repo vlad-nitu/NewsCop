@@ -48,6 +48,7 @@ export default function IframeRenderer ({ url, id, changeBackground }) {
         width='100%'
         height='100%'
         id={id}
+        title={id}
         onLoad={hidespinner} // once the website is loaded, then the loading screen is hidden
         display={displayFrame}
         position='relative'

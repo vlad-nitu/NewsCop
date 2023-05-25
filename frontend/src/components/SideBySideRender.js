@@ -23,13 +23,13 @@ export default function SideBySideRender ({ urlLeft, urlRight, showModal, handle
   return (
     <Modal show={showModal} onHide={handleClose} fullscreen>
       <ModalHeader>
-        <a onClick={() => { handleClose(); setBackgroundColorLeft('#fff') }} className='custom_cursor'>
+        <a title='close_button' onClick={() => { handleClose(); setBackgroundColorLeft('#fff') }} className='custom_cursor'>
           <FontAwesomeIcon icon={faChevronLeft} className='pe-1' />
           <span>Go back</span>
         </a>
       </ModalHeader>
       <ModalBody style={{ padding: 0 }}>
-        <div className='d-flex flex-column' style={{ height: '100%', backgroundColor: backgroundColorLeft === backgroundColorRight && backgroundColorLeft === '#000' ? '#000' : '#fff' }}>
+        <div title='wrapper' className='d-flex flex-column' style={{ height: '100%', backgroundColor: backgroundColorLeft === backgroundColorRight && backgroundColorLeft === '#000' ? '#000' : '#fff' }}>
           <Container fluid style={{ height: '100%' }}>
             <Row style={{ height: '100%' }}>
               {/* px-0 pe-sm-2: no x-axis padding on 'xs' devices and from 'sm' to 'xl' devices add 1rem padding-right. */}

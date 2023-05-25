@@ -1,34 +1,44 @@
-import React from 'react'
-import { render } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import SideBySideRender from '../SideBySideRender'
 
-// Mock react-iframe component
-jest.mock('react-iframe', () => ({ id }) => <iframe id={id} />)
-
 describe('SideBySideRender', () => {
-  test('renders iframe with correct id', () => {
-    // Mock handleClose function
-    const handleClose = jest.fn()
+  const mockUrlLeft = 'https://example.com/left'
+  const mockUrlRight = 'https://example.com/right'
+  const mockHandleClose = jest.fn()
 
-    // Render the component
+  beforeEach(() => {
     render(
       <SideBySideRender
-        urlLeft='http://example.com/left'
-        urlRight='http://example.com/right'
-        show
-        handleClose={handleClose}
+        urlLeft={mockUrlLeft}
+        urlRight={mockUrlRight}
+        showModal
+        handleClose={mockHandleClose}
       />
     )
+  })
 
-    // Get the iframe elements
-    const iframeLeft = document.querySelector('iframe#left_article')
-    const iframeRight = document.querySelector('#right_article')
+  it('renders the modal with two iframes', () => {
+    const modal = screen.getByRole('dialog')
+    expect(modal).toBeInTheDocument()
 
-    // Assert that the iframe elements exist and have correct id
-    expect(iframeLeft).toBeInTheDocument()
-    expect(iframeLeft?.id).toBe('left_article')
+    const leftIframe = screen.getByTitle('left_article')
+    expect(leftIframe).toBeInTheDocument()
 
-    expect(iframeRight).toBeInTheDocument()
-    expect(iframeRight?.id).toBe('right_article')
+    const rightIframe = screen.getByTitle('right_article')
+    expect(rightIframe).toBeInTheDocument()
+  })
+
+  it('calls the handleClose function when the modal is closed', () => {
+    const closeButton = screen.getByTitle('close_button')
+    fireEvent.click(closeButton)
+
+    expect(mockHandleClose).toHaveBeenCalled()
+  })
+
+  it('changes the background color when clicking the "Go back" link', () => {
+    const goBackLink = screen.getByText('Go back')
+    fireEvent.click(goBackLink)
+
+    expect(screen.getByTitle('wrapper')).toHaveStyle({ backgroundColor: '#fff' })
   })
 })
