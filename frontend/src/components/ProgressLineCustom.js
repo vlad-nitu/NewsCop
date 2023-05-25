@@ -1,7 +1,28 @@
 import React from 'react'
 import ProgressBar from 'react-bootstrap/ProgressBar'
 
+/**
+ * Represents a number in the range of 0 to 100 (inclusive).
+ * @typedef {number} Range0To100
+ */
+
+/**
+ * A custom progress bar component with colored sub-progress bars and a movable pointer.
+ * The sub-progress bars are "stacked" usign Bootstrap CSS
+ * Movable pointer is implemented in `general.css` from scratch
+ * @param {Range0To100} progress - The overall progress value.
+ */
 const ProgressLineCustom = ({ progress }) => {
+  /**
+   * An array of sub-progress bars that get stacked hoizontally.
+   * Each object contains a value (percentage) and a color.
+   * 0-20% -> Green
+   * 20-40% -> Yellow
+   * 40-60% -> Light orange
+   * 60-80% -> Dark orange
+   * 80-100% -> Red
+   *
+   */
   const subProgress = [
     { value: 20, color: '#22a24b' }, // Green
     { value: 20, color: '#bdd537' }, // Yellow

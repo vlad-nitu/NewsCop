@@ -1,7 +1,16 @@
 import React from 'react'
 import ProgressBar from 'react-customizable-progressbar'
 
+/**
+ * A custom (circular) progress bar component with interpolated color from Green to Red.
+ * @param {number} similarity - The similarity value ranging in [0, 100], coefficient of linear interpolation
+ */
 const CustomProgressBar = ({ similarity }) => {
+  /**
+   * Interpolates a color based on the given similarity value.
+   * @param {number} similarity - The similarity value.
+   * @returns {string} - The interpolated color as a hexadecimal string.
+   */
   const interpolateColor = (similarity) => {
     const percentage = similarity / 100
     console.log(percentage)
@@ -25,7 +34,11 @@ const CustomProgressBar = ({ similarity }) => {
     return interpolatedHex
   }
 
-  // Helper function to convert a decimal color component to a two-digit hexadecimal string
+  /**
+   * Helper function to convert a decimal color component to a two-digit hexadecimal string.
+   * @param {number} c - The decimal color component.
+   * @returns {string} - The two-digit hexadecimal string representation of the color component.
+   */
   function componentToHex (c) {
     const hex = c.toString(16)
     return hex.length === 1 ? `0${hex}` : hex
