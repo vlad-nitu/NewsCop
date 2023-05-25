@@ -37,7 +37,6 @@ function App () {
       <div>
         <Routes>
           <Route path='/' element={<Home applicationName={applicationName} applicationDescription={applicationDescription} ourMission={ourMission} />} />
-          {/* <Route path='/' element={<SideBySideRender urlLeft={inputUrl} urlRight={inputUrl} applicationName='NewsCop' />} /> */}
           <Route path='/checkText' element={<CheckOneText applicationName='NewsCop' />} />
           <Route exact path='/checkURL' element={<CheckURL />} />
           <Route exact path='/compareTexts' element={<CheckTwoTexts applicationName='NewsCop' firstPlaceholder='Enter your first article here' secondPlaceholder='Enter your second article here' />} />

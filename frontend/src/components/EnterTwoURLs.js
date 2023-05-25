@@ -36,10 +36,10 @@ export default function EnterTwoURLs () {
   const [buttonDisabled, setButtonDisabled] = useState(false)
   const [outputValue, setOutputValue] = useState('')
   const [outputColor, setOutputColor] = useState('black')
-  const [show, setShow] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
-  const handleClose = () => setShow(false)
-  const handleShow = () => setShow(true)
+  const handleClose = () => setShowModal(false)
+  const handleShow = () => setShowModal(true)
 
   const compareURLsEndpoint = 'http://localhost:8000/compareURLs/'
 
@@ -145,14 +145,20 @@ export default function EnterTwoURLs () {
         </div>
         {showInputValue && (
           <div>
+            {/* Render similarity score */}
             <div className='pt-5' style={{ display: 'flex', justifyContent: 'center', color: outputColor, fontSize: '1.25rem', textAlign: 'center' }}>
               {outputValue}
             </div>
+
+            {/* Render the side-by-side button and the component itself */}
             <div className='d-flex justify-content-center pt-3'>
               {showCompareButton && (
                 <div>
+                  {/* Render button */}
                   <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={handleShow}>View Side-by-Side</Button>
-                  <SideBySideRender urlLeft={inputValueOriginal} urlRight={inputValueChanged} show={show} handleClose={handleClose} />
+                  
+                  {/* Render SideBySideRender component */}
+                  <SideBySideRender urlLeft={inputValueOriginal} urlRight={inputValueChanged} showModal={showModal} handleClose={handleClose} />
                 </div>
               )}
             </div>
