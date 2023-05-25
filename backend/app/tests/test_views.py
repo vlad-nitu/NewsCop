@@ -17,56 +17,6 @@ from app.views import compare_URLs
 from utils import db
 import sys
 
-
-# class TestUrlSimilarityChecker(TestCase):
-#     def setUp(self):
-#         self.request = MagicMock()
-#         self.request.method = 'POST'
-#         self.request.body = json.dumps({
-#             "key": 'http://example.com'
-#         })
-
-#     @patch('utils.db')
-#     @patch('app.views.persist_url_view')
-#     @patch('app.plagiarism_checker.similarity.compute_similarity')
-#     def test_high_similarity(self, mock_compute_similarity, mock_persist_url_view, mock_db):
-#         # Prepare mock data for persist_url_view
-#         mock_persist_url_view.return_value.content = b'http://example.com'
-
-#         # Prepare mock data for the database
-#         mock_db.nd_collection.find_one.return_value = {
-#             '_id': 'http://example.com',
-#             'fingerprints': [
-#                 {'shingle_hash': 'hash1'},
-#                 {'shingle_hash': 'hash2'},
-#             ]
-#         }
-#         mock_db.nd_collection.find.return_value = [
-#             {
-#                 '_id': 'article1',
-#                 'fingerprints': [
-#                     {'shingle_hash': 'hash1'},
-#                     {'shingle_hash': 'hash2'},
-#                 ]
-#             },
-#             {
-#                 '_id': 'article2',
-#                 'fingerprints': [
-#                     {'shingle_hash': 'hash3'},
-#                     {'shingle_hash': 'hash4'},
-#                 ]
-#             }
-#         ]
-#         mock_compute_similarity.return_value = 0.8
-
-#         # Call the method under test
-#         response = url_similarity_checker(self.request)
-
-#         # Assertions
-#         self.assertEqual(response.status_code, 200)
-#         self.assertEqual(response.content, b'(True, \'article1\')')
-
-
 class TestPersistUrlView(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
@@ -90,7 +40,7 @@ class TestPersistUrlView(TestCase):
     def test_post_request_with_valid_url_no_text(self):
         url = 'https://www.bbc.com/news/world-asia-65657996'
         # clear database
-        db.rares_news_collection.delete_one({'_id': url})
+        db.news_collection.delete_one({'_id': url})
 
         # create the request body
         data = {
@@ -104,15 +54,15 @@ class TestPersistUrlView(TestCase):
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), url)
-        res = db.rares_news_collection.delete_one({'_id': url})
+        res = db.news_collection.delete_one({'_id': url})
         self.assertEqual(res.deleted_count, 1)
-        db.rares_hashes.delete_many({'urls': url})
+        db.hashes_collection.delete_many({'urls': url})
 
     def test_post_request_with_valid_url_text(self):
         url = 'https://www.bbc.com/news/world-asia-65657996'
 
         # clear database
-        db.rares_news_collection.delete_one({'_id': url})
+        db.news_collection.delete_one({'_id': url})
 
         # create the request body
         data = {
@@ -126,9 +76,9 @@ class TestPersistUrlView(TestCase):
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), url)
-        res = db.rares_news_collection.delete_one({'_id': url})
+        res = db.news_collection.delete_one({'_id': url})
         self.assertEqual(res.deleted_count, 1)
-        db.rares_hashes.delete_many({'urls': url})
+        db.hashes_collection.delete_many({'urls': url})
 
     def test_post_request_with_invalid_url(self):
         url = 'https://www.dianamicloiu.com'
