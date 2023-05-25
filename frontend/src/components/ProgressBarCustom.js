@@ -64,7 +64,11 @@ const CustomProgressBar = ({ similarity }) => {
         pointerStrokeWidth={1}
         pointerStrokeColor='#ffffff'
         pointerFillColor='#000000'
-      />
+      >
+        <div className='indicator'>
+          <div>{similarity}%</div>
+        </div>
+      </ProgressBar>
     </div>
   )
 }
