@@ -4,6 +4,8 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import axios from 'axios'
 
+import SideBySideRender from './SideBySideRender'
+
 /**
  * Container that displays:
  * 1. The description of the form from 2.
@@ -30,9 +32,14 @@ export default function EnterTwoURLs () {
   const [inputValueOriginal, setInputValueOriginal] = useState('')
   const [inputValueChanged, setInputValueChanged] = useState('')
   const [showInputValue, setShowInputValue] = useState(false)
+  const [showCompareButton, setShowCompareButton] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(false)
   const [outputValue, setOutputValue] = useState('')
   const [outputColor, setOutputColor] = useState('black')
+  const [showModal, setShowModal] = useState(false)
+
+  const handleClose = () => setShowModal(false)
+  const handleShow = () => setShowModal(true)
 
   const compareURLsEndpoint = 'http://localhost:8000/compareURLs/'
 
@@ -49,6 +56,7 @@ export default function EnterTwoURLs () {
 
     // set output value to be empty before
     setShowInputValue(false)
+    setShowCompareButton(false)
     setOutputValue('')
 
     await axios.post(`${compareURLsEndpoint}`, createRequestBody(inputValueOriginal, inputValueChanged))
@@ -61,6 +69,7 @@ export default function EnterTwoURLs () {
           else setOutputColor('green')
 
           setOutputValue(`The two news articles given have similarity level of ${answer} %`)
+          setShowCompareButton(true)
         } else {
           setOutputValue('Please provide a valid input!')
         }
@@ -98,7 +107,7 @@ export default function EnterTwoURLs () {
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
         <Form.Group controlId='formUrl'>
           <Row className='url-part'>
-            <Col md={6} className='pe-sm-6 mb-6 mb-sm-0 pb-2 pb-sm-0'>
+            <Col md={6} className='pe-sm-6 mb-6 mb-sm-0 pb-2 pb-md-0'>
               <Form.Control
                 type='url'
                 placeholder={PreInputArticlePromptOriginal}
@@ -109,7 +118,7 @@ export default function EnterTwoURLs () {
                 disabled={buttonDisabled}
               />
             </Col>
-            <Col md={6} className='pe-sm-6 mb-6 mb-sm-0 pt-2 pt-sm-0'>
+            <Col md={6} className='pe-sm-6 mb-6 mb-sm-0 pt-2 pt-md-0'>
               <Form.Control
                 type='url'
                 placeholder={PreInputArticlePromptChanged}
@@ -135,8 +144,24 @@ export default function EnterTwoURLs () {
           </Button>
         </div>
         {showInputValue && (
-          <div style={{ display: 'flex', justifyContent: 'center', color: outputColor, fontSize: '120%', marginTop: '60px', textAlign: 'center' }}>
-            {outputValue}
+          <div>
+            {/* Render similarity score */}
+            <div className='pt-5' style={{ display: 'flex', justifyContent: 'center', color: outputColor, fontSize: '1.25rem', textAlign: 'center' }}>
+              {outputValue}
+            </div>
+
+            {/* Render the side-by-side button and the component itself */}
+            <div className='d-flex justify-content-center pt-3'>
+              {showCompareButton && (
+                <div>
+                  {/* Render button */}
+                  <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={handleShow}>View Side-by-Side</Button>
+
+                  {/* Render SideBySideRender component */}
+                  <SideBySideRender urlLeft={inputValueOriginal} urlRight={inputValueChanged} showModal={showModal} handleClose={handleClose} />
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>
