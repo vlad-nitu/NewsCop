@@ -76,17 +76,21 @@ export default function EnterURL () {
       })
     if (response != null) {
       console.log(response.data)
-      const similarity = Math.round(100 * response.data.max_val)
-      if (similarity === -100) {
+      const articles = []
+      for (let i = 0; i < response.data.length; ++i) {
+        const item = response.data[i]
+        const similarity = Math.round(100 * item.similarity)
+        if (similarity === 0) { continue }
+        const url = item.url
+        articles.push('Your article has a maximum overlap of ' + similarity + '% with ' + url)
+      }
+      if (articles.length === 0) {
         setLoadingValue(false)
         setErrorVal('Our system has not found no match for your news article!')
         setErrorPrompt(true)
       } else {
         setLoadingValue(false)
-        // To be used later
-        // if (response.data.date === 'None') { setDateValue('The publishing date of this article is unfortunately unknown!') } else { setDateValue(response.data.date) }
-        const arr = ['Your article has a maximum overlap of ' + similarity + '% with ' + response.data.max_url]
-        setTitleValue(arr)
+        setTitleValue(articles)
         setShowInputValue(true)
       }
     }

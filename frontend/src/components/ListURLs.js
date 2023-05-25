@@ -5,11 +5,13 @@
  */
 
 export default function ListURLs ({ items }) {
-  return (
-    <ul>
-      {items.map((item, index) => (
-        <li key={index}>{item}</li>
-      ))}
-    </ul>
-  )
+  if (items === null || items.length === 0) { return <p>No articles were found</p> } else {
+    return (
+      <ul>
+        {items.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
+    )
+  }
 }
