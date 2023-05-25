@@ -20,7 +20,7 @@ import SideBySideRender from './SideBySideRender'
  * Can be found directly under the navbar component of the page
  */
 
-export default function EnterTwoURLs() {
+export default function EnterTwoURLs () {
   const PreInputArticlePromptOriginal = 'Enter the original URL'
   const PreInputArticlePromptChanged = 'Enter the changed URL'
   const buttonStyle = {
