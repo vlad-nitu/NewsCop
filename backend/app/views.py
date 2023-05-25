@@ -96,7 +96,7 @@ def persist_url_view(request):
 
         # Check whether the current URL is present in the database
         url_exists = db.news_collection.find_one({'_id': url}) is not None
-        print(f'Url does exist: {url_exists}')
+        # print(f'Url does exist: {url_exists}')
 
         # If current URL is not part of the database, persist it
         if not url_exists:
@@ -118,9 +118,9 @@ def persist_url_view(request):
             newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=only_shingle_values)
             newsdoc.save()
 
-            print(len(only_shingle_values))
+            # print(len(only_shingle_values))
 
-        print("persist_url_view: " + url)
+        # print("persist_url_view: " + url)
         return HttpResponse(url, status=200)
 
     else:

@@ -17,6 +17,7 @@ from app.views import compare_URLs
 from utils import db
 import sys
 
+
 class TestPersistUrlView(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
@@ -273,6 +274,57 @@ class TestCompareURLs(TestCase):
     def test_invalid_request(self):
         request = self.factory.get("/compareURLs/")
         response = compare_URLs(request)
+
+        self.assertIsInstance(response, HttpResponseBadRequest)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.content.decode(), "Expected POST, but got GET instead")
+
+
+class TestUrlSimilarity(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
+    # note that for this test the url provided is already in the db
+    def test_valid_url(self):
+        data = {
+            'key': 'https://www.formula1.com/en/latest/article.breaking-honda-to-make-full-scale-f1-return-in-2026-as'
+                   '-they-join-forces-with.WlzHSedIbSrZpXEXdC5QQ.html',
+        }
+
+        json_data = json.dumps(data)
+        request = self.factory.post("/urlsimilarity/", data=json_data, content_type='application/json')
+        response = url_similarity_checker(request)
+
+        self.assertIsInstance(response, HttpResponse)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_invalid_url_too_long(self):
+        data = {
+            'key': 'https://getbootstrap.com/docs/5.0/forms/layout/',
+        }
+        json_data = json.dumps(data)
+        request = self.factory.post("/urlsimilarity/", data=json_data, content_type='application/json')
+        response = url_similarity_checker(request)
+
+        self.assertIsInstance(response, HttpResponseBadRequest)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.content.decode(), "The article given has exceeded the maximum size supported.")
+
+    def test_invalid_url_empty_text(self):
+        data = {
+            'key': 'https://www.vlad.com/',
+        }
+        json_data = json.dumps(data)
+        request = self.factory.post("/urlsimilarity/", data=json_data, content_type='application/json')
+        response = url_similarity_checker(request)
+
+        self.assertIsInstance(response, HttpResponseBadRequest)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.content.decode(), "The article provided has no text.")
+
+    def test_invalid_request(self):
+        request = self.factory.get("/urlsimilairty/")
+        response = url_similarity_checker(request)
 
         self.assertIsInstance(response, HttpResponseBadRequest)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

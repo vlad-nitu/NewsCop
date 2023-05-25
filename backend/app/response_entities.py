@@ -9,9 +9,7 @@ class ResponseUrlEntity:
 
 class ResponseUrlEncoder(json.JSONEncoder):
     def default(self, obj):
-        if isinstance(obj, ResponseUrlEntity):
-            return {
-                'url': obj.url,
-                'similarity': obj.similarity
-            }
-        return super().default(obj)
+        return {
+            'url': obj.url,
+            'similarity': obj.similarity
+        }
