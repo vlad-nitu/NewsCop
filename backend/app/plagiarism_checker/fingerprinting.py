@@ -1,4 +1,5 @@
-from winnowing import winnow
+from winnowing import sanitize, kgrams, select_min
+
 
 def compute_fingerprint(article_text):
     '''
@@ -13,4 +14,43 @@ def compute_fingerprint(article_text):
     if article_text is None:
         return {}
 
-    return [{"shingle_hash": element[1], "shingle_position": element[0]} for element in winnow(article_text)]
+    return [{"shingle_hash": element[1]} for element in modified_winnow(article_text)]
+
+
+# modify the winnowing algorithm to use N-Gram = 8 with window = 6
+def modified_winnow(text, k=8):
+    n = len(list(text))
+
+    text = zip(range(n), text)
+    text = sanitize(text)
+
+    hashes = map(lambda x: winnowing_hash(x), kgrams(text, k))
+
+    windows = kgrams(hashes, 6)
+
+    return set(map(select_min, windows))
+
+
+# modify the hash function used
+def modified_hash(text):
+    import hashlib
+
+    hs = hashlib.sha1(text.encode("utf-8"))
+    hs = hs.hexdigest()[-8:]
+    hs = int(hs, 16)
+
+    return hs
+
+
+def winnowing_hash(kgram):
+    """
+    :param kgram: e.g., [(0, 'a'), (2, 'd'), (3, 'o'), (5, 'r'), (6, 'u')]
+    """
+    kgram = zip(*kgram)
+    kgram = list(kgram)
+
+    text = "".join(kgram[1]) if len(kgram) > 1 else ""
+
+    hs = modified_hash(text)
+
+    return kgram[0][0] if len(kgram) > 1 else -1, hs

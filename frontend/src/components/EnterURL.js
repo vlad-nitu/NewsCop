@@ -1,5 +1,11 @@
+import axios from 'axios'
 import { useState } from 'react'
 import { Container, Form, Button } from 'react-bootstrap'
+import CheckUrlDecision from './CheckUrlDecision'
+import ErrorPrompt from './ErrorPrompt'
+import LoadingCircle from './LoadingCircle'
+/* The endpoint that is going to be used for the request, see urls.py and views.py */
+const persistUrlEndpoint = 'http://localhost:8000/urlsimilarity/'
 
 /**
  * Container that displays:
@@ -11,7 +17,8 @@ import { Container, Form, Button } from 'react-bootstrap'
  *
  * @returns {JSX.Element} that represents the overlapping description, form and submit button;
  * Can be found directly under the navbar component of the page
- */export default function EnterURL () {
+ */
+export default function EnterURL () {
   const PreInputArticlePrompt = "Article's URL"
   const buttonStyle = {
     width: '30%',
@@ -26,22 +33,75 @@ import { Container, Form, Button } from 'react-bootstrap'
     marginLeft: '25%',
     marginRight: '25%'
   }
-
+  const [titleValue, setTitleValue] = useState('')
   const [inputValue, setInputValue] = useState('')
   const [showInputValue, setShowInputValue] = useState(false)
+  const [loadingValue, setLoadingValue] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(false)
-
-  const handleSubmit = (event) => {
+  const [errorPrompt, setErrorPrompt] = useState(false)
+  const [errorVal, setErrorVal] = useState('')
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    setShowInputValue(true)
     setButtonDisabled(true)
+    setLoadingValue(true)
+    const response = await axios.post(`${persistUrlEndpoint}`,
+      '{ "key":' + `"${inputValue}"}`)
+      .catch(function (error) {
+        if (error.response) {
+          setLoadingValue(false)
+          // https://stackoverflow.com/questions/49967779/axios-handling-errors
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          setErrorVal('You entered an invalid URL!')
+          setErrorPrompt(true)
+          console.log(error.response.data)
+          console.log(error.response.status)
+          console.log(error.response.headers)
+        } else if (error.request) {
+          setLoadingValue(false)
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser
+          // and an instance of http.ClientRequest in node.js
+          setErrorVal('The server might not be running!')
+          setErrorPrompt(true)
+          console.log(error.request)
+        } else {
+          setLoadingValue(false)
+          // Something happened in setting up the request that triggered an Error
+          setErrorVal('An error occurred, please try again later!')
+          setErrorPrompt(true)
+          console.log('Error', error.message)
+        }
+      })
+    if (response != null) {
+      console.log(response.data)
+      const similarity = Math.round(100 * response.data.max_val)
+      if (similarity === -100) {
+        setLoadingValue(false)
+        setErrorVal('Our system has not found no match for your news article!')
+        setErrorPrompt(true)
+      } else {
+        setLoadingValue(false)
+        // To be used later
+        // if (response.data.date === 'None') { setDateValue('The publishing date of this article is unfortunately unknown!') } else { setDateValue(response.data.date) }
+        setTitleValue('Your article has a maximum overlap of ' + similarity + '% with ' + response.data.max_url)
+        setShowInputValue(true)
+      }
+    }
     setTimeout(() => {
-      setShowInputValue(false)
+      // setShowInputValue(false)
       setButtonDisabled(false)
-    }, 5000)
+      setLoadingValue(false)
+      setInputValue('')
+      setErrorVal('')
+      setErrorPrompt(false)
+    }, 10000)
   }
 
   const handleInputChange = (event) => {
+    setShowInputValue(false)
+    // setLoadingValue(true)
+    setTitleValue('')
     setInputValue(event.target.value)
     console.log(event.target.value)
   }
@@ -77,8 +137,14 @@ import { Container, Form, Button } from 'react-bootstrap'
             Submit
           </Button>
         </div>
-        {showInputValue && <div>Input value: "{inputValue}"</div>}
       </div>
+      {loadingValue && (<LoadingCircle />)}
+      {errorPrompt && (<ErrorPrompt prompt={errorVal} />)}
+      {showInputValue && (
+        <CheckUrlDecision title={titleValue} />
+      )}
+
     </Container>
+
   )
 }
