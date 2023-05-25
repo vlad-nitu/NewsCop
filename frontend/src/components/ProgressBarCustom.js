@@ -9,7 +9,6 @@ import ProgressBar from 'react-customizable-progressbar'
 /**
  * A custom (circular) progress bar component with interpolated color from Green to Red.
  * @param {Range0To100} similarity - The similarity value ranging in [0, 100], coefficient of linear interpolation
- * @param {Range0To100} progress - The overall progress value.
  */
 const CustomProgressBar = ({ similarity }) => {
   /**
