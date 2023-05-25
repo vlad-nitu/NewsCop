@@ -33,13 +33,14 @@ export default function EnterURL () {
     marginLeft: '25%',
     marginRight: '25%'
   }
-  const [titleValue, setTitleValue] = useState('')
+  const [titleValue, setTitleValue] = useState([])
   const [inputValue, setInputValue] = useState('')
   const [showInputValue, setShowInputValue] = useState(false)
   const [loadingValue, setLoadingValue] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(false)
   const [errorPrompt, setErrorPrompt] = useState(false)
   const [errorVal, setErrorVal] = useState('')
+
   const handleSubmit = async (event) => {
     event.preventDefault()
     setButtonDisabled(true)
@@ -75,16 +76,21 @@ export default function EnterURL () {
       })
     if (response != null) {
       console.log(response.data)
-      const similarity = Math.round(100 * response.data.max_val)
-      if (similarity === -100) {
+      const articles = []
+      for (let i = 0; i < response.data.length; ++i) {
+        const item = response.data[i]
+        const similarity = Math.round(100 * item.similarity)
+        if (similarity === 0) { continue }
+        const url = item.url
+        articles.push('Your article has a maximum overlap of ' + similarity + '% with ' + url)
+      }
+      if (articles.length === 0) {
         setLoadingValue(false)
         setErrorVal('Our system has not found no match for your news article!')
         setErrorPrompt(true)
       } else {
         setLoadingValue(false)
-        // To be used later
-        // if (response.data.date === 'None') { setDateValue('The publishing date of this article is unfortunately unknown!') } else { setDateValue(response.data.date) }
-        setTitleValue('Your article has a maximum overlap of ' + similarity + '% with ' + response.data.max_url)
+        setTitleValue(articles)
         setShowInputValue(true)
       }
     }
@@ -101,7 +107,7 @@ export default function EnterURL () {
   const handleInputChange = (event) => {
     setShowInputValue(false)
     // setLoadingValue(true)
-    setTitleValue('')
+    setTitleValue([''])
     setInputValue(event.target.value)
     console.log(event.target.value)
   }
@@ -141,7 +147,8 @@ export default function EnterURL () {
       {loadingValue && (<LoadingCircle />)}
       {errorPrompt && (<ErrorPrompt prompt={errorVal} />)}
       {showInputValue && (
-        <CheckUrlDecision title={titleValue} />
+        <CheckUrlDecision items={titleValue} />
+      // <div>{titleValue}</div>
       )}
 
     </Container>

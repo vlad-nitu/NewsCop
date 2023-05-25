@@ -4,15 +4,15 @@ import CheckUrlDecision from '../CheckUrlDecision'
 
 describe('CheckUrlDecision', () => {
   test('renders the component with correct parameters', () => {
-    const title = 'Example Article'
+    const items = ['Example Article']
     /* Render the component with the corresponding parameters */
     render(
       <CheckUrlDecision
-        title={title}
+        items={items}
       />
     )
 
     /* Assert that the rendered component contains the expected text */
-    expect(screen.getByText(title)).toBeInTheDocument()
+    expect(screen.getByText('Example Article')).toBeInTheDocument()
   })
 })
