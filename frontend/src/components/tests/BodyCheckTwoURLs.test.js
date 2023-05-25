@@ -11,7 +11,7 @@ describe('BodyCheckTwoURLs', () => {
     expect(firstDescriptionElement).toBeInTheDocument()
 
     /* Check if the second description is rendered correctly */
-    const secondDescriptionElement = screen.getByText('Our similarity checker determines the similarity levels between the content of two news URLs.')
+    const secondDescriptionElement = screen.getByText('Our similarity checker determines the similarity level between the content of two news URLs.')
     expect(secondDescriptionElement).toBeInTheDocument()
   })
 })

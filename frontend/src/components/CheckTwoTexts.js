@@ -53,35 +53,33 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
 
   return (
     <>
-      <div className='d-flex flex-column' style={{ height: '100vh' }}>
-        {/* Navbar */}
-        <NavbarComponent name={applicationName} mainPage={false} />
-        {/* The description text about news overlap */}
-        <BodyCheckTwoTexts />
-        <Container style={{ height: 'calc(60% - 90px)' }}>
-          <Row style={{ height: '100%' }}>
-            <Col md={6}>
-              {/* Text area */}
-              <TextBox description='Enter the original content' disabled={loading} textAreaValue={originalTextBoxDescription} setTextAreaValue={setOriginalTextBoxDescription} placeholder={firstPlaceholder} />
-            </Col>
-            <Col md={6}>
-              {/* Text area */}
-              <TextBox description='Enter the changed content' disabled={loading} textAreaValue={changedTextBoxDescription} setTextAreaValue={setChangedTextBoxDescription} placeholder={secondPlaceholder} />
-            </Col>
-          </Row>
-        </Container>
-        {/* The submit button */}
-        <SubmitButton disabled={loading || (originalTextBoxDescription === '' || changedTextBoxDescription === '')} onClickMethod={handleSubmit} />
-        {displaySimilarity && (
-          <div style={{ display: 'flex', justifyContent: 'center', fontSize: '140%', marginTop: '60px', textAlign: 'center' }}>
-            {getOutputPrompt()}
-          </div>
-        )}
-        {/* Component that routes /compareTexts to /compareURLs
+      {/* Navbar */}
+      <NavbarComponent name={applicationName} mainPage={false} />
+      {/* The description text about news overlap */}
+      <BodyCheckTwoTexts />
+      <Container style={{ height: 'calc(60% - 6vh)' }}>
+        <Row style={{ height: '100%' }}>
+          <Col md={6}>
+            {/* Text area */}
+            <TextBox description='Enter the original content' disabled={loading} textAreaValue={originalTextBoxDescription} setTextAreaValue={setOriginalTextBoxDescription} placeholder={firstPlaceholder} />
+          </Col>
+          <Col md={6}>
+            {/* Text area */}
+            <TextBox description='Enter the changed content' disabled={loading} textAreaValue={changedTextBoxDescription} setTextAreaValue={setChangedTextBoxDescription} placeholder={secondPlaceholder} />
+          </Col>
+        </Row>
+      </Container>
+      {/* The submit button */}
+      <SubmitButton disabled={loading || (originalTextBoxDescription === '' || changedTextBoxDescription === '')} onClickMethod={handleSubmit} />
+      {displaySimilarity && (
+        <div style={{ display: 'flex', justifyContent: 'center', fontSize: '140%', marginTop: '60px', textAlign: 'center' }}>
+          {getOutputPrompt()}
+        </div>
+      )}
+      {/* Component that routes /compareTexts to /compareURLs
         if user wants to input two text paragraphs, not two URLs that will be crawled */}
-        <ForwardToPage prompt='... or you may want to check the similarity of two news articles with their URLs' page='/compareURLs' />
+      <ForwardToPage prompt='... or you may want to check the similarity of two news articles with their URLs' page='/compareURLs' />
 
-      </div>
       {/* Similarity display */}
       {/* Footer */}
       <Footer />

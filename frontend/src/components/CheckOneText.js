@@ -38,22 +38,20 @@ export default function CheckOneText ({ applicationName }) {
   }
   return (
     <>
-      <div className='d-flex flex-column' style={{ height: '100vh' }}>
 
-        {/* Navbar */}
-        <NavbarComponent name={applicationName} mainPage={false} />
-        {/* The description text about news overlap */}
-        <BodyCheckOneText />
-        <div style={{ height: '100%' }}>
-          {/* Text area */}
-          <TextBox description={textBoxDescription} disabled={loading} placeholder='Enter your article here' />
-        </div>
-        {/* The submit button */}
-        <SubmitButton disabled={loading} onClickMethod={handleSubmit} />
-
-        {/* Routes the user to the check URL service */}
-        <ForwardToPage page='/checkURL' prompt='... or you may want to check a news article via an URL for similarity' />
+      {/* Navbar */}
+      <NavbarComponent name={applicationName} mainPage={false} />
+      {/* The description text about news overlap */}
+      <BodyCheckOneText />
+      <div style={{ height: '100%' }}>
+        {/* Text area */}
+        <TextBox description={textBoxDescription} disabled={loading} placeholder='Enter your article here' />
       </div>
+      {/* The submit button */}
+      <SubmitButton disabled={loading} onClickMethod={handleSubmit} />
+
+      {/* Routes the user to the check URL service */}
+      <ForwardToPage page='/checkURL' prompt='... or you may want to check a news article via an URL for similarity' />
 
       {/* Footer */}
       <Footer />

@@ -23,24 +23,20 @@ const checkTwoURLs = () => {
 
   return (
     <>
-      <div className='d-flex flex-column' style={{ height: '100vh' }}>
+      {/* Secondary Navbar Component that routes back to the main page */}
+      <NavbarComponent name={applicationName} mainPage={false} />
 
-        {/* Secondary Navbar Component that routes back to the main page */}
-        <NavbarComponent name={applicationName} mainPage={false} />
+      {/* Similarity checker two URLs section */}
+      <BodyCheckTwoURLs />
 
-        {/* Similarity checker two URLs section */}
-        <BodyCheckTwoURLs />
+      {/* Enter article's URLs section */}
+      <EnterTwoURLs />
 
-        {/* Enter article's URLs section */}
-        <EnterTwoURLs />
-
-        {/* Component that routes /compareURLs to /compareTexts
+      {/* Component that routes /compareURLs to /compareTexts
       if user wants to input two text paragraphs, not two URLs that will be crawled */}
-        <ForwardToPage prompt={prompt} page='/compareTexts' />
-      </div>
+      <ForwardToPage prompt={prompt} page='/compareTexts' />
       {/* Footer */}
       <Footer />
-
     </>
   )
 }
