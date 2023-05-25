@@ -11,6 +11,7 @@ import ProgressBar from 'react-bootstrap/ProgressBar'
  * The sub-progress bars are "stacked" usign Bootstrap CSS
  * Movable pointer is implemented in `general.css` from scratch
  * @param {Range0To100} progress - The overall progress value.
+ * @returns {JSX.Element} - The rendered progress bar component.
  */
 const ProgressLineCustom = ({ progress }) => {
   /**

@@ -2,13 +2,19 @@ import React from 'react'
 import ProgressBar from 'react-customizable-progressbar'
 
 /**
+ * Represents a number in the range of 0 to 100 (inclusive).
+ * @typedef {number} Range0To100
+ */
+
+/**
  * A custom (circular) progress bar component with interpolated color from Green to Red.
- * @param {number} similarity - The similarity value ranging in [0, 100], coefficient of linear interpolation
+ * @param {Range0To100} similarity - The similarity value ranging in [0, 100], coefficient of linear interpolation
+ * @param {Range0To100} progress - The overall progress value.
  */
 const CustomProgressBar = ({ similarity }) => {
   /**
    * Interpolates a color based on the given similarity value.
-   * @param {number} similarity - The similarity value.
+   * @param {Range0To100} similarity - The similarity value.
    * @returns {string} - The interpolated color as a hexadecimal string.
    */
   const interpolateColor = (similarity) => {
