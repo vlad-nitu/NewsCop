@@ -17,7 +17,6 @@ from app.views import compare_URLs
 from utils import db
 import sys
 
-
 class TestPersistUrlView(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
