@@ -1,4 +1,5 @@
 import concurrent.futures
+import heapq
 from datetime import datetime
 from functools import partial
 
@@ -16,6 +17,7 @@ from .plagiarism_checker.fingerprinting import compute_fingerprint
 from .plagiarism_checker.crawling import crawl_url
 from .plagiarism_checker.sanitizing import sanitizing_url
 from .plagiarism_checker.similarity import compute_similarity
+from .response_entities import ResponseUrlEntity, ResponseUrlEncoder
 
 import multiprocessing
 import time
@@ -204,24 +206,24 @@ def url_similarity_checker(request):
                                 helper_url)
                 for helper_url in visited]
 
-        max_sim = -1
-        max_url = ''
+        h = []
+        capacity = 5
 
         for future in concurrent.futures.as_completed(futures):
             result = future.result()
             if result[0] != '':
                 url_helper, comp = result
-                if comp > max_sim:
-                    max_sim = comp
-                    max_url = url_helper
 
-        print(f'Similarity is: {max_sim}')
-        response = {
-            "max_url": max_url,
-            "max_val": max_sim,
-            "date": str(published_date)
-        }
-        return HttpResponse(json.dumps(response), status=200, content_type="application/json")
+                if len(h) < capacity:
+                    heapq.heappush(h, (comp, url_helper))
+                else:
+                    # Equivalent to a push, then a pop, but faster
+                    if comp > h[0][0]:
+                        heapq.heapreplace(h, (comp, url_helper))
+
+        response = [ResponseUrlEntity(url, similarity) for (similarity, url) in heapq.nlargest(len(h), h)]
+
+        return HttpResponse(json.dumps(response, cls=ResponseUrlEncoder), status=200, content_type="application/json")
 
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
