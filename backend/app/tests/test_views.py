@@ -40,7 +40,7 @@ class TestPersistUrlView(TestCase):
     def test_post_request_with_valid_url_no_text(self):
         url = 'https://www.bbc.com/news/world-asia-65657996'
         # clear database
-        db.rares_news_collection.delete_one({'_id': url})
+        db.news_collection.delete_one({'_id': url})
 
         # create the request body
         data = {
@@ -54,15 +54,15 @@ class TestPersistUrlView(TestCase):
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), url)
-        res = db.rares_news_collection.delete_one({'_id': url})
+        res = db.news_collection.delete_one({'_id': url})
         self.assertEqual(res.deleted_count, 1)
-        db.rares_hashes.delete_many({'urls': url})
+        db.hashes_collection.delete_many({'urls': url})
 
     def test_post_request_with_valid_url_text(self):
         url = 'https://www.bbc.com/news/world-asia-65657996'
 
         # clear database
-        db.rares_news_collection.delete_one({'_id': url})
+        db.news_collection.delete_one({'_id': url})
 
         # create the request body
         data = {
@@ -76,9 +76,9 @@ class TestPersistUrlView(TestCase):
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), url)
-        res = db.rares_news_collection.delete_one({'_id': url})
+        res = db.news_collection.delete_one({'_id': url})
         self.assertEqual(res.deleted_count, 1)
-        db.rares_hashes.delete_many({'urls': url})
+        db.hashes_collection.delete_many({'urls': url})
 
     def test_post_request_with_invalid_url(self):
         url = 'https://www.dianamicloiu.com'

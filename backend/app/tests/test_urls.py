@@ -77,15 +77,15 @@ class UrlsTest(TestCase):
         obtained_url = reverse('persist_url')
         client = Client()
 
-        db.rares_news_collection.delete_one({'_id': expected_persisted_url})
-        db.rares_hashes.delete_many({'urls': expected_persisted_url})
+        db.news_collection.delete_one({'_id': expected_persisted_url})
+        db.hashes_collection.delete_many({'urls': expected_persisted_url})
         response = client.post(obtained_url, data=json_data, content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), expected_persisted_url)
 
-        res = db.rares_news_collection.delete_one({'_id': expected_persisted_url})
+        res = db.news_collection.delete_one({'_id': expected_persisted_url})
         self.assertEqual(res.deleted_count, 1)
-        db.rares_hashes.delete_many({'urls': expected_persisted_url})
+        db.hashes_collection.delete_many({'urls': expected_persisted_url})
 
     @tag("integration")
     def test_persist_url_pattern_get_instead_of_post(self):
@@ -231,13 +231,13 @@ class UrlsTest(TestCase):
         the_url = 'https://www.bbc.com/news/uk-65609209'
         obtained_url = reverse('url_similarity_checker')
         client = Client()
-        db.rares_news_collection.delete_one({'_id': the_url})
+        db.news_collection.delete_one({'_id': the_url})
 
         response = client.get(obtained_url)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.content.decode(), 'Expected POST, but got GET instead')
 
-        res = db.rares_news_collection.delete_one({'_id': the_url})  # check that the url was not actually added
+        res = db.news_collection.delete_one({'_id': the_url})  # check that the url was not actually added
         self.assertEqual(res.deleted_count, 0)
 
     @tag("integration")
@@ -246,8 +246,8 @@ class UrlsTest(TestCase):
             'key': 'https://www.bbc.com/news/uk-65609209',
         }
         the_url = 'https://www.bbc.com/news/uk-65609209'
-        db.rares_news_collection.delete_one({'_id': the_url})
-        db.rares_hashes.delete_many({'urls': the_url})
+        db.news_collection.delete_one({'_id': the_url})
+        db.hashes_collection.delete_many({'urls': the_url})
 
         json_data = json.dumps(data)
         client = Client()
@@ -255,6 +255,6 @@ class UrlsTest(TestCase):
         response = client.post(obtained_url, data=json_data, content_type="application/json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-        res = db.rares_news_collection.delete_one({'_id': the_url})  # check that the url was actually persisted
+        res = db.news_collection.delete_one({'_id': the_url})  # check that the url was actually persisted
         self.assertEqual(res.deleted_count, 1)
-        db.rares_hashes.delete_many({'urls': the_url})
+        db.hashes_collection.delete_many({'urls': the_url})

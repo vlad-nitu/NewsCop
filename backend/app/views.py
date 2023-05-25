@@ -93,7 +93,7 @@ def persist_url_view(request):
             return HttpResponseBadRequest("The url provided is invalid")
 
         # Check whether the current URL is present in the database
-        url_exists = db.rares_news_collection.find_one({'_id': url}) is not None
+        url_exists = db.news_collection.find_one({'_id': url}) is not None
         print(f'Url does exist: {url_exists}')
 
         # If current URL is not part of the database, persist it
@@ -134,7 +134,7 @@ def process_document(url_helper, length_first, string_list):
     :param string_list: the frequency count
     :return: the url and its jaccard similarity with the input url
     '''
-    document = db.rares_news_collection.find_one({'_id': url_helper})
+    document = db.news_collection.find_one({'_id': url_helper})
     if (document is not None and 'fingerprints' in document):
         length_second = len(set(document['fingerprints']))
         inters = string_list[url_helper]
@@ -158,14 +158,14 @@ def url_similarity_checker(request):
         url = json.loads(request.body)["key"]
 
         # If the URL has not been persisted yet, persist it in the DB
-        if db.rares_news_collection.find_one({'_id': url}) is None:
+        if db.news_collection.find_one({'_id': url}) is None:
             response = persist_url_view(request)
             if response.status_code == 400:  # Cannot persist URL as either it is too long, or it does not have text.
                 return response
 
         # Get the fingerprints for the current URL
-        submitted_url_fingerprints = db.rares_news_collection.find_one({'_id': url})['fingerprints']
-        published_date = db.rares_news_collection.find_one({'_id': url})['published_date']
+        submitted_url_fingerprints = db.news_collection.find_one({'_id': url})['fingerprints']
+        published_date = db.news_collection.find_one({'_id': url})['published_date']
 
         # Get the length of the fingerprints for later use when computing Jaccard Similarity
         visited = set()  # visited hashes
@@ -179,7 +179,7 @@ def url_similarity_checker(request):
             "$expr": {"$lte": [{"$size": "$urls"}, 21]}
         }
         projection = {'_id': 1}
-        matching_documents = db.rares_hashes.find(query, projection)
+        matching_documents = db.hashes_collection.find(query, projection)
         candidates = [i['_id'] for i in matching_documents]
 
         # Second query to find only the candidates after filtering
@@ -187,7 +187,7 @@ def url_similarity_checker(request):
             "_id": {"$in": candidates},
             "urls": {"$exists": True}
         }
-        matching_documents = db.rares_hashes.find(query)
+        matching_documents = db.hashes_collection.find(query)
 
         string_list = defaultdict(int)
         for document in matching_documents:
