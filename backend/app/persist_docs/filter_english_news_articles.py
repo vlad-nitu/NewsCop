@@ -104,11 +104,10 @@ def process_urls(urls):
         signal.alarm(10)  # 10 seconds timeout
         try:
             url, persisted = process_article(url)
-                        signal.alarm(0)  # cancel the timeout
-                        if persisted:
-                            articles.append(url)
-                            logging.info(f'Article w/ URL: {url} appended')
-
+            signal.alarm(0)  # cancel the timeout
+            if persisted:
+                articles.append(url)
+                logging.info(f'Article w/ URL: {url} appended')
         except TimeoutException:
             logging.warning(f'Timeout occurred while processing article: {url}')
     return urls_seen, articles
