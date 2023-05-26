@@ -1,5 +1,7 @@
 import json
+import time
 from unittest.mock import patch
+from unittest.mock import MagicMock
 
 from django.test import TestCase, RequestFactory
 from django.http import HttpResponse, HttpResponseBadRequest
@@ -9,18 +11,17 @@ from app.views import compare_texts_view
 from app.views import persist_url_view
 from app.views import try_view
 from app.views import reqex_view
+from app.views import url_similarity_checker
 from app.views import compare_URLs
 
 from utils import db
 import sys
-
 
 class TestPersistUrlView(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
 
     def test_post_request_compare_texts(self):
-
         # create the request body
         data = {
             'original_text': 'A do run run run, a do run run',
@@ -34,12 +35,12 @@ class TestPersistUrlView(TestCase):
 
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.content.decode(), str(1 / 3))
+        self.assertEqual(response.content.decode(), str(0.0))
 
     def test_post_request_with_valid_url_no_text(self):
-        url = 'https://www.vlad.com'
+        url = 'https://www.bbc.com/news/world-asia-65657996'
         # clear database
-        db.nd_collection.delete_one({'_id': url})
+        db.news_collection.delete_one({'_id': url})
 
         # create the request body
         data = {
@@ -53,15 +54,15 @@ class TestPersistUrlView(TestCase):
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), url)
-
-        res = db.nd_collection.delete_one({'_id': url})
+        res = db.news_collection.delete_one({'_id': url})
         self.assertEqual(res.deleted_count, 1)
+        db.hashes_collection.delete_many({'urls': url})
 
     def test_post_request_with_valid_url_text(self):
-        url = 'https://www.bbc.com/news/entertainment-arts-65488861'
+        url = 'https://www.bbc.com/news/world-asia-65657996'
 
         # clear database
-        db.nd_collection.delete_one({'_id': url})
+        db.news_collection.delete_one({'_id': url})
 
         # create the request body
         data = {
@@ -75,9 +76,9 @@ class TestPersistUrlView(TestCase):
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), url)
-
-        res = db.nd_collection.delete_one({'_id': url})
+        res = db.news_collection.delete_one({'_id': url})
         self.assertEqual(res.deleted_count, 1)
+        db.hashes_collection.delete_many({'urls': url})
 
     def test_post_request_with_invalid_url(self):
         url = 'https://www.dianamicloiu.com'
@@ -167,6 +168,7 @@ class TestReqExView(TestCase):
         self.assertIsInstance(response, HttpResponseBadRequest)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.content.decode(), "Invalid JSON data")
+
 
 class TestDatabase(TestCase):
     def setUp(self):
@@ -271,6 +273,57 @@ class TestCompareURLs(TestCase):
     def test_invalid_request(self):
         request = self.factory.get("/compareURLs/")
         response = compare_URLs(request)
+
+        self.assertIsInstance(response, HttpResponseBadRequest)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.content.decode(), "Expected POST, but got GET instead")
+
+
+class TestUrlSimilarity(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
+    # note that for this test the url provided is already in the db
+    def test_valid_url(self):
+        data = {
+            'key': 'https://www.formula1.com/en/latest/article.breaking-honda-to-make-full-scale-f1-return-in-2026-as'
+                   '-they-join-forces-with.WlzHSedIbSrZpXEXdC5QQ.html',
+        }
+
+        json_data = json.dumps(data)
+        request = self.factory.post("/urlsimilarity/", data=json_data, content_type='application/json')
+        response = url_similarity_checker(request)
+
+        self.assertIsInstance(response, HttpResponse)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_invalid_url_too_long(self):
+        data = {
+            'key': 'https://getbootstrap.com/docs/5.0/forms/layout/',
+        }
+        json_data = json.dumps(data)
+        request = self.factory.post("/urlsimilarity/", data=json_data, content_type='application/json')
+        response = url_similarity_checker(request)
+
+        self.assertIsInstance(response, HttpResponseBadRequest)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.content.decode(), "The article given has exceeded the maximum size supported.")
+
+    def test_invalid_url_empty_text(self):
+        data = {
+            'key': 'https://www.vlad.com/',
+        }
+        json_data = json.dumps(data)
+        request = self.factory.post("/urlsimilarity/", data=json_data, content_type='application/json')
+        response = url_similarity_checker(request)
+
+        self.assertIsInstance(response, HttpResponseBadRequest)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.content.decode(), "The article provided has no text.")
+
+    def test_invalid_request(self):
+        request = self.factory.get("/urlsimilairty/")
+        response = url_similarity_checker(request)
 
         self.assertIsInstance(response, HttpResponseBadRequest)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

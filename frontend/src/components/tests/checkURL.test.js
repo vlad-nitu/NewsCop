@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom'
 
 describe('CheckURL', () => {
   test('renders the prompt text', () => {
-    const prompt = '... or you may want to check a text paragraph for plagiarism'
+    const prompt = '... or you may want to check a text paragraph for similarity against our stored articles'
 
     render(
       <MemoryRouter>

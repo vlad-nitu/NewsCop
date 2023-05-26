@@ -1,5 +1,11 @@
+import concurrent.futures
+import heapq
 from datetime import datetime
+from functools import partial
+
+import numpy as np
 from django.shortcuts import render
+from numpy import str_
 from rest_framework.views import APIView
 from .models import *
 from rest_framework.response import Response
@@ -7,11 +13,17 @@ from .serializer import *
 from django.http import HttpResponse, HttpResponseBadRequest
 import json
 from django.views.decorators.csrf import csrf_exempt
-# from plagiarism_checker.crawling import crawl_url
 from .plagiarism_checker.fingerprinting import compute_fingerprint
 from .plagiarism_checker.crawling import crawl_url
 from .plagiarism_checker.sanitizing import sanitizing_url
 from .plagiarism_checker.similarity import compute_similarity
+from .response_entities import ResponseUrlEntity, ResponseUrlEncoder
+
+import multiprocessing
+import time
+from .plagiarism_checker.similarity import compute_similarity
+
+from collections import Counter, defaultdict
 
 
 # Create your views here.
@@ -82,15 +94,135 @@ def persist_url_view(request):
         if not sanitizing_url(url):
             return HttpResponseBadRequest("The url provided is invalid")
 
-        # do crawling on the given url
-        article_text, article_date = crawl_url(url)
+        # Check whether the current URL is present in the database
+        url_exists = db.news_collection.find_one({'_id': url}) is not None
 
-        # print(compute_fingerprint(article_text))
-        newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=compute_fingerprint(article_text))
-        newsdoc.save()
-        return HttpResponse(newsdoc.url)
+        # If current URL is not part of the database, persist it
+        if not url_exists:
+            # do crawling on the given url
+            article_text, article_date = crawl_url(url)
+
+            fingerprints = compute_fingerprint(article_text)
+            only_shingle_values = [fp['shingle_hash'] for fp in fingerprints]
+
+            # verify if it has more than 2000 hashes
+            if len(only_shingle_values) > 2000:
+                return HttpResponseBadRequest("The article given has exceeded the maximum size supported.")
+
+            # verify if it has any fingerprints
+            if len(only_shingle_values) == 0:
+                return HttpResponseBadRequest("The article provided has no text.")
+
+            newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=only_shingle_values)
+            newsdoc.save()
+
+        return HttpResponse(url, status=200)
+
+    else:
+        return HttpResponseBadRequest(f'Expected POST, but got {request.method} instead')
+
+
+def process_document(url_helper, length_first, string_list):
+    '''
+    Helper function that is used to process tasks in parallel for
+    computing the jaccard similarity between the candidate urls and the input url.
+    :param url_helper: the candidate url
+    :param length_first: the fingerprint size of the input url
+    :param string_list: the frequency count
+    :return: the url and its jaccard similarity with the input url
+    '''
+    document = db.news_collection.find_one({'_id': url_helper})
+    if (document is not None and 'fingerprints' in document):
+        length_second = len(set(document['fingerprints']))
+        inters = string_list[url_helper]
+        comp = inters / (length_second + length_first - inters)
+        return url_helper, comp
+    else:
+        return '', -1
+
+
+def url_similarity_checker(request):
+    '''
+    The endpoint that will be used in the CheckURL page.
+    :param request: the request body.
+    :return: a HTTP response with status 200, and a pair of url and jaccard similarity,
+    with this url being the most similar to the input url present in the request body
+    '''
+    #  Ensure the request method is POST
+    if request.method == 'POST':
+
+        # Retrieve the URL from the request body
+        url = json.loads(request.body)["key"]
+
+        # If the URL has not been persisted yet, persist it in the DB
+        if db.news_collection.find_one({'_id': url}) is None:
+            response = persist_url_view(request)
+            if response.status_code == 400:  # Cannot persist URL as either it is too long, or it does not have text.
+                return response
+
+        # Get the fingerprints for the current URL
+        submitted_url_fingerprints = db.news_collection.find_one({'_id': url})['fingerprints']
+        published_date = db.news_collection.find_one({'_id': url})['published_date']
+
+        # Get the length of the fingerprints for later use when computing Jaccard Similarity
+        visited = set()  # visited hashes
+
+        # Get the length of the fingerprints for later use when computing Jaccard Similarity
+        length_first = len(set(submitted_url_fingerprints))
+
+        # First query to find candidates and prefilter to only consider "informative hashes"
+        query = {
+            "_id": {"$in": submitted_url_fingerprints},
+            "$expr": {"$lte": [{"$size": "$urls"}, 21]}
+        }
+        projection = {'_id': 1}
+        matching_documents = db.hashes_collection.find(query, projection)
+        candidates = [i['_id'] for i in matching_documents]
+
+        # Second query to find only the candidates after filtering
+        query = {
+            "_id": {"$in": candidates},
+            "urls": {"$exists": True}
+        }
+        matching_documents = db.hashes_collection.find(query)
+
+        string_list = defaultdict(int)
+        for document in matching_documents:
+            urls = document["urls"]
+            for x in urls:
+                if x != url:
+                    visited.add(x)
+                    string_list[x] += 1
+
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            # Submit tasks for processing urls
+            futures = [
+                executor.submit(partial(process_document, length_first=length_first, string_list=string_list),
+                                helper_url)
+                for helper_url in visited]
+
+        heap = []
+        capacity = 5
+
+        for future in concurrent.futures.as_completed(futures):
+            result = future.result()
+            if result[0] != '':
+                article_url, computed_similarity = result
+
+                if len(heap) < capacity:
+                    heapq.heappush(heap, (computed_similarity, article_url))
+                else:
+                    # Equivalent to a push, then a pop, but faster
+                    if computed_similarity > heap[0][0]:
+                        heapq.heapreplace(heap, (computed_similarity, article_url))
+
+        response = [ResponseUrlEntity(url, similarity) for (similarity, url) in heapq.nlargest(len(heap), heap)]
+
+        return HttpResponse(json.dumps(response, cls=ResponseUrlEncoder), status=200, content_type="application/json")
+
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
+
 
 def compare_texts_view(request):
     '''

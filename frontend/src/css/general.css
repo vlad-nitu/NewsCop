@@ -4,18 +4,38 @@
 }
 
 #submitButton {
-    width: 150px;
-    height: 50px;
+    width: 22%;
+    height: 5.5vh;
+    max-height: 100px;
+    font-weight: bold; /* Change font weight to normal */
+    font-size: min(0.75vh + 0.75vw, 30px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 25%;
+    margin-right: 25%;
     background: #2E837E;
     border: 4px solid #2E837E;
-    border-radius: 20px;
+    border-radius: 5px; /* Increase border radius for a more rounded button */
     box-sizing: border-box;
-
+}
+#forArticle{
+    color: #000;
+    font-size: medium;
+    margin-top: 50px;
 }
 
+#forErrorPrompt{
+    color: #ba2121;
+    font-size: xx-large;
+    margin-top: 50px;
+}
+.description-overlap{
+    font-size: 1.3rem;
+    text-align: center
+}
 .description-paragraph {
     font-size: 1.3rem;
-    text-align: center;
 }
 
 .custom-container {
@@ -96,4 +116,62 @@
   width: 50%;
   float: left;
   margin-bottom: -100px;
+}
+
+a.custom_cursor {
+    color: #000 !important;
+    text-decoration: none !important;
+}
+
+a.custom_cursor:hover {
+    cursor: pointer !important;
+    color: #333333 !important;
+    transition: 0.2s !important;
+}
+
+.custom-outline-button.btn-outline-success{
+    --bs-btn-color: rgb(46, 131, 126) !important;
+    --bs-btn-border-color: rgb(46, 131, 126) !important;
+    --bs-btn-hover-border-color: rgb(46, 131, 126) !important;
+    --bs-btn-hover-bg: rgb(46, 131, 126) !important;
+    --bs-btn-active-bg: rgb(46, 131, 126) !important;
+    --bs-btn-active-border-color: rgb(46, 131, 126) !important;
+}
+
+.custom-iframe-height {
+    height: 50%;
+}
+
+@media (min-width: 576px) {
+    .custom-iframe-height {
+        height: 100%;
+    }
+}
+
+
+.pointer {
+  position: absolute;
+  top: -10px;
+  transform: translateX(-50%); /* Centers the pointer horizontally */
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 10px solid black; /* Pointer color */
+}
+
+.RCP .indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    font-size: 2.2em;
+    font-weight: 100;
+    color: #555;
+    user-select: none;
 }

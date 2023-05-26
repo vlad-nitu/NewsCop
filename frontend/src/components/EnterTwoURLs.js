@@ -1,8 +1,12 @@
 import { useState } from 'react'
-import { Container, Form, Button } from 'react-bootstrap'
+import { Button, Container, Form } from 'react-bootstrap'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import axios from 'axios'
+import SubmitButton from './submitButton'
+import ProgressBarCustom from './ProgressBarCustom'
+import ProgressLineCustom from './ProgressLineCustom'
+import SideBySideRender from './SideBySideRender'
 
 /**
  * Container that displays:
@@ -19,20 +23,20 @@ import axios from 'axios'
 export default function EnterTwoURLs () {
   const PreInputArticlePromptOriginal = 'Enter the original URL'
   const PreInputArticlePromptChanged = 'Enter the changed URL'
-  const buttonStyle = {
-    width: '25%',
-    height: '50px',
-    fontWeight: 'bold',
-    fontSize: '1.2rem',
-    backgroundColor: '#2E837E'
-  }
 
   const [inputValueOriginal, setInputValueOriginal] = useState('')
   const [inputValueChanged, setInputValueChanged] = useState('')
   const [showInputValue, setShowInputValue] = useState(false)
+  const [answerValue, setAnswerValue] = useState(0)
+  const [showCompareButton, setShowCompareButton] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(false)
   const [outputValue, setOutputValue] = useState('')
   const [outputColor, setOutputColor] = useState('black')
+  const [showModal, setShowModal] = useState(false)
+  const [outputVisualisations, setOutputVisualisations] = useState(false)
+
+  const handleClose = () => setShowModal(false)
+  const handleShow = () => setShowModal(true)
 
   const compareURLsEndpoint = 'http://localhost:8000/compareURLs/'
 
@@ -49,26 +53,29 @@ export default function EnterTwoURLs () {
 
     // set output value to be empty before
     setShowInputValue(false)
+    setShowCompareButton(false)
+    setOutputVisualisations(false)
     setOutputValue('')
+    setAnswerValue(0)
 
     await axios.post(`${compareURLsEndpoint}`, createRequestBody(inputValueOriginal, inputValueChanged))
       .then(response => {
-        if (response != null) {
-          const answer = Math.round(100 * response.data)
+        const answer = Math.round(100 * response.data)
 
-          // change color accordingly
-          if (answer >= 80) setOutputColor('red')
-          else setOutputColor('green')
+        // change color accordingly
+        if (answer >= 80) setOutputColor('red')
+        else setOutputColor('green')
 
-          setOutputValue(`The two news articles given have similarity level of ${answer} %`)
-        } else {
-          setOutputValue('Please provide a valid input!')
-        }
+        setOutputValue(`The two news articles given have similarity level of ${answer} %`)
+        setShowCompareButton(true)
+        setAnswerValue(answer)
+        setOutputVisualisations(true)
       })
       .catch(error => {
         console.log(error)
         setOutputColor('darkred')
         setOutputValue('Please provide a valid input!')
+        setOutputVisualisations(false)
       })
 
     setShowInputValue(true)
@@ -98,7 +105,7 @@ export default function EnterTwoURLs () {
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
         <Form.Group controlId='formUrl'>
           <Row className='url-part'>
-            <Col md={6} className='pe-sm-6 mb-6 mb-sm-0 pb-2 pb-sm-0'>
+            <Col md={6} className='pe-sm-6 mb-6 mb-sm-0 pb-2 pb-md-0'>
               <Form.Control
                 type='url'
                 placeholder={PreInputArticlePromptOriginal}
@@ -109,7 +116,7 @@ export default function EnterTwoURLs () {
                 disabled={buttonDisabled}
               />
             </Col>
-            <Col md={6} className='pe-sm-6 mb-6 mb-sm-0 pt-2 pt-sm-0'>
+            <Col md={6} className='pe-sm-6 mb-6 mb-sm-0 pt-2 pt-md-0'>
               <Form.Control
                 type='url'
                 placeholder={PreInputArticlePromptChanged}
@@ -122,21 +129,32 @@ export default function EnterTwoURLs () {
             </Col>
           </Row>
         </Form.Group>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Button
-            variant='primary'
-            type='submit'
-            className='mt-4 mx-auto rounded'
-            style={buttonStyle}
-            onClick={handleSubmit}
-            disabled={buttonDisabled || !inputValueChanged || !inputValueOriginal}
-          >
-            Submit
-          </Button>
-        </div>
+        <SubmitButton onClickMethod={handleSubmit} disabled={buttonDisabled || !inputValueChanged || !inputValueOriginal} />
         {showInputValue && (
-          <div style={{ display: 'flex', justifyContent: 'center', color: outputColor, fontSize: '120%', marginTop: '60px', textAlign: 'center' }}>
-            {outputValue}
+          <div>
+            {/* Render similarity score */}
+            <div className='pt-5' style={{ display: 'flex', justifyContent: 'center', color: outputColor, fontSize: '1.25rem', textAlign: 'center' }}>
+              {outputValue}
+            </div>
+
+            {outputVisualisations && (
+              <div>
+                {/* Render the side-by-side button and the component itself */}
+                <div className='d-flex justify-content-center pt-3'>
+                  {showCompareButton && (
+                    <div>
+                      {/* Render button */}
+                      <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={handleShow}>View Side-by-Side</Button>
+
+                      {/* Render SideBySideRender component */}
+                      <SideBySideRender urlLeft={inputValueOriginal} urlRight={inputValueChanged} showModal={showModal} handleClose={handleClose} />
+                    </div>
+                  )}
+                </div>
+                <ProgressBarCustom similarity={answerValue} />
+                <ProgressLineCustom progress={answerValue} />
+              </div>
+            )}
           </div>
         )}
       </div>

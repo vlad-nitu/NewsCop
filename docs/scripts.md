@@ -15,7 +15,7 @@
 
 * After you have done the previous steps, you can run codestyle for the Python part of the project, **by being in the backend folder**, you can run the following command `pycodestyle app/`
 
-* To run all the tests, you can run the following command by being in the `backend` folder `python3 manage.py test`. To run your tests with coverage, you can run `coverage run --omit="app/tests/*" manage.py test app/tests`, also while being in the `backend` folder. To see a coverage report run `coverage report`. If you want the report to be in another format, you can just run `coverage html` for instance.
+* To run all the tests, you can run the following command by being in the `backend` folder `python3 manage.py test app/tests`. To run your tests with coverage, you can run `coverage run --omit="app/tests/*" manage.py test app/tests`, also while being in the `backend` folder. To see a coverage report run `coverage report`. If you want the report to be in another format, you can just run `coverage html` for instance.
 
 
 ## Frontend

@@ -1,9 +1,10 @@
 import NavbarComponent from './navbar'
 import Footer from './footer'
-import BodyCheckOneText from './BodyCheckOneText'
+import BodyCheckGeneric from './BodyCheckGeneric'
 import TextBox from './TextBox'
 import SubmitButton from './submitButton'
-import { useState } from 'react'
+import React, { useState } from 'react'
+import ForwardToPage from './ForwardToPage'
 
 /**
  * The page for the check text for similarity page. It contains all the components that will be present in the page,
@@ -12,7 +13,7 @@ import { useState } from 'react'
  * @returns {JSX.Element} the check text for similarity component
  */
 export default function CheckOneText ({ applicationName }) {
-  const textBoxDescription = 'Enter the article’s content to check for plagiarism'
+  const textBoxDescription = 'Enter the article’s content to check for overlap'
   const [loading, setLoading] = useState(false)
 
   /**
@@ -35,20 +36,24 @@ export default function CheckOneText ({ applicationName }) {
     setLoading(false)
     console.log(loading)
   }
+  const description = 'News overlap checker'
+  const secondDescription = 'Our tool detects overlap in your news article.'
   return (
     <>
-      <div className='d-flex flex-column' style={{ height: '100vh' }}>
-        {/* Navbar */}
-        <NavbarComponent name={applicationName} mainPage={false} />
-        {/* The description text about news overlap */}
-        <BodyCheckOneText />
-        <div style={{ height: '100%' }}>
-          {/* Text area */}
-          <TextBox description={textBoxDescription} disabled={loading} placeholder='Enter your article here' />
-        </div>
-        {/* The submit button */}
-        <SubmitButton disabled={loading} onClickMethod={handleSubmit} />
+      {/* Navbar */}
+      <NavbarComponent name={applicationName} mainPage={false} />
+      {/* The description text about news overlap */}
+      <BodyCheckGeneric description={description} secondDescription={secondDescription} />
+      <div style={{ height: '100%' }}>
+        {/* Text area */}
+        <TextBox description={textBoxDescription} disabled={loading} placeholder='Enter your article here' />
       </div>
+      {/* The submit button */}
+      <SubmitButton disabled={loading} onClickMethod={handleSubmit} />
+
+      {/* Routes the user to the check URL service */}
+      <ForwardToPage page='/checkURL' prompt='... or you may want to check a news article via an URL for similarity' />
+
       {/* Footer */}
       <Footer />
     </>

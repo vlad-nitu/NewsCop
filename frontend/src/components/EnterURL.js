@@ -1,5 +1,13 @@
+import axios from 'axios'
 import { useState } from 'react'
-import { Container, Form, Button } from 'react-bootstrap'
+import SubmitButton from './submitButton'
+import { Container, Form } from 'react-bootstrap'
+import CheckUrlDecision from './CheckUrlDecision'
+import ErrorPrompt from './ErrorPrompt'
+import LoadingCircle from './LoadingCircle'
+
+/* The endpoint that is going to be used for the request, see urls.py and views.py */
+const persistUrlEndpoint = 'http://localhost:8000/urlsimilarity/'
 
 /**
  * Container that displays:
@@ -11,37 +19,88 @@ import { Container, Form, Button } from 'react-bootstrap'
  *
  * @returns {JSX.Element} that represents the overlapping description, form and submit button;
  * Can be found directly under the navbar component of the page
- */export default function EnterURL () {
+ */
+export default function EnterURL () {
   const PreInputArticlePrompt = "Article's URL"
-  const buttonStyle = {
-    width: '30%',
-    height: '7vh',
-    maxHeight: '100px',
-    fontWeight: 'bold',
-    fontSize: 'min(calc(1vh + 1vw), 50px)', // Adjust the font size as needed
-    backgroundColor: '#2E837E',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: '25%',
-    marginRight: '25%'
-  }
 
+  const [titleValues, setTitleValues] = useState([])
+  const [similarityValues, setSimilarityValues] = useState([])
   const [inputValue, setInputValue] = useState('')
   const [showInputValue, setShowInputValue] = useState(false)
+  const [loadingValue, setLoadingValue] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(false)
+  const [errorPrompt, setErrorPrompt] = useState(false)
+  const [errorVal, setErrorVal] = useState('')
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    setShowInputValue(true)
     setButtonDisabled(true)
+    setLoadingValue(true)
+    const response = await axios.post(`${persistUrlEndpoint}`,
+      '{ "key":' + `"${inputValue}"}`)
+      .catch(function (error) {
+        if (error.response) {
+          setLoadingValue(false)
+          // https://stackoverflow.com/questions/49967779/axios-handling-errors
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          setErrorVal('You entered an invalid URL!')
+          setErrorPrompt(true)
+          console.log(error.response.data)
+          console.log(error.response.status)
+          console.log(error.response.headers)
+        } else if (error.request) {
+          setLoadingValue(false)
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser
+          // and an instance of http.ClientRequest in node.js
+          setErrorVal('The server might not be running!')
+          setErrorPrompt(true)
+          console.log(error.request)
+        } else {
+          setLoadingValue(false)
+          // Something happened in setting up the request that triggered an Error
+          setErrorVal('An error occurred, please try again later!')
+          setErrorPrompt(true)
+          console.log('Error', error.message)
+        }
+      })
+    if (response != null) {
+      console.log(response.data)
+      const articles = []
+      const similarities = []
+      for (let i = 0; i < response.data.length; ++i) {
+        const item = response.data[i]
+        const similarity = Math.round(100 * item.similarity)
+        if (similarity === 0) { continue }
+        const url = item.url
+        articles.push('Your article has a maximum overlap of ' + similarity + '% with ' + url)
+        similarities.push(similarity)
+      }
+      if (articles.length === 0) {
+        setLoadingValue(false)
+        setErrorVal('Our system has not found no match for your news article!')
+        setErrorPrompt(true)
+      } else {
+        setLoadingValue(false)
+        setSimilarityValues(similarities)
+        setTitleValues(articles)
+        setShowInputValue(true)
+      }
+    }
     setTimeout(() => {
-      setShowInputValue(false)
       setButtonDisabled(false)
-    }, 5000)
+      setLoadingValue(false)
+      setInputValue('')
+      setErrorVal('')
+      setErrorPrompt(false)
+    }, 10000)
   }
 
   const handleInputChange = (event) => {
+    setShowInputValue(false)
+    setTitleValues([''])
+    setSimilarityValues([])
     setInputValue(event.target.value)
     console.log(event.target.value)
   }
@@ -50,35 +109,28 @@ import { Container, Form, Button } from 'react-bootstrap'
     <Container className='my-3'>
       <div className='mt-5'>
         <h2 className='text-center' style={{ fontSize: '1.5vh' }}>
-          Enter the article's URL to check for plagiarism
+          Enter the article's URL to check for overlap
         </h2>
       </div>
-      <div style={{ maxWidth: '70vh', margin: '0 auto' }}>
+      <div style={{ maxWidth: '60vh', margin: '0 auto' }}>
         <Form.Group controlId='formUrl'>
           <Form.Control
             type='url'
             placeholder={PreInputArticlePrompt}
             className='rounded-pill border-success'
-            style={{ height: '50px' }}
+            style={{ height: '55px' }}
             value={inputValue}
             onChange={handleInputChange}
             disabled={buttonDisabled}
           />
         </Form.Group>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            variant='primary'
-            type='submit'
-            className='mt-4 rounded'
-            style={buttonStyle}
-            onClick={handleSubmit}
-            disabled={buttonDisabled || !inputValue}
-          >
-            Submit
-          </Button>
-        </div>
-        {showInputValue && <div>Input value: "{inputValue}"</div>}
+        <SubmitButton onClickMethod={handleSubmit} disabled={buttonDisabled || !inputValue} />
       </div>
+      {loadingValue && (<LoadingCircle />)}
+      {errorPrompt && (<ErrorPrompt prompt={errorVal} />)}
+      {showInputValue && (
+        <CheckUrlDecision items={titleValues} similarities={similarityValues} />)}
+
     </Container>
   )
 }

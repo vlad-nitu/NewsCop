@@ -1,9 +1,9 @@
 import React from 'react'
 import EnterURL from './EnterURL'
 import Footer from './footer'
-import ForwardToCheckText from './ForwardToCheckText'
-import BodyCheckOneText from './BodyCheckOneText'
+import BodyCheckGeneric from './BodyCheckGeneric'
 import NavbarComponent from './navbar'
+import ForwardToPage from './ForwardToPage'
 /**
  * The entire page was built around the Bootstrap library.
  *
@@ -15,29 +15,28 @@ import NavbarComponent from './navbar'
  * @returns JSX Element contain the secondary page, where the user is routed if he uses the "URL similarity checker" feature. It is displayed at "/checkURL"
  *
  */
-
 const checkURL = () => {
   const applicationName = 'NewsCop'
-  const prompt = '... or you may want to check a text paragraph for plagiarism'
-
+  const prompt = '... or you may want to check a text paragraph for similarity against our stored articles'
+  const description = 'News overlap checker'
+  const secondDescription = 'Our tool detects overlap in your news article.'
   return (
     <>
+
       {/* Secondary Navbar Component that routes back to the main page */}
       <NavbarComponent name={applicationName} mainPage={false} />
 
       {/* Plagiarism checker Text section */}
-      <BodyCheckOneText />
+      <BodyCheckGeneric description={description} secondDescription={secondDescription} />
 
       {/* Enter article's URL section */}
       <EnterURL />
-
       {/* Component that routes /checkURL to /checkText
       if user wants to input a text fragment, not an URL that will be crawled */}
-      <ForwardToCheckText prompt={prompt} />
+      <ForwardToPage page='/checkText' prompt={prompt} />
 
       {/* Footer */}
       <Footer />
-
     </>
   )
 }
