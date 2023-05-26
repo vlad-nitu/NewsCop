@@ -1,6 +1,6 @@
 import NavbarComponent from './navbar'
 import Footer from './footer'
-import BodyCheckOneText from './BodyCheckOneText'
+import BodyCheckGeneric from './BodyCheckGeneric'
 import TextBox from './TextBox'
 import SubmitButton from './submitButton'
 import React, { useState } from 'react'
@@ -36,13 +36,14 @@ export default function CheckOneText ({ applicationName }) {
     setLoading(false)
     console.log(loading)
   }
+  const description = 'News overlap checker'
+  const secondDescription = 'Our tool detects overlap in your news article.'
   return (
     <>
-
       {/* Navbar */}
       <NavbarComponent name={applicationName} mainPage={false} />
       {/* The description text about news overlap */}
-      <BodyCheckOneText />
+      <BodyCheckGeneric description={description} secondDescription={secondDescription} />
       <div style={{ height: '100%' }}>
         {/* Text area */}
         <TextBox description={textBoxDescription} disabled={loading} placeholder='Enter your article here' />

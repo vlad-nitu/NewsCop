@@ -8,8 +8,6 @@
 - << Discuss about different files that suffered important changes in MR >>
 
 
-
-
 ## Manual testing
 - << Run different types of manual testing (i.e: Postman requests, add prints locally to check for expected behavior) to make sure everything works as expected >>
 

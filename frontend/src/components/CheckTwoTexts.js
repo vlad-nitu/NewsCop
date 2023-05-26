@@ -1,7 +1,7 @@
 import axios from 'axios'
 import NavbarComponent from './navbar'
 import Footer from './footer'
-import BodyCheckTwoTexts from './BodyCheckTwoTexts'
+import BodyCheckGeneric from './BodyCheckGeneric'
 import TextBox from './TextBox'
 import SubmitButton from './submitButton'
 import React, { useState } from 'react'
@@ -50,13 +50,15 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
   const getOutputPrompt = () => {
     return 'The two given texts have a similarity level of ' + similarity + '%.'
   }
+  const description = 'News overlap checker'
+  const secondDescription = 'Our similarity checker determines the similarity levels between two text paragraphs.'
 
   return (
     <>
       {/* Navbar */}
       <NavbarComponent name={applicationName} mainPage={false} />
       {/* The description text about news overlap */}
-      <BodyCheckTwoTexts />
+      <BodyCheckGeneric description={description} secondDescription={secondDescription} />
       <Container style={{ height: 'calc(60% - 6vh)' }}>
         <Row style={{ height: '100%' }}>
           <Col md={6}>

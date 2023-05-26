@@ -2,7 +2,7 @@ import React from 'react'
 import EnterTwoURLs from './EnterTwoURLs'
 import NavbarComponent from './navbar'
 import Footer from './footer'
-import BodyCheckTwoURLs from './BodyCheckTwoURLs'
+import BodyCheckGeneric from './BodyCheckGeneric'
 import ForwardToPage from './ForwardToPage'
 
 /**
@@ -20,14 +20,15 @@ import ForwardToPage from './ForwardToPage'
 const checkTwoURLs = () => {
   const applicationName = 'NewsCop'
   const prompt = '... or you may want to check the similarity of two text paragraphs'
-
+  const description = 'News overlap checker'
+  const secondDescription = 'Our similarity checker determines the similarity level between the content of two news URLs.'
   return (
     <>
       {/* Secondary Navbar Component that routes back to the main page */}
       <NavbarComponent name={applicationName} mainPage={false} />
 
       {/* Similarity checker two URLs section */}
-      <BodyCheckTwoURLs />
+      <BodyCheckGeneric description={description} secondDescription={secondDescription} />
 
       {/* Enter article's URLs section */}
       <EnterTwoURLs />

@@ -1,17 +1,15 @@
 import Container from 'react-bootstrap/Container'
 
 /**
- * A container that will hold the similarity header and description subheader that
- * can be found on the Figma wireframe.
+ *  A container that will hold the similarity header and description subheader that
+ *   can be found on the Figma wireframe.
  *
- *
+ * @param description the first description, which looks like a header
+ * @param secondDescription the second description, which looks like a subheader
  * @returns {JSX.Element} that represents the similarity text and description of our tool;
  * Can be found directly under the navbar component of the page
  */
-export default function BodyCheckTwoURLs () {
-  const description = 'News overlap checker'
-  const secondDescription = 'Our similarity checker determines the similarity level between the content of two news URLs.'
-
+export default function BodyCheckGeneric ({ description, secondDescription }) {
   return (
     <Container className='my-3 d-flex'>
       <div className='d-flex flex-column justify-content-center mx-auto'>

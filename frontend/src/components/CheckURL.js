@@ -1,7 +1,7 @@
 import React from 'react'
 import EnterURL from './EnterURL'
 import Footer from './footer'
-import BodyCheckOneText from './BodyCheckOneText'
+import BodyCheckGeneric from './BodyCheckGeneric'
 import NavbarComponent from './navbar'
 import ForwardToPage from './ForwardToPage'
 /**
@@ -19,7 +19,8 @@ import ForwardToPage from './ForwardToPage'
 const checkURL = () => {
   const applicationName = 'NewsCop'
   const prompt = '... or you may want to check a text paragraph for similarity against our stored articles'
-
+  const description = 'News overlap checker'
+  const secondDescription = 'Our tool detects overlap in your news article.'
   return (
     <>
 
@@ -27,7 +28,7 @@ const checkURL = () => {
       <NavbarComponent name={applicationName} mainPage={false} />
 
       {/* Plagiarism checker Text section */}
-      <BodyCheckOneText />
+      <BodyCheckGeneric description={description} secondDescription={secondDescription} />
 
       {/* Enter article's URL section */}
       <EnterURL />
