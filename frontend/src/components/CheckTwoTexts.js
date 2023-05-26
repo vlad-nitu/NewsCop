@@ -75,8 +75,14 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
       </Container>
       {/* The submit button */}
       <SubmitButton disabled={loading || (originalTextBoxDescription === '' || changedTextBoxDescription === '')} onClickMethod={handleSubmit} />
-      {displaySimilarity &&
-
+      {displaySimilarity && (
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'center', fontSize: '140%', marginTop: '60px', textAlign: 'center' }}>
+            {getOutputPrompt()}
+          </div>
+          <CustomProgressBar similarity={similarity} />
+          <ProgressLineCustom progress={similarity} />
+        </div>
       )}
       {/* Component that routes /compareTexts to /compareURLs
         if user wants to input two text paragraphs, not two URLs that will be crawled */}

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useState } from 'react'
 import SubmitButton from './submitButton'
-import { Container, Form} from 'react-bootstrap'
+import { Container, Form } from 'react-bootstrap'
 import CheckUrlDecision from './CheckUrlDecision'
 import ErrorPrompt from './ErrorPrompt'
 import LoadingCircle from './LoadingCircle'
@@ -23,6 +23,8 @@ const persistUrlEndpoint = 'http://localhost:8000/urlsimilarity/'
 export default function EnterURL () {
   const PreInputArticlePrompt = "Article's URL"
 
+  const [titleValues, setTitleValues] = useState([])
+  const [similarityValues, setSimilarityValues] = useState([])
   const [inputValue, setInputValue] = useState('')
   const [showInputValue, setShowInputValue] = useState(false)
   const [loadingValue, setLoadingValue] = useState(false)
@@ -123,7 +125,6 @@ export default function EnterURL () {
           />
         </Form.Group>
         <SubmitButton onClickMethod={handleSubmit} disabled={buttonDisabled || !inputValue} />
-        {showInputValue && <div>Input value: "{inputValue}"</div>}
       </div>
       {loadingValue && (<LoadingCircle />)}
       {errorPrompt && (<ErrorPrompt prompt={errorVal} />)}
