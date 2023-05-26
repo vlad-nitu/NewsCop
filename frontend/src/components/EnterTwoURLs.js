@@ -3,6 +3,8 @@ import { Container, Form, Button } from 'react-bootstrap'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import axios from 'axios'
+import ProgressBarCustom from './ProgressBarCustom'
+import ProgressLineCustom from './ProgressLineCustom'
 
 import SideBySideRender from './SideBySideRender'
 
@@ -32,11 +34,13 @@ export default function EnterTwoURLs () {
   const [inputValueOriginal, setInputValueOriginal] = useState('')
   const [inputValueChanged, setInputValueChanged] = useState('')
   const [showInputValue, setShowInputValue] = useState(false)
+  const [answerValue, setAnswerValue] = useState(0)
   const [showCompareButton, setShowCompareButton] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(false)
   const [outputValue, setOutputValue] = useState('')
   const [outputColor, setOutputColor] = useState('black')
   const [showModal, setShowModal] = useState(false)
+  const [outputVisualisations, setOutputVisualisations] = useState(false)
 
   const handleClose = () => setShowModal(false)
   const handleShow = () => setShowModal(true)
@@ -57,27 +61,28 @@ export default function EnterTwoURLs () {
     // set output value to be empty before
     setShowInputValue(false)
     setShowCompareButton(false)
+    setOutputVisualisations(false)
     setOutputValue('')
+    setAnswerValue(0)
 
     await axios.post(`${compareURLsEndpoint}`, createRequestBody(inputValueOriginal, inputValueChanged))
       .then(response => {
-        if (response != null) {
-          const answer = Math.round(100 * response.data)
+        const answer = Math.round(100 * response.data)
 
-          // change color accordingly
-          if (answer >= 80) setOutputColor('red')
-          else setOutputColor('green')
+        // change color accordingly
+        if (answer >= 80) setOutputColor('red')
+        else setOutputColor('green')
 
-          setOutputValue(`The two news articles given have similarity level of ${answer} %`)
-          setShowCompareButton(true)
-        } else {
-          setOutputValue('Please provide a valid input!')
-        }
+        setOutputValue(`The two news articles given have similarity level of ${answer} %`)
+        setShowCompareButton(true)
+        setAnswerValue(answer)
+        setOutputVisualisations(true)
       })
       .catch(error => {
         console.log(error)
         setOutputColor('darkred')
         setOutputValue('Please provide a valid input!')
+        setOutputVisualisations(false)
       })
 
     setShowInputValue(true)
@@ -150,18 +155,24 @@ export default function EnterTwoURLs () {
               {outputValue}
             </div>
 
-            {/* Render the side-by-side button and the component itself */}
-            <div className='d-flex justify-content-center pt-3'>
-              {showCompareButton && (
-                <div>
-                  {/* Render button */}
-                  <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={handleShow}>View Side-by-Side</Button>
+            {outputVisualisations && (
+              <div>
+                {/* Render the side-by-side button and the component itself */}
+                <div className='d-flex justify-content-center pt-3'>
+                  {showCompareButton && (
+                    <div>
+                      {/* Render button */}
+                      <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={handleShow}>View Side-by-Side</Button>
 
-                  {/* Render SideBySideRender component */}
-                  <SideBySideRender urlLeft={inputValueOriginal} urlRight={inputValueChanged} showModal={showModal} handleClose={handleClose} />
+                      {/* Render SideBySideRender component */}
+                      <SideBySideRender urlLeft={inputValueOriginal} urlRight={inputValueChanged} showModal={showModal} handleClose={handleClose} />
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
+                <ProgressBarCustom similarity={answerValue} />
+                <ProgressLineCustom progress={answerValue} />
+              </div>
+            )}
           </div>
         )}
       </div>
