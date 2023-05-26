@@ -1,4 +1,5 @@
 import concurrent.futures
+import heapq
 from datetime import datetime
 from functools import partial
 
@@ -16,6 +17,7 @@ from .plagiarism_checker.fingerprinting import compute_fingerprint
 from .plagiarism_checker.crawling import crawl_url
 from .plagiarism_checker.sanitizing import sanitizing_url
 from .plagiarism_checker.similarity import compute_similarity
+from .response_entities import ResponseUrlEntity, ResponseUrlEncoder
 
 import multiprocessing
 import time
@@ -94,7 +96,6 @@ def persist_url_view(request):
 
         # Check whether the current URL is present in the database
         url_exists = db.news_collection.find_one({'_id': url}) is not None
-        print(f'Url does exist: {url_exists}')
 
         # If current URL is not part of the database, persist it
         if not url_exists:
@@ -112,13 +113,9 @@ def persist_url_view(request):
             if len(only_shingle_values) == 0:
                 return HttpResponseBadRequest("The article provided has no text.")
 
-            # print(only_shingle_values)
             newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=only_shingle_values)
             newsdoc.save()
 
-            print(len(only_shingle_values))
-
-        print("persist_url_view: " + url)
         return HttpResponse(url, status=200)
 
     else:
@@ -204,24 +201,24 @@ def url_similarity_checker(request):
                                 helper_url)
                 for helper_url in visited]
 
-        max_sim = -1
-        max_url = ''
+        heap = []
+        capacity = 5
 
         for future in concurrent.futures.as_completed(futures):
             result = future.result()
             if result[0] != '':
-                url_helper, comp = result
-                if comp > max_sim:
-                    max_sim = comp
-                    max_url = url_helper
+                article_url, computed_similarity = result
 
-        print(f'Similarity is: {max_sim}')
-        response = {
-            "max_url": max_url,
-            "max_val": max_sim,
-            "date": str(published_date)
-        }
-        return HttpResponse(json.dumps(response), status=200, content_type="application/json")
+                if len(heap) < capacity:
+                    heapq.heappush(heap, (computed_similarity, article_url))
+                else:
+                    # Equivalent to a push, then a pop, but faster
+                    if computed_similarity > heap[0][0]:
+                        heapq.heapreplace(heap, (computed_similarity, article_url))
+
+        response = [ResponseUrlEntity(url, similarity) for (similarity, url) in heapq.nlargest(len(heap), heap)]
+
+        return HttpResponse(json.dumps(response, cls=ResponseUrlEncoder), status=200, content_type="application/json")
 
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")

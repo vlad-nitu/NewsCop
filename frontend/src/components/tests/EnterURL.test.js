@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router'
 import axios from 'axios'
 
 jest.mock('axios')
-axios.post.mockResolvedValue({ data: { max_val: 0.8, max_url: 'https://example.com' } })
+axios.post.mockResolvedValue({ data: [{ similarity: 0.8, url: 'https://example.com' }] })
 
 describe('EnterURL', () => {
   afterEach(() => {
@@ -28,11 +28,19 @@ describe('EnterURL', () => {
   })
   test('handles successful form submission positive', async () => {
     const mockedResponse = {
-      data: {
-        max_val: 0.75,
-        max_url: 'https://example.com',
+      data: [{
+        similarity: 0.75,
+        url: 'https://example1.com',
         date: '2023-05-01'
-      }
+      }, {
+        similarity: 0,
+        url: 'https://example2.com',
+        date: '2023-05-01'
+      }, {
+        similarity: 0.3,
+        url: 'https://example3.com',
+        date: '2023-05-01'
+      }]
     }
     axios.post.mockResolvedValueOnce(mockedResponse)
     // jest.useFakeTimers() /* Mock the timer */
@@ -52,14 +60,15 @@ describe('EnterURL', () => {
     expect(screen.getByRole('status')).toBeInTheDocument()
     await waitFor(() => {
       expect(screen.queryByTestId('loading-circle')).not.toBeInTheDocument()
-      expect(screen.getByText('Your article has a maximum overlap of 75% with https://example.com')).toBeInTheDocument()
+      expect(screen.getByText('Your article has a maximum overlap of 75% with https://example1.com')).toBeInTheDocument()
+      expect(screen.getByText('Your article has a maximum overlap of 30% with https://example3.com')).toBeInTheDocument()
     })
   })
   test('handles successful form submission negative', async () => {
     const theMockResponse = {
       data: {
-        max_val: -1,
-        max_url: 'https://example.com',
+        similarity: -1,
+        url: 'https://example.com',
         date: '2023-05-01'
       }
     }
