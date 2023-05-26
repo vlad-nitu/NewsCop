@@ -40,6 +40,7 @@ export default function EnterTwoURLs () {
   const [outputValue, setOutputValue] = useState('')
   const [outputColor, setOutputColor] = useState('black')
   const [showModal, setShowModal] = useState(false)
+  const [outputVisualisations, setOutputVisualisations] = useState(false)
 
   const handleClose = () => setShowModal(false)
   const handleShow = () => setShowModal(true)
@@ -60,6 +61,7 @@ export default function EnterTwoURLs () {
     // set output value to be empty before
     setShowInputValue(false)
     setShowCompareButton(false)
+    setOutputVisualisations(false)
     setOutputValue('')
     setAnswerValue(0)
 
@@ -74,11 +76,13 @@ export default function EnterTwoURLs () {
         setOutputValue(`The two news articles given have similarity level of ${answer} %`)
         setShowCompareButton(true)
         setAnswerValue(answer)
+        setOutputVisualisations(true)
       })
       .catch(error => {
         console.log(error)
         setOutputColor('darkred')
         setOutputValue('Please provide a valid input!')
+        setOutputVisualisations(false)
       })
 
     setShowInputValue(true)
@@ -151,20 +155,24 @@ export default function EnterTwoURLs () {
               {outputValue}
             </div>
 
-            {/* Render the side-by-side button and the component itself */}
-            <div className='d-flex justify-content-center pt-3'>
-              {showCompareButton && (
-                <div>
-                  {/* Render button */}
-                  <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={handleShow}>View Side-by-Side</Button>
+            {outputVisualisations && (
+              <div>
+                {/* Render the side-by-side button and the component itself */}
+                <div className='d-flex justify-content-center pt-3'>
+                  {showCompareButton && (
+                    <div>
+                      {/* Render button */}
+                      <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={handleShow}>View Side-by-Side</Button>
 
-                  {/* Render SideBySideRender component */}
-                  <SideBySideRender urlLeft={inputValueOriginal} urlRight={inputValueChanged} showModal={showModal} handleClose={handleClose} />
+                      {/* Render SideBySideRender component */}
+                      <SideBySideRender urlLeft={inputValueOriginal} urlRight={inputValueChanged} showModal={showModal} handleClose={handleClose} />
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-            <ProgressBarCustom similarity={answerValue} />
-            <ProgressLineCustom progress={answerValue} />
+                <ProgressBarCustom similarity={answerValue} />
+                <ProgressLineCustom progress={answerValue} />
+              </div>
+            )}
           </div>
         )}
       </div>
