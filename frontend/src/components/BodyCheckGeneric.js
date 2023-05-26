@@ -17,7 +17,7 @@ export default function BodyCheckGeneric ({ description, secondDescription }) {
           <h2 className='title' id='plagiarismChecker' style={{ textAlign: 'center' }}>{description}</h2>
         </div>
         <div className='mb-4'>
-          <p className='description-paragraph'>{secondDescription}</p>
+          <p className='description-paragraph' style={{textAlign:'center'}}>{secondDescription}</p>
         </div>
       </div>
     </Container>
