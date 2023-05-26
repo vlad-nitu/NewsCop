@@ -1,10 +1,10 @@
 import sys
 import os
+
 backend_path = os.path.abspath(os.curdir)
 persist_docs_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(backend_path)
 sys.path.append(persist_docs_path)
-
 
 import logging
 import time
@@ -15,11 +15,13 @@ from app.plagiarism_checker.crawling import crawl_url
 from app.plagiarism_checker.fingerprinting import compute_fingerprint
 import signal
 
+
 class TimeoutException(Exception):
     """
     Exception that is thrown to handle timeouts, if an URL was not crawled in at most 10 seconds
     """
     pass
+
 
 def timeout_handler(signum, frame):
     raise TimeoutException()
@@ -54,12 +56,23 @@ def process_article(url):
     Returns:
     tuple -- A tuple containing the URL and a boolean
     indicating whether the article was successfully persisted to the database.
-    """  
+    """
 
     article = NewsPlease.from_url(url)
     if hasattr(article, 'language') and article.language == 'en':
         article_text, article_date = crawl_url(url)
-        newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=compute_fingerprint(article_text))
+        fps = compute_fingerprint(article_text)
+        only_shingle_values = [i['shingle_hash'] for i in fps]
+
+        # verify if it has more than 2000 hashes
+        if len(only_shingle_values) > 2000:
+            return url, False
+
+        # verify if it has any fingerprints
+        if len(only_shingle_values) == 0:
+            return url, False
+
+        newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=only_shingle_values)
         try:
             newsdoc.save()
             return url, True
@@ -104,7 +117,7 @@ def main():
     """
     Reads news article URLs from a file, processes them, and saves them to the database.
     Outputs the number of URLs processed and the number of articles successfully persisted to the database.
-    """ 
+    """
 
     start_time = time.time()
     urls = read_urls_from_file(persist_docs_path + '/' + 'preprocessed_unique_urls.txt')

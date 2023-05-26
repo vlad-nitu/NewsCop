@@ -15,7 +15,6 @@ import ForwardToPage from './ForwardToPage'
  * @returns JSX Element contain the secondary page, where the user is routed if he uses the "URL similarity checker" feature. It is displayed at "/checkURL"
  *
  */
-
 const checkURL = () => {
   const applicationName = 'NewsCop'
   const prompt = '... or you may want to check a text paragraph for similarity against our stored articles'

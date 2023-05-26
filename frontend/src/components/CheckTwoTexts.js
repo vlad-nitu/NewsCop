@@ -9,6 +9,8 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
 import ForwardToPage from './ForwardToPage'
+import CustomProgressBar from './ProgressBarCustom'
+import ProgressLineCustom from './ProgressLineCustom'
 
 /**
  * The page for the checking two texts for overlapping. It contains all the components that will be present in the page,
@@ -73,10 +75,8 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
       </Container>
       {/* The submit button */}
       <SubmitButton disabled={loading || (originalTextBoxDescription === '' || changedTextBoxDescription === '')} onClickMethod={handleSubmit} />
-      {displaySimilarity && (
-        <div style={{ display: 'flex', justifyContent: 'center', fontSize: '140%', marginTop: '60px', textAlign: 'center' }}>
-          {getOutputPrompt()}
-        </div>
+      {displaySimilarity &&
+
       )}
       {/* Component that routes /compareTexts to /compareURLs
         if user wants to input two text paragraphs, not two URLs that will be crawled */}
