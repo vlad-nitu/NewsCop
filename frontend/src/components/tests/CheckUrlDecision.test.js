@@ -5,10 +5,11 @@ import CheckUrlDecision from '../CheckUrlDecision'
 describe('CheckUrlDecision', () => {
   test('renders the component with correct parameters', () => {
     const items = ['Example Article']
+    const similarities = [20]
     /* Render the component with the corresponding parameters */
     render(
       <CheckUrlDecision
-        items={items}
+        items={items} similarities={similarities}
       />
     )
 
