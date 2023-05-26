@@ -61,7 +61,7 @@ export default function Footer () {
                   comparing news articles, helping users to identify
                   overlapping content quickly and accurately and,
                   consequently, decreasing the impact of misinformation
-                  and plagiarism in the media.
+                  and bias in the media.
                 </p>
               </Col>
               <Col md={2} lg={2} xl={3} className='mx-auto mb-4'>

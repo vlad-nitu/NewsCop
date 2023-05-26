@@ -7,7 +7,7 @@ describe('Home', () => {
     const applicationName = 'Test test1'
     const applicationDescription = 'Test test2'
     const ourMission = 'Test test3'
-    const serviceDescription = 'NewsCop provides users with a way of checking the text of a news article against a large database of articles for fast and accurate plagiarism detection.'
+    const serviceDescription = 'NewsCop provides users with a way of checking the text of a news article against a large database of articles for fast and accurate overlap detection.'
     const mapText = 'Van Mourik Broekmanweg 5, 2628 XE Delft'
     const footerText = 'info@getsourcer.com'
     render(

@@ -13,7 +13,7 @@ import ForwardToPage from './ForwardToPage'
  * @returns {JSX.Element} the check text for similarity component
  */
 export default function CheckOneText ({ applicationName }) {
-  const textBoxDescription = 'Enter the article’s content to check for plagiarism'
+  const textBoxDescription = 'Enter the article’s content to check for overlap'
   const [loading, setLoading] = useState(false)
 
   /**

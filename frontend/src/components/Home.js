@@ -18,9 +18,9 @@ export default function Home ({ applicationName, applicationDescription, ourMiss
   const ourMissionImage3 = './ourMissionImage.png'
 
   const titles = ['URL similarity checker', 'Text similarity checker', 'Similarity checker for two texts', 'Similarity checker for two URLs']
-  const descriptions = ['NewsCop provides users with a way of checking the URL of a news article against a large database of articles for fast and accurate plagiarism detection.',
-    'NewsCop provides users with a way of checking the text of a news article against a large database of articles for fast and accurate plagiarism detection.', 'Test the similarity between two news articles by using this powerful tool which enables you to input two paragraphs of media content and see the alikeness of the two',
-    'Test the similarity between two news articles by using this powerful tool which enables you to input two URLs of media content and see the likeness of the two']
+  const descriptions = ['NewsCop provides users with a way of checking the URL of a news article against a large database of articles for fast and accurate overlap detection.',
+    'NewsCop provides users with a way of checking the text of a news article against a large database of articles for fast and accurate overlap detection.', 'Test the similarity between two news articles by using this powerful tool which enables you to input two paragraphs of media content and see the alikeness of the two.',
+    'Test the similarity between two news articles by using this powerful tool which enables you to input two URLs of media content and see the likeness of the two.']
   const images = ['service1.jpeg', 'service2.webp', 'service3.jpeg', 'service4.jpeg']
 
   return (

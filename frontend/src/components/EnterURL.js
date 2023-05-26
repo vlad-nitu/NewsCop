@@ -38,7 +38,7 @@ import SubmitButton from './submitButton'
     <Container className='my-3'>
       <div className='mt-5'>
         <h2 className='text-center' style={{ fontSize: '1.5vh' }}>
-          Enter the article's URL to check for plagiarism
+          Enter the article's URL to check for overlap
         </h2>
       </div>
       <div style={{ maxWidth: '60vh', margin: '0 auto' }}>
