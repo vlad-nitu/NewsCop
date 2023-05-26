@@ -206,22 +206,22 @@ def url_similarity_checker(request):
                                 helper_url)
                 for helper_url in visited]
 
-        h = []
+        heap = []
         capacity = 5
 
         for future in concurrent.futures.as_completed(futures):
             result = future.result()
             if result[0] != '':
-                url_helper, comp = result
+                article_url, computed_similarity = result
 
-                if len(h) < capacity:
-                    heapq.heappush(h, (comp, url_helper))
+                if len(heap) < capacity:
+                    heapq.heappush(heap, (computed_similarity, article_url))
                 else:
                     # Equivalent to a push, then a pop, but faster
-                    if comp > h[0][0]:
-                        heapq.heapreplace(h, (comp, url_helper))
+                    if computed_similarity > heap[0][0]:
+                        heapq.heapreplace(heap, (computed_similarity, article_url))
 
-        response = [ResponseUrlEntity(url, similarity) for (similarity, url) in heapq.nlargest(len(h), h)]
+        response = [ResponseUrlEntity(url, similarity) for (similarity, url) in heapq.nlargest(len(heap), heap)]
 
         return HttpResponse(json.dumps(response, cls=ResponseUrlEncoder), status=200, content_type="application/json")
 
