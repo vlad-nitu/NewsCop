@@ -4,6 +4,9 @@ import { Container, Form, Button } from 'react-bootstrap'
 import CheckUrlDecision from './CheckUrlDecision'
 import ErrorPrompt from './ErrorPrompt'
 import LoadingCircle from './LoadingCircle'
+import ProgressBarCustom from './ProgressBarCustom'
+import ProgressLineCustom from './ProgressLineCustom'
+
 /* The endpoint that is going to be used for the request, see urls.py and views.py */
 const persistUrlEndpoint = 'http://localhost:8000/urlsimilarity/'
 
@@ -34,6 +37,7 @@ export default function EnterURL () {
     marginRight: '25%'
   }
   const [titleValue, setTitleValue] = useState([])
+  const [similarityValue, setSimilarityValue] = useState(0)
   const [inputValue, setInputValue] = useState('')
   const [showInputValue, setShowInputValue] = useState(false)
   const [loadingValue, setLoadingValue] = useState(false)
@@ -108,6 +112,7 @@ export default function EnterURL () {
     setShowInputValue(false)
     // setLoadingValue(true)
     setTitleValue([''])
+    setSimilarityValue(0)
     setInputValue(event.target.value)
     console.log(event.target.value)
   }
@@ -149,9 +154,13 @@ export default function EnterURL () {
       {showInputValue && (
         <CheckUrlDecision items={titleValue} />
       // <div>{titleValue}</div>
+        <div>
+          <CheckUrlDecision title={titleValue} />
+          <ProgressBarCustom similarity={similarityValue} />
+          <ProgressLineCustom progress={similarityValue} />
+        </div>
       )}
 
     </Container>
-
   )
 }
