@@ -4,8 +4,6 @@ import { Container, Form, Button } from 'react-bootstrap'
 import CheckUrlDecision from './CheckUrlDecision'
 import ErrorPrompt from './ErrorPrompt'
 import LoadingCircle from './LoadingCircle'
-import ProgressBarCustom from './ProgressBarCustom'
-import ProgressLineCustom from './ProgressLineCustom'
 
 /* The endpoint that is going to be used for the request, see urls.py and views.py */
 const persistUrlEndpoint = 'http://localhost:8000/urlsimilarity/'
@@ -37,7 +35,7 @@ export default function EnterURL () {
     marginRight: '25%'
   }
   const [titleValue, setTitleValue] = useState([])
-  const [similarityValue, setSimilarityValue] = useState(0)
+  const [similarityValues, setSimilarityValues] = useState([])
   const [inputValue, setInputValue] = useState('')
   const [showInputValue, setShowInputValue] = useState(false)
   const [loadingValue, setLoadingValue] = useState(false)
@@ -81,12 +79,14 @@ export default function EnterURL () {
     if (response != null) {
       console.log(response.data)
       const articles = []
+      const similarities = []
       for (let i = 0; i < response.data.length; ++i) {
         const item = response.data[i]
         const similarity = Math.round(100 * item.similarity)
         if (similarity === 0) { continue }
         const url = item.url
         articles.push('Your article has a maximum overlap of ' + similarity + '% with ' + url)
+        similarities.push(similarity)
       }
       if (articles.length === 0) {
         setLoadingValue(false)
@@ -94,6 +94,7 @@ export default function EnterURL () {
         setErrorPrompt(true)
       } else {
         setLoadingValue(false)
+        setSimilarityValues(similarities)
         setTitleValue(articles)
         setShowInputValue(true)
       }
@@ -112,7 +113,7 @@ export default function EnterURL () {
     setShowInputValue(false)
     // setLoadingValue(true)
     setTitleValue([''])
-    setSimilarityValue(0)
+    setSimilarityValues([])
     setInputValue(event.target.value)
     console.log(event.target.value)
   }
@@ -152,14 +153,7 @@ export default function EnterURL () {
       {loadingValue && (<LoadingCircle />)}
       {errorPrompt && (<ErrorPrompt prompt={errorVal} />)}
       {showInputValue && (
-        <CheckUrlDecision items={titleValue} />
-      // <div>{titleValue}</div>
-        <div>
-          <CheckUrlDecision title={titleValue} />
-          <ProgressBarCustom similarity={similarityValue} />
-          <ProgressLineCustom progress={similarityValue} />
-        </div>
-      )}
+        <CheckUrlDecision items={titleValue} similarities={similarityValues} />)}
 
     </Container>
   )

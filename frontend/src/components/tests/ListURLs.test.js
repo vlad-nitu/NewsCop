@@ -5,10 +5,11 @@ import { MemoryRouter } from 'react-router-dom'
 describe('ListURLs', () => {
   test('renders one element list', () => {
     const items = ['text']
+    const similarities = [20]
 
     render(
       <MemoryRouter>
-        <ListURLs items={items} />
+        <ListURLs items={items} similarities={similarities} />
       </MemoryRouter>
     )
 
@@ -18,10 +19,11 @@ describe('ListURLs', () => {
   })
   test('renders two elements list', () => {
     const items = ['text1', 'text2']
+    const similarities = [20, 10]
 
     render(
       <MemoryRouter>
-        <ListURLs items={items} />
+        <ListURLs items={items} similarities={similarities} />
       </MemoryRouter>
     )
 
@@ -32,10 +34,11 @@ describe('ListURLs', () => {
   })
   test('renders empty list', () => {
     const items = []
+    const similarities = []
 
     render(
       <MemoryRouter>
-        <ListURLs items={items} />
+        <ListURLs items={items} similarities={similarities} />
       </MemoryRouter>
     )
 
