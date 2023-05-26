@@ -34,7 +34,7 @@ export default function EnterURL () {
     marginLeft: '25%',
     marginRight: '25%'
   }
-  const [titleValue, setTitleValue] = useState([])
+  const [titleValues, setTitleValues] = useState([])
   const [similarityValues, setSimilarityValues] = useState([])
   const [inputValue, setInputValue] = useState('')
   const [showInputValue, setShowInputValue] = useState(false)
@@ -95,7 +95,7 @@ export default function EnterURL () {
       } else {
         setLoadingValue(false)
         setSimilarityValues(similarities)
-        setTitleValue(articles)
+        setTitleValues(articles)
         setShowInputValue(true)
       }
     }
@@ -112,7 +112,7 @@ export default function EnterURL () {
   const handleInputChange = (event) => {
     setShowInputValue(false)
     // setLoadingValue(true)
-    setTitleValue([''])
+    setTitleValues([''])
     setSimilarityValues([])
     setInputValue(event.target.value)
     console.log(event.target.value)
@@ -153,7 +153,7 @@ export default function EnterURL () {
       {loadingValue && (<LoadingCircle />)}
       {errorPrompt && (<ErrorPrompt prompt={errorVal} />)}
       {showInputValue && (
-        <CheckUrlDecision items={titleValue} similarities={similarityValues} />)}
+        <CheckUrlDecision items={titleValues} similarities={similarityValues} />)}
 
     </Container>
   )
