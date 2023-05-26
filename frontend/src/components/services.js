@@ -57,32 +57,42 @@ export default function Services ({ titles, descriptions, images }) {
                 <h3 style={textStyle}>{title}</h3>
                 <p style={textStyleParagraph}>{descriptions[index]}</p>
                 {index === 0 && (
-                  <Link to='/checkURL'>
-                    <button type='button' onClick={handleClick} className='btn btn-outline-warning'>
-                      Try it
-                    </button>
-                  </Link>
+                  <Col>
+                    <Link to='/checkURL'>
+                      <button type='button' onClick={handleClick} className='btn btn-outline-warning'>
+                        Try it
+                      </button>
+                    </Link>
+                  </Col>
+
                 )}
                 {index === 1 && (
-                  <Link to='/checkText'>
-                    <button type='button' data-testid='ButtonTest' onClick={handleClick} className='btn btn-outline-warning'>
-                      Try it
-                    </button>
-                  </Link>
+                  <Col>
+                    <Link to='/checkText'>
+                      <button type='button' data-testid='ButtonTest' onClick={handleClick} className='btn btn-outline-warning'>
+                        Try it
+                      </button>
+                    </Link>
+                  </Col>
                 )}
                 {index === 2 && (
-                  <Link to='/compareTexts'>
-                    <button type='button' onClick={handleClick} className='btn btn-outline-warning'>
-                      Try it
-                    </button>
-                  </Link>
+                  <Col>
+
+                    <Link to='/compareTexts'>
+                      <button type='button' onClick={handleClick} className='btn btn-outline-warning'>
+                        Try it
+                      </button>
+                    </Link>
+                  </Col>
                 )}
                 {index === 3 && (
-                  <Link to='/compareURLs'>
-                    <button type='button' onClick={handleClick} className='btn btn-outline-warning'>
-                      Try it
-                    </button>
-                  </Link>
+                  <Col>
+                    <Link to='/compareURLs'>
+                      <button type='button' onClick={handleClick} className='btn btn-outline-warning'>
+                        Try it
+                      </button>
+                    </Link>
+                  </Col>
                 )}
               </div>
             </Col>
