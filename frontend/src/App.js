@@ -30,8 +30,7 @@ function App () {
   const ourMission = 'Creating a platform that provides various ways of ' +
           'comparing news articles, helping users to identify overlapping content ' +
           'quickly and accurately and, consequently, decreasing the impact of ' +
-          'missinformation and plagiarism in the media.'
-
+          'misinformation and bias in the media.'
   return (
     <Router>
       <div>

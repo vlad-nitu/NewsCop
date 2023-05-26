@@ -1,13 +1,14 @@
 import axios from 'axios'
 import NavbarComponent from './navbar'
 import Footer from './footer'
-import BodyCheckTwoTexts from './BodyCheckTwoTexts'
+import BodyCheckGeneric from './BodyCheckGeneric'
 import TextBox from './TextBox'
 import SubmitButton from './submitButton'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
+import ForwardToPage from './ForwardToPage'
 import CustomProgressBar from './ProgressBarCustom'
 import ProgressLineCustom from './ProgressLineCustom'
 
@@ -51,38 +52,42 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
   const getOutputPrompt = () => {
     return 'The two given texts have a similarity level of ' + similarity + '%.'
   }
+  const description = 'News overlap checker'
+  const secondDescription = 'Our similarity checker determines the similarity levels between two text paragraphs.'
 
   return (
     <>
-      <div className='d-flex flex-column' style={{ height: '100vh' }}>
-        {/* Navbar */}
-        <NavbarComponent name={applicationName} mainPage={false} />
-        {/* The description text about news overlap */}
-        <BodyCheckTwoTexts />
-        <Container style={{ height: 'calc(60% - 90px)' }}>
-          <Row style={{ height: '100%' }}>
-            <Col md={6}>
-              {/* Text area */}
-              <TextBox description='Enter the original content' disabled={loading} textAreaValue={originalTextBoxDescription} setTextAreaValue={setOriginalTextBoxDescription} placeholder={firstPlaceholder} />
-            </Col>
-            <Col md={6}>
-              {/* Text area */}
-              <TextBox description='Enter the changed content' disabled={loading} textAreaValue={changedTextBoxDescription} setTextAreaValue={setChangedTextBoxDescription} placeholder={secondPlaceholder} />
-            </Col>
-          </Row>
-        </Container>
-        {/* The submit button */}
-        <SubmitButton disabled={loading || (originalTextBoxDescription === '' || changedTextBoxDescription === '')} onClickMethod={handleSubmit} />
-        {displaySimilarity && (
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'center', fontSize: '140%', marginTop: '60px', textAlign: 'center' }}>
-              {getOutputPrompt()}
-            </div>
-            <CustomProgressBar similarity={similarity} />
-            <ProgressLineCustom progress={similarity} />
+      {/* Navbar */}
+      <NavbarComponent name={applicationName} mainPage={false} />
+      {/* The description text about news overlap */}
+      <BodyCheckGeneric description={description} secondDescription={secondDescription} />
+      <Container style={{ height: 'calc(60% - 6vh)' }}>
+        <Row style={{ height: '100%' }}>
+          <Col md={6}>
+            {/* Text area */}
+            <TextBox description='Enter the original content' disabled={loading} textAreaValue={originalTextBoxDescription} setTextAreaValue={setOriginalTextBoxDescription} placeholder={firstPlaceholder} />
+          </Col>
+          <Col md={6}>
+            {/* Text area */}
+            <TextBox description='Enter the changed content' disabled={loading} textAreaValue={changedTextBoxDescription} setTextAreaValue={setChangedTextBoxDescription} placeholder={secondPlaceholder} />
+          </Col>
+        </Row>
+      </Container>
+      {/* The submit button */}
+      <SubmitButton disabled={loading || (originalTextBoxDescription === '' || changedTextBoxDescription === '')} onClickMethod={handleSubmit} />
+      {displaySimilarity && (
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'center', fontSize: '140%', marginTop: '60px', textAlign: 'center' }}>
+            {getOutputPrompt()}
           </div>
-        )}
-      </div>
+          <CustomProgressBar similarity={similarity} />
+          <ProgressLineCustom progress={similarity} />
+        </div>
+      )}
+      {/* Component that routes /compareTexts to /compareURLs
+        if user wants to input two text paragraphs, not two URLs that will be crawled */}
+      <ForwardToPage prompt='... or you may want to check the similarity of two news articles with their URLs' page='/compareURLs' />
+
       {/* Similarity display */}
       {/* Footer */}
       <Footer />

@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { Container, Form, Button } from 'react-bootstrap'
+import { Button, Container, Form } from 'react-bootstrap'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import axios from 'axios'
+import SubmitButton from './submitButton'
 import ProgressBarCustom from './ProgressBarCustom'
 import ProgressLineCustom from './ProgressLineCustom'
-
 import SideBySideRender from './SideBySideRender'
 
 /**
@@ -23,13 +23,6 @@ import SideBySideRender from './SideBySideRender'
 export default function EnterTwoURLs () {
   const PreInputArticlePromptOriginal = 'Enter the original URL'
   const PreInputArticlePromptChanged = 'Enter the changed URL'
-  const buttonStyle = {
-    width: '25%',
-    height: '50px',
-    fontWeight: 'bold',
-    fontSize: '1.2rem',
-    backgroundColor: '#2E837E'
-  }
 
   const [inputValueOriginal, setInputValueOriginal] = useState('')
   const [inputValueChanged, setInputValueChanged] = useState('')
@@ -136,18 +129,7 @@ export default function EnterTwoURLs () {
             </Col>
           </Row>
         </Form.Group>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Button
-            variant='primary'
-            type='submit'
-            className='mt-4 mx-auto rounded'
-            style={buttonStyle}
-            onClick={handleSubmit}
-            disabled={buttonDisabled || !inputValueChanged || !inputValueOriginal}
-          >
-            Submit
-          </Button>
-        </div>
+        <SubmitButton onClickMethod={handleSubmit} disabled={buttonDisabled || !inputValueChanged || !inputValueOriginal} />
         {showInputValue && (
           <div>
             {/* Render similarity score */}

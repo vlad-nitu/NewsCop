@@ -13,7 +13,7 @@ const TextBox = ({ description, disabled, textAreaValue, setTextAreaValue, place
   }
 
   return (
-    <Container style={{ height: 'calc(100% - 50px)' }}>
+    <Container style={{ height: 'calc(100% - 5vh)' }}>
       <div className='d-flex flex-column justify-content-center mx-auto'>
         <div className='mb-3 mx-auto'>
           <h2 className='description-paragraph'>{description}</h2>

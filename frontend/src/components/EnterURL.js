@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useState } from 'react'
-import { Container, Form, Button } from 'react-bootstrap'
+import SubmitButton from './submitButton'
+import { Container, Form } from 'react-bootstrap'
 import CheckUrlDecision from './CheckUrlDecision'
 import ErrorPrompt from './ErrorPrompt'
 import LoadingCircle from './LoadingCircle'
@@ -21,19 +22,7 @@ const persistUrlEndpoint = 'http://localhost:8000/urlsimilarity/'
  */
 export default function EnterURL () {
   const PreInputArticlePrompt = "Article's URL"
-  const buttonStyle = {
-    width: '30%',
-    height: '7vh',
-    maxHeight: '100px',
-    fontWeight: 'bold',
-    fontSize: 'min(calc(1vh + 1vw), 50px)', // Adjust the font size as needed
-    backgroundColor: '#2E837E',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: '25%',
-    marginRight: '25%'
-  }
+
   const [titleValues, setTitleValues] = useState([])
   const [similarityValues, setSimilarityValues] = useState([])
   const [inputValue, setInputValue] = useState('')
@@ -100,7 +89,6 @@ export default function EnterURL () {
       }
     }
     setTimeout(() => {
-      // setShowInputValue(false)
       setButtonDisabled(false)
       setLoadingValue(false)
       setInputValue('')
@@ -111,7 +99,6 @@ export default function EnterURL () {
 
   const handleInputChange = (event) => {
     setShowInputValue(false)
-    // setLoadingValue(true)
     setTitleValues([''])
     setSimilarityValues([])
     setInputValue(event.target.value)
@@ -122,33 +109,22 @@ export default function EnterURL () {
     <Container className='my-3'>
       <div className='mt-5'>
         <h2 className='text-center' style={{ fontSize: '1.5vh' }}>
-          Enter the article's URL to check for plagiarism
+          Enter the article's URL to check for overlap
         </h2>
       </div>
-      <div style={{ maxWidth: '70vh', margin: '0 auto' }}>
+      <div style={{ maxWidth: '60vh', margin: '0 auto' }}>
         <Form.Group controlId='formUrl'>
           <Form.Control
             type='url'
             placeholder={PreInputArticlePrompt}
             className='rounded-pill border-success'
-            style={{ height: '50px' }}
+            style={{ height: '55px' }}
             value={inputValue}
             onChange={handleInputChange}
             disabled={buttonDisabled}
           />
         </Form.Group>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            variant='primary'
-            type='submit'
-            className='mt-4 rounded'
-            style={buttonStyle}
-            onClick={handleSubmit}
-            disabled={buttonDisabled || !inputValue}
-          >
-            Submit
-          </Button>
-        </div>
+        <SubmitButton onClickMethod={handleSubmit} disabled={buttonDisabled || !inputValue} />
       </div>
       {loadingValue && (<LoadingCircle />)}
       {errorPrompt && (<ErrorPrompt prompt={errorVal} />)}

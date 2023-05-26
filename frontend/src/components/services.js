@@ -49,56 +49,55 @@ export default function Services ({ titles, descriptions, images }) {
     <div id='services' style={{ backgroundColor: '#2E837E' }}>
       <Container className='py-5'>
         <h2 className='title'>Services</h2>
-        <div style={{ margin: '0 auto' }}>
-          <Row className='pt-4'>
-            <Col md={3} className='pe-sm-3 mb-3 mb-sm-0'>
-              <img style={imageStyle} src={images[0]} alt='Service 1' className='pb-4' />
-              <h3 style={textStyle}>{titles[0]}</h3>
-              <p style={textStyleParagraph}>{descriptions[0]}</p>
-            </Col>
-            <Col md={3} className='pe-sm-3 mb-3 mb-sm-0'>
-              <img style={imageStyle} src={images[1]} alt='Service 2' className='pb-4' />
-              <h3 style={textStyle}>{titles[1]}</h3>
-              <p style={textStyleParagraph}>{descriptions[1]}</p>
-            </Col>
-            <Col md={3} className='pe-sm-3 mb-3 mb-sm-0'>
-              <img style={imageStyle} src={images[2]} alt='Service 3' className='pb-4' />
-              <h3 style={textStyle}>{titles[2]}</h3>
-              <p style={textStyleParagraph}>{descriptions[2]}</p>
-            </Col>
-            <Col md={3} className='pe-sm-3 mb-3 mb-sm-0'>
-              <img style={imageStyle} src={images[3]} alt='Service 4' className='pb-4' />
-              <h3 style={textStyle}>{titles[3]}</h3>
-              <p style={textStyleParagraph}>{descriptions[3]}</p>
-            </Col>
-          </Row>
-          <Row className='pt-4'>
-            <Col md={3} className='pe-sm-3 mb-3 mb-sm-0'>
-              <Link to='/checkURL'>
-                <button type='button' onClick={handleClick} className='btn btn-outline-warning'>Try it
-                </button>
-              </Link>
-            </Col>
-            <Col md={3} className='pe-sm-3 mb-3 mb-sm-0'>
-              <Link to='/checkText'>
-                <button type='button' data-testid='ButtonTest' onClick={handleClick} className='btn btn-outline-warning'>Try it
-                </button>
-              </Link>
-            </Col>
-            <Col md={3} className='pe-sm-3 mb-3 mb-sm-0'>
-              <Link to='/compareTexts'>
-                <button type='button' onClick={handleClick} className='btn btn-outline-warning'>Try it</button>
-              </Link>
-            </Col>
-            <Col md={3} className='pe-sm-3 mb-3 mb-sm-0'>
-              <Link to='/compareURLs'>
-                <button type='button' onClick={handleClick} className='btn btn-outline-warning'>Try it
-                </button>
-              </Link>
-            </Col>
+        <Row className='pt-4'>
+          {titles.map((title, index) => (
+            <Col key={index} xs={12} sm={6} md={3} className='mb-3'>
+              <div className='d-flex flex-column'>
+                <img style={imageStyle} src={images[index]} alt={`Service ${index + 1}`} className='pb-4' />
+                <h3 style={textStyle}>{title}</h3>
+                <p style={textStyleParagraph}>{descriptions[index]}</p>
+                {index === 0 && (
+                  <Col>
+                    <Link to='/checkURL'>
+                      <button type='button' onClick={handleClick} className='btn btn-outline-warning'>
+                        Try it
+                      </button>
+                    </Link>
+                  </Col>
 
-          </Row>
-        </div>
+                )}
+                {index === 1 && (
+                  <Col>
+                    <Link to='/checkText'>
+                      <button type='button' data-testid='ButtonTest' onClick={handleClick} className='btn btn-outline-warning'>
+                        Try it
+                      </button>
+                    </Link>
+                  </Col>
+                )}
+                {index === 2 && (
+                  <Col>
+
+                    <Link to='/compareTexts'>
+                      <button type='button' onClick={handleClick} className='btn btn-outline-warning'>
+                        Try it
+                      </button>
+                    </Link>
+                  </Col>
+                )}
+                {index === 3 && (
+                  <Col>
+                    <Link to='/compareURLs'>
+                      <button type='button' onClick={handleClick} className='btn btn-outline-warning'>
+                        Try it
+                      </button>
+                    </Link>
+                  </Col>
+                )}
+              </div>
+            </Col>
+          ))}
+        </Row>
       </Container>
     </div>
   )

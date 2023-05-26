@@ -2,8 +2,8 @@ import React from 'react'
 import EnterTwoURLs from './EnterTwoURLs'
 import NavbarComponent from './navbar'
 import Footer from './footer'
-import BodyCheckTwoURLs from './BodyCheckTwoURLs'
-import ForwardToCheckTwoTexts from './ForwardToCheckTwoTexts'
+import BodyCheckGeneric from './BodyCheckGeneric'
+import ForwardToPage from './ForwardToPage'
 
 /**
  * The entire page was built around the Bootstrap library.
@@ -20,25 +20,24 @@ import ForwardToCheckTwoTexts from './ForwardToCheckTwoTexts'
 const checkTwoURLs = () => {
   const applicationName = 'NewsCop'
   const prompt = '... or you may want to check the similarity of two text paragraphs'
-
+  const description = 'News overlap checker'
+  const secondDescription = 'Our similarity checker determines the similarity level between the content of two news URLs.'
   return (
     <>
       {/* Secondary Navbar Component that routes back to the main page */}
       <NavbarComponent name={applicationName} mainPage={false} />
 
       {/* Similarity checker two URLs section */}
-      <BodyCheckTwoURLs />
+      <BodyCheckGeneric description={description} secondDescription={secondDescription} />
 
       {/* Enter article's URLs section */}
       <EnterTwoURLs />
 
       {/* Component that routes /compareURLs to /compareTexts
       if user wants to input two text paragraphs, not two URLs that will be crawled */}
-      <ForwardToCheckTwoTexts prompt={prompt} />
-
+      <ForwardToPage prompt={prompt} page='/compareTexts' />
       {/* Footer */}
       <Footer />
-
     </>
   )
 }

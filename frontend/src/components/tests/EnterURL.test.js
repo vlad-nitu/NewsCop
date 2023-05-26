@@ -11,7 +11,7 @@ describe('EnterURL', () => {
     jest.clearAllMocks()
   })
   test('renders the prompt text', () => {
-    const prompt = 'Enter the article\'s URL to check for plagiarism'
+    const prompt = 'Enter the article\'s URL to check for overlap'
     /*
              * By wrapping the ForwardToCheckText component with the MemoryRouter,
              * we provide a routing context that the component can use to render the Link element and trigger navigation events during testing.
