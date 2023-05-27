@@ -19,6 +19,7 @@
     "react-customizable-progressbar": "^1.2.0",
     "react-dom": "^18.2.0",
     "react-fontawesome": "^1.7.1",
+    "react-highlight-words": "^0.20.0",
     "react-iframe": "^1.8.5",
     "react-router-dom": "^6.11.1",
     "react-scripts": "5.0.1",
