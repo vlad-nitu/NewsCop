@@ -58,7 +58,7 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
   const [similarity, setSimilarity] = useState(0)
   const [displaySimilarity, setDisplaySimilarity] = useState(false)
   const [loading, setLoading] = useState(false)
-
+  const [highlightedText, setHighlightedText] = useState([''])
   /**
      * Disable a button after using it for 4 seconds.
      * Source: https://stackoverflow.com/questions/63820933/how-to-disable-a-button-using-react-usestate-hook-inside-event-handler
@@ -70,8 +70,9 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
     setLoading(true)
     setDisplaySimilarity(false)
     setSimilarity(Math.round(await (compareTexts(originalTextBoxDescription, changedTextBoxDescription)) * 100))
-    const matches = findMatchingSubstrings(originalTextBoxDescription, changedTextBoxDescription)
-    console.log(matches)
+    console.log(findMatchingSubstrings(originalTextBoxDescription, changedTextBoxDescription))
+    setHighlightedText(findMatchingSubstrings(originalTextBoxDescription, changedTextBoxDescription))
+
     setDisplaySimilarity(true)
     console.log(loading)
     await new Promise((resolve) =>
@@ -100,11 +101,11 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
         <Row style={{ height: '100%' }}>
           <Col md={6}>
             {/* Text area */}
-            <TextBox description='Enter the original content' disabled={loading} textAreaValue={originalTextBoxDescription} setTextAreaValue={setOriginalTextBoxDescription} placeholder={firstPlaceholder} />
+            <TextBox description='Enter the original content' disabled={loading} textAreaValue={originalTextBoxDescription} setTextAreaValue={setOriginalTextBoxDescription} placeholder={firstPlaceholder} highlighted={highlightedText} />
           </Col>
           <Col md={6}>
             {/* Text area */}
-            <TextBox description='Enter the changed content' disabled={loading} textAreaValue={changedTextBoxDescription} setTextAreaValue={setChangedTextBoxDescription} placeholder={secondPlaceholder} />
+            <TextBox description='Enter the changed content' disabled={loading} textAreaValue={changedTextBoxDescription} setTextAreaValue={setChangedTextBoxDescription} placeholder={secondPlaceholder} highlighted={highlightedText} />
           </Col>
         </Row>
       </Container>

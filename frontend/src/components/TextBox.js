@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Container from 'react-bootstrap/Container'
+import { RichTextarea } from 'rich-textarea'
 
 /**
  * In the service of checking text from an article against plagiarism, we needed a text box to enter information,
@@ -21,8 +22,8 @@ const TextBox = ({ description, disabled, textAreaValue, setTextAreaValue, place
       </div>
       <div className='d-flex justify-content-center' style={{ height: '100%' }}>
         <div className='form-group custom-container' style={{ height: '100%' }}>
-          <div className='custom-textarea-container' style={{ height: '100%' }}>
-            <textarea placeholder={placeholder} value={textAreaValue} disabled={disabled} className='form-control custom-textarea' id='textBox' rows='4' onChange={handleTextAreaChange} style={{ height: '100%' }} />
+          <div className='custom-textarea-container'>
+            <RichTextarea placeholder={placeholder} value={textAreaValue} disabled={disabled} className='form-control custom-textarea' id='textBox' rows='4' onChange={handleTextAreaChange} style={{ width: '100%', height: '100%' }} />
           </div>
         </div>
       </div>
