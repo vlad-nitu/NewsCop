@@ -13,7 +13,6 @@ import CustomProgressBar from './ProgressBarCustom'
 import ProgressLineCustom from './ProgressLineCustom'
 import ResizeObserver from 'resize-observer-polyfill'
 
-
 function findMatchingSubstrings (leftText, rightText) {
   const matches = []
   const matrix = Array(leftText.length + 1)
