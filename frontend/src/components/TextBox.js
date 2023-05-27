@@ -9,7 +9,9 @@ import Highlighter from 'react-highlight-words'
  *
  * @returns {JSX.Element} that is a TextBox where users can enter the news article
  */
-const TextBox = ({ description, disabled, textAreaValue, setTextAreaValue, placeholder, highlighted }) => {
+const TextBox = ({
+  description, disabled, textAreaValue, setTextAreaValue, placeholder, highlighted, isHighlighted
+}) => {
   const handleTextAreaChange = (event) => {
     if (setTextAreaValue != null) { setTextAreaValue(event.target.value) }
   }
@@ -24,15 +26,20 @@ const TextBox = ({ description, disabled, textAreaValue, setTextAreaValue, place
       <div className='d-flex justify-content-center' style={{ height: '100%' }}>
         <div className='form-group custom-container' style={{ height: '100%' }}>
           <div className='custom-textarea-container'>
-            <RichTextarea placeholder={placeholder} value={textAreaValue} disabled={disabled} className='form-control custom-textarea' id='textBox' rows='4' onChange={handleTextAreaChange} style={{ width: '100%', height: '100%' }}>
-              {(v) => (
-                <Highlighter
-                  searchWords={highlighted}
-                  autoEscape
-                  textToHighlight={v}
-                />
-              )}
-            </RichTextarea>
+            {isHighlighted &&
+              (
+                <RichTextarea
+                  placeholder={placeholder} value={textAreaValue} disabled={disabled}
+                  className='form-control custom-textarea' id='textBox' rows='4'
+                  onChange={handleTextAreaChange} style={{ width: '72vh', height: '32vh' }}
+                >
+                  {(v) => (<Highlighter
+                    searchWords={highlighted}
+                    autoEscape
+                    textToHighlight={v}
+                           />)}
+                </RichTextarea>)}
+            {!isHighlighted && <textarea placeholder={placeholder} value={textAreaValue} disabled={disabled} className='form-control custom-textarea' id='textBox' rows='4' onChange={handleTextAreaChange} style={{ height: '100%' }} />}
           </div>
         </div>
       </div>
