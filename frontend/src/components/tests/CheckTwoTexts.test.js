@@ -2,8 +2,13 @@ import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import CheckTwoTexts, { compareTexts } from '../CheckTwoTexts'
 import { MemoryRouter } from 'react-router-dom'
 import axios from 'axios'
+import ResizeObserver from 'resize-observer-polyfill'
 
 jest.mock('axios')
+
+if (!window.ResizeObserver) {
+  window.ResizeObserver = ResizeObserver
+}
 
 describe('CheckTwoTexts', () => {
   test('renders the prompt text', async () => {

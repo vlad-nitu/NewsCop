@@ -1,7 +1,11 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import TextBox from '../TextBox'
+import ResizeObserver from 'resize-observer-polyfill'
 
+if (!window.ResizeObserver) {
+  window.ResizeObserver = ResizeObserver
+}
 describe('TextBox', () => {
   it('renders the component with the correct title and textarea', () => {
     render(<TextBox description='Enter your article here' placeholder='Enter your article here' />)

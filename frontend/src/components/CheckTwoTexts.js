@@ -11,6 +11,8 @@ import Container from 'react-bootstrap/Container'
 import ForwardToPage from './ForwardToPage'
 import CustomProgressBar from './ProgressBarCustom'
 import ProgressLineCustom from './ProgressLineCustom'
+import ResizeObserver from 'resize-observer-polyfill'
+
 
 function findMatchingSubstrings (leftText, rightText) {
   const matches = []
@@ -83,6 +85,9 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
 
     setLoading(false)
     console.log(loading)
+  }
+  if (!window.ResizeObserver) {
+    window.ResizeObserver = ResizeObserver
   }
 
   const getOutputPrompt = () => {

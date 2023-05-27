@@ -5,6 +5,11 @@ import TextBox from './TextBox'
 import SubmitButton from './submitButton'
 import React, { useState } from 'react'
 import ForwardToPage from './ForwardToPage'
+import ResizeObserver from 'resize-observer-polyfill'
+
+if (!window.ResizeObserver) {
+  window.ResizeObserver = ResizeObserver
+}
 
 /**
  * The page for the check text for similarity page. It contains all the components that will be present in the page,
