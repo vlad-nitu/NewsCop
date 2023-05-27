@@ -26,7 +26,7 @@ function findMatchingSubstrings (leftText, rightText) {
       if (leftText[i - 1] === rightText[j - 1]) {
         matrix[i][j] = matrix[i - 1][j - 1] + 1
 
-        if (matrix[i][j] >= 4) {
+        if (matrix[i][j] >= 5) {
           if (matrix[i][j] > maxLength) {
             maxLength = matrix[i][j]
           }

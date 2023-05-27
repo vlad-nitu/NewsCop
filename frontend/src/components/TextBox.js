@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Container from 'react-bootstrap/Container'
 import { RichTextarea } from 'rich-textarea'
-// import Highlighter from 'react-highlight-words'
+import Highlighter from 'react-highlight-words'
 
 /**
  * In the service of checking text from an article against plagiarism, we needed a text box to enter information,
@@ -25,13 +25,13 @@ const TextBox = ({ description, disabled, textAreaValue, setTextAreaValue, place
         <div className='form-group custom-container' style={{ height: '100%' }}>
           <div className='custom-textarea-container'>
             <RichTextarea placeholder={placeholder} value={textAreaValue} disabled={disabled} className='form-control custom-textarea' id='textBox' rows='4' onChange={handleTextAreaChange} style={{ width: '100%', height: '100%' }}>
-              {/* {(v) => ( */}
-              {/*  <Highlighter */}
-              {/*    searchWords={highlighted} */}
-              {/*    autoEscape */}
-              {/*    textToHighlight={v} */}
-              {/*  /> */}
-              {/* )} */}
+              {(v) => (
+                <Highlighter
+                  searchWords={highlighted}
+                  autoEscape
+                  textToHighlight={v}
+                />
+              )}
             </RichTextarea>
           </div>
         </div>
