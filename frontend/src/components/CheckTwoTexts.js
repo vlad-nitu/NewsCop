@@ -81,7 +81,7 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
         resolve()
       }, 4000)
     )
-
+    setHighlightedText([''])
     setLoading(false)
     console.log(loading)
   }
