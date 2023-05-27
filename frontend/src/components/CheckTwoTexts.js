@@ -12,6 +12,39 @@ import ForwardToPage from './ForwardToPage'
 import CustomProgressBar from './ProgressBarCustom'
 import ProgressLineCustom from './ProgressLineCustom'
 
+function findMatchingSubstrings (leftText, rightText) {
+  const matches = []
+  const matrix = Array(leftText.length + 1)
+    .fill(null)
+    .map(() => Array(rightText.length + 1).fill(0))
+
+  let maxLength = 0
+
+  for (let i = 1; i <= leftText.length; i++) {
+    for (let j = 1; j <= rightText.length; j++) {
+      if (leftText[i - 1] === rightText[j - 1]) {
+        matrix[i][j] = matrix[i - 1][j - 1] + 1
+
+        if (matrix[i][j] >= 4) {
+          if (matrix[i][j] > maxLength) {
+            maxLength = matrix[i][j]
+          }
+
+          const substring = leftText.substring(
+            i - matrix[i][j],
+            i
+          )
+          if (!matches.includes(substring)) {
+            matches.push(substring)
+          }
+        }
+      }
+    }
+  }
+
+  return matches
+}
+
 /**
  * The page for the checking two texts for overlapping. It contains all the components that will be present in the page,
  * and reuses some of the elements that can be found in the main page.
@@ -37,6 +70,8 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
     setLoading(true)
     setDisplaySimilarity(false)
     setSimilarity(Math.round(await (compareTexts(originalTextBoxDescription, changedTextBoxDescription)) * 100))
+    const matches = findMatchingSubstrings(originalTextBoxDescription, changedTextBoxDescription)
+    console.log(matches)
     setDisplaySimilarity(true)
     console.log(loading)
     await new Promise((resolve) =>
