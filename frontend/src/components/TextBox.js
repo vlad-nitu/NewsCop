@@ -34,6 +34,7 @@ const TextBox = ({
                   onChange={handleTextAreaChange} style={{ width: '72vh', height: '32vh' }}
                 >
                   {(v) => (<Highlighter
+                    highlightStyle={{ backgroundColor: 'rgba(46, 131, 126, 0.7)', color: 'rgba(255, 255, 255, 1)' }}
                     searchWords={highlighted}
                     autoEscape
                     textToHighlight={v}
