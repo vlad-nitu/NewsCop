@@ -24,7 +24,7 @@ const TextBox = ({ description, disabled, textAreaValue, setTextAreaValue, place
       <div className='d-flex justify-content-center' style={{ height: '100%' }}>
         <div className='form-group custom-container' style={{ height: '100%' }}>
           <div className='custom-textarea-container'>
-            <RichTextarea placeholder={placeholder} value={textAreaValue} disabled={disabled} className='form-control custom-textarea' id='textBox' rows='4' onChange={handleTextAreaChange} style={{ width: '100%', height: '100%' }}>
+            <RichTextarea placeholder={placeholder} value={textAreaValue} disabled={disabled} className='form-control custom-textarea' id='textBox' rows='4' onChange={handleTextAreaChange} style={{ width: '72vh', height: '32vh' }}>
               {(v) => (
                 <Highlighter
                   searchWords={highlighted}
