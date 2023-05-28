@@ -26,7 +26,7 @@ function findMatchingSubstrings (leftText, rightText) {
       if (leftText[i - 1] === rightText[j - 1]) {
         matrix[i][j] = matrix[i - 1][j - 1] + 1
 
-        if (matrix[i][j] >= 5) {
+        if (matrix[i][j] >= 4) {
           if (matrix[i][j] > maxLength) {
             maxLength = matrix[i][j]
           }
@@ -35,13 +35,19 @@ function findMatchingSubstrings (leftText, rightText) {
             i - matrix[i][j],
             i
           )
-          if (!matches.includes(substring)) {
+
+          // Split the string into words and filter out empty strings and words with whitespace characters
+          const words = leftText.split(/\b/).filter(word => word.length > 0 && !word.includes(' '))
+
+          if (!matches.includes(substring) && words.includes(substring)) {
             matches.push(substring)
           }
         }
       }
     }
   }
+
+  // Remove spaces
 
   return matches
 }
@@ -118,7 +124,7 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
             </div>
           </Col>
           <Col md={6} className='d-flex justify-content-center align-items-center'> {/* Center and resize TextBox */}
-          <div className='w-100'>
+            <div className='w-100'>
               {/* Text area */}
               <TextBox
                 description='Enter the changed content'
