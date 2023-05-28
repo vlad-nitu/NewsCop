@@ -104,7 +104,7 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
       <Container style={{ height: 'calc(60% - 6vh)' }}>
         <Row style={{ height: '100%' }}>
           <Col md={6} className='d-flex justify-content-center align-items-center'> {/* Center and resize TextBox */}
-            <div style={{ maxWidth: '80%' }}>
+            <div className='w-100'>
               {/* Text area */}
               <TextBox
                 description='Enter the original content'
@@ -118,7 +118,7 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
             </div>
           </Col>
           <Col md={6} className='d-flex justify-content-center align-items-center'> {/* Center and resize TextBox */}
-            <div style={{ maxWidth: '80%' }}>
+          <div className='w-100'>
               {/* Text area */}
               <TextBox
                 description='Enter the changed content'
