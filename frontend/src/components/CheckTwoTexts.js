@@ -14,12 +14,11 @@ import ProgressLineCustom from './ProgressLineCustom'
 import ResizeObserver from 'resize-observer-polyfill'
 
 function findMatchingSubstrings (leftText, rightText) {
-  const matches = []
+  const matches = new Set()
+
   const matrix = Array(leftText.length + 1)
     .fill(null)
     .map(() => Array(rightText.length + 1).fill(0))
-
-  let maxLength = 0
 
   for (let i = 1; i <= leftText.length; i++) {
     for (let j = 1; j <= rightText.length; j++) {
@@ -27,10 +26,6 @@ function findMatchingSubstrings (leftText, rightText) {
         matrix[i][j] = matrix[i - 1][j - 1] + 1
 
         if (matrix[i][j] >= 4) {
-          if (matrix[i][j] > maxLength) {
-            maxLength = matrix[i][j]
-          }
-
           const substring = leftText.substring(
             i - matrix[i][j],
             i
@@ -38,9 +33,11 @@ function findMatchingSubstrings (leftText, rightText) {
 
           // Split the string into words and filter out empty strings and words with whitespace characters
           const words = leftText.split(/\b/).filter(word => word.length > 0 && !word.includes(' '))
+          // To allow O(1) exp. lookup
+          const wordsSet = new Set(words)
 
-          if (!matches.includes(substring) && words.includes(substring)) {
-            matches.push(substring)
+          if (!matches.has(substring) && wordsSet.has(substring)) {
+            matches.add(substring)
           }
         }
       }
@@ -49,7 +46,7 @@ function findMatchingSubstrings (leftText, rightText) {
 
   // Remove spaces
 
-  return matches
+  return Array.from(matches)
 }
 
 /**
