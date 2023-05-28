@@ -18,7 +18,6 @@ const CustomProgressBar = ({ similarity }) => {
    */
   const interpolateColor = (similarity) => {
     const percentage = similarity / 100
-    console.log(percentage)
 
     // Define the start and end colors (red and green)
     const [startR, startG, startB] = [0, 255, 0] // Red
@@ -31,9 +30,6 @@ const CustomProgressBar = ({ similarity }) => {
 
     // Convert the interpolated RGB values to a hexadecimal string
     const interpolatedHex = `#${componentToHex(interpolatedR)}${componentToHex(interpolatedG)}${componentToHex(interpolatedB)}`
-
-    console.log(interpolatedHex)
-    console.log(interpolatedR + ' ' + interpolatedG + ' ' + interpolatedB)
 
     // Return the interpolated color as a hexadecimal string
     return interpolatedHex

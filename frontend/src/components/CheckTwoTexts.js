@@ -81,7 +81,6 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
     setHighlightedText(findMatchingSubstrings(originalTextBoxDescription, changedTextBoxDescription))
 
     setDisplaySimilarity(true)
-    console.log(loading)
     await new Promise((resolve) =>
       setTimeout(() => {
         resolve()
@@ -89,7 +88,6 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
     )
     setHighlightedText([''])
     setLoading(false)
-    console.log(loading)
   }
   if (!window.ResizeObserver) {
     window.ResizeObserver = ResizeObserver
@@ -120,6 +118,7 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
                 placeholder={firstPlaceholder}
                 highlighted={highlightedText}
                 isHighlighted
+                similarity={similarity}
               />
             </div>
           </Col>
@@ -134,6 +133,7 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
                 placeholder={secondPlaceholder}
                 highlighted={highlightedText}
                 isHighlighted
+                similarity={similarity}
               />
             </div>
           </Col>

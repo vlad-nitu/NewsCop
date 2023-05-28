@@ -10,13 +10,17 @@ import Highlighter from 'react-highlight-words'
  * @returns {JSX.Element} that is a TextBox where users can enter the news article
  */
 const TextBox = ({
-  description, disabled, textAreaValue, setTextAreaValue, placeholder, highlighted, isHighlighted
+  description, disabled, textAreaValue, setTextAreaValue, placeholder, highlighted, isHighlighted, similarity
 }) => {
   const handleTextAreaChange = (event) => {
     if (setTextAreaValue != null) { setTextAreaValue(event.target.value) }
   }
 
-  const highlightWordsOnly = ({ autoEscape, caseSensitive, sanitize, searchWords, textToHighlight }) => {
+  const highlightWordsOnly = ({ autoEscape, caseSensitive, sanitize, searchWords, textToHighlight, similarity }) => {
+    if (similarity === 0) {
+      return [] // Return an empty array if similarity is 0
+    }
+
     const words = textToHighlight.trim().split(/\s+/) // Split the text into an array of words
 
     const chunks = []
@@ -60,7 +64,7 @@ const TextBox = ({
                   searchWords={highlighted}
                   autoEscape
                   textToHighlight={v}
-                  findChunks={highlightWordsOnly}
+                  findChunks={(options) => highlightWordsOnly({ ...options, similarity })}
                 />
               )}
             </RichTextarea>
