@@ -16,37 +16,42 @@ const TextBox = ({
     if (setTextAreaValue != null) { setTextAreaValue(event.target.value) }
   }
 
-  return (
-    <Container style={{ height: 'calc(100% - 5vh)' }}>
-      <div className='d-flex flex-column justify-content-center mx-auto'>
-        <div className='mb-3 mx-auto'>
-          <h2 className='description-paragraph'>{description}</h2>
-        </div>
+return (
+  <Container>
+    <div className='d-flex flex-column justify-content-center mx-auto'>
+      <div className='mb-3 mx-auto'>
+        <h2 className='description-paragraph'>{description}</h2>
       </div>
-      <div className='d-flex justify-content-center' style={{ height: '100%' }}>
-        <div className='form-group custom-container' style={{ height: '100%' }}>
-          <div className='custom-textarea-container'>
-            {isHighlighted &&
-              (
-                <RichTextarea
-                  placeholder={placeholder} value={textAreaValue} disabled={disabled}
-                  className='form-control custom-textarea' id='textBox' rows='4'
-                  onChange={handleTextAreaChange} style={{ width: '72vh', height: '32vh' }}
-                >
-                  {(v) => (<Highlighter
-                    highlightStyle={{ backgroundColor: 'rgba(46, 131, 126, 0.7)', color: 'rgba(255, 255, 255, 1)' }}
-                    searchWords={highlighted}
-                    autoEscape
-                    textToHighlight={v}
-                           />)}
-                </RichTextarea>)}
-            {!isHighlighted && <textarea placeholder={placeholder} value={textAreaValue} disabled={disabled} className='form-control custom-textarea' id='textBox' rows='4' onChange={handleTextAreaChange} style={{ height: '100%' }} />}
-          </div>
-        </div>
+    </div>
+    <div className='form-group custom-container'>
+      <div className='custom-textarea-container'>
+        {isHighlighted && (
+          <RichTextarea
+            placeholder={placeholder} value={textAreaValue} disabled={disabled}
+            className='form-control custom-textarea' id='textBox' rows='4'
+            onChange={handleTextAreaChange} style={{ width: 'min(620px, 35vh)', height: '100px' }}
+          >
+            {(v) => (
+              <Highlighter
+                highlightStyle={{ backgroundColor: 'rgba(46, 131, 126, 0.7)', color: 'rgba(255, 255, 255, 1)' }}
+                searchWords={highlighted}
+                autoEscape
+                textToHighlight={v}
+              />
+            )}
+          </RichTextarea>
+        )}
+        {!isHighlighted && (
+          <textarea
+            placeholder={placeholder} value={textAreaValue} disabled={disabled}
+            className='form-control custom-textarea' id='textBox' rows='4'
+            onChange={handleTextAreaChange}
+          />
+        )}
       </div>
-    </Container>
-
-  )
+    </div>
+  </Container>
+);
 }
 
 export default TextBox

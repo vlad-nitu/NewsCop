@@ -52,6 +52,12 @@
     height: 100%;
 }
 
+.text-box-container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
 #plagiarismChecker {
     color: #000;
     font-size: xxx-large;
