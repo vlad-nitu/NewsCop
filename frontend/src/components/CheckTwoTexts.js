@@ -98,8 +98,8 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
     setLoading(true)
     setDisplaySimilarity(false)
     setSimilarity(Math.round(await (compareTexts(originalTextBoxDescription, changedTextBoxDescription)) * 100))
-    console.log(findMatchingSubstrings(originalTextBoxDescription, changedTextBoxDescription))
-    setHighlightedText(findMatchingSubstrings(originalTextBoxDescription, changedTextBoxDescription))
+    console.log(findCommonWords(originalTextBoxDescription, changedTextBoxDescription))
+    setHighlightedText(findCommonWords(originalTextBoxDescription, changedTextBoxDescription))
 
     setDisplaySimilarity(true)
     await new Promise((resolve) =>
