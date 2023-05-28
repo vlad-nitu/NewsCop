@@ -16,6 +16,29 @@ const TextBox = ({
     if (setTextAreaValue != null) { setTextAreaValue(event.target.value) }
   }
 
+  const highlightWordsOnly = ({ autoEscape, caseSensitive, sanitize, searchWords, textToHighlight }) => {
+    const words = textToHighlight.trim().split(/\s+/) // Split the text into an array of words
+
+    const chunks = []
+    let currentIndex = 0
+
+    words.forEach((word) => {
+      const matchedWord = searchWords.find((searchWord) =>
+        caseSensitive ? word === searchWord : word.toLowerCase() === searchWord.toLowerCase()
+      )
+
+      if (matchedWord) {
+        const startIndex = textToHighlight.indexOf(word, currentIndex)
+        const endIndex = startIndex + word.length
+        chunks.push({ start: startIndex, end: endIndex })
+      }
+
+      currentIndex += word.length + 1 // Add 1 for the space between words
+    })
+
+    return chunks
+  }
+
   return (
     <Container>
       <div className='d-flex flex-column justify-content-center mx-auto'>
@@ -37,6 +60,7 @@ const TextBox = ({
                   searchWords={highlighted}
                   autoEscape
                   textToHighlight={v}
+                  findChunks={highlightWordsOnly}
                 />
               )}
             </RichTextarea>
