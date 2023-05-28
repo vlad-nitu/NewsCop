@@ -103,13 +103,33 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
       <BodyCheckGeneric description={description} secondDescription={secondDescription} />
       <Container style={{ height: 'calc(60% - 6vh)' }}>
         <Row style={{ height: '100%' }}>
-          <Col md={6}>
-            {/* Text area */}
-            <TextBox description='Enter the original content' disabled={loading} textAreaValue={originalTextBoxDescription} setTextAreaValue={setOriginalTextBoxDescription} placeholder={firstPlaceholder} highlighted={highlightedText} isHighlighted />
+          <Col md={6} className='d-flex justify-content-center align-items-center'> {/* Center and resize TextBox */}
+            <div style={{ maxWidth: '80%' }}>
+              {/* Text area */}
+              <TextBox
+                description='Enter the original content'
+                disabled={loading}
+                textAreaValue={originalTextBoxDescription}
+                setTextAreaValue={setOriginalTextBoxDescription}
+                placeholder={firstPlaceholder}
+                highlighted={highlightedText}
+                isHighlighted
+              />
+            </div>
           </Col>
-          <Col md={6}>
-            {/* Text area */}
-            <TextBox description='Enter the changed content' disabled={loading} textAreaValue={changedTextBoxDescription} setTextAreaValue={setChangedTextBoxDescription} placeholder={secondPlaceholder} highlighted={highlightedText} isHighlighted />
+          <Col md={6} className='d-flex justify-content-center align-items-center'> {/* Center and resize TextBox */}
+            <div style={{ maxWidth: '80%' }}>
+              {/* Text area */}
+              <TextBox
+                description='Enter the changed content'
+                disabled={loading}
+                textAreaValue={changedTextBoxDescription}
+                setTextAreaValue={setChangedTextBoxDescription}
+                placeholder={secondPlaceholder}
+                highlighted={highlightedText}
+                isHighlighted
+              />
+            </div>
           </Col>
         </Row>
       </Container>
