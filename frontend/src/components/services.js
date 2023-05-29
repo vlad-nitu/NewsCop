@@ -24,23 +24,6 @@ export default function Services ({ titles, descriptions, images }) {
     throw Error('Different lengths of the arrays.')
   }
 
-  // Styles for the images displayed for each service.
-  const imageStyle = {
-    width: '100%',
-    height: 'auto'
-  }
-
-  // Styles for the title of each service.
-  const textStyle = {
-    color: 'white',
-    fontWeight: 'bolder'
-  }
-
-  // Styles for the description of each service.
-  const textStyleParagraph = {
-    color: 'white'
-  }
-
   const handleClick = () => {
     window.scrollTo(0, 0)
   }
