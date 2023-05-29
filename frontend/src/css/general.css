@@ -25,6 +25,18 @@
     margin-top: 50px;
 }
 
+#forLinks{
+    display: -webkit-box;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #000000;
+    height: 75%;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+
 #forErrorPrompt{
     color: #ba2121;
     font-size: xx-large;

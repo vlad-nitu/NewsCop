@@ -10,7 +10,7 @@ import { useState } from 'react'
  * @returns {JSX.Element} the element that contains the list
  */
 
-export default function ListURLs ({ source_url, urls, titles, publishers, dates, similarities }) {
+export default function ListURLs ({ sourceUrl, urls, titles, publishers, dates, similarities }) {
   const [showModal, setShowModal] = useState(false)
   const handleClose = () => setShowModal(false)
   const handleShow = () => setShowModal(true)
@@ -26,32 +26,32 @@ export default function ListURLs ({ source_url, urls, titles, publishers, dates,
         <ListGroup style={{ marginLeft: '0' }}> {/* Set marginLeft to 0 to align with the left-aligned div */}
           {urls.map((url, index) => (
             <ListGroup.Item key={index} style={{ marginBottom: '3vh', borderRadius: '8px', border: '1px solid #000', display: 'flex', alignItems: 'center' }}>
-              <div style={{ flex: '1' }}>
+              <div style={{ flex: '1', width: '20%' }}>
                 <div style={{ fontWeight: 'bold' }}>Title</div>
-  <a href={url} target='_blank' rel='noopener noreferrer' style={{ display: '-webkit-box', maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis', color: '#000', height: '75%', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical' }}>
+                <a href={url} target='_blank' rel='noopener noreferrer' id='forLinks'>
                   {titles[index]}
                 </a>
               </div>
-              <div style={{ flex: '1' }}>
+              <div style={{ flex: '1', width: '15%' }}>
                 <div style={{ fontWeight: 'bold' }}>Publisher</div>
-  <a href={publishers[index]} target='_blank' rel='noopener noreferrer' style={{ display: '-webkit-box', maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis', color: '#000', height: '75%', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical' }}>
+                {/* {prefix the site with // if it does not already include it} */}
+                <a href={publishers[index].startsWith('http://') || publishers[index].startsWith('https://') ? publishers[index] : `//${publishers[index]}`} target='_blank' rel='noopener noreferrer' id='forLinks'>
                   {publishers[index]}
                 </a>
               </div>
-              <div style={{ flex: '1' }}>
-                {dates[index] !== '' && (<div style={{ fontWeight: 'bold' }}>Published on</div>)}
-
+              <div style={{ flex: '1', width: '10%' }}>
+                <div style={{ fontWeight: 'bold' }}>Published on</div>
                 {dates[index]}
               </div>
-              <div style={{ flex: '1' }}>
+              <div style={{ flex: '1', width: '40%' }}>
                 <ProgressLineCustom progress={similarities[index]} />
               </div>
-              <div style={{flex: '1'}}>
+              <div style={{ flex: '1', width: '20%' }}>
                 {/* Render button */}
                 <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={handleShow}>Compare</Button>
 
                 {/* Render SideBySideRender component */}
-                <SideBySideRender urlLeft={source_url} urlRight={url} showModal={showModal} handleClose={handleClose} />
+                <SideBySideRender urlLeft={sourceUrl} urlRight={url} showModal={showModal} handleClose={handleClose} />
               </div>
             </ListGroup.Item>
           ))}

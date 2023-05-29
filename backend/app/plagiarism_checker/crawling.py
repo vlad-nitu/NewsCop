@@ -33,5 +33,9 @@ def extract_data_from_url(url):
         publisher = article.source_domain
     if hasattr(article, 'date_publish'):
         date = article.date_publish
+        if date is not None:
+            date = date.strftime("%d-%m-%Y")
+        else:
+            date = "-"
 
     return title, publisher, date
