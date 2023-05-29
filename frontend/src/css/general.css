@@ -176,7 +176,7 @@ a.custom_cursor:hover {
     user-select: none;
 }
 
-.card.custom-services-card {
+.custom-services-card {
     --bs-card-bg: none !important;
     --bs-card-border-radius: 0 !important;
     --bs-card-border-width: 0 !important;
