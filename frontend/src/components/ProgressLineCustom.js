@@ -52,6 +52,13 @@ const ProgressLineCustom = ({ progress }) => {
           data-testid='progress-line-pointer'
           style={{ left: `${progress}%` }}
         />
+        <div
+          className='progress-label'
+          data-testid='progress-label-pointer'
+          style={{ left: `${progress}%` }}
+        >
+          {`${progress}%`}
+        </div>
       </div>
     </div>
   )

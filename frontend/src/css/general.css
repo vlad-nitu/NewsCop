@@ -160,6 +160,15 @@ a.custom_cursor:hover {
   border-top: 10px solid black; /* Pointer color */
 }
 
+.progress-label {
+  position: absolute;
+  top: -27px;
+  transform: translateX(-40%);
+  font-size: 10px;
+  font-weight: bold;
+}
+
+
 .RCP .indicator {
     display: flex;
     align-items: center;
