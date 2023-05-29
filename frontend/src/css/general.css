@@ -158,7 +158,18 @@ a.custom_cursor:hover {
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
   border-top: 10px solid black; /* Pointer color */
+  left: var(--progress, 0);
 }
+
+.progress-label {
+  position: absolute;
+  top: -27px;
+  transform: translateX(-40%);
+  font-size: 12px;
+  font-weight: bold;
+  left: var(--progress, 0);
+}
+
 
 .RCP .indicator {
     display: flex;
