@@ -74,7 +74,8 @@ export default function EnterURL () {
         const similarity = Math.round(100 * item.similarity)
         if (similarity === 0) { continue }
         const url = item.url
-        articles.push('Your article has a maximum overlap of ' + similarity + '% with ' + url)
+        //articles.push('Your article has a maximum overlap of ' + similarity + '% with ' + url)
+        articles.push(url)
         similarities.push(similarity)
       }
       if (articles.length === 0) {
@@ -91,7 +92,6 @@ export default function EnterURL () {
     setTimeout(() => {
       setButtonDisabled(false)
       setLoadingValue(false)
-      setInputValue('')
       setErrorVal('')
       setErrorPrompt(false)
     }, 10000)
