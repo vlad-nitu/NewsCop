@@ -149,7 +149,7 @@ export default function EnterURL () {
       {loadingValue && (<LoadingCircle />)}
       {errorPrompt && (<ErrorPrompt prompt={errorVal} />)}
       {showInputValue && (
-        <CheckUrlDecision source_url={sourceUrl} urls={urlValues} titles={titleValues} publishers={publisherValues} dates={dateValues} similarities={similarityValues} />)}
+        <CheckUrlDecision sourceUrl={sourceUrl} urls={urlValues} titles={titleValues} publishers={publisherValues} dates={dateValues} similarities={similarityValues} />)}
 
     </Container>
   )
