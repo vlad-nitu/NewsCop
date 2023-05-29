@@ -186,3 +186,14 @@ a.custom_cursor:hover {
     color: #555;
     user-select: none;
 }
+
+.custom-services-card {
+    --bs-card-bg: none !important;
+    --bs-card-border-radius: 0 !important;
+    --bs-card-border-width: 0 !important;
+}
+
+.card-img-top.custom-services-card-image {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
