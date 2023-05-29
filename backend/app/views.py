@@ -14,7 +14,7 @@ from django.http import HttpResponse, HttpResponseBadRequest
 import json
 from django.views.decorators.csrf import csrf_exempt
 from .plagiarism_checker.fingerprinting import compute_fingerprint
-from .plagiarism_checker.crawling import crawl_url
+from .plagiarism_checker.crawling import crawl_url, extract_data_from_url
 from .plagiarism_checker.sanitizing import sanitizing_url
 from .plagiarism_checker.similarity import compute_similarity
 from .response_entities import ResponseUrlEntity, ResponseUrlEncoder
@@ -216,7 +216,14 @@ def url_similarity_checker(request):
                     if computed_similarity > heap[0][0]:
                         heapq.heapreplace(heap, (computed_similarity, article_url))
 
-        response = [ResponseUrlEntity(url, similarity) for (similarity, url) in heapq.nlargest(len(heap), heap)]
+        response = []
+        for (similarity, url) in heapq.nlargest(len(heap), heap):
+            title, publisher, date = extract_data_from_url(url)
+            if date is not None:
+                date = date.strftime("%d-%m-%Y")
+            else:
+                date = ""
+            response.append(ResponseUrlEntity(url, similarity, title, publisher, date))
 
         return HttpResponse(json.dumps(response, cls=ResponseUrlEncoder), status=200, content_type="application/json")
 

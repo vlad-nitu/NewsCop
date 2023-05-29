@@ -23,8 +23,12 @@ const persistUrlEndpoint = 'http://localhost:8000/urlsimilarity/'
 export default function EnterURL () {
   const PreInputArticlePrompt = "Article's URL"
 
-  const [titleValues, setTitleValues] = useState([])
+  const [sourceUrl, setSourceUrl] = useState('')
+  const [urlValues, setUrlValues] = useState([])
   const [similarityValues, setSimilarityValues] = useState([])
+  const [titleValues, setTitleValues] = useState([])
+  const [publisherValues, setPublisherValues] = useState([])
+  const [dateValues, setDateValues] = useState([])
   const [inputValue, setInputValue] = useState('')
   const [showInputValue, setShowInputValue] = useState(false)
   const [loadingValue, setLoadingValue] = useState(false)
@@ -67,25 +71,37 @@ export default function EnterURL () {
       })
     if (response != null) {
       console.log(response.data)
-      const articles = []
+      const urls = []
+      const titles = []
+      const publishers = []
+      const dates = []
       const similarities = []
       for (let i = 0; i < response.data.length; ++i) {
         const item = response.data[i]
         const similarity = Math.round(100 * item.similarity)
         if (similarity === 0) { continue }
+        const title = item.title
+        const publisher = item.publisher
+        const date = item.date
         const url = item.url
-        //articles.push('Your article has a maximum overlap of ' + similarity + '% with ' + url)
-        articles.push(url)
+        urls.push(url)
+        titles.push(title)
+        publishers.push(publisher)
+        dates.push(date)
         similarities.push(similarity)
       }
-      if (articles.length === 0) {
+      if (urls.length === 0) {
         setLoadingValue(false)
         setErrorVal('Our system has not found no match for your news article!')
         setErrorPrompt(true)
       } else {
         setLoadingValue(false)
+        setSourceUrl(inputValue)
         setSimilarityValues(similarities)
-        setTitleValues(articles)
+        setUrlValues(urls)
+        setTitleValues(titles)
+        setPublisherValues(publishers)
+        setDateValues(dates)
         setShowInputValue(true)
       }
     }
@@ -99,7 +115,11 @@ export default function EnterURL () {
 
   const handleInputChange = (event) => {
     setShowInputValue(false)
+    setSourceUrl('')
+    setUrlValues([''])
     setTitleValues([''])
+    setPublisherValues([''])
+    setDateValues([''])
     setSimilarityValues([])
     setInputValue(event.target.value)
     console.log(event.target.value)
@@ -129,7 +149,7 @@ export default function EnterURL () {
       {loadingValue && (<LoadingCircle />)}
       {errorPrompt && (<ErrorPrompt prompt={errorVal} />)}
       {showInputValue && (
-        <CheckUrlDecision items={titleValues} similarities={similarityValues} />)}
+        <CheckUrlDecision source_url={sourceUrl} urls={urlValues} titles={titleValues} publishers={publisherValues} dates={dateValues} similarities={similarityValues} />)}
 
     </Container>
   )

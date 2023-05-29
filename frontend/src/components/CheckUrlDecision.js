@@ -8,13 +8,13 @@ import ListURLs from './ListURLs'
  * @param decision the decision, i.e. whether the article was plagiarised
  * @returns {JSX.Element} the element that contains the decision
  */
-export default function CheckUrlDecision ({ items, similarities }) {
+export default function CheckUrlDecision ({ source_url, urls, titles, publishers, dates, similarities }) {
   return (
     <div>
       <div className='d-flex flex-column justify-content-center mx-auto'>
         <div className='mb-3 mx-auto'>
           <h2 className='description-overlap'>
-            <ListURLs items={items} similarities={similarities} />
+            <ListURLs source_url = {source_url} urls={urls} titles={titles} publishers={publishers} dates={dates} similarities={similarities} />
           </h2>
         </div>
       </div>
