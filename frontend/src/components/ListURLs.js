@@ -27,26 +27,26 @@ export default function ListURLs ({ source_url, urls, titles, publishers, dates,
           {urls.map((url, index) => (
             <ListGroup.Item key={index} style={{ marginBottom: '3vh', borderRadius: '8px', border: '1px solid #000', display: 'flex', alignItems: 'center' }}>
               <div style={{ flex: '1' }}>
-                <div>Title</div>
-                <a href={url} target='_blank' rel='noopener noreferrer' style={{ display: 'block', maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis', color: '#000' }}>
+                <div style={{ fontWeight: 'bold' }}>Title</div>
+  <a href={url} target='_blank' rel='noopener noreferrer' style={{ display: '-webkit-box', maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis', color: '#000', height: '75%', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical' }}>
                   {titles[index]}
                 </a>
               </div>
               <div style={{ flex: '1' }}>
-                <div>Publisher</div>
-                <a href={publishers[index]} target='_blank' rel='noopener noreferrer' style={{ display: 'block', maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis', color: '#000' }}>
+                <div style={{ fontWeight: 'bold' }}>Publisher</div>
+  <a href={publishers[index]} target='_blank' rel='noopener noreferrer' style={{ display: '-webkit-box', maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis', color: '#000', height: '75%', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical' }}>
                   {publishers[index]}
                 </a>
               </div>
               <div style={{ flex: '1' }}>
-                {dates[index] !== '' && (<div>Date</div>)}
+                {dates[index] !== '' && (<div style={{ fontWeight: 'bold' }}>Published on</div>)}
 
                 {dates[index]}
               </div>
               <div style={{ flex: '1' }}>
                 <ProgressLineCustom progress={similarities[index]} />
               </div>
-              <div>
+              <div style={{flex: '1'}}>
                 {/* Render button */}
                 <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={handleShow}>Compare</Button>
 
