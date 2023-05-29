@@ -45,33 +45,33 @@ export default function Services ({ titles, descriptions, images }) {
     window.scrollTo(0, 0)
   }
 
-  const endpoints = ['/checkURL', '/checkText', '/compareTexts', '/compareURLs'];
+  const endpoints = ['/checkURL', '/checkText', '/compareTexts', '/compareURLs']
 
   // Renders a JSX element with information about services.
   return (
     <div id='services' style={{ backgroundColor: '#2E837E' }}>
       <Container className='py-5'>
         <h2 className='title'>Services</h2>
-          <Row className='pt-4'>
-            {titles.map((title, index) => (
-              <Col key={index} xs={12} sm={6} md={6} lg={3} className='mb-3 d-flex align-items-stretch'>
-                <Card className="custom-services-card">
-                    <Card.Img alt={`Service ${index + 1}`} className="custom-services-card-image" variant="top" src={images[index]} />
-                    <Card.Body className="d-flex flex-column px-0">
-                      <Card.Title className="text-white font-weight-bold">{title}</Card.Title>
-                      <Card.Text className="mb-4 text-light">
-                        {descriptions[index]}
-                      </Card.Text>
-                      <Link to={endpoints[index]} data-testid={`ButtonTest ${index + 1}`} className="mt-auto align-self-start">
-                          <button type='button' onClick={handleClick} className='btn btn-outline-warning'>
-                            Try it
-                          </button>
-                      </Link>
-                    </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
+        <Row className='pt-4'>
+          {titles.map((title, index) => (
+            <Col key={index} xs={12} sm={6} md={6} lg={3} className='mb-3 d-flex align-items-stretch'>
+              <Card className='custom-services-card'>
+                <Card.Img alt={`Service ${index + 1}`} className='custom-services-card-image' variant='top' src={images[index]} />
+                <Card.Body className='d-flex flex-column px-0'>
+                  <Card.Title className='text-white font-weight-bold'>{title}</Card.Title>
+                  <Card.Text className='mb-4 text-light'>
+                    {descriptions[index]}
+                  </Card.Text>
+                  <Link to={endpoints[index]} data-testid={`ButtonTest ${index + 1}`} className='mt-auto align-self-start'>
+                    <button type='button' onClick={handleClick} className='btn btn-outline-warning'>
+                      Try it
+                    </button>
+                  </Link>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
       </Container>
     </div>
   )
