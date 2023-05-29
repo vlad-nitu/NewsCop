@@ -60,17 +60,17 @@ function findCommonWords (str1, str2) {
   str1 = str1.toLowerCase()
   str2 = str2.toLowerCase()
 
-  const words1 = str1.split(/\s+/)
-  const words2 = str2.split(/\s+/)
+  const words1 = new Set(str1.trim().split(/\s+/))
+  const words2 = new Set(str2.trim().split(/\s+/))
 
   const commonWords = []
-  for (let i = 0; i < words1.length; i++) {
-    const word = words1[i]
-    if (words2.includes(word)) {
+  words1.forEach(word => {
+    if (word.length >= 4 && words2.has(word)) {
       commonWords.push(word)
     }
-  }
-  return commonWords.filter(x => x.length >= 4)
+  })
+
+  return commonWords
 }
 
 /**
