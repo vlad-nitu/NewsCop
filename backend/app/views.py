@@ -162,66 +162,98 @@ def url_similarity_checker(request):
 
         # Get the fingerprints for the current URL
         submitted_url_fingerprints = db.news_collection.find_one({'_id': url})['fingerprints']
-        published_date = db.news_collection.find_one({'_id': url})['published_date']
 
-        # Get the length of the fingerprints for later use when computing Jaccard Similarity
-        visited = set()  # visited hashes
-
-        # Get the length of the fingerprints for later use when computing Jaccard Similarity
-        length_first = len(set(submitted_url_fingerprints))
-
-        # First query to find candidates and prefilter to only consider "informative hashes"
-        query = {
-            "_id": {"$in": submitted_url_fingerprints},
-            "$expr": {"$lte": [{"$size": "$urls"}, 21]}
-        }
-        projection = {'_id': 1}
-        matching_documents = db.hashes_collection.find(query, projection)
-        candidates = [i['_id'] for i in matching_documents]
-
-        # Second query to find only the candidates after filtering
-        query = {
-            "_id": {"$in": candidates},
-            "urls": {"$exists": True}
-        }
-        matching_documents = db.hashes_collection.find(query)
-
-        string_list = defaultdict(int)
-        for document in matching_documents:
-            urls = document["urls"]
-            for x in urls:
-                if x != url:
-                    visited.add(x)
-                    string_list[x] += 1
-
-        with concurrent.futures.ThreadPoolExecutor() as executor:
-            # Submit tasks for processing urls
-            futures = [
-                executor.submit(partial(process_document, length_first=length_first, string_list=string_list),
-                                helper_url)
-                for helper_url in visited]
-
-        heap = []
-        capacity = 5
-
-        for future in concurrent.futures.as_completed(futures):
-            result = future.result()
-            if result[0] != '':
-                article_url, computed_similarity = result
-
-                if len(heap) < capacity:
-                    heapq.heappush(heap, (computed_similarity, article_url))
-                else:
-                    # Equivalent to a push, then a pop, but faster
-                    if computed_similarity > heap[0][0]:
-                        heapq.heapreplace(heap, (computed_similarity, article_url))
-
-        response = [ResponseUrlEntity(url, similarity) for (similarity, url) in heapq.nlargest(len(heap), heap)]
-
-        return HttpResponse(json.dumps(response, cls=ResponseUrlEncoder), status=200, content_type="application/json")
+        return find_similar_documents_by_fingerprints(submitted_url_fingerprints, url)
 
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
+
+
+def text_similarity_checker(request):
+    '''
+    The endpoint that will be used in the CheckText page.
+    :param request: the request body.
+    :return: a HTTP response with status 200, and a pair of url and jaccard similarity,
+    with this url being the most similar to the input text present in the request body
+    '''
+    #  Ensure the request method is POST
+    if request.method == 'POST':
+
+        # Retrieve the text from the request body
+        text = json.loads(request.body)["key"]
+
+        # Compute fingerprints of the text given
+        text_fingerprints = [fp['shingle_hash'] for fp in compute_fingerprint(text)]
+
+        return find_similar_documents_by_fingerprints(text_fingerprints, '')
+
+    else:
+        return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
+
+
+def find_similar_documents_by_fingerprints(fingerprints, input):
+    '''
+    Helper method which is used by the two endpoints /checkText and /checkURL for doing query on the database
+    :fingerprints: the fingerprints computed for the text/url input given by the user
+    :input: for /checkURL is the url provided by the user, so we do not consider it when computing the similarities
+    for /checkText is the empty string as we do not have any URL to check it against
+    :return: HttpResponse with the five most similar articles in decreasing order of similarity magnitude
+    '''
+    # Get the length of the fingerprints for later use when computing Jaccard Similarity
+    visited = set()  # visited hashes
+
+    # Get the length of the fingerprints for later use when computing Jaccard Similarity
+    length_first = len(set(fingerprints))
+
+    # First query to find candidates and prefilter to only consider "informative hashes"
+    query = {
+        "_id": {"$in": fingerprints},
+        "$expr": {"$lte": [{"$size": "$urls"}, 21]}
+    }
+    projection = {'_id': 1}
+    matching_documents = db.hashes_collection.find(query, projection)
+    candidates = [document['_id'] for document in matching_documents]
+
+    # Second query to find only the candidates after filtering
+    query = {
+        "_id": {"$in": candidates},
+        "urls": {"$exists": True}
+    }
+    matching_documents = db.hashes_collection.find(query)
+    string_list = defaultdict(int)
+
+    # construct the map (url, nr of occurrences of the url)
+    for document in matching_documents:
+        urls = document["urls"]
+        for url in urls:
+            if url != input:
+                visited.add(url)
+                string_list[url] += 1
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        # Submit tasks for processing urls
+        futures = [
+            executor.submit(partial(process_document, length_first=length_first, string_list=string_list),
+                            helper_url)
+            for helper_url in visited]
+
+    heap = []
+    capacity = 5
+
+    for future in concurrent.futures.as_completed(futures):
+        result = future.result()
+        if result[0] != '':
+            article_url, computed_similarity = result
+
+            if len(heap) < capacity:
+                heapq.heappush(heap, (computed_similarity, article_url))
+            else:
+                # Equivalent to a pop, then a push, but faster
+                if computed_similarity > heap[0][0]:
+                    heapq.heapreplace(heap, (computed_similarity, article_url))
+
+    # construct the response list
+    response = [ResponseUrlEntity(url, similarity) for (similarity, url) in heapq.nlargest(len(heap), heap)]
+    return HttpResponse(json.dumps(response, cls=ResponseUrlEncoder), status=200, content_type="application/json")
 
 
 def compare_texts_view(request):
