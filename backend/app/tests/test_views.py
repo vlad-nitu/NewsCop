@@ -299,7 +299,7 @@ class TestUrlSimilarity(TestCase):
 
     def test_invalid_url_too_long(self):
         data = {
-            'key': 'https://getbootstrap.com/docs/5.0/forms/layout/',
+            'key': 'https://en.wikipedia.org/wiki/Kobe_Bryant',
         }
         json_data = json.dumps(data)
         request = self.factory.post("/urlsimilarity/", data=json_data, content_type='application/json')
