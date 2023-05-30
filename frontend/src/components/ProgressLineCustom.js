@@ -43,7 +43,7 @@ const ProgressLineCustom = ({ progress }) => {
               key={index}
               now={sub.value}
               label={`${sub.value * index} - ${sub.value * (index + 1)}%`}
-              style={{ backgroundColor: sub.color, fontSize: '0.8rem'}}
+              style={{ backgroundColor: sub.color, fontSize: '0.8rem' }}
             />
           ))}
         </ProgressBar>

@@ -35,4 +35,4 @@ class CrawlerTest(TestCase):
         self.assertEquals("Ilie Dumitrescu și Dan Petrescu nu-și mai vorbesc: "
                           "”Bine, uită numărul meu! La revedere, gata”", title)
         self.assertEquals("www.digisport.ro", publisher)
-        self.assertEquals("-", date)
+        self.assertEquals("N/A", date)

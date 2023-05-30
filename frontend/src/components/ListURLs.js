@@ -16,10 +16,8 @@ export default function ListURLs ({ sourceUrl, urls, titles, publishers, dates, 
   const handleShow = () => setShowModal(true)
 
   const [width, setWidth] = useState(window.innerWidth)
-  const [height, setHeight] = useState(window.innerHeight)
   const updateDimensions = () => {
     setWidth(window.innerWidth)
-    setHeight(window.innerHeight)
   }
   useEffect(() => {
     window.addEventListener('resize', updateDimensions)
@@ -69,45 +67,45 @@ export default function ListURLs ({ sourceUrl, urls, titles, publishers, dates, 
               </Col>
               ))
             : (
-            <Accordion alwaysOpen>
-              {urls.map((url, index) => (
-                <Accordion.Item eventKey={index} style={{ marginBottom: '20px' }}>
-                  <Accordion.Header className='d-flex flex-row'>
-                    <div className='pe-3 title-wrapper'>
-                      <div style={{ fontWeight: 'bold' }}>Title</div>
-                      <a href={url} target='_blank' rel='noopener noreferrer' className='forLinks'>
-                        {titles[index]}
-                      </a>
-                    </div>
-                  </Accordion.Header>
-                  {/*<Card style={{ marginBottom: '10px' }}>*/}
-                  <Accordion.Body>
-                    <div className='pe-3 mb-2' style={ {display: 'flex'}} >
-                      <div style={{ fontWeight: 'bold' , width: '50%'}}>Publisher</div>
-                      {/* {prefix the site with // if it does not already include it} */}
-                      <a href={publishers[index].startsWith('http://') || publishers[index].startsWith('https://') ? publishers[index] : `//${publishers[index]}`} target='_blank' rel='noopener noreferrer' className='forLinks'>
-                        {publishers[index]}
-                      </a>
-                    </div>
-                    <div className='pe-3 mb-4' style={ {display: 'flex'}}>
-                      <div style={{ fontWeight: 'bold', width: '50%'}}>Published on</div>
-                      <div>{dates[index]}</div>
-                    </div>
-                    <div className='my-auto mb-3'>
-                      <ProgressLineCustom progress={similarities[index]} />
-                    </div>
-<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      {/* Render button */}
-                      <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={handleShow}>Compare</Button>
-                      {/* Render SideBySideRender component */}
-                      <SideBySideRender urlLeft={sourceUrl} urlRight={url} showModal={showModal} handleClose={handleClose} />
-                    </div>
-                  </Accordion.Body>
-                  {/*</Card>*/}
+              <Accordion alwaysOpen>
+                {urls.map((url, index) => (
+                  <Accordion.Item eventKey={index} key={index} style={{ marginBottom: '20px' }}>
+                    <Accordion.Header className='d-flex flex-row'>
+                      <div className='pe-3 title-wrapper'>
+                        <div style={{ fontWeight: 'bold' }}>Title</div>
+                        <a href={url} target='_blank' rel='noopener noreferrer' className='forLinks'>
+                          {titles[index]}
+                        </a>
+                      </div>
+                    </Accordion.Header>
+                    {/* <Card style={{ marginBottom: '10px' }}> */}
+                    <Accordion.Body>
+                      <div className='pe-3 mb-2' style={{ display: 'flex' }}>
+                        <div style={{ fontWeight: 'bold', width: '50%' }}>Publisher</div>
+                        {/* {prefix the site with // if it does not already include it} */}
+                        <a href={publishers[index].startsWith('http://') || publishers[index].startsWith('https://') ? publishers[index] : `//${publishers[index]}`} target='_blank' rel='noopener noreferrer' className='forLinks'>
+                          {publishers[index]}
+                        </a>
+                      </div>
+                      <div className='pe-3 mb-4' style={{ display: 'flex' }}>
+                        <div style={{ fontWeight: 'bold', width: '50%' }}>Published on</div>
+                        <div>{dates[index]}</div>
+                      </div>
+                      <div className='my-auto mb-3'>
+                        <ProgressLineCustom progress={similarities[index]} />
+                      </div>
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        {/* Render button */}
+                        <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={handleShow}>Compare</Button>
+                        {/* Render SideBySideRender component */}
+                        <SideBySideRender urlLeft={sourceUrl} urlRight={url} showModal={showModal} handleClose={handleClose} />
+                      </div>
+                    </Accordion.Body>
+                    {/* </Card> */}
 
-                </Accordion.Item>
-              ))}
-            </Accordion>)}
+                  </Accordion.Item>
+                ))}
+              </Accordion>)}
         </Row>
       </div>
     )

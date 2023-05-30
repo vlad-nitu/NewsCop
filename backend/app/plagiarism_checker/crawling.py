@@ -36,6 +36,6 @@ def extract_data_from_url(url):
         if date is not None:
             date = date.strftime("%d-%m-%Y")
         else:
-            date = "-"
+            date = "N/A"
 
     return title, publisher, date
