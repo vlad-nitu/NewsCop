@@ -11,15 +11,13 @@ import Container from 'react-bootstrap/Container'
  */
 export default function BodyCheckGeneric ({ description, secondDescription }) {
   return (
-    <Container className='my-3 d-flex'>
-      <div className='d-flex flex-column justify-content-center mx-auto'>
-        <div className='mb-3 mx-auto'>
-          <h2 className='title' id='plagiarismChecker' style={{ textAlign: 'center' }}>{description}</h2>
-        </div>
-        <div className='mb-4'>
-          <p className='description-paragraph' style={{ textAlign: 'center' }}>{secondDescription}</p>
-        </div>
+    <div className='my-md-3 mt-3'>
+      <div className='mb-3'>
+        <h2 className='title text-center' id='plagiarismChecker'>{description}</h2>
       </div>
-    </Container>
+      <div className='mb-4'>
+        <p className='description-paragraph text-center'>{secondDescription}</p>
+      </div>
+    </div>
   )
 }

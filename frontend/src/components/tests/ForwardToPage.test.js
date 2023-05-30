@@ -28,10 +28,8 @@ describe('ForwardToPageTest', () => {
     // Check if Link component successfully routes the text to '/checkText'
     const linkElement = screen.getByRole('link', { name: prompt })
     expect(linkElement).toHaveAttribute('href', '/checkText')
-    expect(linkElement).toHaveClass('description-paragraph')
+    expect(linkElement).toHaveClass('description-paragraph-2')
     expect(linkElement).toHaveStyle('color: black')
-    expect(linkElement).toHaveStyle('fontSize: 150%')
-    expect(linkElement).toHaveStyle('marginTop: 120px')
 
     /* Test the scrolling to top behaviour */
     window.scrollTo = jest.fn() // Mock scrollTo function

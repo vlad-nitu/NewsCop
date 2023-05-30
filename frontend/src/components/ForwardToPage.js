@@ -15,17 +15,17 @@ export default function ForwardToPage ({ page, prompt }) {
   }
 
   return (
-    <Container className='my-3 d-flex' id='plagiarismCheckerText'>
+    <div className='mt-auto pt-3 pb-5' id='plagiarismCheckerText'>
       <div className='d-flex flex-column justify-content-center mx-auto'>
         <Link
           to={page}
           onClick={handleClick}
-          className='description-paragraph'
-          style={{ color: 'black', fontSize: '150%', marginTop: '120px' }}
+          className='description-paragraph-2 text-center'
+          style={{ color: 'black' }}
         >
           {prompt}
         </Link>
       </div>
-    </Container>
+    </div>
   )
 }
