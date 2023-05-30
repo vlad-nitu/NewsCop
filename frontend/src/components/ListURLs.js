@@ -69,9 +69,9 @@ export default function ListURLs ({ sourceUrl, urls, titles, publishers, dates, 
               </Col>
               ))
             : (
-            <Accordion>
+            <Accordion alwaysOpen>
               {urls.map((url, index) => (
-                <Accordion.Item eventKey={index}>
+                <Accordion.Item eventKey={index} style={{ marginBottom: '20px' }}>
                   <Accordion.Header className='d-flex flex-row'>
                     <div className='pe-3 title-wrapper'>
                       <div style={{ fontWeight: 'bold' }}>Title</div>
@@ -80,6 +80,7 @@ export default function ListURLs ({ sourceUrl, urls, titles, publishers, dates, 
                       </a>
                     </div>
                   </Accordion.Header>
+                  {/*<Card style={{ marginBottom: '10px' }}>*/}
                   <Accordion.Body>
                     <div className='pe-3 mb-2' style={ {display: 'flex'}} >
                       <div style={{ fontWeight: 'bold' , width: '50%'}}>Publisher</div>
@@ -102,6 +103,8 @@ export default function ListURLs ({ sourceUrl, urls, titles, publishers, dates, 
                       <SideBySideRender urlLeft={sourceUrl} urlRight={url} showModal={showModal} handleClose={handleClose} />
                     </div>
                   </Accordion.Body>
+                  {/*</Card>*/}
+
                 </Accordion.Item>
               ))}
             </Accordion>)}

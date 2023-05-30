@@ -30,7 +30,7 @@
     /* max-width: 100%; */
     overflow: hidden;
     text-overflow: ellipsis;
-     color: #000000; 
+     color: #000000;
     /* height: 75%; */
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
