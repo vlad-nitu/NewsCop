@@ -11,11 +11,11 @@ import ListURLs from './ListURLs'
 export default function CheckUrlDecision ({ sourceUrl, urls, titles, publishers, dates, similarities }) {
   return (
     <div>
-      <div className='d-flex flex-column justify-content-center mx-auto'>
-        <div className='mb-3 mx-auto'>
-          <h2 className='description-overlap'>
-            <ListURLs sourceUrl={sourceUrl} urls={urls} titles={titles} publishers={publishers} dates={dates} similarities={similarities} />
-          </h2>
+      <div className='d-flex flex-column'>
+        <div className='mb-3 mt-3'>
+          <h2>We found the following similar articles:</h2>
+          <hr />
+          <ListURLs sourceUrl={sourceUrl} urls={urls} titles={titles} publishers={publishers} dates={dates} similarities={similarities} />
         </div>
       </div>
     </div>

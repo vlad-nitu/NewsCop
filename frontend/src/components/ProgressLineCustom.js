@@ -33,8 +33,8 @@ const ProgressLineCustom = ({ progress }) => {
   ]
 
   return (
-    <div className='mb-3 mt-5' style={{ display: 'flex', justifyContent: 'center' }}>
-      <div style={{ width: '400px', position: 'relative' }}>
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div style={{ width: '100%', position: 'relative' }}>
         <ProgressBar style={{ height: '20px' }}>
           {subProgress.map((sub, index) => (
             <ProgressBar
@@ -43,7 +43,7 @@ const ProgressLineCustom = ({ progress }) => {
               key={index}
               now={sub.value}
               label={`${sub.value * index} - ${sub.value * (index + 1)}%`}
-              style={{ backgroundColor: sub.color }}
+              style={{ backgroundColor: sub.color, fontSize: '0.8rem'}}
             />
           ))}
         </ProgressBar>
