@@ -30,7 +30,8 @@ class CrawlerTest(TestCase):
         self.assertEquals("09-05-2023", date)
 
     def test_extract_invalid_date(self):
-        url = "https://www.digisport.ro/fotbal/liga-1/ilie-dumitrescu-si-dan-petrescu-nu-si-mai-vorbesc-bine-uita-numarul-meu-la-revedere-gata-2418507"
+        url = "https://www.digisport.ro/fotbal/liga-1/ilie-dumitrescu-si-dan-petrescu" \
+              "-nu-si-mai-vorbesc-bine-uita-numarul-meu-la-revedere-gata-2418507"
         title, publisher, date = extract_data_from_url(url)
         self.assertEquals("Ilie Dumitrescu și Dan Petrescu nu-și mai vorbesc: "
                           "”Bine, uită numărul meu! La revedere, gata”", title)
