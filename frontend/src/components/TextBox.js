@@ -1,5 +1,4 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Container from 'react-bootstrap/Container'
 
 /**
  * In the service of checking text from an article against plagiarism, we needed a text box to enter information,

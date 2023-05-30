@@ -1,5 +1,3 @@
-import Container from 'react-bootstrap/Container'
-
 /**
  *  A container that will hold the similarity header and description subheader that
  *   can be found on the Figma wireframe.
