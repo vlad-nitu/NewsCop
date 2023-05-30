@@ -1,5 +1,5 @@
 import ProgressLineCustom from './ProgressLineCustom'
-import { Button, ListGroup } from 'react-bootstrap'
+import { Button, ListGroup, Row, Col } from 'react-bootstrap'
 import SideBySideRender from './SideBySideRender'
 import { useState } from 'react'
 
@@ -24,37 +24,41 @@ export default function ListURLs ({ sourceUrl, urls, titles, publishers, dates, 
         </div>
         <div style={{ clear: 'both', borderTop: '1px solid #000', paddingTop: '2vh' }} /> {/* Clear the float */}
         <ListGroup style={{ marginLeft: '0' }}> {/* Set marginLeft to 0 to align with the left-aligned div */}
-          {urls.map((url, index) => (
-            <ListGroup.Item key={index} style={{ marginBottom: '3vh', borderRadius: '8px', border: '1px solid #000', display: 'flex', alignItems: 'center' }}>
-              <div style={{ flex: '1', width: '20%' }}>
+          <Row>
+            {urls.map((url, index) => (
+            // <ListGroup.Item key={index} style={{ marginBottom: '3vh', borderRadius: '8px', border: '1px solid #000', display: 'flex', alignItems: 'center' }}>
+              <Col xs={12}>
+                <div style={{ flex: '1' }}>
                 <div style={{ fontWeight: 'bold' }}>Title</div>
                 <a href={url} target='_blank' rel='noopener noreferrer' id='forLinks'>
                   {titles[index]}
                 </a>
               </div>
-              <div style={{ flex: '1', width: '15%' }}>
+              <div style={{ flex: '1' }}>
                 <div style={{ fontWeight: 'bold' }}>Publisher</div>
                 {/* {prefix the site with // if it does not already include it} */}
                 <a href={publishers[index].startsWith('http://') || publishers[index].startsWith('https://') ? publishers[index] : `//${publishers[index]}`} target='_blank' rel='noopener noreferrer' id='forLinks'>
                   {publishers[index]}
                 </a>
               </div>
-              <div style={{ flex: '1', width: '10%' }}>
+              <div style={{ flex: '1' }}>
                 <div style={{ fontWeight: 'bold' }}>Published on</div>
                 {dates[index]}
               </div>
-              <div style={{ flex: '1', width: '40%' }}>
+              <div style={{ flex: '1' }}>
                 <ProgressLineCustom progress={similarities[index]} />
               </div>
-              <div style={{ flex: '1', width: '20%' }}>
+              <div style={{ flex: '1'}}>
                 {/* Render button */}
                 <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={handleShow}>Compare</Button>
 
                 {/* Render SideBySideRender component */}
                 <SideBySideRender urlLeft={sourceUrl} urlRight={url} showModal={showModal} handleClose={handleClose} />
               </div>
-            </ListGroup.Item>
+                  </Col>
+            // </ListGroup.Item>
           ))}
+              </Row>
         </ListGroup>
       </div>
     )
