@@ -4,8 +4,6 @@ import { MemoryRouter } from 'react-router-dom'
 import axios from 'axios'
 import { act } from 'react-dom/test-utils'
 
-const { jest, describe } = require('jest')
-
 describe('EnterTwoURLs', () => {
   test('Renders the prompt text', () => {
     const prompt = 'Enter the article\'s URLs to check for similarity'

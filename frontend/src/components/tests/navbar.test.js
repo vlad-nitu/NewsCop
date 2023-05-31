@@ -3,8 +3,6 @@ import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import NavbarComponent from '../navbar'
 
-const { jest, describe } = require('jest')
-
 test('get navbar name', () => {
   const name = 'NewsCop'
   render(<NavbarComponent name={name} mainPage />)

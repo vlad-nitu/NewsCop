@@ -2,8 +2,6 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import Map from '../map'
 
-const { describe } = require('jest')
-
 describe('Map', () => {
   test('renders the map component with correct content and styles', () => {
     render(<Map />)

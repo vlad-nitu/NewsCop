@@ -2,8 +2,6 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import LoadingCircle from '../LoadingCircle'
 
-const { describe } = require('jest')
-
 describe('LoadingCircle', () => {
   test('renders the loading circle component', () => {
     render(<LoadingCircle />)

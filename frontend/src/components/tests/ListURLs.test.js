@@ -2,8 +2,6 @@ import { render, screen } from '@testing-library/react'
 import ListURLs from '../ListURLs'
 import { MemoryRouter } from 'react-router-dom'
 
-const { describe } = require('jest')
-
 describe('ListURLs', () => {
   test('renders one element list', () => {
     const items = ['text']
