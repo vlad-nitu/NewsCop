@@ -30,7 +30,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest --config=jest.config.js --coverage --transformIgnorePatterns \"node_modules/(?!axios)/\"",
+    "test": "jest --coverage --transformIgnorePatterns \"node_modules/(?!axios)/\"",
     "report": "nyc report --reporter=html",
     "eject": "react-scripts eject"
   },
