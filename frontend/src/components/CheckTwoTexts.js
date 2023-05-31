@@ -10,7 +10,6 @@ import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
 import ForwardToPage from './ForwardToPage'
 import ProgressLineCustom from './ProgressLineCustom'
-import ResizeObserver from 'resize-observer-polyfill'
 
 /**
  * Retrieve all common words with at least 4 characters, ignoring whitespaces and
@@ -72,9 +71,6 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
     )
     setHighlightedText([''])
     setLoading(false)
-  }
-  if (!window.ResizeObserver) {
-    window.ResizeObserver = ResizeObserver
   }
 
   const getOutputPrompt = () => {
