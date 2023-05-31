@@ -41,8 +41,7 @@ export default function EnterURL () {
    */
   const handleScroll = () => {
     const element = document.getElementById('similar_articles')
-    if (element.scrollIntoView)
-      element.scrollIntoView(true)
+    if (element.scrollIntoView) { element.scrollIntoView(true) }
   }
 
   /**

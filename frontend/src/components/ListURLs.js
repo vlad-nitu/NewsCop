@@ -18,9 +18,17 @@ export default function ListURLs ({ sourceUrl, articles }) {
   const handleShow = () => setShowModal(true)
 
   const [width, setWidth] = useState(window.innerWidth)
+
+  /**
+   * Update the width on resizing
+   */
   const updateDimensions = () => {
     setWidth(window.innerWidth)
   }
+
+  /**
+   * When the size of the windows are changed call the updateDimensions method
+   */
   useEffect(() => {
     window.addEventListener('resize', updateDimensions)
     return () => window.removeEventListener('resize', updateDimensions)

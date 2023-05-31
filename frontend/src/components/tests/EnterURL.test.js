@@ -28,28 +28,28 @@ describe('EnterURL', () => {
   })
   test('handles successful form submission positive', async () => {
     const mockedResponse = {
-      data:{
+      data: {
         similarArticles: [{
           similarity: 0.75,
           title: 'title1',
           url: 'https://example1.com',
-          publisher: "publisher1",
+          publisher: 'publisher1',
           date: '2023-05-01'
         }, {
           similarity: 0,
           title: 'title2',
           url: 'https://example2.com',
-          publisher: "publisher2",
+          publisher: 'publisher2',
           date: '2023-05-02'
         }, {
           similarity: 0.3,
           title: 'title3',
           url: 'https://example3.com',
-          publisher: "publisher3",
+          publisher: 'publisher3',
           date: '2023-05-03'
         }],
-        sourceTitle: "Source title",
-        sourceData: "2023-10-15"
+        sourceTitle: 'Source title',
+        sourceData: '2023-10-15'
       }
     }
     axios.post.mockResolvedValueOnce(mockedResponse)
@@ -81,10 +81,10 @@ describe('EnterURL', () => {
   })
   test('handles successful empty array submission', async () => {
     const theMockResponse = {
-      data:{
+      data: {
         similarArticles: [],
-        sourceTitle: "Source title",
-        sourceData: "2023-10-15"
+        sourceTitle: 'Source title',
+        sourceData: '2023-10-15'
       }
     }
     axios.post.mockResolvedValueOnce(theMockResponse)
