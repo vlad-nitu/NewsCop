@@ -1,23 +1,29 @@
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-
+/**
+ * Map Component.
+ *
+ * @return {JSX.Element} The Google Map component with a marker on a specific location.
+ */
 export default function Map () {
-  const coordinates = [51.999553, 4.377812]
+  const backgroundStyle = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundImage: 'url(./map.png)',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center'
+  }
+
   return (
-      <MapContainer
-        className="markercluster-map"
-        center={coordinates}
-        zoom={17}
-        maxZoom={18}
-      >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        />
-        <Marker position={coordinates}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
-      </MapContainer>
-    );
+    <div style={{ height: '400px', width: '100%' }}>
+      <div style={{ height: '100%', width: '100%', position: 'relative' }}>
+        <div style={backgroundStyle} data-testid='backgroundStyle' />
+        <div className='pt-3' style={{ position: 'absolute', left: '100px', top: '50%', transform: 'translateY(-50%)', backgroundColor: '#fff', padding: '10px', boxShadow: '0 0 10px rgba(0,0,0,0.3)' }}>
+          <h2 className='title' style={{ color: 'black' }}>Location</h2>
+          <p>Van Mourik Broekmanweg 5, 2628 XE Delft</p>
+        </div>
+      </div>
+    </div>
+  )
 }
