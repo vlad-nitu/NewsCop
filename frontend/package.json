@@ -30,7 +30,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "nyc react-scripts test ./src/components/tests --env=jsdom --coverage",
+    "test": "react-scripts test ./src/components/tests --env=jsdom --coverage ",
     "report": "nyc report --reporter=html",
     "eject": "react-scripts eject"
   },
@@ -53,6 +53,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.21.5",
     "eslint-plugin-jest": "^27.2.1",
     "nyc": "^15.1.0",
     "standard": "^16.0.3"
