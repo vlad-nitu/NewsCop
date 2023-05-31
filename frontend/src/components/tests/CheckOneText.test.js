@@ -1,6 +1,7 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import CheckOneText from '../CheckOneText'
 import { MemoryRouter } from 'react-router-dom'
+import '@testing-library/jest-dom/extend-expect';
 
 describe('CheckOneText', () => {
   test('renders the prompt text', async () => {

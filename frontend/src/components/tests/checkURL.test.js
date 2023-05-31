@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import CheckURL from '../CheckURL'
 import { MemoryRouter } from 'react-router-dom'
+import '@testing-library/jest-dom/extend-expect';
 
 describe('CheckURL', () => {
   test('renders the prompt text', () => {

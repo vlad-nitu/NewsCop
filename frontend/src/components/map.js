@@ -23,7 +23,7 @@ export default function Map () {
 
       <Marker position={position}>
         <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
+          Van Mourik Broekmanweg 5, 2628 XE Delft
         </Popup>
       </Marker>
     </MapContainer>

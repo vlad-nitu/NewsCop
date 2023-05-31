@@ -2,6 +2,7 @@
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import NavbarComponent from '../navbar'
+import '@testing-library/jest-dom/extend-expect';
 
 test('get navbar name', () => {
   const name = 'NewsCop'

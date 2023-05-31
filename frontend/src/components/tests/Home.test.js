@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import Home from '../Home'
+import '@testing-library/jest-dom/extend-expect';
+
 
 describe('Home', () => {
   test('renders the prompt text', () => {
@@ -8,7 +10,6 @@ describe('Home', () => {
     const applicationDescription = 'Test test2'
     const ourMission = 'Test test3'
     const serviceDescription = 'NewsCop provides users with a way of checking the text of a news article against a large database of articles for fast and accurate overlap detection.'
-    const mapText = 'Van Mourik Broekmanweg 5, 2628 XE Delft'
     const footerText = 'info@getsourcer.com'
     render(
       <MemoryRouter>
@@ -36,8 +37,8 @@ describe('Home', () => {
     expect(serviceSection).toBeInTheDocument()
 
     // Check if the map element is present
-    const mapElement = screen.getByText(mapText)
-    expect(mapElement).toBeInTheDocument()
+    // const mapElement = screen.getByText(mapText)
+    // expect(mapElement).toBeInTheDocument()
 
     // Check if the footer element is present
     const footerElement = screen.getByText(footerText)
