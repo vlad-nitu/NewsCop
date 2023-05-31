@@ -205,15 +205,7 @@ a.custom_cursor:hover {
     font-size: 1.3rem;
 }
 
-.vh-mobile-custom {
-    height: 30vh;
-}
-
 @media (max-width: 768px) {
-    .vh-mobile-custom {
-        height: 10vh;
-    }
-
     #plagiarismChecker {
         font-size: xx-large
     }
@@ -226,10 +218,6 @@ a.custom_cursor:hover {
 
     #plagiarismChecker {
         font-size: xx-large
-    }
-
-    .vh-mobile-custom {
-        height: 10vh;
     }
 
     @media (max-height: 700px) {
