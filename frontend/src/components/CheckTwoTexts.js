@@ -58,33 +58,34 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
     <>
       {/* Navbar */}
       <NavbarComponent name={applicationName} mainPage={false} />
-      {/* The description text about news overlap */}
-      <BodyCheckGeneric description={description} secondDescription={secondDescription} />
-      <Container style={{ height: 'calc(60% - 6vh)' }}>
-        <Row style={{ height: '100%' }}>
+
+      <Container className='d-flex flex-column' style={{ height: 'calc(100svh - 57px)' }}>
+        {/* The description text about news overlap */}
+        <BodyCheckGeneric description={description} secondDescription={secondDescription} />
+        <Row>
           <Col md={6}>
             {/* Text area */}
             <TextBox description='Enter the original content' disabled={loading} textAreaValue={originalTextBoxDescription} setTextAreaValue={setOriginalTextBoxDescription} placeholder={firstPlaceholder} />
           </Col>
-          <Col md={6}>
+          <Col md={6} className='pt-3 pt-md-0'>
             {/* Text area */}
             <TextBox description='Enter the changed content' disabled={loading} textAreaValue={changedTextBoxDescription} setTextAreaValue={setChangedTextBoxDescription} placeholder={secondPlaceholder} />
           </Col>
         </Row>
-      </Container>
-      {/* The submit button */}
-      <SubmitButton disabled={loading || (originalTextBoxDescription === '' || changedTextBoxDescription === '')} onClickMethod={handleSubmit} />
-      {displaySimilarity && (
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'center', fontSize: '140%', marginTop: '60px', textAlign: 'center' }}>
-            {getOutputPrompt()}
+        {/* The submit button */}
+        <SubmitButton disabled={loading || (originalTextBoxDescription === '' || changedTextBoxDescription === '')} onClickMethod={handleSubmit} />
+        {displaySimilarity && (
+          <div className='mt-2 mt-md-4'>
+            <div style={{ display: 'flex', justifyContent: 'center', fontSize: '140%', textAlign: 'center' }}>
+              {getOutputPrompt()}
+            </div>
+            <ProgressLineCustom progress={similarity} />
           </div>
-          <ProgressLineCustom progress={similarity} />
-        </div>
-      )}
-      {/* Component that routes /compareTexts to /compareURLs
-        if user wants to input two text paragraphs, not two URLs that will be crawled */}
-      <ForwardToPage prompt='... or you may want to check the similarity of two news articles with their URLs' page='/compareURLs' />
+        )}
+        {/* Component that routes /compareTexts to /compareURLs
+          if user wants to input two text paragraphs, not two URLs that will be crawled */}
+        <ForwardToPage prompt='... or you may want to check the similarity of two news articles with their URLs' page='/compareURLs' />
+      </Container>
 
       {/* Similarity display */}
       {/* Footer */}
