@@ -1,10 +1,12 @@
 import axios from 'axios'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import SubmitButton from './submitButton'
 import { Container, Form } from 'react-bootstrap'
 import CheckUrlDecision from './CheckUrlDecision'
 import ErrorPrompt from './ErrorPrompt'
 import LoadingCircle from './LoadingCircle'
+import Article from './Article'
+import ForwardToPage from "./ForwardToPage";
 
 /* The endpoint that is going to be used for the request, see urls.py and views.py */
 const persistUrlEndpoint = 'http://localhost:8000/urlsimilarity/'
@@ -22,13 +24,11 @@ const persistUrlEndpoint = 'http://localhost:8000/urlsimilarity/'
  */
 export default function EnterURL () {
   const PreInputArticlePrompt = "Article's URL"
+  const prompt = '... or you may want to check a text paragraph for similarity against our stored articles'
+  const emptyArticle = new Article(null, null, null, null, 0)
 
-  const [sourceUrl, setSourceUrl] = useState('')
-  const [urlValues, setUrlValues] = useState([])
-  const [similarityValues, setSimilarityValues] = useState([])
-  const [titleValues, setTitleValues] = useState([])
-  const [publisherValues, setPublisherValues] = useState([])
-  const [dateValues, setDateValues] = useState([])
+  const [sourceArticle, setSourceArticle] = useState(emptyArticle)
+  const [articlesValues, setArticlesValues] = useState([])
   const [inputValue, setInputValue] = useState('')
   const [showInputValue, setShowInputValue] = useState(false)
   const [loadingValue, setLoadingValue] = useState(false)
@@ -71,37 +71,26 @@ export default function EnterURL () {
       })
     if (response != null) {
       console.log(response.data)
-      const urls = []
-      const titles = []
-      const publishers = []
-      const dates = []
-      const similarities = []
-      for (let i = 0; i < response.data.length; ++i) {
-        const item = response.data[i]
+      const articles = []
+      for (let i = 0; i < response.data.similarArticles.length; ++i) {
+        const item = response.data.similarArticles[i]
         const similarity = Math.round(100 * item.similarity)
         if (similarity === 0) { continue }
         const title = item.title
         const publisher = item.publisher
         const date = item.date
         const url = item.url
-        urls.push(url)
-        titles.push(title)
-        publishers.push(publisher)
-        dates.push(date)
-        similarities.push(similarity)
+
+        articles.push(new Article(url, title, publisher, date, similarity))
       }
-      if (urls.length === 0) {
+      if (articles.length === 0) {
         setLoadingValue(false)
         setErrorVal('Our system has not found no match for your news article!')
         setErrorPrompt(true)
       } else {
         setLoadingValue(false)
-        setSourceUrl(inputValue)
-        setSimilarityValues(similarities)
-        setUrlValues(urls)
-        setTitleValues(titles)
-        setPublisherValues(publishers)
-        setDateValues(dates)
+        setSourceArticle(new Article(inputValue, response.data.sourceTitle, null, response.data.sourceDate, 0))
+        setArticlesValues(articles)
         setShowInputValue(true)
       }
     }
@@ -115,12 +104,8 @@ export default function EnterURL () {
 
   const handleInputChange = (event) => {
     setShowInputValue(false)
-    setSourceUrl('')
-    setUrlValues([''])
-    setTitleValues([''])
-    setPublisherValues([''])
-    setDateValues([''])
-    setSimilarityValues([])
+    setSourceArticle(emptyArticle)
+    setArticlesValues([])
     setInputValue(event.target.value)
     console.log(event.target.value)
   }
@@ -148,8 +133,11 @@ export default function EnterURL () {
       </div>
       {loadingValue && (<LoadingCircle />)}
       {errorPrompt && (<ErrorPrompt prompt={errorVal} />)}
+      {/* Component that routes /checkURL to /checkText
+      if user wants to input a text fragment, not an URL that will be crawled */}
+      <ForwardToPage page='/checkText' prompt={prompt} />
       {showInputValue && (
-        <CheckUrlDecision sourceUrl={sourceUrl} urls={urlValues} titles={titleValues} publishers={publisherValues} dates={dateValues} similarities={similarityValues} />)}
+        <CheckUrlDecision sourceArticle={sourceArticle} articles={articlesValues}/>)}
 
     </Container>
   )

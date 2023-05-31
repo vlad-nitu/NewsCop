@@ -3,7 +3,7 @@ import EnterURL from './EnterURL'
 import Footer from './footer'
 import BodyCheckGeneric from './BodyCheckGeneric'
 import NavbarComponent from './navbar'
-import ForwardToPage from './ForwardToPage'
+
 /**
  * The entire page was built around the Bootstrap library.
  *
@@ -17,7 +17,6 @@ import ForwardToPage from './ForwardToPage'
  */
 const checkURL = () => {
   const applicationName = 'NewsCop'
-  const prompt = '... or you may want to check a text paragraph for similarity against our stored articles'
   const description = 'News overlap checker'
   const secondDescription = 'Our tool detects overlap in your news article.'
   return (
@@ -31,9 +30,6 @@ const checkURL = () => {
 
       {/* Enter article's URL section */}
       <EnterURL />
-      {/* Component that routes /checkURL to /checkText
-      if user wants to input a text fragment, not an URL that will be crawled */}
-      <ForwardToPage page='/checkText' prompt={prompt} />
 
       {/* Footer */}
       <Footer />

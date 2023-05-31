@@ -4,13 +4,15 @@ import SideBySideRender from './SideBySideRender'
 import { useState, useEffect } from 'react'
 
 /**
- * Displays a list of articles together with their similarities
- * @param items the list of articles which will be displayed
- * @param similarities the list of similarities with the given articles used to display the progress bar
+ * Displays a list of articles (title, publisher, date) together with their similarities.
+ * If the width of the page on which the component is displayed is smaller or equal than 992, the list items will
+ * be displayed in an Accordion expandable component.
+ * @param sourceUrl the url of the input article used for the side-by-side rendering
+ * @param articles the list of similar articles to be displayed
  * @returns {JSX.Element} the element that contains the list
  */
 
-export default function ListURLs ({ sourceUrl, urls, titles, publishers, dates, similarities }) {
+export default function ListURLs ({ sourceUrl, articles }) {
   const [showModal, setShowModal] = useState(false)
   const handleClose = () => setShowModal(false)
   const handleShow = () => setShowModal(true)
@@ -24,7 +26,7 @@ export default function ListURLs ({ sourceUrl, urls, titles, publishers, dates, 
     return () => window.removeEventListener('resize', updateDimensions)
   }, [])
 
-  if (urls === null || urls.length === 0) {
+  if (articles.length === 0) {
     return <p>No articles were found</p>
   } else {
     return (
@@ -32,35 +34,35 @@ export default function ListURLs ({ sourceUrl, urls, titles, publishers, dates, 
       <div>
         <Row>
           {width >= 992
-            ? urls.map((url, index) => (
+            ? articles.map((article, index) => (
               <Col xs={12} className='mb-3' key={index}>
                 <Card className='d-flex flex-row'>
                   <Container fluid className='d-flex flex-row my-3'>
                     <div className='pe-3 title-wrapper'>
                       <div style={{ fontWeight: 'bold' }}>Title</div>
-                      <a href={url} target='_blank' rel='noopener noreferrer' className='forLinks'>
-                        {titles[index]}
+                      <a href={article.url} target='_blank' rel='noopener noreferrer' className='forLinks'>
+                        {article.title}
                       </a>
                     </div>
                     <div className='pe-3 publisher-wrapper'>
                       <div style={{ fontWeight: 'bold' }}>Publisher</div>
                       {/* {prefix the site with // if it does not already include it} */}
-                      <a href={publishers[index].startsWith('http://') || publishers[index].startsWith('https://') ? publishers[index] : `//${publishers[index]}`} target='_blank' rel='noopener noreferrer' className='forLinks'>
-                        {publishers[index]}
+                      <a href={article.publisher.startsWith('http://') || article.publisher.startsWith('https://') ? article.publisher : `//${article.publisher}`} target='_blank' rel='noopener noreferrer' className='forLinks'>
+                        {article.publisher}
                       </a>
                     </div>
                     <div className='pe-3'>
                       <div style={{ fontWeight: 'bold' }}>Published on</div>
-                      <div>{dates[index]}</div>
+                      <div>{article.date}</div>
                     </div>
                     <div className='pe-3 my-auto ms-auto'>
-                      <ProgressLineCustom progress={similarities[index]} />
+                      <ProgressLineCustom progress={article.similarity} />
                     </div>
                     <div className='ms-auto my-auto'>
                       {/* Render button */}
                       <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={handleShow}>Compare</Button>
                       {/* Render SideBySideRender component */}
-                      <SideBySideRender urlLeft={sourceUrl} urlRight={url} showModal={showModal} handleClose={handleClose} />
+                      <SideBySideRender urlLeft={sourceUrl} urlRight={article.url} showModal={showModal} handleClose={handleClose} />
                     </div>
                   </Container>
                 </Card>
@@ -68,13 +70,13 @@ export default function ListURLs ({ sourceUrl, urls, titles, publishers, dates, 
               ))
             : (
               <Accordion alwaysOpen>
-                {urls.map((url, index) => (
+                {articles.map((article, index) => (
                   <Accordion.Item eventKey={index} key={index} style={{ marginBottom: '20px' }}>
                     <Accordion.Header className='d-flex flex-row'>
                       <div className='pe-3 title-wrapper'>
                         <div style={{ fontWeight: 'bold' }}>Title</div>
-                        <a href={url} target='_blank' rel='noopener noreferrer' className='forLinks'>
-                          {titles[index]}
+                        <a href={article.url} target='_blank' rel='noopener noreferrer' className='forLinks'>
+                          {article.title}
                         </a>
                       </div>
                     </Accordion.Header>
@@ -83,22 +85,22 @@ export default function ListURLs ({ sourceUrl, urls, titles, publishers, dates, 
                       <div className='pe-3 mb-2' style={{ display: 'flex' }}>
                         <div style={{ fontWeight: 'bold', width: '50%' }}>Publisher</div>
                         {/* {prefix the site with // if it does not already include it} */}
-                        <a href={publishers[index].startsWith('http://') || publishers[index].startsWith('https://') ? publishers[index] : `//${publishers[index]}`} target='_blank' rel='noopener noreferrer' className='forLinks'>
-                          {publishers[index]}
+                        <a href={article.publisher.startsWith('http://') || article.publisher.startsWith('https://') ? article.publisher : `//${article.publisher}`} target='_blank' rel='noopener noreferrer' className='forLinks'>
+                          {article.publisher}
                         </a>
                       </div>
                       <div className='pe-3 mb-4' style={{ display: 'flex' }}>
                         <div style={{ fontWeight: 'bold', width: '50%' }}>Published on</div>
-                        <div>{dates[index]}</div>
+                        <div>{article.date}</div>
                       </div>
                       <div className='my-auto mb-3'>
-                        <ProgressLineCustom progress={similarities[index]} />
+                        <ProgressLineCustom progress={article.similarity} />
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         {/* Render button */}
                         <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={handleShow}>Compare</Button>
                         {/* Render SideBySideRender component */}
-                        <SideBySideRender urlLeft={sourceUrl} urlRight={url} showModal={showModal} handleClose={handleClose} />
+                        <SideBySideRender urlLeft={sourceUrl} urlRight={article.url} showModal={showModal} handleClose={handleClose} />
                       </div>
                     </Accordion.Body>
                     {/* </Card> */}
