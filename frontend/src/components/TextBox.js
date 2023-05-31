@@ -52,9 +52,8 @@ const TextBox = ({
   description, disabled, textAreaValue, setTextAreaValue, placeholder, highlighted, isHighlighted, similarity, setHighlightedText
 }) => {
   const handleTextAreaChange = (event) => {
-    if (setTextAreaValue != null) { setTextAreaValue(event.target.value); setHighlightedText(['']) }
+    if (setTextAreaValue != null) { setTextAreaValue(event.target.value) }
   }
-
   return (
     <Container>
       <div className='d-flex flex-column justify-content-center mx-auto'>
@@ -67,7 +66,7 @@ const TextBox = ({
           {isHighlighted && (
             <RichTextarea
               placeholder={placeholder} value={textAreaValue} disabled={disabled}
-              className='form-control custom-textarea' id='textBox' rows='4'
+              className='form-control custom-textarea' id='textBox' rows='4' onSelect={() => setHighlightedText([''])}
               onChange={handleTextAreaChange} style={{ width: '100%', height: '100px' }}
             >
               {(v) => (
@@ -76,6 +75,7 @@ const TextBox = ({
                   searchWords={highlighted}
                   autoEscape
                   textToHighlight={v}
+                  data-testid='Highlighter'
                   findChunks={(options) => highlightWordsOnly({ ...options, similarity })}
                 />
               )}

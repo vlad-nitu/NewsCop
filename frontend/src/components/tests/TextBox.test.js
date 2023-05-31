@@ -1,18 +1,26 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import TextBox, { highlightWordsOnly } from '../TextBox'
 import ResizeObserver from 'resize-observer-polyfill'
 
 if (!window.ResizeObserver) {
   window.ResizeObserver = ResizeObserver
 }
+
 describe('TextBox', () => {
   it('renders the component with the correct title and textarea', () => {
-    render(<TextBox description='Enter your article here' placeholder='Enter your article here' />)
+    const setHighlight = jest.fn()
+    render(<TextBox description='Enter your article here' placeholder='Enter your article here' textAreaValue='Ana are mere pere si banane' isHighlighted setHighlightedText={setHighlight} highlighted={['mere', 'pere']} />)
+    // description, disabled, textAreaValue, setTextAreaValue, placeholder, highlighted, isHighlighted, similarity, setHighlightedText
 
     /* Check if the text area is rendered correctly */
     const textareaElement = screen.getByPlaceholderText('Enter your article here')
     expect(textareaElement).toBeInTheDocument()
+
+    const highlighter = screen.getByTestId('Highlighter')
+    expect(highlighter).toBeInTheDocument()
+    fireEvent.select(textareaElement)
+    expect(setHighlight).toHaveBeenCalledTimes(1)
   })
 
   describe('highlightWordsOnly function', () => {
