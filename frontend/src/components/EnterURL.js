@@ -6,7 +6,7 @@ import CheckUrlDecision from './CheckUrlDecision'
 import ErrorPrompt from './ErrorPrompt'
 import LoadingCircle from './LoadingCircle'
 import Article from './Article'
-import ForwardToPage from "./ForwardToPage";
+import ForwardToPage from './ForwardToPage'
 
 /* The endpoint that is going to be used for the request, see urls.py and views.py */
 const persistUrlEndpoint = 'http://localhost:8000/urlsimilarity/'
@@ -30,11 +30,18 @@ export default function EnterURL () {
   const [sourceArticle, setSourceArticle] = useState(emptyArticle)
   const [articlesValues, setArticlesValues] = useState([])
   const [inputValue, setInputValue] = useState('')
-  const [showInputValue, setShowInputValue] = useState(false)
   const [loadingValue, setLoadingValue] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(false)
   const [errorPrompt, setErrorPrompt] = useState(false)
   const [errorVal, setErrorVal] = useState('')
+  const [displayAnswer, setDisplayAnswer] = useState('none')
+
+  /**
+   * Scroll to the list of similar articles after results are shown
+   */
+  const handleScroll = () => {
+    window.location.href += '#similar_articles'
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -88,10 +95,11 @@ export default function EnterURL () {
         setErrorVal('Our system has not found no match for your news article!')
         setErrorPrompt(true)
       } else {
+        handleScroll()
         setLoadingValue(false)
         setSourceArticle(new Article(inputValue, response.data.sourceTitle, null, response.data.sourceDate, 0))
         setArticlesValues(articles)
-        setShowInputValue(true)
+        setDisplayAnswer('block')
       }
     }
     setTimeout(() => {
@@ -103,7 +111,7 @@ export default function EnterURL () {
   }
 
   const handleInputChange = (event) => {
-    setShowInputValue(false)
+    setDisplayAnswer('none')
     setSourceArticle(emptyArticle)
     setArticlesValues([])
     setInputValue(event.target.value)
@@ -136,8 +144,7 @@ export default function EnterURL () {
       {/* Component that routes /checkURL to /checkText
       if user wants to input a text fragment, not an URL that will be crawled */}
       <ForwardToPage page='/checkText' prompt={prompt} />
-      {showInputValue && (
-        <CheckUrlDecision sourceArticle={sourceArticle} articles={articlesValues}/>)}
+      <CheckUrlDecision sourceArticle={sourceArticle} articles={articlesValues} display={displayAnswer} />
 
     </Container>
   )

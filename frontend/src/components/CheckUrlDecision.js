@@ -8,34 +8,34 @@ import ListURLs from './ListURLs'
  * @param decision the decision, i.e. whether the article was plagiarised
  * @returns {JSX.Element} the element that contains the decision
  */
-export default function CheckUrlDecision ({ sourceArticle, articles }) {
+export default function CheckUrlDecision ({ sourceArticle, articles, display }) {
   return (
-    <div>
+    <div id='similar_articles' style={{display: display}}>
       <div className='d-flex flex-column'>
         <div className='mb-3 mt-3'>
-            <div>
-              <div className='pe-3 title-wrapper'>
-                <h1>For your article</h1>
-                <a href={sourceArticle.url} target='_blank' rel='noopener noreferrer' style={{color:"#000000", fontWeight: 'bold'}}>
-                  {sourceArticle.title}
-                </a>
-                  {
-                      ((sourceArticle.date !== 'N/A' && sourceArticle.date !== null) &&  (
-                          <div>
-                              <div>
-                                  That was published on:
-                              </div>
-                              <div style={{fontWeight: 'bold'}}>
-                                  {sourceArticle.date}
-                              </div>
-                      </div>))
+          <div className='text-center'>
+            <div className='pe-3'>
+              <h2>For your article:</h2>
+              <a href={sourceArticle.url} target='_blank' rel='noopener noreferrer' style={{ color: '#000000', fontWeight: 'bold' }}>
+                {sourceArticle.title}
+              </a>
+              {
+                      ((sourceArticle.date !== 'N/A' && sourceArticle.date !== null) && (
+                        <div className='pt-2'>
+                          <h2>
+                            That was published on:
+                          </h2>
+                          <div style={{ fontWeight: 'bold' }}>
+                            {sourceArticle.date}
+                          </div>
+                        </div>))
                   }
-              </div>
             </div>
+          </div>
           {articles.length === 0
-            ? (<h2>We found no similar articles</h2>)
+            ? (<h2 className='pt-3'>We found no similar articles</h2>)
             : (
-              <div>
+              <div className='pt-3'>
                 <h2>We found the following similar articles:</h2>
                 <hr />
                 <ListURLs sourceUrl={sourceArticle.url} articles={articles} />

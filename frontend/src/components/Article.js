@@ -3,16 +3,16 @@
  * pages when searching for overlapping.
  */
 export default class Article {
-    /**
+  /**
      * Constructs a new instance of ArticleData.
      */
-    constructor(url, title, publisher, date, similarity) {
-        this.url = url
-        this.title = title
-        this.publisher = publisher
-        this.date = date
-        this.similarity = similarity
-    }
+  constructor (url, title, publisher, date, similarity) {
+    this.url = url
+    this.title = title
+    this.publisher = publisher
+    this.date = date
+    this.similarity = similarity
+  }
 
-    // Add any additional methods or functionality you need
+  // Add any additional methods or functionality you need
 }
