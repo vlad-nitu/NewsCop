@@ -33,7 +33,7 @@ const ProgressLineCustom = ({ progress }) => {
   ]
 
   return (
-    <div className='mb-3 mt-5' style={{ display: 'flex', justifyContent: 'center' }}>
+    <div className='my-4' style={{ display: 'flex', justifyContent: 'center' }}>
       <div style={{ width: '400px', position: 'relative' }}>
         <ProgressBar style={{ height: '20px' }}>
           {subProgress.map((sub, index) => (

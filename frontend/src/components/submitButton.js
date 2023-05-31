@@ -20,7 +20,7 @@ const SubmitButton = ({ disabled, onClickMethod }) => {
           variant='primary'
           data-testid='submit_button'
           type='submit'
-          className='mt-4 rounded'
+          className='mt-0 mt-lg-4 rounded'
           onClick={onClickMethod}
           disabled={disabled}
         >

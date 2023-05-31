@@ -13,7 +13,7 @@ const TextBox = ({ description, disabled, textAreaValue, setTextAreaValue, place
 
   return (
     <div>
-      <h2 className='description-paragraph text-center mb-3'>{description}</h2>
+      <h2 className='description-paragraph text-center mb-1 mb-md-3'>{description}</h2>
       <div className='d-flex flex-grow-1'>
         <div className='flex-grow-1'>
           <div className='custom-textarea-container'>

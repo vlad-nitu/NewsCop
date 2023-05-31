@@ -75,8 +75,8 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
         {/* The submit button */}
         <SubmitButton disabled={loading || (originalTextBoxDescription === '' || changedTextBoxDescription === '')} onClickMethod={handleSubmit} />
         {displaySimilarity && (
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'center', fontSize: '140%', marginTop: '60px', textAlign: 'center' }}>
+          <div className="mt-2 mt-md-4">
+            <div style={{ display: 'flex', justifyContent: 'center', fontSize: '140%', textAlign: 'center' }}>
               {getOutputPrompt()}
             </div>
             <ProgressLineCustom progress={similarity} />

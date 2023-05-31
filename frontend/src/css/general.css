@@ -205,6 +205,20 @@ a.custom_cursor:hover {
     font-size: 1.3rem;
 }
 
+.vh-mobile-custom {
+    height: 30vh;
+}
+
+@media (max-width: 768px) {
+    .vh-mobile-custom {
+        height: 10vh;
+    }
+
+    #plagiarismChecker {
+        font-size: xx-large
+    }
+}
+
 @media (max-width: 576px) {
     .description-paragraph-2 {
         font-size: 1.1rem;
@@ -213,20 +227,18 @@ a.custom_cursor:hover {
     #plagiarismChecker {
         font-size: xx-large
     }
-}
 
-.vh-mobile-custom {
-    height: 50vh;
-}
-
-@media (max-width: 768px) {
     .vh-mobile-custom {
-        height: 20vh;
+        height: 10vh;
     }
-}
 
-@media (max-width: 576px) {
-    .vh-mobile-custom {
-        height: 15vh;
+    @media (max-height: 700px) {
+        #plagiarismChecker {
+            font-size: x-large
+        }
+
+        .description-paragraph {
+            font-size: 0.9rem;
+        }
     }
 }
