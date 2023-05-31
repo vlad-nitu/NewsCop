@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import ListURLs from '../ListURLs'
 import { MemoryRouter } from 'react-router-dom'
-import { act } from 'react-dom/test-utils'
 
 describe('ListURLs', () => {
   test('renders one element list', () => {
@@ -89,10 +88,10 @@ describe('ListURLs', () => {
     expect(prompt).toBeInTheDocument()
   })
   test('renders two elements list on small device', () => {
-    act(() => {
-    // Set the desired screen width
-      window.innerWidth = 991
-      window.dispatchEvent(new Event('resize'))
+    Object.defineProperty(window, 'innerWidth', {
+      writable: true,
+      configurable: true,
+      value: 900
     })
     const articles = [{
       similarity: 0.75,
