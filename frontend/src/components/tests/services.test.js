@@ -2,7 +2,7 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router'
 import Services from '../services'
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom/extend-expect'
 
 const badTitles = ['Fake title']
 const titles = ['URL plagiarism checker', 'Text plagiarism checker', 'Text similarity checker']

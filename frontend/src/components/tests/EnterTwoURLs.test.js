@@ -3,7 +3,7 @@ import EnterTwoURLs from '../EnterTwoURLs'
 import { MemoryRouter } from 'react-router-dom'
 import { act } from 'react-dom/test-utils'
 import axios from 'axios'
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom/extend-expect'
 
 describe('EnterTwoURLs', () => {
   test('Renders the prompt text', () => {

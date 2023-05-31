@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import ProgressLineCustom from '../ProgressLineCustom'
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom/extend-expect'
 
 describe('ProgressLineCustom', () => {
   test('renders the progress bar with correct sub-progress colors', () => {

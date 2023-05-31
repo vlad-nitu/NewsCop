@@ -1,8 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import Home from '../Home'
-import '@testing-library/jest-dom/extend-expect';
-
+import '@testing-library/jest-dom/extend-expect'
 
 describe('Home', () => {
   test('renders the prompt text', () => {
