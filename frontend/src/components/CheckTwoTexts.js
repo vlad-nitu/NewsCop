@@ -18,7 +18,7 @@ import ProgressLineCustom from './ProgressLineCustom'
  * @param str2 the right string
  * @returns {*[]} an array of all common words with >= 4 characters
  */
-function findCommonWords (str1, str2) {
+export function findCommonWords (str1, str2) {
   str1 = str1.toLowerCase()
   str2 = str2.toLowerCase()
 
