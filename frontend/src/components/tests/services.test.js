@@ -18,7 +18,7 @@ test('get descriptions', () => {
   const description1 = screen.getByText(descriptions[0])
   const description2 = screen.getByText(descriptions[1])
   const description3 = screen.getByText(descriptions[2])
-  const button = screen.getByTestId('ButtonTest')
+  const button = screen.getByTestId('ButtonTest 1')
   expect(description1).toBeInTheDocument()
   expect(description2).toBeInTheDocument()
   expect(description3).toBeInTheDocument()

@@ -9,7 +9,6 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
 import ForwardToPage from './ForwardToPage'
-import CustomProgressBar from './ProgressBarCustom'
 import ProgressLineCustom from './ProgressLineCustom'
 import ResizeObserver from 'resize-observer-polyfill'
 
@@ -131,7 +130,6 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
           <div style={{ display: 'flex', justifyContent: 'center', fontSize: '140%', marginTop: '60px', textAlign: 'center' }}>
             {getOutputPrompt()}
           </div>
-          <CustomProgressBar similarity={similarity} />
           <ProgressLineCustom progress={similarity} />
         </div>
       )}

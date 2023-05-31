@@ -1,4 +1,3 @@
-import ProgressBarCustom from './ProgressBarCustom'
 import ProgressLineCustom from './ProgressLineCustom'
 import { ListGroup } from 'react-bootstrap'
 
@@ -16,7 +15,6 @@ export default function ListURLs ({ items, similarities }) {
         {items.map((item, index) => (
           <ListGroup.Item key={index}>
             <p>{item}</p>
-            <ProgressBarCustom similarity={similarities[index]} />
             <ProgressLineCustom progress={similarities[index]} />
           </ListGroup.Item>
         ))}

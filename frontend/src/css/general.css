@@ -164,7 +164,18 @@ a.custom_cursor:hover {
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
   border-top: 10px solid black; /* Pointer color */
+  left: var(--progress, 0);
 }
+
+.progress-label {
+  position: absolute;
+  top: -27px;
+  transform: translateX(-40%);
+  font-size: 12px;
+  font-weight: bold;
+  left: var(--progress, 0);
+}
+
 
 .RCP .indicator {
     display: flex;
@@ -180,4 +191,15 @@ a.custom_cursor:hover {
     font-weight: 100;
     color: #555;
     user-select: none;
+}
+
+.custom-services-card {
+    --bs-card-bg: none !important;
+    --bs-card-border-radius: 0 !important;
+    --bs-card-border-width: 0 !important;
+}
+
+.card-img-top.custom-services-card-image {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
 }
