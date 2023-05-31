@@ -69,7 +69,7 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
         resolve()
       }, 4000)
     )
-    setHighlightedText([''])
+    // setHighlightedText([''])
     setLoading(false)
   }
 
@@ -99,6 +99,7 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
                 highlighted={highlightedText}
                 isHighlighted
                 similarity={similarity}
+                setHighlightedText={setHighlightedText}
               />
             </div>
           </Col>
@@ -114,6 +115,7 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
                 highlighted={highlightedText}
                 isHighlighted
                 similarity={similarity}
+                setHighlightedText={setHighlightedText}
               />
             </div>
           </Col>

@@ -49,10 +49,10 @@ export const highlightWordsOnly = ({ autoEscape, caseSensitive, sanitize, search
  * @returns {JSX.Element} that is a TextBox where users can enter the news article
  */
 const TextBox = ({
-  description, disabled, textAreaValue, setTextAreaValue, placeholder, highlighted, isHighlighted, similarity
+  description, disabled, textAreaValue, setTextAreaValue, placeholder, highlighted, isHighlighted, similarity, setHighlightedText
 }) => {
   const handleTextAreaChange = (event) => {
-    if (setTextAreaValue != null) { setTextAreaValue(event.target.value) }
+    if (setTextAreaValue != null) { setTextAreaValue(event.target.value); setHighlightedText(['']) }
   }
 
   return (
