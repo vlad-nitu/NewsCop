@@ -30,7 +30,7 @@ describe('ForwardToPageTest', () => {
     // Check if Link component successfully routes the text to '/checkText'
     const linkElement = screen.getByRole('link', { name: prompt })
     expect(linkElement).toHaveAttribute('href', '/checkText')
-    expect(linkElement).toHaveClass('description-paragraph-2')
+    expect(linkElement).toHaveClass('description-paragraph-forward')
     expect(linkElement).toHaveStyle('color: black')
 
     /* Test the scrolling to top behaviour */
