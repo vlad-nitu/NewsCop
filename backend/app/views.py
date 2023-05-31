@@ -182,8 +182,16 @@ def text_similarity_checker(request):
         # Retrieve the text from the request body
         text = json.loads(request.body)["key"]
 
+        # verify if text is empty
+        if len(text) == 0:
+            return HttpResponseBadRequest("The article provided has no text.")
+
         # Compute fingerprints of the text given
         text_fingerprints = [fp['shingle_hash'] for fp in compute_fingerprint(text)]
+
+        # verify if it has more than 2000 hashes
+        if len(text_fingerprints) > 2000:
+            return HttpResponseBadRequest("The article given has exceeded the maximum size supported.")
 
         return find_similar_documents_by_fingerprints(text_fingerprints, '')
 
