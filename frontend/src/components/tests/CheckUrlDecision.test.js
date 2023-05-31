@@ -2,6 +2,8 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import CheckUrlDecision from '../CheckUrlDecision'
 
+const { describe } = require('jest')
+
 describe('CheckUrlDecision', () => {
   test('renders the component with correct parameters', () => {
     const items = ['Example Article']

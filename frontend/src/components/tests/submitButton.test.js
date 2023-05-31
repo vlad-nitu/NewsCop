@@ -4,6 +4,8 @@ import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
 import SubmitButton from '../submitButton'
 
+const { jest } = require('jest')
+
 describe('SubmitButton', () => {
   test('renders button with correct text', () => {
     render(<SubmitButton disabled={false} onClickMethod={() => {}} />)

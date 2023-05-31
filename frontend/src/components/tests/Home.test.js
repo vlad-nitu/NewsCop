@@ -2,6 +2,8 @@ import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import Home from '../Home'
 
+const { describe } = require('jest')
+
 describe('Home', () => {
   test('renders the prompt text', () => {
     const applicationName = 'Test test1'

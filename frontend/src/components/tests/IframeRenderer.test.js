@@ -1,6 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import IframeRenderer from '../IframeRenderer'
 
+const { jest, describe, it, beforeEach } = require('jest')
+
 describe('IframeRenderer', () => {
   const mockUrl = 'https://example.com'
   const mockId = 'iframe-id'

@@ -2,6 +2,8 @@ import { render, screen } from '@testing-library/react'
 import CheckTwoURLs from '../CheckTwoURLs'
 import { MemoryRouter } from 'react-router-dom'
 
+const { describe } = require('jest')
+
 describe('CheckTwoURLs', () => {
   test('renders the prompt text', () => {
     const prompt = '... or you may want to check the similarity of two text paragraphs'

@@ -3,6 +3,8 @@ import CheckTwoTexts, { compareTexts } from '../CheckTwoTexts'
 import { MemoryRouter } from 'react-router-dom'
 import axios from 'axios'
 
+const { jest, describe, it } = require('jest')
+
 jest.mock('axios')
 
 describe('CheckTwoTexts', () => {

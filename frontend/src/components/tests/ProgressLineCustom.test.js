@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import ProgressLineCustom from '../ProgressLineCustom'
 
+const { describe } = require('jest')
+
 describe('ProgressLineCustom', () => {
   test('renders the progress bar with correct sub-progress colors', () => {
     const progress = 60

@@ -1,6 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import SideBySideRender from '../SideBySideRender'
 
+const { jest, describe, it, beforeEach } = require('jest')
+
 describe('SideBySideRender', () => {
   const mockUrlLeft = 'https://example.com/left'
   const mockUrlRight = 'https://example.com/right'

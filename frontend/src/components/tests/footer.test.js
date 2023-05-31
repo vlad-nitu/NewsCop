@@ -3,6 +3,8 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import Footer from '../footer'
 import { MemoryRouter } from 'react-router'
 
+const { jest, describe } = require('jest')
+
 Object.defineProperty(window, 'scrollTo', {
   value: jest.fn(),
   writable: true

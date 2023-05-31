@@ -3,6 +3,8 @@ import EnterURL from '../EnterURL'
 import { MemoryRouter } from 'react-router'
 import axios from 'axios'
 
+const { jest, describe, afterEach } = require('jest')
+
 jest.mock('axios')
 axios.post.mockResolvedValue({ data: [{ similarity: 0.8, url: 'https://example.com' }] })
 

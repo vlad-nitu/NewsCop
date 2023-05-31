@@ -2,6 +2,8 @@ import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import CheckOneText from '../CheckOneText'
 import { MemoryRouter } from 'react-router-dom'
 
+const { describe, jest } = require('jest')
+
 describe('CheckOneText', () => {
   test('renders the prompt text', async () => {
     const prompt = 'Test test'

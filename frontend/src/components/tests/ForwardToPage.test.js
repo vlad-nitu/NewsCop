@@ -2,6 +2,8 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import ForwardToPage from '../ForwardToPage'
 
+const { jest, describe } = require('jest')
+
 // Mock `window.scrollTo() behavior
 Object.defineProperty(window, 'scrollTo', {
   value: jest.fn(),
