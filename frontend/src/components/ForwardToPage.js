@@ -19,7 +19,7 @@ export default function ForwardToPage ({ page, prompt }) {
         <Link
           to={page}
           onClick={handleClick}
-          className='description-paragraph-2 text-center'
+          className='description-paragraph-forward text-center'
           style={{ color: 'black' }}
         >
           {prompt}

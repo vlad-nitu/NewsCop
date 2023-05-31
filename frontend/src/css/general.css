@@ -201,7 +201,7 @@ a.custom_cursor:hover {
     border-top-right-radius: 0 !important;
 }
 
-.description-paragraph-2 {
+.description-paragraph-forward {
     font-size: 1.3rem;
 }
 
@@ -220,7 +220,7 @@ a.custom_cursor:hover {
 }
 
 @media (max-width: 576px) {
-    .description-paragraph-2 {
+    .description-paragraph-forward {
         font-size: 1.1rem;
     }
 
