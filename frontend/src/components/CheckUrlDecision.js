@@ -33,7 +33,7 @@ export default function CheckUrlDecision ({ sourceArticle, articles, display }) 
             </div>
           </div>
           {articles.length === 0
-            ? (<h2 className='pt-3'>We found no similar articles</h2>)
+            ? (<h2 className='pt-3 text-center'>We found no similar articles</h2>)
             : (
               <div className='pt-3'>
                 <h2>We found the following similar articles:</h2>
