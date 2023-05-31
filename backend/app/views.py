@@ -229,7 +229,8 @@ def url_similarity_checker(request):
             'similarArticles': response
         }
 
-        return HttpResponse(json.dumps(request_response, cls=ResponseUrlEncoder), status=200, content_type="application/json")
+        return HttpResponse(json.dumps(request_response, cls=ResponseUrlEncoder),
+                            status=200, content_type="application/json")
 
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")

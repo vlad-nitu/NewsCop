@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import SubmitButton from './submitButton'
 import { Container, Form } from 'react-bootstrap'
 import CheckUrlDecision from './CheckUrlDecision'
@@ -40,8 +40,19 @@ export default function EnterURL () {
    * Scroll to the list of similar articles after results are shown
    */
   const handleScroll = () => {
-    window.location.href += '#similar_articles'
+    const element = document.getElementById('similar_articles')
+    if (element.scrollIntoView)
+      element.scrollIntoView(true)
   }
+
+  /**
+   * Scroll to the list of results when the list of articles is updated
+   */
+  useEffect(() => {
+    // Runs on the first render
+    handleScroll()
+    // And any time any dependency value changes
+  }, [articlesValues])
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -95,7 +106,6 @@ export default function EnterURL () {
         setErrorVal('Our system has not found no match for your news article!')
         setErrorPrompt(true)
       } else {
-        handleScroll()
         setLoadingValue(false)
         setSourceArticle(new Article(inputValue, response.data.sourceTitle, null, response.data.sourceDate, 0))
         setArticlesValues(articles)
