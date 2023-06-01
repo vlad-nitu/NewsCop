@@ -35,12 +35,15 @@
     text-align: center
 }
 .description-paragraph {
+    font-size: 1.1rem;
+}
+
+.description-paragraph-main-page {
     font-size: 1.3rem;
 }
 
 .custom-container {
     width: 100%;
-
 }
 
 #divText {
@@ -106,7 +109,7 @@
 }
 
 @media (max-width: 450px) {
-    .title {
+    .title_main_page {
         width: 350px;
     }
 }
@@ -202,4 +205,34 @@ a.custom_cursor:hover {
 .card-img-top.custom-services-card-image {
     border-top-left-radius: 0 !important;
     border-top-right-radius: 0 !important;
+}
+
+.description-paragraph-forward {
+    font-size: 1.3rem;
+}
+
+@media (max-width: 768px) {
+    #plagiarismChecker {
+        font-size: xx-large
+    }
+}
+
+@media (max-width: 576px) {
+    .description-paragraph-forward {
+        font-size: 1.1rem;
+    }
+
+    #plagiarismChecker {
+        font-size: xx-large
+    }
+
+    @media (max-height: 700px) {
+        #plagiarismChecker {
+            font-size: x-large
+        }
+
+        .description-paragraph {
+            font-size: 0.9rem;
+        }
+    }
 }

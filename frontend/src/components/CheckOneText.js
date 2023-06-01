@@ -5,6 +5,7 @@ import TextBox from './TextBox'
 import SubmitButton from './submitButton'
 import React, { useState } from 'react'
 import ForwardToPage from './ForwardToPage'
+import { Container } from 'react-bootstrap'
 
 /**
  * The page for the check text for similarity page. It contains all the components that will be present in the page,
@@ -42,17 +43,19 @@ export default function CheckOneText ({ applicationName }) {
     <>
       {/* Navbar */}
       <NavbarComponent name={applicationName} mainPage={false} />
-      {/* The description text about news overlap */}
-      <BodyCheckGeneric description={description} secondDescription={secondDescription} />
-      <div style={{ height: '100%' }}>
-        {/* Text area */}
-        <TextBox description={textBoxDescription} disabled={loading} placeholder='Enter your article here' isHighlighted={false} highlighted='' />
-      </div>
-      {/* The submit button */}
-      <SubmitButton disabled={loading} onClickMethod={handleSubmit} />
+      <Container>
+        {/* The description text about news overlap */}
+        <BodyCheckGeneric description={description} secondDescription={secondDescription} />
+        <div style={{ height: '100%' }}>
+          {/* Text area */}
+          <TextBox description={textBoxDescription} disabled={loading} placeholder='Enter your article here' isHighlighted={false} highlighted='' />
+        </div>
+        {/* The submit button */}
+        <SubmitButton disabled={loading} onClickMethod={handleSubmit} />
 
-      {/* Routes the user to the check URL service */}
-      <ForwardToPage page='/checkURL' prompt='... or you may want to check a news article via an URL for similarity' />
+        {/* Routes the user to the check URL service */}
+        <ForwardToPage page='/checkURL' prompt='... or you may want to check a news article via an URL for similarity' />
+      </Container>
 
       {/* Footer */}
       <Footer />
