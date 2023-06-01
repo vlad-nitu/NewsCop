@@ -78,6 +78,12 @@
     height: 100%;
 }
 
+.text-box-container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
 #plagiarismChecker {
     color: #000;
     font-size: xxx-large;
@@ -257,4 +263,9 @@ a.custom_cursor:hover {
 .accordion-fixed-content {
     font-weight: bold;
     width: 50%;
+}
+
+.markercluster-map {
+    height: 400px;
+    width: 100%;
 }

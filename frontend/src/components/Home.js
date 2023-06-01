@@ -3,7 +3,7 @@ import MainPageBigImage from './mainPageBigImage'
 import Mission from './mission'
 import Services from './services'
 import Footer from './footer'
-import Map from './map'
+import MapCustom from './map'
 
 /**
  * This will be our main home page that we will first display. See also the main page from the Figma mock-up.
@@ -41,7 +41,7 @@ export default function Home ({ applicationName, applicationDescription, ourMiss
       <Services titles={titles} descriptions={descriptions} images={images} />
 
       {/* Map Section */}
-      <Map />
+      <MapCustom />
 
       {/* Footer */}
       <Footer />

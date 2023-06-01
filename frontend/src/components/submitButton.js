@@ -1,7 +1,5 @@
 import React from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
 import { Button } from 'react-bootstrap'
-import Container from 'react-bootstrap/Container'
 
 /**
  *  The submit button is designed for the submit text page, where the user needs to enter a news article.
