@@ -1,6 +1,7 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import ListURLs from '../ListURLs'
 import { MemoryRouter } from 'react-router-dom'
+import { act } from 'react-dom/test-utils'
 
 describe('ListURLs', () => {
   test('renders one element list', () => {
@@ -87,7 +88,7 @@ describe('ListURLs', () => {
     const prompt = screen.getByText('No articles were found')
     expect(prompt).toBeInTheDocument()
   })
-  test('renders two elements list on small device', () => {
+  test('renders two elements list on small device', async () => {
     Object.defineProperty(window, 'innerWidth', {
       writable: true,
       configurable: true,
@@ -127,5 +128,18 @@ describe('ListURLs', () => {
     expect(title1).toBeInTheDocument()
     expect(title2).toBeInTheDocument()
     expect(title3).toBeInTheDocument()
+
+    const compareButton = screen.getAllByText('Compare')[0]
+
+    act(() => {
+      fireEvent.click(compareButton)
+    })
+
+    await waitFor(() => {
+      const leftIframe = screen.getByTitle('left_article')
+      expect(leftIframe).toBeInTheDocument()
+      const rightIframe = screen.getByTitle('right_article')
+      expect(rightIframe).toBeInTheDocument()
+    })
   })
 })

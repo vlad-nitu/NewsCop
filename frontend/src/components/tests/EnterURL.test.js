@@ -78,6 +78,17 @@ describe('EnterURL', () => {
       expect(screen.getByText('2023-05-01')).toBeInTheDocument()
       expect(screen.getByText('2023-05-03')).toBeInTheDocument()
     })
+
+    const compareButton = screen.getAllByText('Compare')[0]
+
+    fireEvent.click(compareButton)
+
+    await waitFor(() => {
+      const leftIframe = screen.getByTitle('left_article')
+      expect(leftIframe).toBeInTheDocument()
+      const rightIframe = screen.getByTitle('right_article')
+      expect(rightIframe).toBeInTheDocument()
+    })
   })
   test('handles successful empty array submission', async () => {
     const theMockResponse = {
