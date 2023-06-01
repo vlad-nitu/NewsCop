@@ -56,8 +56,8 @@ export default function MainPageBigImage ({ description, projectName, imageUrl }
       <div id='background-image' style={backgroundStyle} />
       <div style={overlayStyle} />
       <div style={textStyle}>
-        <h2 className='title'>{projectName}</h2>
-        <p className='description-paragraph'>{description}</p>
+        <h2 className='title title_main_page'>{projectName}</h2>
+        <p className='description-paragraph-main-page'>{description}</p>
       </div>
     </div>
   )
