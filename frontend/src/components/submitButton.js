@@ -12,21 +12,19 @@ import Container from 'react-bootstrap/Container'
  */
 const SubmitButton = ({ disabled, onClickMethod }) => {
   return (
-    <Container className='pt-3'>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <Button
-          id='submitButton'
-          variant='primary'
-          data-testid='submit_button'
-          type='submit'
-          className='mt-4 rounded'
-          onClick={onClickMethod}
-          disabled={disabled}
-        >
-          Submit
-        </Button>
-      </div>
-    </Container>
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <Button
+        id='submitButton'
+        variant='primary'
+        data-testid='submit_button'
+        type='submit'
+        className='mt-0 mt-lg-2 rounded'
+        onClick={onClickMethod}
+        disabled={disabled}
+      >
+        Submit
+      </Button>
+    </div>
   )
 }
 
