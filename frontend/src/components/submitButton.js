@@ -11,13 +11,13 @@ import { Button } from 'react-bootstrap'
  */
 const SubmitButton = ({ disabled, onClickMethod }) => {
   return (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
+    <div className='mt-4' style={{ display: 'flex', justifyContent: 'center' }}>
       <Button
         id='submitButton'
         variant='primary'
         data-testid='submit_button'
         type='submit'
-        className='mt-0 mt-lg-2 rounded'
+        className='mt-2 mt-lg-2 button-custom-xl rounded'
         onClick={onClickMethod}
         disabled={disabled}
       >

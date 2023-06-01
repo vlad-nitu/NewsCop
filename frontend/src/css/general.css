@@ -4,21 +4,22 @@
 }
 
 #submitButton {
-    width: 22%;
-    height: 5.5vh;
-    max-height: 100px;
-    font-weight: bold; /* Change font weight to normal */
-    font-size: min(0.75vh + 0.75vw, 30px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 25%;
-    margin-right: 25%;
-    background: #2E837E;
-    border: 4px solid #2E837E;
-    border-radius: 5px; /* Increase border radius for a more rounded button */
-    box-sizing: border-box;
+    /* display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-left: 25% !important;
+    margin-right: 25% !important;  */
+    
+    font-weight: bold !important; /* Change font weight to normal */
+    background: #2E837E !important;
+    border: 4px solid #2E837E !important;
 }
+
+.button-custom-xl { 
+  padding: 8px 32px;
+  font-size: 20px;
+}
+
 #forArticle{
     color: #000;
     font-size: medium;
