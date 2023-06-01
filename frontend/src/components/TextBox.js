@@ -1,4 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
 import { RichTextarea } from 'rich-textarea'
 import Highlighter from 'react-highlight-words'
 
