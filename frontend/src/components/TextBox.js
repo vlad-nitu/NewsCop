@@ -65,12 +65,12 @@ const TextBox = ({
                 className='form-control custom-textarea' id='textBox' rows='4' onSelect={() => setHighlightedText([''])}
                 onChange={handleTextAreaChange} style={{ width: '100%', height: '100px' }}
               >
-                {(v) => (
+                {(text) => (
                   <Highlighter
                     highlightStyle={{ backgroundColor: 'rgba(46, 131, 126, 0.7)', color: 'rgba(255, 255, 255, 1)' }}
                     searchWords={highlighted}
                     autoEscape
-                    textToHighlight={v}
+                    textToHighlight={text}
                     data-testid='Highlighter'
                     findChunks={(options) => highlightWordsOnly({ ...options, similarity })}
                   />
