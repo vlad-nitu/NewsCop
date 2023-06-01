@@ -2,7 +2,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
 /**
  * Map Component.
- *
+ * It uses the component from: https://react-leaflet.js.org/
  * @return {JSX.Element} The Map component with a marker on a specific location.
  */
 export default function Map () {
