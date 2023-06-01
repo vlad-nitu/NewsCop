@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button } from 'react-bootstrap'
+
 /**
  *  The submit button is designed for the submit text page, where the user needs to enter a news article.
  *  After that the user can press the submit button to check whether that news article has been plagiarised.
