@@ -64,7 +64,7 @@ export default function ListURLs ({ sourceUrl, articles }) {
                       <div>{article.date}</div>
                     </div>
                     <div className='pe-3 my-auto ms-auto'>
-                      <ProgressLineCustom progress={article.similarity} />
+                      <ProgressLineCustom progress={article.similarity} hasOnlyOneProgressBar={false} />
                     </div>
                     <div className='ms-auto my-auto'>
                       {/* Render button */}
@@ -102,7 +102,7 @@ export default function ListURLs ({ sourceUrl, articles }) {
                         <div>{article.date}</div>
                       </div>
                       <div className='my-auto mb-3'>
-                        <ProgressLineCustom progress={article.similarity} />
+                        <ProgressLineCustom progress={article.similarity} hasOnlyOneProgressBar={false} />
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         {/* Render button */}
