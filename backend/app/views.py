@@ -14,7 +14,7 @@ from django.http import HttpResponse, HttpResponseBadRequest
 import json
 from django.views.decorators.csrf import csrf_exempt
 from .plagiarism_checker.fingerprinting import compute_fingerprint
-from .plagiarism_checker.crawling import crawl_url
+from .plagiarism_checker.crawling import crawl_url, extract_data_from_url
 from .plagiarism_checker.sanitizing import sanitizing_url
 from .plagiarism_checker.similarity import compute_similarity
 from .response_entities import ResponseUrlEntity, ResponseUrlEncoder
@@ -152,17 +152,17 @@ def url_similarity_checker(request):
     if request.method == 'POST':
 
         # Retrieve the URL from the request body
-        url = json.loads(request.body)["key"]
+        source_url = json.loads(request.body)["key"]
 
         # If the URL has not been persisted yet, persist it in the DB
-        if db.news_collection.find_one({'_id': url}) is None:
+        if db.news_collection.find_one({'_id': source_url}) is None:
             response = persist_url_view(request)
             if response.status_code == 400:  # Cannot persist URL as either it is too long, or it does not have text.
                 return response
 
         # Get the fingerprints for the current URL
-        submitted_url_fingerprints = db.news_collection.find_one({'_id': url})['fingerprints']
-        published_date = db.news_collection.find_one({'_id': url})['published_date']
+        submitted_url_fingerprints = db.news_collection.find_one({'_id': source_url})['fingerprints']
+        published_date = db.news_collection.find_one({'_id': source_url})['published_date']
 
         # Get the length of the fingerprints for later use when computing Jaccard Similarity
         visited = set()  # visited hashes
@@ -190,7 +190,7 @@ def url_similarity_checker(request):
         for document in matching_documents:
             urls = document["urls"]
             for x in urls:
-                if x != url:
+                if x != source_url:
                     visited.add(x)
                     string_list[x] += 1
 
@@ -216,9 +216,21 @@ def url_similarity_checker(request):
                     if computed_similarity > heap[0][0]:
                         heapq.heapreplace(heap, (computed_similarity, article_url))
 
-        response = [ResponseUrlEntity(url, similarity) for (similarity, url) in heapq.nlargest(len(heap), heap)]
+        response = []
+        for (similarity, url) in heapq.nlargest(len(heap), heap):
+            title, publisher, date = extract_data_from_url(url)
+            if title is not None and publisher is not None:
+                response.append(ResponseUrlEntity(url, similarity, title, publisher, date))
 
-        return HttpResponse(json.dumps(response, cls=ResponseUrlEncoder), status=200, content_type="application/json")
+        source_title, _, source_date = extract_data_from_url(source_url)
+        request_response = {
+            'sourceTitle': source_title,
+            'sourceDate': source_date,
+            'similarArticles': response
+        }
+
+        return HttpResponse(json.dumps(request_response, cls=ResponseUrlEncoder),
+                            status=200, content_type="application/json")
 
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")

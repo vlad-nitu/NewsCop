@@ -25,6 +25,29 @@
     margin-top: 50px;
 }
 
+/*
+    Display links in black and truncate them to one line
+ */
+.forLinks{
+    display: -webkit-box;
+    /* max-width: 100%; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+     color: #000000;
+    /* height: 75%; */
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.title-wrapper {
+    width: 350px;
+}
+
+.publisher-wrapper {
+    width: 150px;
+}
+
+
 #forErrorPrompt{
     color: #ba2121;
     font-size: xx-large;
@@ -235,6 +258,11 @@ a.custom_cursor:hover {
             font-size: 0.9rem;
         }
     }
+}
+
+.accordion-fixed-content {
+    font-weight: bold;
+    width: 50%;
 }
 
 .markercluster-map {
