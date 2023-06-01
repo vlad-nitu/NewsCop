@@ -14,8 +14,17 @@ import { useState, useEffect } from 'react'
 
 export default function ListURLs ({ sourceUrl, articles }) {
   const [showModal, setShowModal] = useState(false)
+  const [selectedArticleIndex, setSelectedArticleIndex] = useState(null)
+
+  /**
+ * Sets the state to show the modal and updates the selected article index.*
+ * @param  index - The index of the selected article.
+ */
+  const handleShowByIndex = (index) => {
+    setShowModal(true)
+    setSelectedArticleIndex(index)
+  }
   const handleClose = () => setShowModal(false)
-  const handleShow = () => setShowModal(true)
 
   const [width, setWidth] = useState(window.innerWidth)
 
@@ -68,9 +77,9 @@ export default function ListURLs ({ sourceUrl, articles }) {
                     </div>
                     <div className='ms-auto my-auto'>
                       {/* Render button */}
-                      <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={handleShow}>Compare</Button>
+                      <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={() => handleShowByIndex(index)}>Compare</Button>
                       {/* Render SideBySideRender component */}
-                      <SideBySideRender urlLeft={sourceUrl} urlRight={article.url} showModal={showModal} handleClose={handleClose} />
+                      {selectedArticleIndex === index && (<SideBySideRender urlLeft={sourceUrl} urlRight={article.url} showModal={showModal} handleClose={handleClose} />)}
                     </div>
                   </Container>
                 </Card>
@@ -106,9 +115,9 @@ export default function ListURLs ({ sourceUrl, articles }) {
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         {/* Render button */}
-                        <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={handleShow}>Compare</Button>
+                        <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={() => handleShowByIndex(index)}>Compare</Button>
                         {/* Render SideBySideRender component */}
-                        <SideBySideRender urlLeft={sourceUrl} urlRight={article.url} showModal={showModal} handleClose={handleClose} />
+                        {selectedArticleIndex === index && (<SideBySideRender urlLeft={sourceUrl} urlRight={article.url} showModal={showModal} handleClose={handleClose} />)}
                       </div>
                     </Accordion.Body>
                     {/* </Card> */}

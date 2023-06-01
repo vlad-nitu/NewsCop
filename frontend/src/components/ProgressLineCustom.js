@@ -13,7 +13,7 @@ import ProgressBar from 'react-bootstrap/ProgressBar'
  * @param {Range0To100} progress - The overall progress value.
  * @returns {JSX.Element} - The rendered progress bar component.
  */
-const ProgressLineCustom = ({ progress, hasOnlyOneProgressBar = true}) => {
+const ProgressLineCustom = ({ progress, hasOnlyOneProgressBar = true }) => {
   /**
    * An array of sub-progress bars that get stacked hoizontally.
    * Each object contains a value (percentage) and a color.
@@ -33,7 +33,7 @@ const ProgressLineCustom = ({ progress, hasOnlyOneProgressBar = true}) => {
   ]
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center' }} className={hasOnlyOneProgressBar ? 'mb-3 mt-5' : ''} >
+    <div style={{ display: 'flex', justifyContent: 'center' }} className={hasOnlyOneProgressBar ? 'mb-3 mt-5' : ''}>
       <div style={{ width: hasOnlyOneProgressBar ? '400px' : '100%', position: 'relative' }}>
         <ProgressBar style={{ height: '20px' }}>
           {subProgress.map((sub, index) => (
