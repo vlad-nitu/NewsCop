@@ -25,6 +25,9 @@
     margin-top: 50px;
 }
 
+/*
+    Display links in black and truncate them to one line
+ */
 .forLinks{
     display: -webkit-box;
     /* max-width: 100%; */
@@ -216,4 +219,9 @@ a.custom_cursor:hover {
 .card-img-top.custom-services-card-image {
     border-top-left-radius: 0 !important;
     border-top-right-radius: 0 !important;
+}
+
+.accordion-fixed-content {
+    font-weight: bold;
+    width: 50%;
 }

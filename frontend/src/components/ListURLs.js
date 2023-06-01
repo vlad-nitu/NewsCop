@@ -97,31 +97,28 @@ export default function ListURLs ({ sourceUrl, articles }) {
                         </a>
                       </div>
                     </Accordion.Header>
-                    {/* <Card style={{ marginBottom: '10px' }}> */}
                     <Accordion.Body>
-                      <div className='pe-3 mb-2' style={{ display: 'flex' }}>
-                        <div style={{ fontWeight: 'bold', width: '50%' }}>Publisher</div>
+                      <div className='pe-3 mb-2 d-flex'>
+                        <div className='accordion-fixed-content'>Publisher</div>
                         {/* {prefix the site with // if it does not already include it} */}
                         <a href={article.publisher.startsWith('http://') || article.publisher.startsWith('https://') ? article.publisher : `//${article.publisher}`} target='_blank' rel='noopener noreferrer' className='forLinks'>
                           {article.publisher}
                         </a>
                       </div>
-                      <div className='pe-3 mb-4' style={{ display: 'flex' }}>
-                        <div style={{ fontWeight: 'bold', width: '50%' }}>Published on</div>
+                      <div className='pe-3 mb-4 d-flex'>
+                        <div className='accordion-fixed-content'>Published on</div>
                         <div>{article.date}</div>
                       </div>
                       <div className='my-auto mb-3'>
                         <ProgressLineCustom progress={article.similarity} hasOnlyOneProgressBar={false} />
                       </div>
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <div className='d-flex flex-column align-items-center'>
                         {/* Render button */}
                         <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={() => handleShowByIndex(index)}>Compare</Button>
                         {/* Render SideBySideRender component */}
                         {selectedArticleIndex === index && (<SideBySideRender urlLeft={sourceUrl} urlRight={article.url} showModal={showModal} handleClose={handleClose} />)}
                       </div>
                     </Accordion.Body>
-                    {/* </Card> */}
-
                   </Accordion.Item>
                 ))}
               </Accordion>)}
