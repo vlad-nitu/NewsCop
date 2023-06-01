@@ -69,7 +69,7 @@ export default function CheckOneText ({ applicationName }) {
           // https://stackoverflow.com/questions/49967779/axios-handling-errors
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
-          setErrorVal('You entered an invalid URL!')
+          setErrorVal('You entered an invalid text!')
           setErrorPrompt(true)
           console.log(error.response.data)
           console.log(error.response.status)
@@ -106,7 +106,7 @@ export default function CheckOneText ({ applicationName }) {
       }
       if (articles.length === 0) {
         setLoadingValue(false)
-        setErrorVal('Our system has not found no match for your news article!')
+        setErrorVal('Our system has not found no match for the news content you provided!')
         setErrorPrompt(true)
       } else {
         setLoadingValue(false)

@@ -18,7 +18,7 @@ export default function OneArticleRender ({ url, showModal, handleClose }) {
       <ModalBody style={{ padding: 0 }}>
         <div title='wrapper' className='d-flex flex-column' style={{ height: '100%', backgroundColor: backgroundColor === '#000' ? '#000' : '#fff' }}>
           <Container fluid style={{ height: '100%' }}>
-            <IframeRenderer url={url} changeBackground={() => setBackgroundColor('#000')} />
+            <IframeRenderer url={url} id='one_article' changeBackground={() => setBackgroundColor('#000')} />
           </Container>
         </div>
       </ModalBody>
