@@ -230,3 +230,8 @@ a.custom_cursor:hover {
         }
     }
 }
+
+.markercluster-map {
+    height: 400px;
+    width: 100%;
+}

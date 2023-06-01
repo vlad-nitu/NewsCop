@@ -1,5 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
-
 /**
  * In the service of checking text from an article against plagiarism, we needed a text box to enter information,
  * and here that is solved.
