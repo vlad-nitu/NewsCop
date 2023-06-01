@@ -2,6 +2,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { Link } from 'react-router-dom'
+import { Card } from 'react-bootstrap'
 
 /**
  *
@@ -23,26 +24,11 @@ export default function Services ({ titles, descriptions, images }) {
     throw Error('Different lengths of the arrays.')
   }
 
-  // Styles for the images displayed for each service.
-  const imageStyle = {
-    width: '100%',
-    height: 'auto'
-  }
-
-  // Styles for the title of each service.
-  const textStyle = {
-    color: 'white',
-    fontWeight: 'bolder'
-  }
-
-  // Styles for the description of each service.
-  const textStyleParagraph = {
-    color: 'white'
-  }
-
   const handleClick = () => {
     window.scrollTo(0, 0)
   }
+
+  const endpoints = ['/checkURL', '/checkText', '/compareTexts', '/compareURLs']
 
   // Renders a JSX element with information about services.
   return (
@@ -51,50 +37,21 @@ export default function Services ({ titles, descriptions, images }) {
         <h2 className='title'>Services</h2>
         <Row className='pt-4'>
           {titles.map((title, index) => (
-            <Col key={index} xs={12} sm={6} md={3} className='mb-3'>
-              <div className='d-flex flex-column'>
-                <img style={imageStyle} src={images[index]} alt={`Service ${index + 1}`} className='pb-4' />
-                <h3 style={textStyle}>{title}</h3>
-                <p style={textStyleParagraph}>{descriptions[index]}</p>
-                {index === 0 && (
-                  <Col>
-                    <Link to='/checkURL'>
-                      <button type='button' onClick={handleClick} className='btn btn-outline-warning'>
-                        Try it
-                      </button>
-                    </Link>
-                  </Col>
-
-                )}
-                {index === 1 && (
-                  <Col>
-                    <Link to='/checkText'>
-                      <button type='button' data-testid='ButtonTest' onClick={handleClick} className='btn btn-outline-warning'>
-                        Try it
-                      </button>
-                    </Link>
-                  </Col>
-                )}
-                {index === 2 && (
-                  <Col>
-
-                    <Link to='/compareTexts'>
-                      <button type='button' onClick={handleClick} className='btn btn-outline-warning'>
-                        Try it
-                      </button>
-                    </Link>
-                  </Col>
-                )}
-                {index === 3 && (
-                  <Col>
-                    <Link to='/compareURLs'>
-                      <button type='button' onClick={handleClick} className='btn btn-outline-warning'>
-                        Try it
-                      </button>
-                    </Link>
-                  </Col>
-                )}
-              </div>
+            <Col key={index} xs={12} sm={6} md={6} lg={3} className='mb-3 d-flex align-items-stretch'>
+              <Card className='custom-services-card'>
+                <Card.Img alt={`Service ${index + 1}`} className='custom-services-card-image' variant='top' src={images[index]} />
+                <Card.Body className='d-flex flex-column px-0'>
+                  <Card.Title className='text-white font-weight-bold'>{title}</Card.Title>
+                  <Card.Text className='mb-4 text-light'>
+                    {descriptions[index]}
+                  </Card.Text>
+                  <Link to={endpoints[index]} data-testid={`ButtonTest ${index + 1}`} className='mt-auto align-self-start'>
+                    <button type='button' onClick={handleClick} className='btn btn-outline-warning'>
+                      Try it
+                    </button>
+                  </Link>
+                </Card.Body>
+              </Card>
             </Col>
           ))}
         </Row>

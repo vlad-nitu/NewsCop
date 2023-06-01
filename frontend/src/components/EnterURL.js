@@ -1,10 +1,12 @@
 import axios from 'axios'
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import SubmitButton from './submitButton'
 import { Container, Form } from 'react-bootstrap'
 import CheckUrlDecision from './CheckUrlDecision'
 import ErrorPrompt from './ErrorPrompt'
 import LoadingCircle from './LoadingCircle'
+import Article from './Article'
+import ForwardToPage from './ForwardToPage'
 
 /* The endpoint that is going to be used for the request, see urls.py and views.py */
 const persistUrlEndpoint = 'http://localhost:8000/urlsimilarity/'
@@ -22,15 +24,34 @@ const persistUrlEndpoint = 'http://localhost:8000/urlsimilarity/'
  */
 export default function EnterURL () {
   const PreInputArticlePrompt = "Article's URL"
+  const prompt = '... or you may want to check a text paragraph for similarity against our stored articles'
+  const emptyArticle = new Article(null, null, null, null, 0)
 
-  const [titleValues, setTitleValues] = useState([])
-  const [similarityValues, setSimilarityValues] = useState([])
+  const [sourceArticle, setSourceArticle] = useState(emptyArticle)
+  const [articlesValues, setArticlesValues] = useState([])
   const [inputValue, setInputValue] = useState('')
-  const [showInputValue, setShowInputValue] = useState(false)
   const [loadingValue, setLoadingValue] = useState(false)
   const [buttonDisabled, setButtonDisabled] = useState(false)
   const [errorPrompt, setErrorPrompt] = useState(false)
   const [errorVal, setErrorVal] = useState('')
+  const [displayAnswer, setDisplayAnswer] = useState('none')
+
+  /**
+   * Scroll to the list of similar articles after results are shown
+   */
+  const handleScroll = () => {
+    const element = document.getElementById('similar_articles')
+    if (element.scrollIntoView) { element.scrollIntoView(true) }
+  }
+
+  /**
+   * Scroll to the list of results when the list of articles is updated
+   */
+  useEffect(() => {
+    // Runs on the first render
+    handleScroll()
+    // And any time any dependency value changes
+  }, [articlesValues])
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -68,14 +89,16 @@ export default function EnterURL () {
     if (response != null) {
       console.log(response.data)
       const articles = []
-      const similarities = []
-      for (let i = 0; i < response.data.length; ++i) {
-        const item = response.data[i]
+      for (let i = 0; i < response.data.similarArticles.length; ++i) {
+        const item = response.data.similarArticles[i]
         const similarity = Math.round(100 * item.similarity)
         if (similarity === 0) { continue }
+        const title = item.title
+        const publisher = item.publisher
+        const date = item.date
         const url = item.url
-        articles.push('Your article has a maximum overlap of ' + similarity + '% with ' + url)
-        similarities.push(similarity)
+
+        articles.push(new Article(url, title, publisher, date, similarity))
       }
       if (articles.length === 0) {
         setLoadingValue(false)
@@ -83,24 +106,23 @@ export default function EnterURL () {
         setErrorPrompt(true)
       } else {
         setLoadingValue(false)
-        setSimilarityValues(similarities)
-        setTitleValues(articles)
-        setShowInputValue(true)
+        setSourceArticle(new Article(inputValue, response.data.sourceTitle, null, response.data.sourceDate, 0))
+        setArticlesValues(articles)
+        setDisplayAnswer('block')
       }
     }
     setTimeout(() => {
       setButtonDisabled(false)
       setLoadingValue(false)
-      setInputValue('')
       setErrorVal('')
       setErrorPrompt(false)
     }, 10000)
   }
 
   const handleInputChange = (event) => {
-    setShowInputValue(false)
-    setTitleValues([''])
-    setSimilarityValues([])
+    setDisplayAnswer('none')
+    setSourceArticle(emptyArticle)
+    setArticlesValues([])
     setInputValue(event.target.value)
     console.log(event.target.value)
   }
@@ -128,8 +150,10 @@ export default function EnterURL () {
       </div>
       {loadingValue && (<LoadingCircle />)}
       {errorPrompt && (<ErrorPrompt prompt={errorVal} />)}
-      {showInputValue && (
-        <CheckUrlDecision items={titleValues} similarities={similarityValues} />)}
+      {/* Component that routes /checkURL to /checkText
+      if user wants to input a text fragment, not an URL that will be crawled */}
+      <ForwardToPage page='/checkText' prompt={prompt} />
+      <CheckUrlDecision sourceArticle={sourceArticle} articles={articlesValues} display={displayAnswer} />
 
     </Container>
   )

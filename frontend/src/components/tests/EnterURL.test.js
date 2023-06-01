@@ -28,26 +28,39 @@ describe('EnterURL', () => {
   })
   test('handles successful form submission positive', async () => {
     const mockedResponse = {
-      data: [{
-        similarity: 0.75,
-        url: 'https://example1.com',
-        date: '2023-05-01'
-      }, {
-        similarity: 0,
-        url: 'https://example2.com',
-        date: '2023-05-01'
-      }, {
-        similarity: 0.3,
-        url: 'https://example3.com',
-        date: '2023-05-01'
-      }]
+      data: {
+        similarArticles: [{
+          similarity: 0.75,
+          title: 'title1',
+          url: 'https://example1.com',
+          publisher: 'publisher1',
+          date: '2023-05-01'
+        }, {
+          similarity: 0,
+          title: 'title2',
+          url: 'https://example2.com',
+          publisher: 'publisher2',
+          date: '2023-05-02'
+        }, {
+          similarity: 0.3,
+          title: 'title3',
+          url: 'https://example3.com',
+          publisher: 'publisher3',
+          date: '2023-05-03'
+        }],
+        sourceTitle: 'Source title',
+        sourceData: '2023-10-15'
+      }
     }
     axios.post.mockResolvedValueOnce(mockedResponse)
     // jest.useFakeTimers() /* Mock the timer */
 
     const PreInputArticlePrompt = "Article's URL"
-    render(<EnterURL />)
-
+    render(
+      <MemoryRouter>
+        <EnterURL />
+      </MemoryRouter>
+    )
     const input = screen.getByPlaceholderText(PreInputArticlePrompt)
     const submitButton = screen.getByText('Submit')
     expect(submitButton).toBeInTheDocument()
@@ -60,22 +73,38 @@ describe('EnterURL', () => {
     expect(screen.getByRole('status')).toBeInTheDocument()
     await waitFor(() => {
       expect(screen.queryByTestId('loading-circle')).not.toBeInTheDocument()
-      expect(screen.getByText('Your article has a maximum overlap of 75% with https://example1.com')).toBeInTheDocument()
-      expect(screen.getByText('Your article has a maximum overlap of 30% with https://example3.com')).toBeInTheDocument()
+      expect(screen.getByText('title1')).toBeInTheDocument()
+      expect(screen.getByText('title3')).toBeInTheDocument()
+      expect(screen.getByText('2023-05-01')).toBeInTheDocument()
+      expect(screen.getByText('2023-05-03')).toBeInTheDocument()
+    })
+
+    const compareButton = screen.getAllByText('Compare')[0]
+
+    fireEvent.click(compareButton)
+
+    await waitFor(() => {
+      const leftIframe = screen.getByTitle('left_article')
+      expect(leftIframe).toBeInTheDocument()
+      const rightIframe = screen.getByTitle('right_article')
+      expect(rightIframe).toBeInTheDocument()
     })
   })
-  test('handles successful form submission negative', async () => {
+  test('handles successful empty array submission', async () => {
     const theMockResponse = {
       data: {
-        similarity: -1,
-        url: 'https://example.com',
-        date: '2023-05-01'
+        similarArticles: [],
+        sourceTitle: 'Source title',
+        sourceData: '2023-10-15'
       }
     }
     axios.post.mockResolvedValueOnce(theMockResponse)
 
-    render(<EnterURL />)
-
+    render(
+      <MemoryRouter>
+        <EnterURL />
+      </MemoryRouter>
+    )
     const input = screen.getByPlaceholderText('Article\'s URL')
     const submitButton = screen.getByText('Submit')
     fireEvent.change(input, { target: { value: 'article' } })
@@ -97,8 +126,11 @@ describe('EnterURL', () => {
 
     axios.post.mockRejectedValueOnce(mockedErrorResponse)
 
-    render(<EnterURL />)
-
+    render(
+      <MemoryRouter>
+        <EnterURL />
+      </MemoryRouter>
+    )
     const input = screen.getByPlaceholderText("Article's URL")
     const submitButton = screen.getByText('Submit')
 
@@ -122,7 +154,11 @@ describe('EnterURL', () => {
 
     axios.post.mockRejectedValueOnce(mockedError)
 
-    render(<EnterURL />)
+    render(
+      <MemoryRouter>
+        <EnterURL />
+      </MemoryRouter>
+    )
 
     const input = screen.getByPlaceholderText("Article's URL")
     const submitButton = screen.getByText('Submit')
@@ -143,8 +179,11 @@ describe('EnterURL', () => {
     const mockedError = new Error('Request failed')
 
     axios.post.mockRejectedValue(mockedError)
-    render(<EnterURL />)
-
+    render(
+      <MemoryRouter>
+        <EnterURL />
+      </MemoryRouter>
+    )
     const inputForm = screen.getByPlaceholderText("Article's URL")
     const submitButton = screen.getByText('Submit')
     fireEvent.change(inputForm, { target: { value: 'example' } })

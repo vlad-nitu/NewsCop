@@ -1,8 +1,8 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import EnterTwoURLs from '../EnterTwoURLs'
 import { MemoryRouter } from 'react-router-dom'
-import axios from 'axios'
 import { act } from 'react-dom/test-utils'
+import axios from 'axios'
 
 describe('EnterTwoURLs', () => {
   test('Renders the prompt text', () => {

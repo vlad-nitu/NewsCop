@@ -1,9 +1,14 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
-import CheckTwoTexts, { compareTexts } from '../CheckTwoTexts'
+import CheckTwoTexts, { compareTexts, findCommonWords } from '../CheckTwoTexts'
 import { MemoryRouter } from 'react-router-dom'
 import axios from 'axios'
+import ResizeObserver from 'resize-observer-polyfill'
 
 jest.mock('axios')
+
+if (!window.ResizeObserver) {
+  window.ResizeObserver = ResizeObserver
+}
 
 describe('CheckTwoTexts', () => {
   test('renders the prompt text', async () => {
@@ -85,6 +90,18 @@ describe('CheckTwoTexts', () => {
       const originalText = 'This is the original text'
       const compareText = 'This is the compare text'
       await expect(compareTexts(originalText, compareText)).rejects.toThrow('Failed to compute similarity')
+    })
+  })
+
+  describe('findCommonWordsTest', () => {
+    it('should add a new word to CommonWords', async () => {
+      const str1 = 'mama are mere si tata 1 leu'
+      const str2 = 'mama are tata si mer 1 leu'
+
+      const commonWordsObtained = findCommonWords(str1, str2)
+      const commonWordsExpected = ['mama', 'tata']
+
+      expect(commonWordsExpected).toEqual(commonWordsObtained)
     })
   })
 })

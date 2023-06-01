@@ -25,6 +25,29 @@
     margin-top: 50px;
 }
 
+/*
+    Display links in black and truncate them to one line
+ */
+.forLinks{
+    display: -webkit-box;
+    /* max-width: 100%; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+     color: #000000;
+    /* height: 75%; */
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.title-wrapper {
+    width: 350px;
+}
+
+.publisher-wrapper {
+    width: 150px;
+}
+
+
 #forErrorPrompt{
     color: #ba2121;
     font-size: xx-large;
@@ -35,12 +58,15 @@
     text-align: center
 }
 .description-paragraph {
+    font-size: 1.1rem;
+}
+
+.description-paragraph-main-page {
     font-size: 1.3rem;
 }
 
 .custom-container {
     width: 100%;
-
 }
 
 #divText {
@@ -50,6 +76,12 @@
 
 .custom-textarea-container {
     height: 100%;
+}
+
+.text-box-container {
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 
 #plagiarismChecker {
@@ -100,7 +132,7 @@
 }
 
 @media (max-width: 450px) {
-    .title {
+    .title_main_page {
         width: 350px;
     }
 }
@@ -185,4 +217,55 @@ a.custom_cursor:hover {
     font-weight: 100;
     color: #555;
     user-select: none;
+}
+
+.custom-services-card {
+    --bs-card-bg: none !important;
+    --bs-card-border-radius: 0 !important;
+    --bs-card-border-width: 0 !important;
+}
+
+.card-img-top.custom-services-card-image {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+.description-paragraph-forward {
+    font-size: 1.3rem;
+}
+
+@media (max-width: 768px) {
+    #plagiarismChecker {
+        font-size: xx-large
+    }
+}
+
+@media (max-width: 576px) {
+    .description-paragraph-forward {
+        font-size: 1.1rem;
+    }
+
+    #plagiarismChecker {
+        font-size: xx-large
+    }
+
+    @media (max-height: 700px) {
+        #plagiarismChecker {
+            font-size: x-large
+        }
+
+        .description-paragraph {
+            font-size: 0.9rem;
+        }
+    }
+}
+
+.accordion-fixed-content {
+    font-weight: bold;
+    width: 50%;
+}
+
+.markercluster-map {
+    height: 400px;
+    width: 100%;
 }
