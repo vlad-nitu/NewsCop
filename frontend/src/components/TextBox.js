@@ -57,35 +57,35 @@ const TextBox = ({
     <div>
       <h2 className='description-paragraph text-center mb-1 mb-md-3'>{description}</h2>
       <div className='d-flex flex-grow-1'>
-       <div className='flex-grow-1'>
-        <div className='custom-textarea-container'>
-          {isHighlighted && (
-            <RichTextarea
-              placeholder={placeholder} value={textAreaValue} disabled={disabled}
-              className='form-control custom-textarea' id='textBox' rows='4' onSelect={() => setHighlightedText([''])}
-              onChange={handleTextAreaChange} style={{ width: '100%', height: '100px' }}
-            >
-              {(v) => (
-                <Highlighter
-                  highlightStyle={{ backgroundColor: 'rgba(46, 131, 126, 0.7)', color: 'rgba(255, 255, 255, 1)' }}
-                  searchWords={highlighted}
-                  autoEscape
-                  textToHighlight={v}
-                  data-testid='Highlighter'
-                  findChunks={(options) => highlightWordsOnly({ ...options, similarity })}
-                />
-              )}
-            </RichTextarea>
-          )}
-          {!isHighlighted && (
-            <textarea
-              placeholder={placeholder} value={textAreaValue} disabled={disabled}
-              className='form-control custom-textarea vh-mobile-custom' id='textBox' rows='4'
-              onChange={handleTextAreaChange} style={{ width: '100%' }}
-            />
-          )}
+        <div className='flex-grow-1'>
+          <div className='custom-textarea-container'>
+            {isHighlighted && (
+              <RichTextarea
+                placeholder={placeholder} value={textAreaValue} disabled={disabled}
+                className='form-control custom-textarea' id='textBox' rows='4' onSelect={() => setHighlightedText([''])}
+                onChange={handleTextAreaChange} style={{ width: '100%', height: '100px' }}
+              >
+                {(v) => (
+                  <Highlighter
+                    highlightStyle={{ backgroundColor: 'rgba(46, 131, 126, 0.7)', color: 'rgba(255, 255, 255, 1)' }}
+                    searchWords={highlighted}
+                    autoEscape
+                    textToHighlight={v}
+                    data-testid='Highlighter'
+                    findChunks={(options) => highlightWordsOnly({ ...options, similarity })}
+                  />
+                )}
+              </RichTextarea>
+            )}
+            {!isHighlighted && (
+              <textarea
+                placeholder={placeholder} value={textAreaValue} disabled={disabled}
+                className='form-control custom-textarea vh-mobile-custom' id='textBox' rows='4'
+                onChange={handleTextAreaChange} style={{ width: '100%' }}
+              />
+            )}
+          </div>
         </div>
-      </div>
       </div>
     </div>
   )

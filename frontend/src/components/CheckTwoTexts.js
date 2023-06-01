@@ -89,32 +89,32 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
         <BodyCheckGeneric description={description} secondDescription={secondDescription} />
         <Row>
           <Col md={6}> {/* Center and resize TextBox */}
-              {/* Text area */}
-              <TextBox
-                description='Enter the original content'
-                disabled={loading}
-                textAreaValue={originalTextBoxDescription}
-                setTextAreaValue={setOriginalTextBoxDescription}
-                placeholder={firstPlaceholder}
-                highlighted={highlightedText}
-                isHighlighted
-                similarity={similarity}
-                setHighlightedText={setHighlightedText}
-              />
+            {/* Text area */}
+            <TextBox
+              description='Enter the original content'
+              disabled={loading}
+              textAreaValue={originalTextBoxDescription}
+              setTextAreaValue={setOriginalTextBoxDescription}
+              placeholder={firstPlaceholder}
+              highlighted={highlightedText}
+              isHighlighted
+              similarity={similarity}
+              setHighlightedText={setHighlightedText}
+            />
           </Col>
           <Col md={6} className='pt-3 pt-md-0'> {/* Center and resize TextBox */}
-              {/* Text area */}
-              <TextBox
-                description='Enter the changed content'
-                disabled={loading}
-                textAreaValue={changedTextBoxDescription}
-                setTextAreaValue={setChangedTextBoxDescription}
-                placeholder={secondPlaceholder}
-                highlighted={highlightedText}
-                isHighlighted
-                similarity={similarity}
-                setHighlightedText={setHighlightedText}
-              />
+            {/* Text area */}
+            <TextBox
+              description='Enter the changed content'
+              disabled={loading}
+              textAreaValue={changedTextBoxDescription}
+              setTextAreaValue={setChangedTextBoxDescription}
+              placeholder={secondPlaceholder}
+              highlighted={highlightedText}
+              isHighlighted
+              similarity={similarity}
+              setHighlightedText={setHighlightedText}
+            />
           </Col>
         </Row>
         {/* The submit button */}
