@@ -8,14 +8,14 @@ import ListURLs from './ListURLs'
  * @param decision the decision, i.e. whether the article was plagiarised
  * @returns {JSX.Element} the element that contains the decision
  */
-export default function CheckUrlDecision ({ sourceArticle, articles, display }) {
+export default function CheckUrlDecision ({ type, sourceArticle, articles, display }) {
   return (
     <div id='similar_articles' style={{ display: display }}>
       <div className='d-flex flex-column'>
         <div className='mb-3 mt-3'>
           <div className='text-center'>
             <div className='pe-3'>
-              <h2>For your article:</h2>
+              <h2>For your {type}:</h2>
               <a href={sourceArticle.url} target='_blank' rel='noopener noreferrer' style={{ color: '#000000', fontWeight: 'bold' }}>
                 {sourceArticle.title}
               </a>
@@ -38,7 +38,7 @@ export default function CheckUrlDecision ({ sourceArticle, articles, display }) 
               <div className='pt-3'>
                 <h2>We found the following similar articles:</h2>
                 <hr />
-                <ListURLs sourceUrl={sourceArticle.url} articles={articles} />
+                <ListURLs type={type} sourceUrl={sourceArticle.url} articles={articles} />
               </div>)}
 
         </div>

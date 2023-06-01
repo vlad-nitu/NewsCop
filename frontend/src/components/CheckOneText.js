@@ -3,14 +3,14 @@ import Footer from './footer'
 import BodyCheckGeneric from './BodyCheckGeneric'
 import TextBox from './TextBox'
 import SubmitButton from './submitButton'
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import ForwardToPage from './ForwardToPage'
 import { Container } from 'react-bootstrap'
-import Article from "./Article";
-import LoadingCircle from "./LoadingCircle";
-import ErrorPrompt from "./ErrorPrompt";
-import CheckUrlDecision from "./CheckUrlDecision";
-import axios from "axios";
+import Article from './Article'
+import LoadingCircle from './LoadingCircle'
+import ErrorPrompt from './ErrorPrompt'
+import CheckUrlDecision from './CheckUrlDecision'
+import axios from 'axios'
 
 const checkTextEndpoint = 'http://localhost:8000/checkText/'
 
@@ -24,9 +24,6 @@ export default function CheckOneText ({ applicationName }) {
   const textBoxDescription = 'Enter the article’s content to check for overlap'
   const description = 'News overlap checker'
   const secondDescription = 'Our tool detects overlap in your news article.'
-
-
-  const [loading, setLoading] = useState(false)
   const emptyArticle = new Article(null, null, null, null, 0)
 
   const [sourceArticle, setSourceArticle] = useState(emptyArticle)
@@ -55,6 +52,11 @@ export default function CheckOneText ({ applicationName }) {
     // And any time any dependency value changes
   }, [articlesValues])
 
+  /**
+   * Handle submit function which is called when clicking on the submit button
+   * @param event the event of clicking on the submit button
+   * @returns {Promise<void>} replicating all the desired behavior on frontend components
+   */
   const handleSubmit = async (event) => {
     event.preventDefault()
     setButtonDisabled(true)
@@ -121,14 +123,6 @@ export default function CheckOneText ({ applicationName }) {
     }, 10000)
   }
 
-  const handleInputChange = (event) => {
-    setDisplayAnswer('none')
-    setSourceArticle(emptyArticle)
-    setArticlesValues([])
-    setInputValue(event.target.value)
-    console.log(event.target.value)
-  }
-
   return (
     <>
       {/* Navbar */}
@@ -138,16 +132,24 @@ export default function CheckOneText ({ applicationName }) {
         <BodyCheckGeneric description={description} secondDescription={secondDescription} />
         <div style={{ height: '100%' }}>
           {/* Text area */}
-          <TextBox description={textBoxDescription} value={inputValue} disabled={buttonDisabled} onChange={handleInputChange} placeholder='Enter your article here' isHighlighted={false} highlighted='' />
+          <TextBox
+            description={textBoxDescription}
+            value={inputValue}
+            disabled={buttonDisabled}
+            textAreaValue={inputValue}
+            setTextAreaValue={setInputValue}
+            placeholder='Enter your article here'
+            isHighlighted={false} highlighted=''
+          />
         </div>
         {/* The submit button */}
-        <SubmitButton disabled={buttonDisabled || !inputValue} onClickMethod={handleSubmit} />
+        <SubmitButton onClickMethod={handleSubmit} disabled={buttonDisabled || !inputValue} />
         {loadingValue && (<LoadingCircle />)}
         {errorPrompt && (<ErrorPrompt prompt={errorVal} />)}
 
         {/* Routes the user to the check URL service */}
         <ForwardToPage page='/checkURL' prompt='... or you may want to check a news article via an URL for similarity' />
-        <CheckUrlDecision sourceArticle={sourceArticle} articles={articlesValues} display={displayAnswer} />
+        <CheckUrlDecision type={'text'} sourceArticle={sourceArticle} articles={articlesValues} display={displayAnswer} />
       </Container>
 
       {/* Footer */}
