@@ -149,7 +149,7 @@ export default function CheckOneText ({ applicationName }) {
 
         {/* Routes the user to the check URL service */}
         <ForwardToPage page='/checkURL' prompt='... or you may want to check a news article via an URL for similarity' />
-        <CheckUrlDecision type={'text'} sourceArticle={sourceArticle} articles={articlesValues} display={displayAnswer} />
+        <CheckUrlDecision type='text' sourceArticle={sourceArticle} articles={articlesValues} display={displayAnswer} />
       </Container>
 
       {/* Footer */}

@@ -153,7 +153,7 @@ export default function EnterURL () {
       {/* Component that routes /checkURL to /checkText
       if user wants to input a text fragment, not an URL that will be crawled */}
       <ForwardToPage page='/checkText' prompt={prompt} />
-      <CheckUrlDecision type={'article'} sourceArticle={sourceArticle} articles={articlesValues} display={displayAnswer} />
+      <CheckUrlDecision type='article' sourceArticle={sourceArticle} articles={articlesValues} display={displayAnswer} />
 
     </Container>
   )
