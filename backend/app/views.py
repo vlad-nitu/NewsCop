@@ -162,9 +162,8 @@ def url_similarity_checker(request):
 
         # Get the fingerprints for the current URL
         submitted_url_fingerprints = db.news_collection.find_one({'_id': source_url})['fingerprints']
-        published_date = db.news_collection.find_one({'_id': source_url})['published_date']
 
-        return find_similar_documents_by_fingerprints(submitted_url_fingerprints, url)
+        return find_similar_documents_by_fingerprints(submitted_url_fingerprints, source_url)
 
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
@@ -180,13 +179,8 @@ def text_similarity_checker(request):
     #  Ensure the request method is POST
     if request.method == 'POST':
 
-        string_list = defaultdict(int)
-        for document in matching_documents:
-            urls = document["urls"]
-            for x in urls:
-                if x != source_url:
-                    visited.add(x)
-                    string_list[x] += 1
+        # Retrieve the text from the request body
+        text = json.loads(request.body)["key"]
 
         # verify if text is empty
         if len(text) == 0:
@@ -200,22 +194,6 @@ def text_similarity_checker(request):
             return HttpResponseBadRequest("The article given has exceeded the maximum size supported.")
 
         return find_similar_documents_by_fingerprints(text_fingerprints, '')
-
-        response = []
-        for (similarity, url) in heapq.nlargest(len(heap), heap):
-            title, publisher, date = extract_data_from_url(url)
-            if title is not None and publisher is not None:
-                response.append(ResponseUrlEntity(url, similarity, title, publisher, date))
-
-        source_title, _, source_date = extract_data_from_url(source_url)
-        request_response = {
-            'sourceTitle': source_title,
-            'sourceDate': source_date,
-            'similarArticles': response
-        }
-
-        return HttpResponse(json.dumps(request_response, cls=ResponseUrlEncoder),
-                            status=200, content_type="application/json")
 
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
@@ -281,9 +259,22 @@ def find_similar_documents_by_fingerprints(fingerprints, input):
                 if computed_similarity > heap[0][0]:
                     heapq.heapreplace(heap, (computed_similarity, article_url))
 
-    # construct the response list
-    response = [ResponseUrlEntity(url, similarity) for (similarity, url) in heapq.nlargest(len(heap), heap)]
-    return HttpResponse(json.dumps(response, cls=ResponseUrlEncoder), status=200, content_type="application/json")
+    # construct the response entity
+    response = []
+    for (similarity, url) in heapq.nlargest(len(heap), heap):
+        title, publisher, date = extract_data_from_url(url)
+        if title is not None and publisher is not None:
+            response.append(ResponseUrlEntity(url, similarity, title, publisher, date))
+
+    source_title, _, source_date = extract_data_from_url(input)
+    request_response = {
+        'sourceTitle': source_title,
+        'sourceDate': source_date,
+        'similarArticles': response
+    }
+
+    return HttpResponse(json.dumps(request_response, cls=ResponseUrlEncoder), status=200,
+                        content_type="application/json")
 
 
 def compare_texts_view(request):
