@@ -1,6 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import SideBySideRender from '../SideBySideRender'
-import '@testing-library/jest-dom/extend-expect'
 
 describe('SideBySideRender', () => {
   const mockUrlLeft = 'https://example.com/left'

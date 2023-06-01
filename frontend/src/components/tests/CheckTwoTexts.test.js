@@ -2,7 +2,6 @@ import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import CheckTwoTexts, { compareTexts } from '../CheckTwoTexts'
 import { MemoryRouter } from 'react-router-dom'
 import axios from 'axios'
-import '@testing-library/jest-dom/extend-expect'
 
 jest.mock('axios')
 

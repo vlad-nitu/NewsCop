@@ -2,7 +2,6 @@ import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import Footer from '../footer'
 import { MemoryRouter } from 'react-router'
-import '@testing-library/jest-dom/extend-expect'
 
 Object.defineProperty(window, 'scrollTo', {
   value: jest.fn(),

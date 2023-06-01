@@ -3,7 +3,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import BodyCheckGeneric from '../BodyCheckGeneric'
-import '@testing-library/jest-dom/extend-expect'
 
 describe('BodyCheckGeneric', () => {
   it('renders the component with correct descriptions', () => {

@@ -1,6 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import IframeRenderer from '../IframeRenderer'
-import '@testing-library/jest-dom/extend-expect'
 
 describe('IframeRenderer', () => {
   const mockUrl = 'https://example.com'

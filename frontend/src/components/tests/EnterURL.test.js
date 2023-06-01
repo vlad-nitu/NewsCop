@@ -2,7 +2,6 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import EnterURL from '../EnterURL'
 import { MemoryRouter } from 'react-router'
 import axios from 'axios'
-import '@testing-library/jest-dom/extend-expect'
 
 jest.mock('axios')
 axios.post.mockResolvedValue({ data: [{ similarity: 0.8, url: 'https://example.com' }] })

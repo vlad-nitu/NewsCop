@@ -1,7 +1,6 @@
 /* global test, expect */
 import { render, screen } from '@testing-library/react'
 import MainPageBigImage from '../mainPageBigImage'
-import '@testing-library/jest-dom/extend-expect'
 
 const applicationDescription = 'NewsCop is a news article ' +
     'overlap detection platform that helps businesses stay on ' +

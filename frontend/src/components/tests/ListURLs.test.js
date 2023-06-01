@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import ListURLs from '../ListURLs'
 import { MemoryRouter } from 'react-router-dom'
-import '@testing-library/jest-dom/extend-expect'
 
 describe('ListURLs', () => {
   test('renders one element list', () => {

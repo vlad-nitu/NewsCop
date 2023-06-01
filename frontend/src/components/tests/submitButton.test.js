@@ -3,7 +3,6 @@
 import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
 import SubmitButton from '../submitButton'
-import '@testing-library/jest-dom/extend-expect'
 
 describe('SubmitButton', () => {
   test('renders button with correct text', () => {

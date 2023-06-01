@@ -30,7 +30,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest --coverage --transformIgnorePatterns \"node_modules/(?!axios)/\"",
+    "test": "react-scripts test ./src/components/tests --coverage --transformIgnorePatterns \"node_modules/(?!axios)/\"",
     "report": "nyc report --reporter=html",
     "eject": "react-scripts eject"
   },
@@ -72,7 +72,6 @@
   "jest": {
     "moduleNameMapper": {
       "axios": "axios/dist/node/axios.cjs"
-    },
-    "transformIgnorePatterns": ["node_modules\/(?!axios)"]
+    }
   }
 }
