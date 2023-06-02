@@ -9,7 +9,7 @@
 export default function MainPageBigImage ({ description, projectName, imageUrl }) {
   // Define the styles for the container, background, overlay, and text.
   const containerStyle = {
-    height: '90vh',
+    height: '90svh', /* svh - The small viewport-percentage units (sv*) are defined with respect to the small viewport size: the viewport sized assuming any UA interfaces that are dynamically expanded and retracted to be expanded. */
     width: 'auto',
     position: 'relative'
   }
@@ -56,8 +56,8 @@ export default function MainPageBigImage ({ description, projectName, imageUrl }
       <div id='background-image' style={backgroundStyle} />
       <div style={overlayStyle} />
       <div style={textStyle}>
-        <h2 className='title'>{projectName}</h2>
-        <p className='description-paragraph'>{description}</p>
+        <h2 className='title title_main_page'>{projectName}</h2>
+        <p className='description-paragraph-main-page'>{description}</p>
       </div>
     </div>
   )

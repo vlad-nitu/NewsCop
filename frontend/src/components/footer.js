@@ -29,20 +29,20 @@ export default function Footer () {
             <span>Get connected with us on social networks:</span>
           </div>
           <div>
-            <a href='#!' class='text-white me-4'>
-              <i data-testid='Facebook' class='fab fa-facebook-f' />
+            <a href='#!' className='text-white me-4'>
+              <i data-testid='Facebook' className='fab fa-facebook-f' />
             </a>
-            <a href='#!' class='text-white me-4'>
-              <i data-testid='Twitter' class='fab fa-twitter' />
+            <a href='#!' className='text-white me-4'>
+              <i data-testid='Twitter' className='fab fa-twitter' />
             </a>
-            <a href='#!' class='text-white me-4'>
-              <i data-testid='Google' class='fab fa-google' />
+            <a href='#!' className='text-white me-4'>
+              <i data-testid='Google' className='fab fa-google' />
             </a>
-            <a href='#!' class='text-white me-4'>
-              <i data-testid='Instagram' class='fab fa-instagram' />
+            <a href='#!' className='text-white me-4'>
+              <i data-testid='Instagram' className='fab fa-instagram' />
             </a>
-            <a href='#!' class='text-white me-4'>
-              <i data-testid='LinkedIn' class='fab fa-linkedin' />
+            <a href='#!' className='text-white me-4'>
+              <i data-testid='LinkedIn' className='fab fa-linkedin' />
             </a>
           </div>
         </section>
@@ -71,26 +71,16 @@ export default function Footer () {
                   style={{ width: '60px', backgroundColor: '#7c4dff', height: '2px' }}
                 />
                 <p>
-                  <Link to='/checkURL'>
-                    <a href='#!' data-testid='URLPlag' onClick={handleClick}>URL similarity checker</a>
-                  </Link>
+                  <Link to='/checkURL' href='#!' data-testid='URLPlag' onClick={handleClick}>URL similarity checker</Link>
                 </p>
                 <p>
-                  <Link to='/checkText'>
-                    <a href='#!' data-testid='TextPlag' onClick={handleClick}>Text similarity checker</a>
-                  </Link>
-
-                </p>
-
-                <p>
-                  <Link to='/compareTexts'>
-                    <a href='#!' data-testid='TextSim' onClick={handleClick}>Similarity checker for two texts</a>
-                  </Link>
+                  <Link to='/checkText' href='#!' data-testid='TextPlag' onClick={handleClick}>Text similarity checker</Link>
                 </p>
                 <p>
-                  <Link to='/compareURLs'>
-                    <a href='#!' data-testid='URLSim' onClick={handleClick}>Similarity checker for two URLs</a>
-                  </Link>
+                  <Link to='/compareTexts' href='#!' data-testid='TextSim' onClick={handleClick}>Similarity checker for two texts</Link>
+                </p>
+                <p>
+                  <Link to='/compareURLs' href='#!' data-testid='URLSim' onClick={handleClick}>Similarity checker for two URLs</Link>
 
                 </p>
               </Col>
@@ -107,10 +97,10 @@ export default function Footer () {
               <Col md={4} lg={3} xl={3} className='mx-auto mb-md-0 mb-4'>
                 <h6 className='text-uppercase fw-bold'>Contact</h6>
                 <hr
-                  class='mb-2 mt-0 d-inline-block mx-auto'
+                  className='mb-2 mt-0 d-inline-block mx-auto'
                   style={{ width: '60px', backgroundColor: '#7c4dff', height: '2px' }}
                 />
-                <p><i class='fas fa-envelope mr-3' /> info@getsourcer.com </p>
+                <p><i className='fas fa-envelope mr-3' /> info@getsourcer.com </p>
               </Col>
             </Row>
           </Container>

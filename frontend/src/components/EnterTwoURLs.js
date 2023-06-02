@@ -4,7 +4,6 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import axios from 'axios'
 import SubmitButton from './submitButton'
-import ProgressBarCustom from './ProgressBarCustom'
 import ProgressLineCustom from './ProgressLineCustom'
 import SideBySideRender from './SideBySideRender'
 
@@ -151,7 +150,6 @@ export default function EnterTwoURLs () {
                     </div>
                   )}
                 </div>
-                <ProgressBarCustom similarity={answerValue} />
                 <ProgressLineCustom progress={answerValue} />
               </div>
             )}

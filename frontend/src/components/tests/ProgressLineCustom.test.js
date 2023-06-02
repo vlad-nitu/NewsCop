@@ -20,7 +20,10 @@ describe('ProgressLineCustom', () => {
     const progress = 40
     render(<ProgressLineCustom progress={progress} />)
     const pointerElement = screen.getByTestId('progress-line-pointer')
+    const pointerLabelElement = screen.getByTestId('progress-label-pointer')
     expect(pointerElement).toBeInTheDocument()
-    expect(pointerElement).toHaveStyle({ left: `${progress}%` })
+    expect(pointerLabelElement).toBeInTheDocument()
+    expect(pointerElement).toHaveStyle({ '--progress': `${progress}%` })
+    expect(pointerLabelElement).toHaveStyle({ '--progress': `${progress}%` })
   })
 })
