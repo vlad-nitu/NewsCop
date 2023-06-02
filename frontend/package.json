@@ -40,9 +40,17 @@
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest",
-      "plugin:cypress/recommended"
-    ]
+      "react-app/jest"
+    ],
+    "env": {
+      "cypress/globals": true
+    },
+    "plugins": [
+      "cypress"
+    ],
+    "globals": {
+      "cy": true
+    }
   },
   "browserslist": {
     "production": [
