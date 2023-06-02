@@ -23,3 +23,29 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+
+const epsilon = 1 // Allow for a small error
+const bottom_upper_bound = Cypress.$(cy.state('window')).height() + epsilon
+const bottom_lower_bound = Cypress.$(cy.state('window')).height() - epsilon
+
+// Add custom assertion `isInViewport` and `isNotInViewport` -> see this GitHub thread: https://github.com/cypress-io/cypress/issues/877#issuecomment-490504922
+Cypress.Commands.add('isNotInViewport', element => {
+  cy.get(element).then($el => {
+    const rect = $el[0].getBoundingClientRect()
+
+    expect(rect.top).to.be.greaterThan(bottom_lower_bound)
+    expect(rect.bottom).to.be.greaterThan(bottom_lower_bound)
+  })
+})
+
+Cypress.Commands.add('isInViewport', element => {
+  cy.get(element).then($el => {
+    const bottom = Cypress.$(cy.state('window')).height()
+    const rect = $el[0].getBoundingClientRect()
+
+    // The head should be visible
+    expect(rect.top).not.to.be.greaterThan(bottom_upper_bound)
+    expect(rect.bottom).not.to.be.greaterThan(bottom_upper_bound)
+  })
+})

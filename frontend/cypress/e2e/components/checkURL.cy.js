@@ -98,13 +98,14 @@ describe('template spec & clicking a button after inputting some text', () => {
       .get('a[href="#footer"]') // "Contact" should scroll you down to the Footer component on the same page
       .contains('Contact')
       .click()
-
-
+      .wait(1000) // Wait 1s so that Cypress has time to process / execute the scroll
 
     cy.url()
       .should(
         'be.equal',
         `${HOST}/checkURL#footer`)
+
+    cy.isInViewport('#footer') // Assert that it has scrolled down (if it was not already visible) to Footer component
 
   })
 })
