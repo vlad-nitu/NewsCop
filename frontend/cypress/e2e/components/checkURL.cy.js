@@ -60,5 +60,19 @@ describe('template spec & clicking a button after inputting some text', () => {
         'be.equal',
         `${HOST}/compareURLs`)
   })
+
+  it('Redirected using Services feature from Footer', () => {
+
+    cy.scrollTo('bottom')
+      .get('[data-testid="TextSim')
+      .click()
+
+
+    cy.url()
+      .should(
+        'be.equal',
+        `${HOST}/compareTexts`)
+
+  })
 })
 
