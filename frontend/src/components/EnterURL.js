@@ -128,7 +128,7 @@ export default function EnterURL () {
   }
 
   return (
-    <Container className='my-3'>
+    <Container data-testid='enter-url' className='my-3'>
       <div className='mt-5'>
         <h2 className='text-center' style={{ fontSize: '1.5vh' }}>
           Enter the article's URL to check for overlap

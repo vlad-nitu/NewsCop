@@ -34,7 +34,7 @@ export default function NavbarComponent ({ name, mainPage }) {
   }
 
   return (
-    <Navbar bg='light' expand='lg' className='border-bottom-navbar'>
+    <Navbar data-testid='navbar-component' bg='light' expand='lg' className='border-bottom-navbar'>
       <Container>
         {mainPage && <Navbar.Brand href='#home'>{name}</Navbar.Brand>}
         {!mainPage && <Navbar.Brand href='/#home' onClick={handleClick}>{name}</Navbar.Brand>}
