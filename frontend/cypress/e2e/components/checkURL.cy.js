@@ -1,13 +1,13 @@
 describe('template spec & clicking a button after inputting some text', () => {
 
-    const HOST = 'http://localhost:3000' // TODO: put the actual URL after we deploy our app on Heroku
+  const HOST = 'http://localhost:3000' // TODO: put the actual URL after we deploy our app on Heroku
 
   beforeEach(() => {
     // Cypress starts out with a blank slate for each test
     // so we must tell it to visit our website with the `cy.visit()` command.
     // Since we want to visit the same URL at the start of all our tests,
     // we include it in our beforeEach function so that it runs before each test
-    cy.visit(`${HOST}/checkURL`) 
+    cy.visit(`${HOST}/checkURL`)
   })
 
   it('Basic rendering tests', () => {
@@ -37,16 +37,28 @@ describe('template spec & clicking a button after inputting some text', () => {
       .should('exist')
   })
   it('Being redirected to checkText', () => {
-    
+
     cy.get('[data-testid="forward-to-page"]')
       .should('exist')
       .click()
 
     cy.url()
-    .should(
-      'be.equal',
-      `${HOST}/checkText`)
-      
+      .should(
+        'be.equal',
+        `${HOST}/checkText`)
+  })
+  it('Redirected using Services feature from Navbar', () => {
+
+    cy.get('#nav-dropdown')
+      .should('exist')
+      .trigger('mouseover')
+      .get('a[href*="/compareURL"]')
+      .click()
+
+    cy.url()
+      .should(
+        'be.equal',
+        `${HOST}/compareURLs`)
   })
 })
 
