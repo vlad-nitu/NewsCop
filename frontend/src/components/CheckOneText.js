@@ -62,8 +62,8 @@ export default function CheckOneText ({ applicationName }) {
     setButtonDisabled(true)
     setLoadingValue(true)
     const response = await axios.post(`${checkTextEndpoint}`,
-      '{ "key":' + `"${inputValue}"}`)
-      .catch(function (error) {
+        {key: `${inputValue}`})
+        .catch(function (error) {
         if (error.response) {
           setLoadingValue(false)
           // https://stackoverflow.com/questions/49967779/axios-handling-errors
