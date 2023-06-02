@@ -13,9 +13,11 @@ from app.views import try_view
 from app.views import reqex_view
 from app.views import url_similarity_checker
 from app.views import compare_URLs
+from app.views import text_similarity_checker
 
 from utils import db
 import sys
+
 
 class TestPersistUrlView(TestCase):
     def setUp(self):
@@ -324,6 +326,62 @@ class TestUrlSimilarity(TestCase):
     def test_invalid_request(self):
         request = self.factory.get("/urlsimilairty/")
         response = url_similarity_checker(request)
+
+        self.assertIsInstance(response, HttpResponseBadRequest)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.content.decode(), "Expected POST, but got GET instead")
+
+
+class TestTextSimilarity(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
+    # note that for this test the url provided is already in the db
+    def test_valid_text(self):
+        data = {
+            'key': 'Ana are mere',
+        }
+
+        json_data = json.dumps(data)
+        request = self.factory.post("/checkText/", data=json_data, content_type='application/json')
+        response = text_similarity_checker(request)
+
+        self.assertIsInstance(response, HttpResponse)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_invalid_text_too_long(self):
+        # create a string text that exceeds the limit of the app
+        s = ''
+        for i in range(15000):
+            s += 'a'
+
+        data = {
+            'key': s,
+        }
+
+        json_data = json.dumps(data)
+        request = self.factory.post("/checkText/", data=json_data, content_type='application/json')
+        response = text_similarity_checker(request)
+
+        self.assertIsInstance(response, HttpResponseBadRequest)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.content.decode(), "The article given has exceeded the maximum size supported.")
+
+    def test_invalid_text_empty(self):
+        data = {
+            'key': '',
+        }
+        json_data = json.dumps(data)
+        request = self.factory.post("/checkText/", data=json_data, content_type='application/json')
+        response = text_similarity_checker(request)
+
+        self.assertIsInstance(response, HttpResponseBadRequest)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.content.decode(), "The article provided has no text.")
+
+    def test_invalid_request(self):
+        request = self.factory.get("/checkText/")
+        response = text_similarity_checker(request)
 
         self.assertIsInstance(response, HttpResponseBadRequest)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import TextBox, { highlightWordsOnly } from '../TextBox'
 import ResizeObserver from 'resize-observer-polyfill'
 
@@ -19,7 +19,11 @@ describe('TextBox', () => {
 
     const highlighter = screen.getByTestId('Highlighter')
     expect(highlighter).toBeInTheDocument()
-    fireEvent.select(textareaElement)
+
+    act(() => {
+      fireEvent.select(textareaElement)
+    })
+
     expect(setHighlight).toHaveBeenCalledTimes(1)
   })
 

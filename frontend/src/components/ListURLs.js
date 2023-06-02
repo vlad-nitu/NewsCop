@@ -2,6 +2,7 @@ import ProgressLineCustom from './ProgressLineCustom'
 import { Button, Container, Row, Col, Card, Accordion } from 'react-bootstrap'
 import SideBySideRender from './SideBySideRender'
 import { useState, useEffect } from 'react'
+import OneArticleRender from './OneArticleRender'
 
 /**
  * Displays a list of articles (title, publisher, date) together with their similarities.
@@ -12,9 +13,17 @@ import { useState, useEffect } from 'react'
  * @returns {JSX.Element} the element that contains the list
  */
 
-export default function ListURLs ({ sourceUrl, articles }) {
+export default function ListURLs ({ type, sourceUrl, articles }) {
   const [showModal, setShowModal] = useState(false)
   const [selectedArticleIndex, setSelectedArticleIndex] = useState(null)
+
+  function RenderingButtons ({ index }) {
+    if (type === 'text') { return <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={() => handleShowByIndex(index)}>See article</Button> } else { return <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={() => handleShowByIndex(index)}>Compare</Button> }
+  }
+
+  function RenderingType ({ article }) {
+    if (type === 'text') { return (<OneArticleRender url={article} showModal={showModal} handleClose={handleClose} />) } else { return (<SideBySideRender urlLeft={sourceUrl} urlRight={article} showModal={showModal} handleClose={handleClose} />) }
+  }
 
   /**
  * Sets the state to show the modal and updates the selected article index.*
@@ -77,9 +86,9 @@ export default function ListURLs ({ sourceUrl, articles }) {
                     </div>
                     <div className='ms-auto my-auto'>
                       {/* Render button */}
-                      <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={() => handleShowByIndex(index)}>Compare</Button>
+                      <RenderingButtons index={index} />
                       {/* Render SideBySideRender component */}
-                      {selectedArticleIndex === index && (<SideBySideRender urlLeft={sourceUrl} urlRight={article.url} showModal={showModal} handleClose={handleClose} />)}
+                      {selectedArticleIndex === index && (<RenderingType article={article.url} />)}
                     </div>
                   </Container>
                 </Card>
@@ -114,9 +123,9 @@ export default function ListURLs ({ sourceUrl, articles }) {
                       </div>
                       <div className='d-flex flex-column align-items-center'>
                         {/* Render button */}
-                        <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={() => handleShowByIndex(index)}>Compare</Button>
+                        <RenderingButtons index={index} />
                         {/* Render SideBySideRender component */}
-                        {selectedArticleIndex === index && (<SideBySideRender urlLeft={sourceUrl} urlRight={article.url} showModal={showModal} handleClose={handleClose} />)}
+                        {selectedArticleIndex === index && (<RenderingType article={article.url} />)}
                       </div>
                     </Accordion.Body>
                   </Accordion.Item>
