@@ -11,7 +11,7 @@ import { Button } from 'react-bootstrap'
  */
 const SubmitButton = ({ disabled, onClickMethod }) => {
   return (
-    <div className='d-flex justify-content-center mt-4' style={{ display: 'flex', justifyContent: 'center' }}>
+    <div className='d-flex justify-content-center mt-4'>
       <Button
         id='submitButton'
         variant='primary'
