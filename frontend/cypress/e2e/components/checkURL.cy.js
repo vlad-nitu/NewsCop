@@ -64,7 +64,7 @@ describe('template spec & clicking a button after inputting some text', () => {
   it('Redirected using Services feature from Footer', () => {
 
     cy.scrollTo('bottom')
-      .get('[data-testid="TextSim')
+    cy.get('[data-testid="TextSim')
       .click()
 
 
@@ -72,6 +72,39 @@ describe('template spec & clicking a button after inputting some text', () => {
       .should(
         'be.equal',
         `${HOST}/compareTexts`)
+
+  })
+
+  it('Press About Us from navbar', () => {
+
+    cy.get('[data-testid="navbar-component"]')
+      .should('exist')
+      .get('a[href*="/#ourMission"]')
+      .click()
+
+
+
+    cy.url()
+      .should(
+        'be.equal',
+        `${HOST}/#ourMission`)
+
+  })
+
+  it('Press Contact Us from navbar', () => {
+
+    cy.get('[data-testid="navbar-component"]')
+      .should('exist')
+      .get('a[href="#footer"]') // "Contact" should scroll you down to the Footer component on the same page
+      .contains('Contact')
+      .click()
+
+
+
+    cy.url()
+      .should(
+        'be.equal',
+        `${HOST}/checkURL#footer`)
 
   })
 })
