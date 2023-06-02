@@ -1,5 +1,5 @@
 import React from 'react'
-import {act, fireEvent, render, screen} from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import TextBox, { highlightWordsOnly } from '../TextBox'
 import ResizeObserver from 'resize-observer-polyfill'
 

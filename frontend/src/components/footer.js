@@ -71,7 +71,7 @@ export default function Footer () {
                   style={{ width: '60px', backgroundColor: '#7c4dff', height: '2px' }}
                 />
                 <p>
-                  <Link to="/checkURL" href='#!' data-testid="URLPlag" onClick={handleClick}>URL similarity checker</Link>
+                  <Link to='/checkURL' href='#!' data-testid='URLPlag' onClick={handleClick}>URL similarity checker</Link>
                 </p>
                 <p>
                   <Link to='/checkText' href='#!' data-testid='TextPlag' onClick={handleClick}>Text similarity checker</Link>
