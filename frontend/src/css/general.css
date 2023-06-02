@@ -4,12 +4,6 @@
 }
 
 #submitButton {
-    /* display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    margin-left: 25% !important;
-    margin-right: 25% !important;  */
-    
     font-weight: bold !important; /* Change font weight to normal */
     background: #2E837E !important;
     border: 4px solid #2E837E !important;
