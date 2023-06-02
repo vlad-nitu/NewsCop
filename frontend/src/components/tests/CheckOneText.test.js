@@ -7,17 +7,19 @@ jest.mock('axios')
 axios.post.mockResolvedValue({ data: [{ similarity: 0.8, url: 'https://example.com' }] })
 
 describe('CheckOneText', () => {
-  afterEach(() => {
-    jest.clearAllMocks()
-  })
-  test('successful rendering of prompt', () => {
-    const prompt = 'Enter the article’s content to check for overlap'
-
+  beforeEach(() => {
     render(
       <MemoryRouter>
         <CheckOneText />
       </MemoryRouter>
     )
+  })
+
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+  test('successful rendering of prompt', () => {
+    const prompt = 'Enter the article’s content to check for overlap'
 
     // Check if the text element containing the prompt text
     const promptElement = screen.getByText(prompt)
@@ -53,11 +55,7 @@ describe('CheckOneText', () => {
     axios.post.mockResolvedValueOnce(mockedResponse)
 
     const PreInputPrompt = 'Enter your article here'
-    render(
-      <MemoryRouter>
-        <CheckOneText />
-      </MemoryRouter>
-    )
+
     const input = screen.getByPlaceholderText(PreInputPrompt)
     const submitButton = screen.getByText('Submit')
     expect(submitButton).toBeInTheDocument()
@@ -96,11 +94,6 @@ describe('CheckOneText', () => {
     }
     axios.post.mockResolvedValueOnce(theMockResponse)
 
-    render(
-      <MemoryRouter>
-        <CheckOneText />
-      </MemoryRouter>
-    )
     const input = screen.getByPlaceholderText('Enter your article here')
     const submitButton = screen.getByText('Submit')
     fireEvent.change(input, { target: { value: 'Some text' } })
@@ -123,11 +116,6 @@ describe('CheckOneText', () => {
 
     axios.post.mockRejectedValueOnce(mockedErrorResponse)
 
-    render(
-      <MemoryRouter>
-        <CheckOneText />
-      </MemoryRouter>
-    )
     const input = screen.getByPlaceholderText('Enter your article here')
     const submitButton = screen.getByText('Submit')
 
@@ -151,12 +139,6 @@ describe('CheckOneText', () => {
 
     axios.post.mockRejectedValueOnce(mockedError)
 
-    render(
-      <MemoryRouter>
-        <CheckOneText />
-      </MemoryRouter>
-    )
-
     const input = screen.getByPlaceholderText('Enter your article here')
     const submitButton = screen.getByText('Submit')
 
@@ -176,11 +158,7 @@ describe('CheckOneText', () => {
     const mockedError = new Error('Request failed')
 
     axios.post.mockRejectedValue(mockedError)
-    render(
-      <MemoryRouter>
-        <CheckOneText />
-      </MemoryRouter>
-    )
+
     const inputForm = screen.getByPlaceholderText('Enter your article here')
     const submitButton = screen.getByText('Submit')
     fireEvent.change(inputForm, { target: { value: 'Some text' } })
