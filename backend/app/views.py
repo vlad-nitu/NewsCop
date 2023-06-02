@@ -193,13 +193,13 @@ def text_similarity_checker(request):
         if len(text_fingerprints) > 2000:
             return HttpResponseBadRequest("The article given has exceeded the maximum size supported.")
 
-        return find_similar_documents_by_fingerprints(text_fingerprints, '')
+        return find_similar_documents_by_fingerprints(text_fingerprints)
 
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
 
 
-def find_similar_documents_by_fingerprints(fingerprints, input):
+def find_similar_documents_by_fingerprints(fingerprints, input=''):
     '''
     Helper method which is used by the two endpoints /checkText and /checkURL for doing query on the database
     :fingerprints: the fingerprints computed for the text/url input given by the user
