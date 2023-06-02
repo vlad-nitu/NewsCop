@@ -71,26 +71,16 @@ export default function Footer () {
                   style={{ width: '60px', backgroundColor: '#7c4dff', height: '2px' }}
                 />
                 <p>
-                  <Link to='/checkURL'>
-                    <a href='#!' data-testid='URLPlag' onClick={handleClick}>URL similarity checker</a>
-                  </Link>
+                  <Link to="/checkURL" href='#!' data-testid="URLPlag" onClick={handleClick}>URL similarity checker</Link>
                 </p>
                 <p>
-                  <Link to='/checkText'>
-                    <a href='#!' data-testid='TextPlag' onClick={handleClick}>Text similarity checker</a>
-                  </Link>
-
-                </p>
-
-                <p>
-                  <Link to='/compareTexts'>
-                    <a href='#!' data-testid='TextSim' onClick={handleClick}>Similarity checker for two texts</a>
-                  </Link>
+                  <Link to='/checkText' href='#!' data-testid='TextPlag' onClick={handleClick}>Text similarity checker</Link>
                 </p>
                 <p>
-                  <Link to='/compareURLs'>
-                    <a href='#!' data-testid='URLSim' onClick={handleClick}>Similarity checker for two URLs</a>
-                  </Link>
+                  <Link to='/compareTexts' href='#!' data-testid='TextSim' onClick={handleClick}>Similarity checker for two texts</Link>
+                </p>
+                <p>
+                  <Link to='/compareURLs' href='#!' data-testid='URLSim' onClick={handleClick}>Similarity checker for two URLs</Link>
 
                 </p>
               </Col>
