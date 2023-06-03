@@ -70,78 +70,20 @@ describe('tests for several interactions within check text', () => {
     cy.get('#footer')
       .should('exist')
 
+    /* The loading circle should not exist */
+    cy.get('[data-testid="loading-circle"]')
+      .should('not.exist')
 
-  // it('Being redirected to checkText', () => {
-  //
-  //   cy.get('[data-testid="forward-to-page"]')
-  //     .should('exist')
-  //     .click()
-  //
-  //   cy.url()
-  //     .should(
-  //       'be.equal',
-  //       `${HOST}/checkText`)
-  // })
-  // it('Redirected using Services feature from Navbar', () => {
-  //
-  //   cy.get('#nav-dropdown')
-  //     .should('exist')
-  //     .trigger('mouseover')
-  //     .get('a[href*="/compareURL"]')
-  //     .click()
-  //
-  //   cy.url()
-  //     .should(
-  //       'be.equal',
-  //       `${HOST}/compareURLs`)
-  // })
-  //
-  // it('Redirected using Services feature from Footer', () => {
-  //
-  //   cy.scrollTo('bottom')
-  //   cy.get('[data-testid="TextSim')
-  //     .click()
-  //
-  //
-  //   cy.url()
-  //     .should(
-  //       'be.equal',
-  //       `${HOST}/compareTexts`)
-  //
-  // })
-  //
-  // it('Press About Us from navbar', () => {
-  //
-  //   cy.get('[data-testid="navbar-component"]')
-  //     .should('exist')
-  //     .get('a[href*="/#ourMission"]')
-  //     .click()
-  //
-  //
-  //
-  //   cy.url()
-  //     .should(
-  //       'be.equal',
-  //       `${HOST}/#ourMission`)
-  //
-  // })
-  //
-  // it('Press Contact Us from navbar', () => {
-  //
-  //   cy.get('[data-testid="navbar-component"]')
-  //     .should('exist')
-  //     .get('a[href="#footer"]') // "Contact" should scroll you down to the Footer component on the same page
-  //     .contains('Contact')
-  //     .click()
-  //     .wait(1000) // Wait 1s so that Cypress has time to process / execute the scroll
-  //
-  //   cy.url()
-  //     .should(
-  //       'be.equal',
-  //       `${HOST}/checkURL#footer`)
-  //
-  //   cy.isInViewport('#footer') // Assert that it has scrolled down (if it was not already visible) to Footer component
-  //
+    /* The forward to page should exist */
+    cy.get('[data-testid="forward-to-page"]')
+      .should('exist')
+      .should('have.text', '... or you may want to check a news article via an URL for similarity')
+
+    /* The check decision should not be visible */
+    cy.get('[data-testid="check-decision"]')
+      .should('exist')
+      .should('not.be.visible')
+
 
   })
 })
