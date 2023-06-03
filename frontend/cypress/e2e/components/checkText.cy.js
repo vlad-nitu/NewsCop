@@ -8,7 +8,7 @@ describe('tests for several interactions within check text', () => {
     cy.visit(`${rootUrl}/checkText`)
   })
 
-  it('components rendered correctly and small interactions', () => {
+  it('Components rendered correctly and small interactions', () => {
 
     /* The navbar is rendered and has the right name */
     cy.get('[data-testid="navbar-component"]')
@@ -83,8 +83,18 @@ describe('tests for several interactions within check text', () => {
     cy.get('[data-testid="check-decision"]')
       .should('exist')
       .should('not.be.visible')
-
-
   })
+  it('Redirect to checkURL page', () => {
+    /* The forward to page should exist and small interaction */
+    cy.get('[data-testid="forward-to-link"]')
+      .should('exist')
+      .click()
+    cy.url()
+      .should(
+        'be.equal',
+        `${rootUrl}/checkURL`)
+  })
+
+
 })
 
