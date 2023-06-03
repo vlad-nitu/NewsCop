@@ -1,4 +1,4 @@
-describe('test template', () => {
+describe('tests for several interactions within check text', () => {
 
   const rootUrl = 'http://localhost:3000'
 
@@ -8,7 +8,7 @@ describe('test template', () => {
     cy.visit(`${rootUrl}/checkText`)
   })
 
-  it('components render correctly', () => {
+  it('components rendered correctly and small interactions', () => {
 
     /* The navbar is rendered and has the right name */
     cy.get('[data-testid="navbar-component"]')
@@ -21,6 +21,11 @@ describe('test template', () => {
       .should('contain', 'News overlap checker') // First description
       .should('contain', 'Our tool detects overlap in your news article.') // Second Description
 
+    /* Button is rendered correctly but is disabled */
+    cy.get('[data-testid="submit_button"]')
+      .should('exist')
+      .and('be.disabled')
+
     /* Verify that the text area + the text above it are rendered correctly */
     cy.get('[data-testid="textAreaCheckOneText"]')
       .should('exist')
@@ -32,7 +37,111 @@ describe('test template', () => {
     /* The text above the box */
     cy.contains('h2', 'Enter the article’s content to check for overlap').should('exist');
 
+    /* The error-prompt does not exist */
+    cy.get('[data-testid="error-prompt"]')
+      .should('not.exist')
 
+    /* Check that the submit button is rendered and is not disabled*/
+    cy.get('[data-testid="submit_button"]')
+      .should('exist')
+      // The button should not be disabled because there is text already in the box
+      .and('not.be.disabled')
+      .should('have.text', 'Submit')
+      .click()
+
+    /* The error-prompt exists and is visible */
+    cy.get('[data-testid="error-prompt"]')
+      .should('exist')
+      .and('be.visible')
+      .should('have.text', 'You entered an invalid text!')
+
+    /* The button is temporarily disabled */
+    cy.get('[data-testid="submit_button"]')
+      .should('exist')
+      .and('be.disabled')
+      .wait(10000)
+      .should('be.enabled')
+
+    /* The error-prompt does not exist after timeout */
+    cy.get('[data-testid="error-prompt"]')
+      .should('not.exist')
+
+    /* The footer is rendered correctly */
+    cy.get('#footer')
+      .should('exist')
+
+
+  // it('Being redirected to checkText', () => {
+  //
+  //   cy.get('[data-testid="forward-to-page"]')
+  //     .should('exist')
+  //     .click()
+  //
+  //   cy.url()
+  //     .should(
+  //       'be.equal',
+  //       `${HOST}/checkText`)
+  // })
+  // it('Redirected using Services feature from Navbar', () => {
+  //
+  //   cy.get('#nav-dropdown')
+  //     .should('exist')
+  //     .trigger('mouseover')
+  //     .get('a[href*="/compareURL"]')
+  //     .click()
+  //
+  //   cy.url()
+  //     .should(
+  //       'be.equal',
+  //       `${HOST}/compareURLs`)
+  // })
+  //
+  // it('Redirected using Services feature from Footer', () => {
+  //
+  //   cy.scrollTo('bottom')
+  //   cy.get('[data-testid="TextSim')
+  //     .click()
+  //
+  //
+  //   cy.url()
+  //     .should(
+  //       'be.equal',
+  //       `${HOST}/compareTexts`)
+  //
+  // })
+  //
+  // it('Press About Us from navbar', () => {
+  //
+  //   cy.get('[data-testid="navbar-component"]')
+  //     .should('exist')
+  //     .get('a[href*="/#ourMission"]')
+  //     .click()
+  //
+  //
+  //
+  //   cy.url()
+  //     .should(
+  //       'be.equal',
+  //       `${HOST}/#ourMission`)
+  //
+  // })
+  //
+  // it('Press Contact Us from navbar', () => {
+  //
+  //   cy.get('[data-testid="navbar-component"]')
+  //     .should('exist')
+  //     .get('a[href="#footer"]') // "Contact" should scroll you down to the Footer component on the same page
+  //     .contains('Contact')
+  //     .click()
+  //     .wait(1000) // Wait 1s so that Cypress has time to process / execute the scroll
+  //
+  //   cy.url()
+  //     .should(
+  //       'be.equal',
+  //       `${HOST}/checkURL#footer`)
+  //
+  //   cy.isInViewport('#footer') // Assert that it has scrolled down (if it was not already visible) to Footer component
+  //
 
   })
 })
