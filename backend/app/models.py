@@ -22,7 +22,6 @@ class Fingerprint(EmbeddedDocument):
 
 class NewsDocument(Document):
     url = StringField()
-    published_date = DateTimeField()
     fingerprints = ListField(IntField())
 
     def save(self):
@@ -30,7 +29,6 @@ class NewsDocument(Document):
         visited_fps = set()  # the fingerprints that the current document has
         doc = {
             '_id': self.url,
-            'published_date': self.published_date,
             'fingerprints': self.fingerprints
         }
         db.news_collection.insert_one(doc)
