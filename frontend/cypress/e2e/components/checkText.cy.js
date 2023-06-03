@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 describe('tests for several interactions within check text', () => {
 
   const rootUrl = 'http://localhost:3000'
@@ -181,7 +183,44 @@ describe('tests for several interactions within check text', () => {
       .should('be.equal', `${rootUrl}/compareURLs`) // We should have moved to compare URLs page
   })
 
+  it('Redirect to check URL via Footer', () => {
+    cy.get('[data-testid="URLPlag"]') // Retrieve the check URL link in the footer
+      .should('exist')
+      .should('contain', 'URL similarity checker')
+      .click()
+      .wait(100) // Wait a moment until everything is rendered
+    cy.url()
+      .should('be.equal', `${rootUrl}/checkURL`) // We should now be in the check URL page
+  })
 
+  it('Redirect to check text via Footer', () => {
+    cy.get('[data-testid="TextPlag"]') // Retrieve the check text link in the footer
+      .should('exist')
+      .should('contain', 'Text similarity checker')
+      .click()
+      .wait(100) // Wait a moment until everything is rendered
+    cy.url()
+      .should('be.equal', `${rootUrl}/checkText`) // We should now be in the check text page
+  })
+
+  it('Redirect to compare texts via Footer', () => {
+    cy.get('[data-testid="TextSim"]') // Retrieve the compare texts link in the footer
+      .should('exist')
+      .should('contain', 'Similarity checker for two texts')
+      .click()
+      .wait(100) // Wait a moment until everything is rendered
+    cy.url()
+      .should('be.equal', `${rootUrl}/compareTexts`) // We should now be in the compare texts page
+  })
+  it('Redirect to compare texts via Footer', () => {
+    cy.get('[data-testid="URLSim"]') // Retrieve the compare URLs link in the footer
+      .should('exist')
+      .should('contain', 'Similarity checker for two URLs')
+      .click()
+      .wait(100) // Wait a moment until everything is rendered
+    cy.url()
+      .should('be.equal', `${rootUrl}/compareURLs`) // We should now be in the compare URLs page
+  })
 
 })
 
