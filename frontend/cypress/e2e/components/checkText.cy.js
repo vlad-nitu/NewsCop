@@ -95,6 +95,17 @@ describe('tests for several interactions within check text', () => {
         `${rootUrl}/checkURL`)
   })
 
+  it('Redirect to home page', () => {
+    /* The forward to page should exist and small interaction */
+    cy.get('[data-testid="to-home-page"]') // Go to the home page
+      .should('exist')
+      .click()
+      .wait(100) // Wait a moment until everything is rendered
+    cy.url()
+      .should(
+        'be.equal',
+        `${rootUrl}/#home`) // We should now be in the homepage
+  })
 
 })
 
