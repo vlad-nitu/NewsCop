@@ -130,7 +130,6 @@ describe('tests for several interactions within check text', () => {
       .should('exist')
       .trigger('mouseover').get('a[role="option"][href="/checkText"]')
       .as('textChecker')
-      .wait(1000)
     /* The text content */
     cy.get('@textChecker')
       .should('exist')
@@ -143,6 +142,46 @@ describe('tests for several interactions within check text', () => {
     cy.url()
       .should('be.equal', `${rootUrl}/checkText`) // We should stay in the checkText page
   })
+
+  it('Redirection via Navbar to compareTexts', () => {
+    /* Retrieve navbar option of going to compareTexts */
+    cy.get('#nav-dropdown')
+      .should('exist')
+      .trigger('mouseover').get('a[role="option"][href="/compareTexts"]')
+      .as('textsChecker')
+    /* The text content */
+    cy.get('@textsChecker')
+      .should('exist')
+      .should('contain', 'Similarity Checker for two Texts')
+    /* Actually click it */
+    cy.get('@textsChecker')
+      .should('exist')
+      .click()
+
+    cy.url()
+      .should('be.equal', `${rootUrl}/compareTexts`) // We should have moved to compare texts page
+  })
+
+  it('Redirection via Navbar to compareURLs', () => {
+    /* Retrieve navbar option of going to compareURLs */
+    cy.get('#nav-dropdown')
+      .should('exist')
+      .trigger('mouseover').get('a[role="option"][href="/compareURLs"]')
+      .as('urlsChecker')
+    /* The text content */
+    cy.get('@urlsChecker')
+      .should('exist')
+      .should('contain', 'Similarity Checker for two URLs')
+    /* Actually click it */
+    cy.get('@urlsChecker')
+      .should('exist')
+      .click()
+
+    cy.url()
+      .should('be.equal', `${rootUrl}/compareURLs`) // We should have moved to compare URLs page
+  })
+
+
 
 })
 
