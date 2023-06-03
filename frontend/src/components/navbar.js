@@ -56,6 +56,7 @@ export default function NavbarComponent ({ name, mainPage }) {
                 <NavDropdown.Item role='option' href='/compareURLs'>Similarity Checker for two URLs</NavDropdown.Item>
               </NavDropdown>}
             <Nav.Link href='#footer'>Contact</Nav.Link>
+            <Nav.Link href='/help'>Help</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
