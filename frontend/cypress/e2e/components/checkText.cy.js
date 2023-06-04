@@ -32,7 +32,7 @@ describe('tests for several interactions within check text', () => {
       .should('have.attr', 'placeholder', 'Enter your article here') // Placeholder value
       .should('have.value', '') // No text in the box currently
       .type('藝文類聚卷五文字更正在梁思成先生作品提到的古建筑的「角叶」的含义及其图片') // Write something in the box
-      .should('have.value', 'Example Test') // See the text in the box changing
+      .should('have.value', '藝文類聚卷五文字更正在梁思成先生作品提到的古建筑的「角叶」的含义及其图片') // See the text in the box changing
 
     /* The text above the box */
     cy.contains('h2', 'Enter the article’s content to check for overlap').should('exist');
