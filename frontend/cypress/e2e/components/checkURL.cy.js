@@ -82,8 +82,6 @@ describe('template spec & clicking a button after inputting some text', () => {
       .get('a[href*="/#ourMission"]')
       .click()
 
-
-
     cy.url()
       .should(
         'be.equal',
