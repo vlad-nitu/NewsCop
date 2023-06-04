@@ -100,7 +100,7 @@ def persist_url_view(request):
         # If current URL is not part of the database, persist it
         if not url_exists:
             # do crawling on the given url
-            article_text, article_date = crawl_url(url)
+            article_text, _ = crawl_url(url)
 
             fingerprints = compute_fingerprint(article_text)
             only_shingle_values = [fp['shingle_hash'] for fp in fingerprints]
@@ -113,7 +113,7 @@ def persist_url_view(request):
             if len(only_shingle_values) == 0:
                 return HttpResponseBadRequest("The article provided has no text.")
 
-            newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=only_shingle_values)
+            newsdoc = NewsDocument(url=url, fingerprints=only_shingle_values)
             newsdoc.save()
 
         return HttpResponse(url, status=200)
