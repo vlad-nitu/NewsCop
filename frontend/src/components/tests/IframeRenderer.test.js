@@ -8,11 +8,9 @@ describe('IframeRenderer', () => {
   const mockChangeBackground = jest.fn()
 
   beforeEach(() => {
-    act(() => {
-      render(
-        <IframeRenderer url={mockUrl} id={mockId} changeBackground={mockChangeBackground} />
-      )
-    })
+    render(
+      <IframeRenderer url={mockUrl} id={mockId} changeBackground={mockChangeBackground} />
+    )
   })
 
   it('renders the loading spinner initially', () => {
