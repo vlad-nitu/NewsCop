@@ -184,7 +184,7 @@ class TestDatabase(TestCase):
         db.nd_collection.delete_one({'_id': url})
 
         # add it
-        db.nd_collection.insert_one({'_id': 'www.matiboss157.com', 'published_date': '2023-05-09 01:00:00',
+        db.nd_collection.insert_one({'_id': 'www.matiboss157.com',
                                      'fingerprints': [{'shingle_hash': {'$numberInt': '3'}}]})
 
         self.assertTrue(sys.getsizeof(db.nd_collection.find({'fingerprints.shingle_hash': 3})) > 0)
