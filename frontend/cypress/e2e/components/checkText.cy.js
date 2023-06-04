@@ -35,7 +35,7 @@ describe('tests for several interactions within check text', () => {
       .should('have.value', '藝文類聚卷五文字更正在梁思成先生作品提到的古建筑的「角叶」的含义及其图片') // See the text in the box changing
 
     /* The text above the box */
-    cy.contains('h2', 'Enter the article’s content to check for overlap').should('exist');
+    cy.contains('h2', 'Enter the article’s content to check for overlap').should('exist')
 
     /* The error-prompt does not exist */
     cy.get('[data-testid="error-prompt"]')
@@ -182,45 +182,26 @@ describe('tests for several interactions within check text', () => {
       .should('be.equal', `${rootUrl}/compareURLs`) // We should have moved to compare URLs page
   })
 
-  it('Redirect to check URL via Footer', () => {
-    cy.get('[data-testid="URLPlag"]') // Retrieve the check URL link in the footer
-      .should('exist')
-      .should('contain', 'URL similarity checker')
-      .click()
-      .wait(100) // Wait a moment until everything is rendered
-    cy.url()
-      .should('be.equal', `${rootUrl}/checkURL`) // We should now be in the check URL page
+  /* The information needed for all the footer redirections */
+  const footerLinks = [
+    { testId: 'URLPlag', text: 'URL similarity checker', url: '/checkURL' },
+    { testId: 'TextPlag', text: 'Text similarity checker', url: '/checkText' },
+    { testId: 'TextSim', text: 'Similarity checker for two texts', url: '/compareTexts' },
+    { testId: 'URLSim', text: 'Similarity checker for two URLs', url: '/compareURLs' },
+  ]
+
+  footerLinks.forEach((link) => {
+    it(`Redirects to ${link.text} via Footer`, () => {
+      cy.get(`[data-testid="${link.testId}"]`)
+        .should('exist')
+        .should('contain', link.text)
+        .click()
+        .wait(100)
+
+      cy.url().should('be.equal', `${rootUrl}${link.url}`)
+    })
   })
 
-  it('Redirect to check text via Footer', () => {
-    cy.get('[data-testid="TextPlag"]') // Retrieve the check text link in the footer
-      .should('exist')
-      .should('contain', 'Text similarity checker')
-      .click()
-      .wait(100) // Wait a moment until everything is rendered
-    cy.url()
-      .should('be.equal', `${rootUrl}/checkText`) // We should now be in the check text page
-  })
-
-  it('Redirect to compare texts via Footer', () => {
-    cy.get('[data-testid="TextSim"]') // Retrieve the compare texts link in the footer
-      .should('exist')
-      .should('contain', 'Similarity checker for two texts')
-      .click()
-      .wait(100) // Wait a moment until everything is rendered
-    cy.url()
-      .should('be.equal', `${rootUrl}/compareTexts`) // We should now be in the compare texts page
-  })
-
-  it('Redirect to compare URLs via Footer', () => {
-    cy.get('[data-testid="URLSim"]') // Retrieve the compare URLs link in the footer
-      .should('exist')
-      .should('contain', 'Similarity checker for two URLs')
-      .click()
-      .wait(100) // Wait a moment until everything is rendered
-    cy.url()
-      .should('be.equal', `${rootUrl}/compareURLs`) // We should now be in the compare URLs page
-  })
   it('Redirection to main page through About Us', () => {
     /** Retrieve our mission component from the navbar **/
     cy.get('[data-testid="navbar-component"]')
@@ -247,6 +228,7 @@ describe('tests for several interactions within check text', () => {
         `${rootUrl}/checkText#footer`)
     cy.isInViewport('#footer')
   })
-
 })
+
+
 
