@@ -7,6 +7,7 @@ import CheckOneText from './components/CheckOneText'
 import CheckURL from './components/CheckURL'
 import CheckTwoTexts from './components/CheckTwoTexts'
 import CheckTwoURLs from './components/CheckTwoURLs'
+import HelpPage from './components/HelpPage'
 
 /**
  * The entire page was built around the Bootstrap library.
@@ -40,6 +41,7 @@ function App () {
           <Route exact path='/checkURL' element={<CheckURL />} />
           <Route exact path='/compareTexts' element={<CheckTwoTexts applicationName='NewsCop' firstPlaceholder='Enter your first article here' secondPlaceholder='Enter your second article here' />} />
           <Route exact path='/compareURLs' element={<CheckTwoURLs />} />
+          <Route exact path='/help' element={<HelpPage />} />
         </Routes>
       </div>
     </Router>

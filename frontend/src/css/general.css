@@ -264,3 +264,14 @@ a.custom_cursor:hover {
     height: 400px;
     width: 100%;
 }
+
+.expanded {
+    transform: rotate(180deg);
+}
+
+.custom-icon {
+    transition: transform 0.2s ease-in-out;
+    width: 36px;
+    height: 36px;
+    color: rgb(46, 131, 126);
+}

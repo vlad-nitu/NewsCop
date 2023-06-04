@@ -98,7 +98,7 @@ export default function Footer () {
                   style={{ width: '60px', backgroundColor: '#7c4dff', height: '2px' }}
                 />
                 <p>
-                  <Link to="/help" data-testid='helpLink'>FAQs</Link>
+                  <Link to='/help' data-testid='helpLink'>FAQs</Link>
                 </p>
               </Col>
             </Row>
