@@ -3,7 +3,7 @@ import Footer from './footer'
 import { Container } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function HelpPage () {
   const applicationName = 'NewsCop'
@@ -40,6 +40,10 @@ export default function HelpPage () {
       return expanded
     })
   }
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   return (
     <>
