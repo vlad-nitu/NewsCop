@@ -19,7 +19,25 @@ describe('template spec & clicking a button after inputting some text', () => {
     // Verify that the BodyCheckGeneric component is rendered with the correct description
     cy.get('[data-testid="body-check-generic"]')
       .should('exist')
-      .should('contain', 'News overlap checker')
+      .should('contain', 'News overlap checker') // First description
+      .should('contain', 'Our tool detects overlap in your news article.') // Second Description
+
+
+    /* Button is rendered correctly but is disabled */
+    cy.get('[data-testid="submit_button"]')
+      .should('exist')
+      .and('be.disabled')
+
+    /* Verify that the URL textbox area + the text above it are rendered correctly */
+    cy.get('#formUrl')
+      .should('exist')
+      .should('have.attr', 'placeholder', 'Article\'s URL') // Placeholder value
+      .should('have.value', '') // No URL in the box currently
+      .type('https://example.com') // Write test URL
+      .should('have.value', 'https://example.com') // See the URL in the box changing
+
+    /* The text above the box */
+    cy.contains('h2', 'Enter the article\'s URL to check for overlap').should('exist');
 
     // Interact with the EnterURL component (e.g., type text in input fields and click buttons)
     cy.get('[data-testid="enter-url"]')
