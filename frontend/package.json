@@ -33,7 +33,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test ./src/components/tests --env=jsdom --coverage --transformIgnorePatterns \"node_modules/(?!axios)/\"",
+    "test": "nyc react-scripts test ./src/components/tests --coverage --transformIgnorePatterns \"node_modules/(?!axios)/\"",
     "report": "nyc report --reporter=html",
     "eject": "react-scripts eject"
   },
