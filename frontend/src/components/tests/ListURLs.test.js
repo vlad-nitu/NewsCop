@@ -94,25 +94,28 @@ describe('ListURLs', () => {
       configurable: true,
       value: 900
     })
-    const articles = [{
-      similarity: 0.75,
-      title: 'title1',
-      url: 'https://example1.com',
-      publisher: 'publisher1',
-      date: '2023-05-01'
-    }, {
-      similarity: 0.6,
-      title: 'title2',
-      url: 'https://example2.com',
-      publisher: 'https://publisher2',
-      date: '2023-05-02'
-    }, {
-      similarity: 0.3,
-      title: 'title3',
-      url: 'https://example3.com',
-      publisher: 'http://publisher3',
-      date: '2023-05-03'
-    }
+    const articles = [
+      {
+        similarity: 0.75,
+        title: 'title1',
+        url: 'https://example1.com',
+        publisher: 'publisher1',
+        date: '2023-05-01'
+      },
+      {
+        similarity: 0.6,
+        title: 'title2',
+        url: 'https://example2.com',
+        publisher: 'https://publisher2',
+        date: '2023-05-02'
+      },
+      {
+        similarity: 0.3,
+        title: 'title3',
+        url: 'https://example3.com',
+        publisher: 'http://publisher3',
+        date: '2023-05-03'
+      }
     ]
     const sourceUrl = ''
 
@@ -131,7 +134,7 @@ describe('ListURLs', () => {
 
     const compareButton = screen.getAllByText('Compare')[0]
 
-    act(() => {
+    await act(async () => {
       fireEvent.click(compareButton)
     })
 

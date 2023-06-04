@@ -3,7 +3,6 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router'
 import Services from '../services'
 
-const badTitles = ['Fake title']
 const titles = ['URL plagiarism checker', 'Text plagiarism checker', 'Text similarity checker']
 const descriptions = ['NewsCop provides users with a way of checking the URL of a news article against a large database of articles for fast and accurate plagiarism detection.',
   'NewsCop provides users with a way of checking the text of a news article against a large database of articles for fast and accurate plagiarism detection.', 'Test the similarity between two news articles by using this poweful tool which enables you to input two URLs of media content and see the alikeness of the two']
@@ -28,11 +27,14 @@ test('get descriptions', () => {
 })
 
 test('bad weather test', () => {
-  const ret = () => {
-    render(
-      <Services titles={badTitles} descriptions={descriptions} images={images} />)
-  }
-  expect(ret).toThrow(Error)
+  const titles = ['Fake title'] // !!! Should be exactly named `titles`
+  const descriptions = ['Description 1', 'Description 2', 'Description 3']
+  const images = ['image1.jpg', 'image2.jpg']
+
+  // Act & Assert
+  expect(() => {
+    Services({ titles, descriptions, images })
+  }).toThrowError('Different lengths of the arrays.')
 })
 test('get titles', () => {
   render(

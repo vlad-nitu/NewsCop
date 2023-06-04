@@ -70,8 +70,7 @@ export default function EnterTwoURLs () {
         setAnswerValue(answer)
         setOutputVisualisations(true)
       })
-      .catch(error => {
-        console.log(error)
+      .catch(_ => {
         setOutputColor('darkred')
         setOutputValue('Please provide a valid input!')
         setOutputVisualisations(false)
