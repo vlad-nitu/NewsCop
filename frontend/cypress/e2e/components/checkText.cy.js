@@ -31,7 +31,7 @@ describe('tests for several interactions within check text', () => {
       .should('exist')
       .should('have.attr', 'placeholder', 'Enter your article here') // Placeholder value
       .should('have.value', '') // No text in the box currently
-      .type('Example Test') // Write something in the box
+      .type('藝文類聚卷五文字更正在梁思成先生作品提到的古建筑的「角叶」的含义及其图片') // Write something in the box
       .should('have.value', 'Example Test') // See the text in the box changing
 
     /* The text above the box */
