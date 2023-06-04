@@ -134,7 +134,7 @@ export default function EnterTwoURLs () {
         </Form.Group>
         <SubmitButton onClickMethod={handleSubmit} disabled={buttonDisabled || !inputValueChanged || !inputValueOriginal} />
         {loadingValue && (<LoadingCircle />)}
-        {showInputValue &&  (
+        {showInputValue && (
           <div>
             {/* Render similarity score */}
             <div className='pt-5' style={{ display: 'flex', justifyContent: 'center', color: outputColor, fontSize: '1.25rem', textAlign: 'center' }}>
