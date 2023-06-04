@@ -53,7 +53,7 @@ describe('tests for several interactions within check text', () => {
     cy.get('[data-testid="error-prompt"]')
       .should('exist')
       .and('be.visible')
-      .should('have.text', 'You entered an invalid text!')
+      .should('have.text', 'Our system has not found no match for the news content you provided!')
 
     /* The button is temporarily disabled */
     cy.get('[data-testid="submit_button"]')
