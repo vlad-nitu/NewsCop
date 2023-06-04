@@ -6,6 +6,7 @@ import axios from 'axios'
 import SubmitButton from './submitButton'
 import ProgressLineCustom from './ProgressLineCustom'
 import SideBySideRender from './SideBySideRender'
+import LoadingCircle from './LoadingCircle'
 
 /**
  * Container that displays:
@@ -31,6 +32,7 @@ export default function EnterTwoURLs () {
   const [buttonDisabled, setButtonDisabled] = useState(false)
   const [outputValue, setOutputValue] = useState('')
   const [outputColor, setOutputColor] = useState('black')
+  const [loadingValue, setLoadingValue] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [outputVisualisations, setOutputVisualisations] = useState(false)
 
@@ -56,6 +58,7 @@ export default function EnterTwoURLs () {
     setOutputVisualisations(false)
     setOutputValue('')
     setAnswerValue(0)
+    setLoadingValue(true)
 
     await axios.post(`${compareURLsEndpoint}`, createRequestBody(inputValueOriginal, inputValueChanged))
       .then(response => {
@@ -78,6 +81,7 @@ export default function EnterTwoURLs () {
       })
 
     setShowInputValue(true)
+    setLoadingValue(false)
 
     setTimeout(() => {
       setButtonDisabled(false)
@@ -129,7 +133,8 @@ export default function EnterTwoURLs () {
           </Row>
         </Form.Group>
         <SubmitButton onClickMethod={handleSubmit} disabled={buttonDisabled || !inputValueChanged || !inputValueOriginal} />
-        {showInputValue && (
+        {loadingValue && (<LoadingCircle />)}
+        {showInputValue &&  (
           <div>
             {/* Render similarity score */}
             <div className='pt-5' style={{ display: 'flex', justifyContent: 'center', color: outputColor, fontSize: '1.25rem', textAlign: 'center' }}>

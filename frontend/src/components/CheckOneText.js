@@ -64,8 +64,8 @@ export default function CheckOneText ({ applicationName }) {
     const response = await axios.post(`${checkTextEndpoint}`,
       { key: `${inputValue}` })
       .catch(function (error) {
+        setLoadingValue(false)
         if (error.response) {
-          setLoadingValue(false)
           // https://stackoverflow.com/questions/49967779/axios-handling-errors
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
@@ -75,7 +75,6 @@ export default function CheckOneText ({ applicationName }) {
           console.log(error.response.status)
           console.log(error.response.headers)
         } else if (error.request) {
-          setLoadingValue(false)
           // The request was made but no response was received
           // `error.request` is an instance of XMLHttpRequest in the browser
           // and an instance of http.ClientRequest in node.js
@@ -83,7 +82,6 @@ export default function CheckOneText ({ applicationName }) {
           setErrorPrompt(true)
           console.log(error.request)
         } else {
-          setLoadingValue(false)
           // Something happened in setting up the request that triggered an Error
           setErrorVal('An error occurred, please try again later!')
           setErrorPrompt(true)
@@ -104,12 +102,11 @@ export default function CheckOneText ({ applicationName }) {
 
         articles.push(new Article(url, title, publisher, date, similarity))
       }
+      setLoadingValue(false)
       if (articles.length === 0) {
-        setLoadingValue(false)
         setErrorVal('Our system has not found no match for the news content you provided!')
         setErrorPrompt(true)
       } else {
-        setLoadingValue(false)
         setSourceArticle(new Article(inputValue, response.data.sourceTitle, null, response.data.sourceDate, 0))
         setArticlesValues(articles)
         setDisplayAnswer('block')
