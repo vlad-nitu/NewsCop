@@ -20,7 +20,7 @@ frontend-test:
     - cd frontend
     - npm install
   script:
-    - npm run test --passWithNoTests -- --detectOpenHandles
+    - nyc --reporter=text-lcov react-scripts test ./src/components/tests -- --coverage --transformIgnorePatterns "node_modules/(?!axios)/" --detectOpenHandles
   only:
     refs:
       - merge_requests
