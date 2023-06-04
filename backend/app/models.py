@@ -36,7 +36,9 @@ class NewsDocument(Document):
         for fp in self.fingerprints:
             if fp not in visited_fps:
                 visited_fps.add(fp)
-        existing_fps = set(db.hashes_collection.find({}, {"_id": 1}).distinct('_id')) # the already existing fps in the collection
+
+        # the already existing fps in the collection
+        existing_fps = set(db.hashes_collection.find({}, {"_id": 1}).distinct('_id')) 
         need_to_update_fps = visited_fps & existing_fps  # the already existing fp_s
         need_to_insert_fps = visited_fps - need_to_update_fps  # the fp_s that need to be inserted
         # Update matching documents in hashes_collection collection
