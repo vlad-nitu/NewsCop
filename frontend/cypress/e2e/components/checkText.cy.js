@@ -104,84 +104,34 @@ describe('tests for several interactions within check text', () => {
       .should('be.equal', `${rootUrl}/#home`) // We should now be in the homepage
   })
 
-  it('Redirection via Navbar to checkURL', () => {
-    /* Retrieve navbar option of going to checkURL */
-    cy.get('#nav-dropdown')
-      .should('exist')
-      .trigger('mouseover')
-      .get('a[role="option"][href="/checkURL"]')
-      .as('urlChecker')
-      .wait(1000)
-    /* The text content */
-    cy.get('@urlChecker')
-      .should('exist')
-      .should('contain', 'URL Similarity Checker')
-    /* Actually click it */
-    cy.get('@urlChecker')
-      .should('exist')
-      .click()
+  const redirectionOptions = [
+    { href: '/checkURL', text: 'URL Similarity Checker' },
+    { href: '/checkText', text: 'Text Similarity Checker' },
+    { href: '/compareTexts', text: 'Similarity Checker for two Texts' },
+    { href: '/compareURLs', text: 'Similarity Checker for two URLs' },
+  ]
 
-    cy.url()
-      .should('be.equal', `${rootUrl}/checkURL`) // We should be now in the checkURL page
+  redirectionOptions.forEach((option) => {
+    it(`Redirection via Navbar to ${option.href}`, () => {
+      cy.get('#nav-dropdown')
+        .should('exist')
+        .trigger('mouseover')
+        .get(`a[role="option"][href="${option.href}"]`)
+        .as('link')
+        .wait(1000)
+
+      cy.get('@link')
+        .should('exist')
+        .should('contain', option.text)
+
+      cy.get('@link')
+        .should('exist')
+        .click()
+
+      cy.url().should('be.equal', `${rootUrl}${option.href}`)
+    })
   })
-
-  it('Redirection via Navbar to checkText', () => {
-    /* Retrieve navbar option of going to checkText */
-    cy.get('#nav-dropdown')
-      .should('exist')
-      .trigger('mouseover').get('a[role="option"][href="/checkText"]')
-      .as('textChecker')
-    /* The text content */
-    cy.get('@textChecker')
-      .should('exist')
-      .should('contain', 'Text Similarity Checker')
-    /* Actually click it */
-    cy.get('@textChecker')
-      .should('exist')
-      .click()
-
-    cy.url()
-      .should('be.equal', `${rootUrl}/checkText`) // We should stay in the checkText page
-  })
-
-  it('Redirection via Navbar to compareTexts', () => {
-    /* Retrieve navbar option of going to compareTexts */
-    cy.get('#nav-dropdown')
-      .should('exist')
-      .trigger('mouseover').get('a[role="option"][href="/compareTexts"]')
-      .as('textsChecker')
-    /* The text content */
-    cy.get('@textsChecker')
-      .should('exist')
-      .should('contain', 'Similarity Checker for two Texts')
-    /* Actually click it */
-    cy.get('@textsChecker')
-      .should('exist')
-      .click()
-
-    cy.url()
-      .should('be.equal', `${rootUrl}/compareTexts`) // We should have moved to compare texts page
-  })
-
-  it('Redirection via Navbar to compareURLs', () => {
-    /* Retrieve navbar option of going to compareURLs */
-    cy.get('#nav-dropdown')
-      .should('exist')
-      .trigger('mouseover').get('a[role="option"][href="/compareURLs"]')
-      .as('urlsChecker')
-    /* The text content */
-    cy.get('@urlsChecker')
-      .should('exist')
-      .should('contain', 'Similarity Checker for two URLs')
-    /* Actually click it */
-    cy.get('@urlsChecker')
-      .should('exist')
-      .click()
-
-    cy.url()
-      .should('be.equal', `${rootUrl}/compareURLs`) // We should have moved to compare URLs page
-  })
-
+1
   /* The information needed for all the footer redirections */
   const footerLinks = [
     { testId: 'URLPlag', text: 'URL similarity checker', url: '/checkURL' },
