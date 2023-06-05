@@ -112,8 +112,7 @@ describe('ListURLs', () => {
       url: 'https://example3.com',
       publisher: 'http://publisher3',
       date: '2023-05-03'
-    }
-    ]
+    }]
     const sourceUrl = ''
 
     render(
@@ -131,7 +130,7 @@ describe('ListURLs', () => {
 
     const compareButton = screen.getAllByText('Compare')[0]
 
-    act(() => {
+    await act(async () => {
       fireEvent.click(compareButton)
     })
 
