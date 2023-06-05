@@ -73,8 +73,7 @@ export default function EnterTwoURLs () {
         setAnswerValue(answer)
         setOutputVisualisations(true)
       })
-      .catch(error => {
-        console.log(error)
+      .catch(_ => {
         setOutputColor('darkred')
         setOutputValue('Please provide a valid input!')
         setOutputVisualisations(false)
@@ -90,12 +89,10 @@ export default function EnterTwoURLs () {
 
   const handleInputChangeOriginal = (event) => {
     setInputValueOriginal(event.target.value)
-    console.log(event.target.value)
   }
 
   const handleInputChangeChanged = (event) => {
     setInputValueChanged(event.target.value)
-    console.log(event.target.value)
   }
 
   return (
