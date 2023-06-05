@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_mongoengine',
     'corsheaders',
+    'silk',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +55,7 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",  
     # Allows users to interact more with the browser itself (i.e: input their data) 
+     'silk.middleware.SilkyMiddleware', # Profiler for Django requests
 ]
 
 # Manually configured to tie Django app to React frontend -> do not block React when trying to interact with Django
