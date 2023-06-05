@@ -25,7 +25,7 @@ export default function HelpPage () {
     },
     {
       question: 'How does a news article overlap platform work?',
-      answer: "A news article overlap platform uses fingerprinting to generate unique representations (fingerprints) for each news article. These fingerprints are created by converting the article's content into a fixed-length code or hash. By comparing these fingerprints, the platform identifies similarities and detects potential overlaps between different news articles on a lexical level, without relying on natural language processing (NLP) algorithms."
+      answer: "A news article overlap platform uses fingerprinting to generate unique representations (fingerprints) for each news article. These fingerprints are created by taking windows of length 8 from the original text and then hash each of those sub-strings, storing them in an array. By comparing these fingerprints, the platform identifies similarities and detects potential overlaps between different news articles on a lexical level, without relying on natural language processing (NLP) algorithms."
     },
     {
       question: 'What problem does a news article overlap platform solve?',
