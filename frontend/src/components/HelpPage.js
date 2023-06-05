@@ -37,26 +37,26 @@ export default function HelpPage ({ questionsFile }) {
 
   useEffect(() => {
     // Scroll to top when the component mounts
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 0)
 
     // Fetch the questions and store the, in parsedQuestions
     const fetchData = async () => {
       try {
+        const fetch = require('node-fetch')
         const response = await fetch(questionsFile, {
-          headers : { 
+          headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
-           }
-        });
-        const data = await response.json();
-        setParsedQuestions(data);
+            Accept: 'application/json'
+          }
+        })
+        const data = await response.json()
+        setParsedQuestions(data)
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching data:', error)
       }
-    };
+    }
 
-    fetchData();
-
+    fetchData()
   }, [])
 
   return (

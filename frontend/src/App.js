@@ -33,7 +33,7 @@ function App () {
           'quickly and accurately and, consequently, decreasing the impact of ' +
           'misinformation and bias in the media.'
 
-  const questionsFile = "questions_and_answers.json"
+  const questionsFile = 'questions_and_answers.json'
   return (
     <Router>
       <div>
@@ -43,7 +43,7 @@ function App () {
           <Route exact path='/checkURL' element={<CheckURL />} />
           <Route exact path='/compareTexts' element={<CheckTwoTexts applicationName='NewsCop' firstPlaceholder='Enter your first article here' secondPlaceholder='Enter your second article here' />} />
           <Route exact path='/compareURLs' element={<CheckTwoURLs />} />
-          <Route exact path='/help' element={<HelpPage questionsFile={questionsFile}/>} />
+          <Route exact path='/help' element={<HelpPage questionsFile={questionsFile} />} />
         </Routes>
       </div>
     </Router>
