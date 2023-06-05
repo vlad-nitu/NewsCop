@@ -5,7 +5,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 import { useState, useEffect } from 'react'
 
+/**
+ *
+ * HelpPage component
+ *
+ * This component represents the HelpPage of the application.
+ * It displays frequently asked questions (FAQs) and their corresponding answers in an expandable card format.
+ *
+ * @returns {JSX.Element} The HelpPage component
+ */
 export default function HelpPage () {
+  // Application name
   const applicationName = 'NewsCop'
 
   const questions = [
@@ -31,8 +41,14 @@ export default function HelpPage () {
     }
   ]
 
+  // State for tracking expanded/collapsed state of each card
   const [cardIsExpanded, setCardIsExpanded] = useState([])
 
+  /**
+   *
+   * Handles the click event on a card to expand/collapse it.
+   * @param {number} index - The index of the card in the questions array
+   */
   const handleCardClick = (index) => {
     setCardIsExpanded((prevExpanded) => {
       const expanded = [...prevExpanded]
@@ -41,6 +57,7 @@ export default function HelpPage () {
     })
   }
 
+  // Scroll to top when the component mounts
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])

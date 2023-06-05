@@ -10,7 +10,7 @@ import ListURLs from './ListURLs'
  */
 export default function CheckUrlDecision ({ type, sourceArticle, articles, display }) {
   return (
-    <div id='similar_articles' style={{ display }}>
+    <div id='similar_articles' style={{ display: display }}>
       <div className='d-flex flex-column'>
         <div className='mb-3 mt-3'>
           <div className='text-center'>
