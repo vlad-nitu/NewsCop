@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react'
+import { act } from 'react-dom/test-utils'
 import IframeRenderer from '../IframeRenderer'
 
 describe('IframeRenderer', () => {
@@ -18,7 +19,9 @@ describe('IframeRenderer', () => {
   })
 
   it('hides the loading spinner and displays the iframe after loading', () => {
-    fireEvent.load(screen.getByTitle(mockId))
+    act(() => {
+      fireEvent.load(screen.getByTitle(mockId))
+    })
 
     const iframe = screen.getByTitle(mockId)
     expect(iframe).toBeInTheDocument()
@@ -28,7 +31,9 @@ describe('IframeRenderer', () => {
   })
 
   it('calls the changeBackground function when hiding the spinner', () => {
-    fireEvent.load(screen.getByTitle(mockId))
+    act(() => {
+      fireEvent.load(screen.getByTitle(mockId))
+    })
 
     expect(mockChangeBackground).toHaveBeenCalled()
   })
