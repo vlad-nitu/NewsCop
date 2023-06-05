@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -45,17 +46,15 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'silk.middleware.SilkyMiddleware', # Profiler for Django requests
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.common.CommonMiddleware",  
-    # Allows users to interact more with the browser itself (i.e: input their data) 
-     'silk.middleware.SilkyMiddleware', # Profiler for Django requests
 ]
 
 # Manually configured to tie Django app to React frontend -> do not block React when trying to interact with Django
@@ -138,3 +137,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Colourful tests, for more readabilty when reading stacktraces :D
 TEST_RUNNER = "redgreenunittest.django.runner.RedGreenDiscoverRunner"
+
+SILKY_PYTHON_PROFILER = True

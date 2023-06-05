@@ -1,3 +1,5 @@
+from silk.profiling.profiler import silk_profile
+
 import concurrent.futures
 import heapq
 from datetime import datetime
@@ -30,6 +32,7 @@ from collections import Counter, defaultdict
 class ReactView(APIView):
     serializer_class = ReactSerializer
 
+    @silk_profile(name='View GET')
     def get(self, request):
         obtained = [{'url': output['_id'], 'published_date': output['published_date']}
                     for output in db.copy_collection.find()]
@@ -77,6 +80,7 @@ def reqex_view(request):
         return HttpResponseBadRequest("Invalid request method")
 
 
+@silk_profile(name='Persist_URL GET')
 def persist_url_view(request):
     '''
     The endpoint that can be consumed by posting on localhost:8000/persistURL/ with the request body as <urlString>.
@@ -156,6 +160,7 @@ def url_similarity_checker(request):
 
         # If the URL has not been persisted yet, persist it in the DB
         if db.news_collection.find_one({'_id': source_url}) is None:
+            print("Am intrat")
             response = persist_url_view(request)
             if response.status_code == 400:  # Cannot persist URL as either it is too long, or it does not have text.
                 return response
