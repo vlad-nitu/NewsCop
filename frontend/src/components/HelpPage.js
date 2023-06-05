@@ -20,6 +20,7 @@ export default function HelpPage ({ questionsFile }) {
 
   // State for tracking expanded/collapsed state of each card
   const [cardIsExpanded, setCardIsExpanded] = useState([])
+  const [isClickable, setIsClickable] = useState(true); // Add new state for controlling clickability of each card
   const [parsedQuestions, setParsedQuestions] = useState([])
 
   /**
@@ -28,11 +29,17 @@ export default function HelpPage ({ questionsFile }) {
    * @param {number} index - The index of the card in the questions array
    */
   const handleCardClick = (index) => {
-    setCardIsExpanded((prevExpanded) => {
-      const expanded = [...prevExpanded]
-      expanded[index] = !expanded[index]
-      return expanded
-    })
+    if (isClickable) {
+      setIsClickable(false); // Disable clickability
+      setCardIsExpanded((prevExpanded) => {
+        const expanded = [...prevExpanded]
+        expanded[index] = !expanded[index]
+        return expanded
+      })
+      setTimeout(() => {
+        setIsClickable(true); // Enable clickability after 1 second
+      }, 350);
+    }
   }
 
   useEffect(() => {
@@ -42,7 +49,6 @@ export default function HelpPage ({ questionsFile }) {
     // Fetch the questions and store the, in parsedQuestions
     const fetchData = async () => {
       try {
-        const fetch = require('node-fetch')
         const response = await fetch(questionsFile, {
           headers: {
             'Content-Type': 'application/json',
@@ -84,7 +90,7 @@ export default function HelpPage ({ questionsFile }) {
                     />
                     <p className='ps-4 d-inline m-0 fs-4'>{question.question}</p>
                   </div>
-                  <div id={`collapseExample${index}`} className='collapse'>
+                  <div id={`collapseExample${index}`} data-testid={`collapseExample${index}`} className='collapse'>
                     <div className='d-flex flex-row pt-3 pt-md-0'>
                       {/* The icon is needed such that the text will be indented the same as the title. (For some reason, there is still some difference, but I can't find any fix for that). Also, that icon is 'invisible'. */}
                       <FontAwesomeIcon icon={faPlus} className='invisible custom-icon' />
