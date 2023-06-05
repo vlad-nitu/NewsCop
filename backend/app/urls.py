@@ -30,6 +30,6 @@ urlpatterns = [
     path('compareTexts/', compare_texts_view, name = "compare_texts"),
     path('compareURLs/', compare_URLs, name = "compare_URLs"),
     path('checkText/', text_similarity_checker, name = "text_similarity_checker"),
-    path('silk/', include('silk.urls', namespace='silk')), # `silk` 3rd-party profiler
+    path('silk/', include('silk.urls', namespace='silk')),  # `silk` 3rd-party profiler
     # Set localhost on port 8000 (default for Django)  to be the main endpoint for ReactView class
 ]

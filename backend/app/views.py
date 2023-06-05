@@ -160,7 +160,6 @@ def url_similarity_checker(request):
 
         # If the URL has not been persisted yet, persist it in the DB
         if db.news_collection.find_one({'_id': source_url}) is None:
-            print("Am intrat")
             response = persist_url_view(request)
             if response.status_code == 400:  # Cannot persist URL as either it is too long, or it does not have text.
                 return response
