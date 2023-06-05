@@ -153,8 +153,7 @@ export const compareTexts = async (originalText, compareText) => {
     }
     const response = await axios.post(`${compareTextsEndpoint}`, data)
     return response.data
-  } catch (error) {
-    console.error(error)
+  } catch (_) {
     throw new Error('Failed to compute similarity')
   }
 }
