@@ -2,7 +2,7 @@ from pymongo import InsertOne, UpdateOne
 from utils import db
 from mongoengine.fields import Document, EmbeddedDocument
 from mongoengine.fields import ListField, StringField, DateTimeField, IntField
-
+from utils import existing_fps
 
 # Create your models here.
 class React(Document):
@@ -37,8 +37,6 @@ class NewsDocument(Document):
             if fp not in visited_fps:
                 visited_fps.add(fp)
 
-        # the already existing fps in the collection
-        existing_fps = set(db.hashes_collection.find({}, {"_id": 1}).distinct('_id')) 
         need_to_update_fps = visited_fps & existing_fps  # the already existing fp_s
         need_to_insert_fps = visited_fps - need_to_update_fps  # the fp_s that need to be inserted
         # Update matching documents in hashes_collection collection
@@ -49,5 +47,6 @@ class NewsDocument(Document):
         to_insert = []
         for i in need_to_insert_fps:
             to_insert.append({"_id": i, "urls": [self.url]})
+            existing_fps.add(i)
         if len(to_insert) != 0:
             db.hashes_collection.insert_many(to_insert)
