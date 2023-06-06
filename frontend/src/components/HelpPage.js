@@ -81,7 +81,7 @@ export default function HelpPage ({ questionsFile }) {
             {parsedQuestions.map((question, index) => {
               return (
                 <div className='px-2 py-2 px-md-5 py-md-3 mb-4 rounded shadow-sm' style={{ backgroundColor: '#f5f5f5' }} key={index}>
-                  <div className='d-flex align-items-center' data-bs-toggle='collapse' href={`#collapseExample${index}`} role='button' name={question.question} aria-expanded='false' aria-controls={`collapseExample${index}`} onClick={() => handleCardClick(index)}>
+                  <div className='d-flex align-items-center' data-bs-toggle='collapse' href={`#collapseExample${index}`} role='button' name={question.question} data-testid={question.question} aria-expanded='false' aria-controls={`collapseExample${index}`} onClick={() => handleCardClick(index)}>
                     <FontAwesomeIcon
                       icon={cardIsExpanded[index] ? faMinus : faPlus}
                       className={`custom-icon d-inline ${cardIsExpanded[index] ? 'expanded' : ''}`}

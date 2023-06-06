@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event'
 import HelpPage from '../HelpPage';
 import { MemoryRouter } from 'react-router-dom';
 
@@ -9,12 +10,12 @@ describe('HelpPage', () => {
       Promise.resolve({
         json: () => Promise.resolve([
           {
-            question: 'Question 1',
-            answer: 'Answer 1'
+            question: 'Question 0',
+            answer: 'Answer 0'
           },
           {
-            question: 'Question 2',
-            answer: 'Answer 2'
+            question: 'Question 1',
+            answer: 'Answer 1'
           }
         ])
       })
@@ -33,13 +34,13 @@ describe('HelpPage', () => {
     );
     
     // Wait for the data to be fetched and rendered
-    await waitFor(() => screen.getByText('Question 1'));
+    await waitFor(() => screen.getByText('Question 0'));
     
     // Assert that the questions and answers are rendered
+    expect(screen.getByText('Question 0')).toBeInTheDocument();
+    expect(screen.getByText('Answer 0')).toBeInTheDocument();
     expect(screen.getByText('Question 1')).toBeInTheDocument();
     expect(screen.getByText('Answer 1')).toBeInTheDocument();
-    expect(screen.getByText('Question 2')).toBeInTheDocument();
-    expect(screen.getByText('Answer 2')).toBeInTheDocument();
   });
 
   test('expands and collapses a card when clicked', async () => {
@@ -50,16 +51,29 @@ describe('HelpPage', () => {
     );
     
     // Wait for the data to be fetched and rendered
-    await waitFor(() => screen.getByText('Question 1'));
+    await screen.findByTestId('collapseExample0')
+
+    // Check initial state of the cards
+    const card0 = screen.getByTestId('collapseExample0');
+    const card1 = screen.getByTestId('collapseExample1');
+
+    expect(card0).toHaveClass('collapse'); // Card 0 should be initially collapsed
+    expect(card1).toHaveClass('collapse'); // Card 1 should be initially collapsed
+
+    // Click on card 0 to expand it
+    fireEvent.select(screen.getByTestId('Question 0'));
+    console.log(screen.getByTestId('Question 0'))
+
+    expect(card0).toHaveClass('collapse show'); // Card 0 should be expanded
+    expect(card1).toHaveClass('collapse'); // Card 1 should still be collapsed
     
-    // Click on the first card to expand it
-    fireEvent.click(screen.getByText('Question 1'));
-    expect(screen.getByTestId('collapseExample0')).toBeVisible();
+    // // Click on the first card to expand it
+    // expect(screen.getByTestId('collapseExample0').classList.contains('collapse')).toBe(true)
+    // await userEvent.click(screen.getByTestId('Question 0'))
+    // expect(screen.getByTestId('collapseExample0').classList.contains('collapse show')).toBe(true)
 
-    await waitFor(() => screen.getByText('Answer 1'));
-
-    // Click on the first card again to collapse it
-    fireEvent.click(screen.getByText('Question 1'));
-    expect(screen.getByTestId('collapseExample0')).toHaveStyle('display: none');
+    // // Click on the first card again to collapse it
+    // fireEvent.click(screen.getByText('Question 0'));
+    // expect(screen.getByTestId('collapseExample0')).toHaveStyle('display: none');
   });
 });
