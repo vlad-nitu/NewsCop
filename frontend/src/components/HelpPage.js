@@ -20,7 +20,7 @@ export default function HelpPage ({ questionsFile }) {
 
   // State for tracking expanded/collapsed state of each card
   const [cardIsExpanded, setCardIsExpanded] = useState([])
-  const [isClickable, setIsClickable] = useState(true); // Add new state for controlling clickability of each card
+  const [isClickable, setIsClickable] = useState(true) // Add new state for controlling clickability of each card
   const [parsedQuestions, setParsedQuestions] = useState([])
 
   /**
@@ -30,15 +30,15 @@ export default function HelpPage ({ questionsFile }) {
    */
   const handleCardClick = (index) => {
     if (isClickable) {
-      setIsClickable(false); // Disable clickability
+      setIsClickable(false) // Disable clickability
       setCardIsExpanded((prevExpanded) => {
         const expanded = [...prevExpanded]
         expanded[index] = !expanded[index]
         return expanded
       })
       setTimeout(() => {
-        setIsClickable(true); // Enable clickability after 1 second
-      }, 350);
+        setIsClickable(true) // Enable clickability after 1 second
+      }, 350)
     }
   }
 
