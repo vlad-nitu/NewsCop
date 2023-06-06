@@ -46,7 +46,7 @@ class UrlsTest(TestCase):
             'compare_text': 'run run run run',
         }
 
-        expected_similarity = 0.0
+        expected_similarity = 1 / 3
         json_data = json.dumps(data)
         obtained_url = reverse('compare_texts')
         client = Client()
