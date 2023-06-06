@@ -35,7 +35,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "nyc react-scripts test ./src/components/tests --coverage --transformIgnorePatterns \"node_modules/(?!axios)/\"",
+    "test": "nyc react-scripts test ./src/components/tests --coverage --transformIgnorePatterns \"node_modules/(?!axios)/\" --silent=true",
     "report": "nyc report --reporter=html",
     "eject": "react-scripts eject"
   },
