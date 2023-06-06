@@ -49,7 +49,7 @@ export default function HelpPage ({ questionsFile }) {
     // Fetch the questions and store the, in parsedQuestions
     const fetchData = async () => {
       try {
-        const response = await fetch(questionsFile, {
+        const response = await window.fetch(questionsFile, {
           headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json'
