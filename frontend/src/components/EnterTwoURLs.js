@@ -92,7 +92,7 @@ export default function EnterTwoURLs () {
   }
 
   return (
-    <Container className='my-3'>
+    <Container data-testid='enter-two-urls' className='my-3'>
       <div className='mt-5'>
         <h2 className='text-center' style={{ fontSize: '1.5vh' }}>
           Enter the article's URLs to check for similarity
@@ -102,7 +102,7 @@ export default function EnterTwoURLs () {
         <Form.Group controlId='formUrl'>
           <Row className='url-part'>
             <Col md={6} className='pe-sm-6 mb-6 mb-sm-0 pb-2 pb-md-0'>
-              <Form.Control
+              <Form.Control id='left_url'
                 type='url'
                 placeholder={PreInputArticlePromptOriginal}
                 className='rounded-pill border-success'
@@ -113,7 +113,7 @@ export default function EnterTwoURLs () {
               />
             </Col>
             <Col md={6} className='pe-sm-6 mb-6 mb-sm-0 pt-2 pt-md-0'>
-              <Form.Control
+              <Form.Control id='right_url'
                 type='url'
                 placeholder={PreInputArticlePromptChanged}
                 className='rounded-pill border-success'
@@ -129,7 +129,7 @@ export default function EnterTwoURLs () {
         {showInputValue && (
           <div>
             {/* Render similarity score */}
-            <div className='pt-5' style={{ display: 'flex', justifyContent: 'center', color: outputColor, fontSize: '1.25rem', textAlign: 'center' }}>
+            <div className='pt-5' data-testid='output-prompt' style={{ display: 'flex', justifyContent: 'center', color: outputColor, fontSize: '1.25rem', textAlign: 'center' }}>
               {outputValue}
             </div>
 
