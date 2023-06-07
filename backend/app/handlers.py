@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from typing import Any
 from .plagiarism_checker.sanitizing import sanitizing_url
@@ -36,7 +37,7 @@ class AbstractHandler(Handler):
         return handler
 
     @abstractmethod
-    def handle(self, content: Any) -> HttpResponse:
+    def handle(self, content: str) -> HttpResponse:
         if self._next_handler:
             return self._next_handler.handle(content)
 
@@ -51,7 +52,7 @@ Note that a Concrete Handler either handles a request or passes it to teh next h
 
 
 class SanitizationHandler(AbstractHandler):
-    def handle(self, content: Any) -> HttpResponse:
+    def handle(self, content: str) -> HttpResponse:
         # check if the content provided (URL) is valid (URL form + actual media content)
         if sanitizing_url(content):
             return super().handle(content)
@@ -60,7 +61,7 @@ class SanitizationHandler(AbstractHandler):
 
 
 class DatabaseHandler(AbstractHandler):
-    def handle(self, content: Any) -> HttpResponse:
+    def handle(self, content: str) -> HttpResponse:
         # checking if the URL is already presented in the database
         url_exists = db.news_collection.find_one({'_id': content}) is not None
         if url_exists:
@@ -70,7 +71,7 @@ class DatabaseHandler(AbstractHandler):
 
 
 class ContentHandler(AbstractHandler):
-    def handle(self, content: Any) -> HttpResponse:
+    def handle(self, content: str) -> HttpResponse:
         # trying to persist the URL in the database by checking its content
         # do crawling on the given url
         article_text, _ = crawl_url(content)
