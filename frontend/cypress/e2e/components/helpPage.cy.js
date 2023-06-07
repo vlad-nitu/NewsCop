@@ -42,5 +42,21 @@ describe('HelpPage', () => {
       })
   })
 
-  // Add more tests as needed...
+  it('scrolls to the top when the component mounts', () => {
+    // Scroll to the bottom of the page first
+    cy.scrollTo('bottom')
+
+    // Reload the page
+    cy.reload()
+
+    // Assert that the page is scrolled to the top
+    cy.window().then((window) => {
+      expect(window.scrollY).to.equal(0)
+    })
+  })
+
+  it('displays the navbar and footer components', () => {
+    cy.get('nav').should('be.visible')
+    cy.get('footer').should('be.visible')
+  })
 })
