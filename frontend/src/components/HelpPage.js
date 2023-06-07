@@ -45,25 +45,9 @@ export default function HelpPage ({ questionsFile }) {
   useEffect(() => {
     // Scroll to top when the component mounts
     window.scrollTo(0, 0)
-
-    // Fetch the questions and store the, in parsedQuestions
-    const fetchData = async () => {
-      try {
-        const response = await window.fetch(questionsFile, {
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json'
-          }
-        })
-        const data = await response.json()
-        setParsedQuestions(data)
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
-    }
-
-    fetchData()
-  }, [])
+    // Store the questions in parsed questions
+    setParsedQuestions(questionsFile)
+  }, [questionsFile])
 
   return (
     <>
@@ -81,7 +65,7 @@ export default function HelpPage ({ questionsFile }) {
             {parsedQuestions.map((question, index) => {
               return (
                 <div className='px-2 py-2 px-md-5 py-md-3 mb-4 rounded shadow-sm' style={{ backgroundColor: '#f5f5f5' }} key={index}>
-                  <div className='d-flex align-items-center' data-bs-toggle='collapse' href={`#collapseExample${index}`} role='button' name={question.question} data-testid={question.question} aria-expanded='false' aria-controls={`collapseExample${index}`} onClick={() => handleCardClick(index)}>
+                  <div className='d-flex align-items-center' data-bs-toggle='collapse' href={`#collapseExample${index}`} role={isClickable ? 'button' : 'row'} name={question.question} data-testid={question.question} aria-expanded='false' aria-controls={`collapseExample${index}`} onClick={() => handleCardClick(index)}>
                     <FontAwesomeIcon
                       icon={cardIsExpanded[index] ? faMinus : faPlus}
                       className={`custom-icon d-inline ${cardIsExpanded[index] ? 'expanded' : ''}`}

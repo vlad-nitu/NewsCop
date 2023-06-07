@@ -1,82 +1,77 @@
 import React from 'react'
-import { render, waitFor, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import HelpPage from '../HelpPage'
 import { MemoryRouter } from 'react-router-dom'
 
+const questionsFile = [
+  { question: 'Question 1', answer: 'Answer 1' },
+  { question: 'Question 2', answer: 'Answer 2' }
+]
+
 describe('HelpPage', () => {
-  beforeEach(() => {
-    jest.spyOn(global, 'fetch').mockImplementation(() =>
-      Promise.resolve({
-        json: () => Promise.resolve([
-          {
-            question: 'Question 0',
-            answer: 'Answer 0'
-          },
-          {
-            question: 'Question 1',
-            answer: 'Answer 1'
-          }
-        ])
-      })
-    )
-  })
-
-  afterEach(() => {
-    global.fetch.mockRestore()
-  })
-
-  test('renders the FAQ page with questions and answers', async () => {
+  test('scrolls to top when the component mounts', () => {
+    window.scrollTo = jest.fn()
     render(
       <MemoryRouter>
-        <HelpPage questionsFile='/path/to/questions' />
-      </MemoryRouter>
-    )
+        <HelpPage questionsFile={questionsFile} />
+      </MemoryRouter>)
+    expect(window.scrollTo).toHaveBeenCalledWith(0, 0)
+  })
+  test('renders HelpPage component and tests its functionality', () => {
+    render(
+      <MemoryRouter>
+        <HelpPage questionsFile={questionsFile} />
+      </MemoryRouter>)
+    // Test rendering of navbar
+    const navbar = screen.getByTestId('navbar')
+    expect(navbar).toBeInTheDocument()
 
-    // Wait for the data to be fetched and rendered
-    await waitFor(() => screen.getByText('Question 0'))
+    // Test initial card rendering and click functionality
+    const question1Element = screen.getByText('Question 1')
+    const question2Element = screen.getByText('Question 2')
 
-    // Assert that the questions and answers are rendered
-    expect(screen.getByText('Question 0')).toBeInTheDocument()
-    expect(screen.getByText('Answer 0')).toBeInTheDocument()
-    expect(screen.getByText('Question 1')).toBeInTheDocument()
-    expect(screen.getByText('Answer 1')).toBeInTheDocument()
+    expect(question1Element).toBeInTheDocument()
+    expect(question2Element).toBeInTheDocument()
+
+    const collapseElement1 = screen.getByTestId('collapseExample0')
+    const collapseElement2 = screen.getByTestId('collapseExample1')
+
+    expect(collapseElement1).not.toHaveClass('show')
+    expect(collapseElement2).not.toHaveClass('show')
+
+    fireEvent.click(question1Element)
+
+    expect(collapseElement1).toHaveClass('collapse')
+    expect(collapseElement2).not.toHaveClass('show')
+
+    fireEvent.click(question1Element)
+
+    expect(collapseElement1).not.toHaveClass('show')
+    expect(collapseElement2).not.toHaveClass('show')
+
+    fireEvent.click(question2Element)
+
+    expect(collapseElement1).not.toHaveClass('show')
+    expect(collapseElement2).toHaveClass('collapse')
   })
 
-  // test('expands and collapses a card when clicked', async () => {
-  //   const { getByTestId, findByTestId } = render(
-  //     <MemoryRouter>
-  //       <HelpPage questionsFile="/path/to/questions" />
-  //     </MemoryRouter>
-  //   );
+  test('controls clickability of cards', () => {
+    const questionsFile = [
+      { question: 'Question 1', answer: 'Answer 1' }
+    ]
+    jest.useFakeTimers()
+    render(
+      <MemoryRouter>
+        <HelpPage questionsFile={questionsFile} />
+      </MemoryRouter>)
 
-  //   // Wait for the data to be fetched and rendered
-  //   await findByTestId('collapseExample0')
-
-  //   // Check initial state of the cards
-  //   const card0 = getByTestId('collapseExample0');
-  //   const card1 = getByTestId('collapseExample1');
-
-  //   const question0 = getByTestId('Question 0')
-
-  //   expect(card0).toHaveClass('collapse'); // Card 0 should be initially collapsed
-  //   expect(card1).toHaveClass('collapse'); // Card 1 should be initially collapsed
-
-  //   // Click on card 0 to expand it
-  //   act(() => {
-  //     fireEvent.click(question0);
-  //   })
-  //   console.log(getByTestId('Question 0'))
-
-  //   expect(card0).toHaveClass('collapse'); // Card 0 should be expanded
-  //   expect(card1).toHaveClass('collapse'); // Card 1 should still be collapsed
-
-  //   // Click on the first card to expand it
-  //   expect(screen.getByTestId('collapseExample0').classList.contains('collapse')).toBe(true)
-  //   await userEvent.click(screen.getByTestId('Question 0'))
-  //   expect(screen.getByTestId('collapseExample0').classList.contains('collapse show')).toBe(true)
-
-  //   // Click on the first card again to collapse it
-  //   fireEvent.click(screen.getByText('Question 0'));
-  //   expect(screen.getByTestId('collapseExample0')).toHaveStyle('display: none');
-  // });
+    const question1Element = screen.getByTestId('Question 1')
+    expect(question1Element).toHaveAttribute('role', 'button')
+    fireEvent.click(question1Element)
+    expect(question1Element).not.toHaveAttribute('role', 'button')
+    act(() => {
+      jest.advanceTimersByTime(350) /* Advance timer by 350 ms */
+    })
+    expect(question1Element).toHaveAttribute('role', 'button')
+  })
 })
