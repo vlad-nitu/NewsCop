@@ -24,6 +24,7 @@ from .response_entities import ResponseUrlEntity, ResponseUrlEncoder
 import multiprocessing
 import time
 from .plagiarism_checker.similarity import compute_similarity
+from .handlers import *
 
 from collections import Counter, defaultdict
 
@@ -94,34 +95,8 @@ def persist_url_view(request):
         #  Serialises the url into a json => use request body instead of path variable
         url = json.loads(request.body)["key"]
 
-        # check if the given url is indeed valid
-        if not sanitizing_url(url):
-            return HttpResponseBadRequest("The url provided is invalid")
-
-        # Check whether the current URL is present in the database
-        url_exists = db.news_collection.find_one({'_id': url}) is not None
-
-        # If current URL is not part of the database, persist it
-        if not url_exists:
-            # do crawling on the given url
-            article_text, _ = crawl_url(url)
-
-            fingerprints = compute_fingerprint(article_text)
-            only_shingle_values = [fp['shingle_hash'] for fp in fingerprints]
-
-            # verify if it has more than 2000 hashes
-            if len(only_shingle_values) > 2000:
-                return HttpResponseBadRequest("The article given has exceeded the maximum size supported.")
-
-            # verify if it has any fingerprints
-            if len(only_shingle_values) == 0:
-                return HttpResponseBadRequest("The article provided has no text.")
-
-            newsdoc = NewsDocument(url=url, fingerprints=only_shingle_values)
-            newsdoc.save()
-
-        return HttpResponse(url, status=200)
-
+        # create the chain for persisting a URL and put the URL through this chain
+        persist_chain(url)
     else:
         return HttpResponseBadRequest(f'Expected POST, but got {request.method} instead')
 
