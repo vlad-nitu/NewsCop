@@ -9,7 +9,7 @@ import Spinner from 'react-bootstrap/Spinner'
 const LoadingCircle = () => {
   return (
     <div className='d-flex justify-content-center align-items-center m-5'>
-      <Spinner className='text-info' animation='border' variant='primary' role='status'>
+      <Spinner className='text-info' data-testid='loading-circle' animation='border' variant='primary' role='status'>
         {/* to make the animation of a growing spinner, add animation ="grow",
            but you also might need to change the color via the className attribute  */}
         <span className='sr-only'>Loading...</span>
