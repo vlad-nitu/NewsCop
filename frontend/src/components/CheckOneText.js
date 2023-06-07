@@ -64,7 +64,9 @@ export default function CheckOneText ({ applicationName }) {
     const response = await axios.post(`${checkTextEndpoint}`,
       { key: `${inputValue}` })
       .catch(function (error) {
+        // Remove the loading screen when an error was received.
         setLoadingValue(false)
+
         if (error.response) {
           // https://stackoverflow.com/questions/49967779/axios-handling-errors
           // The request was made and the server responded with a status code
@@ -96,7 +98,9 @@ export default function CheckOneText ({ applicationName }) {
 
         articles.push(new Article(url, title, publisher, date, similarity))
       }
+      // Remove the loading screen after processing the received response.
       setLoadingValue(false)
+
       if (articles.length === 0) {
         setErrorVal('Our system has not found no match for the news content you provided!')
         setErrorPrompt(true)
