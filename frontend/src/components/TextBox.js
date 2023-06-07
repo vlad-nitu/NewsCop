@@ -71,7 +71,7 @@ const TextBox = ({
                     searchWords={highlighted}
                     autoEscape
                     textToHighlight={text}
-                    data-testid='highlightedTextAreaCompareTexts'
+                    data-testid='Highlighter'
                     findChunks={(options) => highlightWordsOnly({ ...options, similarity })}
                   />
                 )}

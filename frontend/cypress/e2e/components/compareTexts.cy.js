@@ -65,9 +65,9 @@ describe('tests for several interactions within compare texts', () => {
     cy.contains('The two given texts have a similarity level of 40%.').should('be.visible');
 
     /* Check that the highlighted areas appears */
-    cy.get('[data-testid="highlightedTextAreaCompareTexts"]').eq(0).should('exist')
+    cy.get('[data-testid="Highlighter"]').eq(0).should('exist')
 
-    cy.get('[data-testid="highlightedTextAreaCompareTexts"]').eq(1).should('exist')
+    cy.get('[data-testid="Highlighter"]').eq(1).should('exist')
 
     /* The button is temporarily disabled */
     cy.get('[data-testid="submit_button"]')
