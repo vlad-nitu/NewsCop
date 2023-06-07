@@ -41,7 +41,7 @@ class AbstractHandler(Handler):
         if self._next_handler:
             return self._next_handler.handle(content)
 
-        # end of chained reached which equals with all the checks passing
+        # end of chain reached which equals with all the checks passing
         return HttpResponse(content, status=200)
 
 
