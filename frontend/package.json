@@ -13,8 +13,10 @@
     "build": "^0.1.4",
     "enzyme": "^3.11.0",
     "google-map-react": "^2.2.0",
+    "jest-fetch-mock": "^3.0.3",
     "leaflet": "^1.9.4",
     "mapbox-gl": "^2.15.0",
+    "node-fetch": "^3.3.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
     "react-customizable-progressbar": "^1.2.0",
@@ -34,7 +36,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "nyc react-scripts test ./src/components/tests --coverage --transformIgnorePatterns \"node_modules/(?!axios)/\"",
+    "test": "nyc react-scripts test ./src/components/tests --coverage --transformIgnorePatterns \"node_modules/(?!axios)/\" --silent=true",
     "report": "nyc report --reporter=html",
     "eject": "react-scripts eject"
   },
