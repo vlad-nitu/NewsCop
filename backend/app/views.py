@@ -96,7 +96,7 @@ def persist_url_view(request):
         url = json.loads(request.body)["key"]
 
         # create the chain for persisting a URL and put the URL through this chain
-        persist_chain(url)
+        return persist_chain(url)
     else:
         return HttpResponseBadRequest(f'Expected POST, but got {request.method} instead')
 

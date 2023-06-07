@@ -60,6 +60,7 @@ class TestPersistUrlView(TestCase):
         self.assertEqual(res.deleted_count, 1)
         db.hashes_collection.delete_many({'urls': url})
 
+    # note that this test also tests the correct persist chaining
     def test_post_request_with_valid_url_text(self):
         url = 'https://www.bbc.com/news/world-asia-65657996'
 

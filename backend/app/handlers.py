@@ -40,7 +40,8 @@ class AbstractHandler(Handler):
         if self._next_handler:
             return self._next_handler.handle(content)
 
-        return None
+        # end of chained reached which equals with all the checks passing
+        return HttpResponse(content, status=200)
 
 
 """
@@ -88,11 +89,18 @@ class ContentHandler(AbstractHandler):
         newsdoc = NewsDocument(url=content, fingerprints=only_shingle_values)
         newsdoc.save()
 
-        return HttpResponse(content, status=200)
+        return super().handle(content)
 
 
 def persist_chain(request):
-    SanitizationHandler.set_next(DatabaseHandler)
-    DatabaseHandler.set_next(ContentHandler)
+    # initialise handlers
+    sanitise = SanitizationHandler()
+    database_check = DatabaseHandler()
+    content_check = ContentHandler()
 
-    SanitizationHandler.handle(request)
+    # do the chaining step
+    sanitise.set_next(database_check)
+    database_check.set_next(content_check)
+
+    # handle the input
+    return sanitise.handle(request)
