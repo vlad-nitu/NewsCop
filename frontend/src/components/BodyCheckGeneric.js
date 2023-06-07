@@ -9,7 +9,7 @@
  */
 export default function BodyCheckGeneric ({ description, secondDescription }) {
   return (
-    <div className='my-md-3 mt-3'>
+    <div data-testid='body-check-generic' className='my-md-3 mt-3'>
       <div className='mb-3'>
         <h2 className='title text-center' id='plagiarismChecker'>{description}</h2>
       </div>
