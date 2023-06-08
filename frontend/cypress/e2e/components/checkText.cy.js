@@ -48,6 +48,7 @@ describe('tests for several interactions within check text', () => {
       .and('not.be.disabled')
       .should('have.text', 'Submit')
       .click()
+        .wait(10000)
 
     /* The error-prompt exists and is visible */
     cy.get('[data-testid="error-prompt"]')
