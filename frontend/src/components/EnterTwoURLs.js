@@ -102,7 +102,8 @@ export default function EnterTwoURLs () {
         <Form.Group controlId='formUrl'>
           <Row className='url-part'>
             <Col md={6} className='pe-sm-6 mb-6 mb-sm-0 pb-2 pb-md-0'>
-              <Form.Control id='left_url'
+              <Form.Control
+                id='left_url'
                 type='url'
                 placeholder={PreInputArticlePromptOriginal}
                 className='rounded-pill border-success'
@@ -113,7 +114,8 @@ export default function EnterTwoURLs () {
               />
             </Col>
             <Col md={6} className='pe-sm-6 mb-6 mb-sm-0 pt-2 pt-md-0'>
-              <Form.Control id='right_url'
+              <Form.Control
+                id='right_url'
                 type='url'
                 placeholder={PreInputArticlePromptChanged}
                 className='rounded-pill border-success'
