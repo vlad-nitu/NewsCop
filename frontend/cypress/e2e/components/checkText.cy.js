@@ -179,6 +179,18 @@ describe('tests for several interactions within check text', () => {
         `${rootUrl}/checkText#footer`)
     cy.isInViewport('#footer')
   })
+
+  it('Redirection to help page through navbar', () => {
+     /** Retrieve Help page from the navbar **/
+    cy.get('[data-testid="navbar-component"]')
+      .should('exist')
+      .get('a[href="/help"]').contains('Help')
+      .click()
+    cy.url()
+      .should(
+        'be.equal',
+        `${rootUrl}/help`)
+  })
 })
 
 
