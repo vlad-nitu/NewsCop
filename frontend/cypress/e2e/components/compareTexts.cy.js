@@ -135,7 +135,7 @@ describe('tests for several interactions within compare texts', () => {
       cy.url().should('be.equal', `${rootUrl}${option.href}`)
     })
   })
-1
+
   /* The information needed for all the footer redirections */
   const footerLinks = [
     { testId: 'URLPlag', text: 'URL similarity checker', url: '/checkURL' },
