@@ -204,32 +204,51 @@ describe('CheckTwoURLs testing flow', () => {
                 `${HOST}/compareTexts`)
     })
 
-    it('Test redirect to services from NavBar component', () => {
+    const redirectionOptions = [
+        { href: '/checkURL', text: 'URL Similarity Checker' },
+        { href: '/checkText', text: 'Text Similarity Checker' },
+        { href: '/compareTexts', text: 'Similarity Checker for two Texts' },
+        { href: '/compareURLs', text: 'Similarity Checker for two URLs' },
+    ]
 
-        cy.get('#nav-dropdown')
-            .should('exist')
-            .trigger('mouseover')
-            .get('a[href*="/compareURLs"]')
-            .click()
+    redirectionOptions.forEach((option) => {
+        it(`Test redirect to ${option.href} from NavBar component`, () => {
 
-        cy.url()
-            .should(
-                'be.equal',
-                `${HOST}/compareURLs`)
+            cy.get('#nav-dropdown')
+                .should('exist')
+                .trigger('mouseover')
+                .get(`a[role="option"][href="${option.href}"]`)
+                .as('link')
+                .click()
+
+            cy.url()
+                .should(
+                    'be.equal',
+                    `${HOST}${option.href}`)
+        })
     })
 
-    it('Test redirect to services from Footer component', () => {
+    const footerLinks = [
+        { testId: 'URLPlag', text: 'URL similarity checker', url: '/checkURL' },
+        { testId: 'TextPlag', text: 'Text similarity checker', url: '/checkText' },
+        { testId: 'TextSim', text: 'Similarity checker for two texts', url: '/compareTexts' },
+        { testId: 'URLSim', text: 'Similarity checker for two URLs', url: '/compareURLs' },
+    ]
 
-        cy.scrollTo('bottom')
-        cy.get('[data-testid="TextSim')
-            .click()
+    footerLinks.forEach((link) => {
+        it(`Test redirect to ${link.text} from Footer component`, () => {
+
+            cy.scrollTo('bottom')
+            cy.get(`[data-testid="${link.testId}"]`)
+                .click()
 
 
-        cy.url()
-            .should(
-                'be.equal',
-                `${HOST}/compareTexts`)
+            cy.url()
+                .should(
+                    'be.equal',
+                    `${HOST}${link.url}`)
 
+        })
     })
 
     it('Test redirect to About us from NavBar component', () => {
