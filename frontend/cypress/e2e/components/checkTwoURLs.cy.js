@@ -86,7 +86,7 @@ describe('CheckTwoURLs testing flow', () => {
             .should('have.text', 'Submit')
             .click()
 
-        // Check that the error-prompt exists and is visible */
+        // Check that the error-prompt exists and is visible
         cy.get('[data-testid="output-prompt"]')
             .should('exist')
             .and('be.visible')
@@ -103,6 +103,91 @@ describe('CheckTwoURLs testing flow', () => {
 
         cy.get('#forErrorPrompt')
             .should('not.exist')
+    })
+
+    it('Check behaviour for correct input', () => {
+        // Check rendering and state of button
+        cy.get('[data-testid="submit_button"]')
+            .should('exist')
+            .and('be.disabled')
+
+        let left = 'https://www.digisport.ro/special/gino-iorgulescu-internat-de-urgenta-in-spital-care-e-starea-de-sanatate-a-presedintelui-lpf-2411135'
+        let right = 'https://www.digisport.ro/fotbal/liga-1/marius-sumudica-ii-naruie-sperantele-lui-gigi-becali-3-echipe-i-au-oferit-mai-mult-lui-djokovic-una-e-din-superliga-2433349'
+
+        // Check rendering of left url
+        cy.get('#left_url')
+            .should('exist')
+            .should('have.value', '') // No URL in the box currently
+            .type(left) // Write test URL
+            .should('have.value', left) // See the URL in the left box changing
+
+        // Check that submit button is still disabled
+        cy.get('[data-testid="submit_button"]')
+            .should('exist')
+            .and('be.disabled')
+
+        // Check rendering of left url
+        cy.get('#right_url')
+            .should('exist')
+            .should('have.value', '') // No URL in the box currently
+            .type(right) // Write test URL
+            .should('have.value', right) // See the URL in the right box changing
+
+        // Check that submit button is now enabled
+        cy.get('[data-testid="submit_button"]')
+            .should('exist')
+            // The button should not be disabled because there is text already in the box
+            .and('not.be.disabled')
+            .should('have.text', 'Submit')
+            .click()
+
+        // Check that the prompt exists and is visible
+        cy.get('[data-testid="output-prompt"]')
+            .should('exist')
+            .and('be.visible')
+
+
+        // Check that the progress bar exists and is visible
+        cy.get('[data-testid="progress-bar"]')
+            .should('exist')
+            .and('be.visible')
+
+
+        // Check that the button is temporarily disabled for 5s (due to timeout)
+        cy.get('[data-testid="submit_button"]')
+            .should('exist')
+            .and('be.disabled')
+            .wait(5000)
+            .should('be.enabled')
+
+        // Check that the view-side-by-side button is enabled
+        cy.get('[data-testid="side-by-side"]')
+            .should('exist')
+            .and('be.visible')
+            .click()
+
+        // Check that the URL remains the same
+        cy.url()
+            .should(
+                'be.equal',
+                `${HOST}/compareURLs/`)
+
+        // Check that the view-side-by-side works (modal shown)
+        cy.get('[data-testid="render-two"]')
+            .should('exist')
+            .and('be.visible')
+
+        // Check that the Go back button is enabled
+        cy.get('[data-testid="go-back"]')
+            .should('exist')
+            .and('be.visible')
+            .click()
+
+
+        // Check that we are again on the check urls page containing the answer prompt
+        cy.get('[data-testid="output-prompt"]')
+            .should('exist')
+            .and('be.visible')
     })
 
 

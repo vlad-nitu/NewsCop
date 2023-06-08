@@ -142,7 +142,7 @@ export default function EnterTwoURLs () {
                   {showCompareButton && (
                     <div>
                       {/* Render button */}
-                      <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={handleShow}>View Side-by-Side</Button>
+                      <Button data-testid='side-by-side' className='mx-auto custom-outline-button' variant='outline-success' onClick={handleShow}>View Side-by-Side</Button>
 
                       {/* Render SideBySideRender component */}
                       <SideBySideRender urlLeft={inputValueOriginal} urlRight={inputValueChanged} showModal={showModal} handleClose={handleClose} />
