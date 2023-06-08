@@ -84,16 +84,6 @@ export default function Footer () {
 
                 </p>
               </Col>
-              {/* <Col md={3} lg={2} xl={2} className="mx-auto mb-4">
-                                <h6 className="text-uppercase fw-bold">Company</h6>
-                                <hr
-                                    className="mb-2 mt-0 d-inline-block mx-auto"
-                                    style={{width: '60px', backgroundColor: '#7c4dff', height: '2px'}}
-                                />
-                                <p>
-                                    <a href="#ourMission">About us</a>
-                                </p>
-                            </Col> */}
               <Col md={4} lg={3} xl={3} className='mx-auto mb-md-0 mb-4'>
                 <h6 className='text-uppercase fw-bold'>Contact</h6>
                 <hr
@@ -101,6 +91,15 @@ export default function Footer () {
                   style={{ width: '60px', backgroundColor: '#7c4dff', height: '2px' }}
                 />
                 <p><i className='fas fa-envelope mr-3' /> info@getsourcer.com </p>
+
+                <h6 className='text-uppercase fw-bold pt-3'>Help</h6>
+                <hr
+                  className='mb-2 mt-0 d-inline-block mx-auto'
+                  style={{ width: '60px', backgroundColor: '#7c4dff', height: '2px' }}
+                />
+                <p>
+                  <Link to='/help' data-testid='helpLink'>FAQs</Link>
+                </p>
               </Col>
             </Row>
           </Container>
