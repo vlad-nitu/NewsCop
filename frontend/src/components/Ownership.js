@@ -9,24 +9,37 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
  * @returns {JSX.Element} the element that contains the error
  */
 
-export default function Ownership ({ result }) {
+export default function Ownership({ result, date_left, date_right }) {
   if (result.includes('right')) {
     return (
-      <div className='d-flex  justify-content-center mx-auto'>
-        <h2 className='description-overlap d-inline-block' data-testid='ownership-prompt'> {result}</h2>
-        <FontAwesomeIcon icon={faArrowTurnUp} style={{ color: '#2e837e' }} className='d-inline-block float-right turn-up-arrow-icon ml-2' data-testid='turn-up-icon' />
-      </div>
+      <>
+        <div className='d-flex  justify-content-center mx-auto mt-5'>
+          <h2 className='description-overlap d-inline-block' data-testid='ownership-prompt'> {result}</h2>
+          <FontAwesomeIcon icon={faArrowTurnUp} style={{ color: '#2e837e' }} className='d-inline-block float-right turn-up-arrow-icon ml-2' data-testid='turn-up-icon' />
+        </div>
+        <div>
+          <h2 className='description-overlap' data-testid='date-left-prompt'> {`The left news article was published on: ${date_left}`}</h2>
+          <h2 className='description-overlap' data-testid='date-right-prompt'> {`The right news article was published on: ${date_right}`}</h2>
+        </div>
+      </>
+
     )
   } else if (result.includes('left')) {
     return (
-      <div className='d-flex  justify-content-center mx-auto'>
-        <FontAwesomeIcon icon={faArrowTurnUp} flip='horizontal' style={{ color: '#2e837e' }} className='d-inline-block float-right turn-up-arrow-icon ml-2' data-testid='turn-up-icon' />
-        <h2 className='description-overlap d-inline-block' data-testid='ownership-prompt'> {result}</h2>
-      </div>
+      <>
+        <div className='d-flex  justify-content-center mx-auto mt-5'>
+          <FontAwesomeIcon icon={faArrowTurnUp} flip='horizontal' style={{ color: '#2e837e' }} className='d-inline-block float-right turn-up-arrow-icon ml-2' data-testid='turn-up-icon' />
+          <h2 className='description-overlap d-inline-block' data-testid='ownership-prompt'> {result}</h2>
+        </div>
+        <div>
+          <h2 className='description-overlap' data-testid='date-left-prompt'> {`The left news article was published on: ${date_left}`}</h2>
+          <h2 className='description-overlap' data-testid='date-right-prompt'> {`The right news article was published on: ${date_right}`}</h2>
+        </div>
+      </>
     )
   } else {
     return (
-      <div className='d-flex  justify-content-center mx-auto'>
+      <div className='d-flex  justify-content-center mx-auto mt-5'>
         <h2 className='description-overlap d-inline-block' data-testid='ownership-prompt'> {result}</h2>
       </div>
     )

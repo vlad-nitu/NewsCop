@@ -37,6 +37,7 @@ export default function EnterTwoURLs () {
   const [showModal, setShowModal] = useState(false)
   const [outputVisualisations, setOutputVisualisations] = useState(false)
   const [ownershipValue, setOwnershipValue] = useState('')
+  const [datesValues, setDatesValues] = useState(['', ''])
 
   const handleClose = () => setShowModal(false)
   const handleShow = () => setShowModal(true)
@@ -66,18 +67,25 @@ export default function EnterTwoURLs () {
       .then(response => {
         const answer = Math.round(100 * response.data.similarity)
         const ownership = response.data.ownership
+        const date_left = response.data.left_date
+        const date_right = response.data.right_date
+
+      console.log(date_left)
+      console.log(date_right)
 
         // change color accordingly
         if (answer >= 80) {
           switch (ownership) {
             case 0:
-              setOwnershipValue('We do not know who owns the content')
+              setOwnershipValue('We do not know who owns the content!')
               break
             case 1:
-              setOwnershipValue('The left input is likely to own the content')
+              setOwnershipValue('The left input is likely to own the content!')
+              setDatesValues([date_left, date_right])
               break
             case 2:
-              setOwnershipValue('The right input is likely to own the content')
+              setOwnershipValue('The right input is likely to own the content!')
+              setDatesValues([date_left, date_right])
               break
           }
           setOutputColor('red')
@@ -170,7 +178,7 @@ export default function EnterTwoURLs () {
                 <ProgressLineCustom progress={answerValue} />
                 {outputColor === 'red' &&
                   (
-                    <Ownership result={ownershipValue} />
+                    <Ownership result={ownershipValue} date_left={datesValues[0]} date_right={datesValues[1]}/>
                   )}
               </div>
             )}
