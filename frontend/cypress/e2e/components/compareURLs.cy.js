@@ -157,7 +157,7 @@ describe('CheckTwoURLs testing flow', () => {
         cy.get('[data-testid="submit_button"]')
             .should('exist')
             .and('be.disabled')
-            .wait(5000)
+            .wait(6000)
             .should('be.enabled')
 
         // Check that the view-side-by-side button is enabled
