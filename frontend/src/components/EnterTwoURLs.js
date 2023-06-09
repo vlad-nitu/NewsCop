@@ -7,6 +7,7 @@ import SubmitButton from './submitButton'
 import ProgressLineCustom from './ProgressLineCustom'
 import SideBySideRender from './SideBySideRender'
 import LoadingCircle from './LoadingCircle'
+import Ownership from './Ownership'
 
 /**
  * Container that displays:
@@ -20,7 +21,7 @@ import LoadingCircle from './LoadingCircle'
  * Can be found directly under the navbar component of the page
  */
 
-export default function EnterTwoURLs () {
+export default function EnterTwoURLs() {
   const PreInputArticlePromptOriginal = 'Enter the original URL'
   const PreInputArticlePromptChanged = 'Enter the changed URL'
 
@@ -35,11 +36,13 @@ export default function EnterTwoURLs () {
   const [loadingValue, setLoadingValue] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [outputVisualisations, setOutputVisualisations] = useState(false)
+  const [ownershipValue, setOwnershipValue] = useState('')
 
   const handleClose = () => setShowModal(false)
   const handleShow = () => setShowModal(true)
 
   const compareURLsEndpoint = 'http://localhost:8000/compareURLs/'
+
 
   const createRequestBody = (dataLeft, dataRight) => {
     return {
@@ -63,9 +66,23 @@ export default function EnterTwoURLs () {
     await axios.post(`${compareURLsEndpoint}`, createRequestBody(inputValueOriginal, inputValueChanged))
       .then(response => {
         const answer = Math.round(100 * response.data.similarity)
+        const ownership = response.data.ownership
 
         // change color accordingly
-        if (answer >= 80) setOutputColor('red')
+        if (answer >= 80) {
+          switch (ownership) {
+            case 0:
+              setOwnershipValue('These two news articles cannot be compared')
+              break;
+            case 1:
+              setOwnershipValue('The left input is likely to own the content')
+              break;
+            case 2:
+              setOwnershipValue('The right input is likely to own the content')
+              break;
+          }
+          setOutputColor('red')
+        }
         else setOutputColor('green')
 
         setOutputValue(`The two news articles given have similarity level of ${answer} %`)
@@ -153,6 +170,7 @@ export default function EnterTwoURLs () {
                   )}
                 </div>
                 <ProgressLineCustom progress={answerValue} />
+                {outputColor === 'red' && (<Ownership result={ownershipValue} />)}
               </div>
             )}
           </div>
