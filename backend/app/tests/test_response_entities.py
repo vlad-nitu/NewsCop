@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from app.response_entities import ResponseUrlEntity, ResponseUrlEncoder
+from app.response_entities import ResponseUrlEntity, ResponseUrlEncoder, ResponseTwoUrlsEntity, ResponseTwoUrlsEncoder
 import json
 
 
@@ -31,4 +31,19 @@ class ResponseEntitiesTest(TestCase):
                         '"publisher": "Publisher", "date": "2017-07-17"}'
 
         json_data = json.dumps(entity, cls=ResponseUrlEncoder)
+        self.assertEqual(json_data, expected_json)
+
+    def test_response_two_urls(self):
+        similarity = 0.6
+        ownership = 0
+        entity = ResponseTwoUrlsEntity(similarity, ownership)
+        self.assertEqual(entity.similarity, similarity)
+        self.assertEqual(entity.ownership, ownership)
+
+    def test_response_two_urls_encoder(self):
+        similarity = 0.6
+        ownership = 0
+        entity = ResponseTwoUrlsEntity(similarity, ownership)
+        expected_json = '{"similarity": 0.6, "ownership": 0}'
+        json_data = json.dumps(entity, cls=ResponseTwoUrlsEncoder)
         self.assertEqual(json_data, expected_json)
