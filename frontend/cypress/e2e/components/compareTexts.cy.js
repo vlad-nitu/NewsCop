@@ -1,14 +1,14 @@
-describe('tests for several interactions within check text', () => {
+describe('tests for several interactions within compare texts', () => {
 
   const rootUrl = 'http://localhost:3000'
 
   beforeEach(() => {
 
     /* We have to first visit the wanted URL before each test is run */
-    cy.visit(`${rootUrl}/checkText`)
+    cy.visit(`${rootUrl}/compareTexts`)
   })
 
-  it('Components rendered correctly and small interactions', () => {
+  it('Test components', () => {
 
     /* The navbar is rendered and has the right name */
     cy.get('[data-testid="navbar-component"]')
@@ -19,7 +19,8 @@ describe('tests for several interactions within check text', () => {
     cy.get('[data-testid="body-check-generic"]')
       .should('exist')
       .should('contain', 'News overlap checker') // First description
-      .should('contain', 'Our tool detects overlap in your news article.') // Second Description
+      .should('contain', 'Our similarity checker determines the similarity levels between ' +
+          'two text paragraphs.') // Second Description
 
     /* Button is rendered correctly but is disabled */
     cy.get('[data-testid="submit_button"]')
@@ -27,19 +28,31 @@ describe('tests for several interactions within check text', () => {
       .and('be.disabled')
 
     /* Verify that the text area + the text above it are rendered correctly */
-    cy.get('[data-testid="textAreaCheckOneText"]')
+    cy.get('[data-testid="textAreaCompareTexts"]').eq(0)
       .should('exist')
-      .should('have.attr', 'placeholder', 'Enter your article here') // Placeholder value
+      .should('have.attr', 'placeholder', 'Enter your first article here') // Placeholder value
       .should('have.value', '') // No text in the box currently
-      .type('藝文類聚卷五文字更正在梁思成先生作品提到的古建筑的「角叶」的含义及其图片') // Write something in the box
-      .should('have.value', '藝文類聚卷五文字更正在梁思成先生作品提到的古建筑的「角叶」的含义及其图片') // See the text in the box changing
+      .type('This is some text to be checked for overlapping.') // Write something in the box
+      .should('have.value', 'This is some text to be checked for overlapping.') // See the text in the box changing
 
-    /* The text above the box */
-    cy.contains('h2', 'Enter the article’s content to check for overlap').should('exist')
+    /* Button is rendered correctly but is disabled when only one text box is filled*/
+    cy.get('[data-testid="submit_button"]')
+      .should('exist')
+      .and('be.disabled')
 
-    /* The error-prompt does not exist */
-    cy.get('[data-testid="error-prompt"]')
-      .should('not.exist')
+    /* Verify that the text areas + the text above it are rendered correctly */
+    cy.get('[data-testid="textAreaCompareTexts"]').eq(1)
+      .should('exist')
+      .should('have.attr', 'placeholder', 'Enter your second article here') // Placeholder value
+      .should('have.value', '') // No text in the box currently
+      .type('This is another text to be checked for overlapping.') // Write something in the box
+      .should('have.value', 'This is another text to be checked for overlapping.') // See the text in the box changing
+
+    /* The text above the first box */
+    cy.contains('h2', 'Enter the original content').should('exist')
+    /* The text above the first box */
+
+    cy.contains('h2', 'Enter the changed content').should('exist')
 
     /* Check that the submit button is rendered and is not disabled*/
     cy.get('[data-testid="submit_button"]')
@@ -48,51 +61,41 @@ describe('tests for several interactions within check text', () => {
       .and('not.be.disabled')
       .should('have.text', 'Submit')
       .click()
-        .wait(10000)
 
-    /* The error-prompt exists and is visible */
-    cy.get('[data-testid="error-prompt"]')
-      .should('exist')
-      .and('be.visible')
-      .should('have.text', 'Our system has not found no match for the news content you provided!')
+    cy.contains('The two given texts have a similarity level of 40%.').should('be.visible');
+
+    /* Check that the highlighted areas appears */
+    cy.get('[data-testid="Highlighter"]').eq(0).should('exist')
+
+    cy.get('[data-testid="Highlighter"]').eq(1).should('exist')
 
     /* The button is temporarily disabled */
     cy.get('[data-testid="submit_button"]')
       .should('exist')
       .and('be.disabled')
-      .wait(10000)
+      .wait(4000)
       .should('be.enabled')
-
-    /* The error-prompt does not exist after timeout */
-    cy.get('[data-testid="error-prompt"]')
-      .should('not.exist')
 
     /* The footer is rendered correctly */
     cy.get('#footer')
       .should('exist')
 
-    /* The loading circle should not exist */
-    cy.get('[data-testid="loading-circle"]')
-      .should('not.exist')
-
     /* The forward to page should exist */
     cy.get('[data-testid="forward-to-page"]')
       .should('exist')
-      .should('have.text', '... or you may want to check a news article via an URL for similarity')
+      .should('have.text', '... or you may want to check the similarity of two news articles with their URLs')
 
-    /* The check decision should not be visible */
-    cy.get('[data-testid="check-decision"]')
-      .should('exist')
-      .should('not.be.visible')
+    /* Check that progress bar is rendered */
+    cy.get('[data-testid="progress-line-pointer"]').should('exist')
   })
 
-  it('Redirect to checkURL page', () => {
+    it('Redirect to compare URLs page', () => {
     /* The forward to page should exist and small interaction */
     cy.get('[data-testid="forward-to-link"]')
       .should('exist')
       .click()
     cy.url()
-      .should('be.equal', `${rootUrl}/checkURL`)
+      .should('be.equal', `${rootUrl}/compareURLs`)
   })
 
   it('Redirect to home page', () => {
@@ -132,7 +135,7 @@ describe('tests for several interactions within check text', () => {
       cy.url().should('be.equal', `${rootUrl}${option.href}`)
     })
   })
-1
+
   /* The information needed for all the footer redirections */
   const footerLinks = [
     { testId: 'URLPlag', text: 'URL similarity checker', url: '/checkURL' },
@@ -176,10 +179,10 @@ describe('tests for several interactions within check text', () => {
     cy.url()
       .should(
         'be.equal',
-        `${rootUrl}/checkText#footer`)
+        `${rootUrl}/compareTexts#footer`)
     cy.isInViewport('#footer')
   })
-
+  
   it('Redirection to help page through navbar', () => {
      /** Retrieve Help page from the navbar **/
     cy.get('[data-testid="navbar-component"]')
@@ -192,6 +195,3 @@ describe('tests for several interactions within check text', () => {
         `${rootUrl}/help`)
   })
 })
-
-
-

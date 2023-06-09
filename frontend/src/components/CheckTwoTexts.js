@@ -10,6 +10,7 @@ import Row from 'react-bootstrap/Row'
 import Container from 'react-bootstrap/Container'
 import ForwardToPage from './ForwardToPage'
 import ProgressLineCustom from './ProgressLineCustom'
+import LoadingCircle from './LoadingCircle'
 
 /**
  * Retrieve all common words with at least 4 characters, ignoring whitespaces and
@@ -48,6 +49,7 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
   const [similarity, setSimilarity] = useState(0)
   const [displaySimilarity, setDisplaySimilarity] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [loadingValue, setLoadingValue] = useState(false)
   const [highlightedText, setHighlightedText] = useState([''])
   /**
      * Disable a button after using it for 4 seconds.
@@ -58,11 +60,13 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
      */
   async function handleSubmit (event) {
     setLoading(true)
+    setLoadingValue(true)
     setDisplaySimilarity(false)
     setSimilarity(Math.round(await (compareTexts(originalTextBoxDescription, changedTextBoxDescription)) * 100))
     setHighlightedText(findCommonWords(originalTextBoxDescription, changedTextBoxDescription))
 
     setDisplaySimilarity(true)
+    setLoadingValue(false)
     await new Promise((resolve) =>
       setTimeout(() => {
         resolve()
@@ -117,6 +121,7 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
         </Row>
         {/* The submit button */}
         <SubmitButton disabled={loading || (originalTextBoxDescription === '' || changedTextBoxDescription === '')} onClickMethod={handleSubmit} />
+        {loadingValue && (<LoadingCircle />)}
         {displaySimilarity && (
           <div className='mt-2 mt-md-4'>
             <div style={{ display: 'flex', justifyContent: 'center', fontSize: '140%', textAlign: 'center' }}>
