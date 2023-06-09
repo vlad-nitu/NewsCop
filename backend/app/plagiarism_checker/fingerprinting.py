@@ -36,7 +36,7 @@ def modified_hash(text):
     import hashlib
 
     hs = hashlib.sha1(text.encode("utf-8"))
-    hs = hs.hexdigest()[-8:]
+    hs = hs.hexdigest()[-5:]
     hs = int(hs, 16)
 
     return hs

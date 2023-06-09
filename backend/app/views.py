@@ -1,3 +1,5 @@
+from silk.profiling.profiler import silk_profile
+
 import concurrent.futures
 import heapq
 from datetime import datetime
@@ -30,6 +32,7 @@ from collections import Counter, defaultdict
 class ReactView(APIView):
     serializer_class = ReactSerializer
 
+    @silk_profile(name='View GET')
     def get(self, request):
         obtained = [{'url': output['_id'], 'published_date': output['published_date']}
                     for output in db.copy_collection.find()]
@@ -77,6 +80,7 @@ def reqex_view(request):
         return HttpResponseBadRequest("Invalid request method")
 
 
+@silk_profile(name='Persist_URL GET')
 def persist_url_view(request):
     '''
     The endpoint that can be consumed by posting on localhost:8000/persistURL/ with the request body as <urlString>.
