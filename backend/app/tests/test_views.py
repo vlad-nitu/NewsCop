@@ -214,7 +214,7 @@ class TestCompareURLs(TestCase):
 
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.content.decode(), '1.0')
+        self.assertEqual(json.loads(response.content.decode())['similarity'], 1.0)
 
     def test_different_urls_valid(self):
         url_left = 'https://getbootstrap.com/docs/5.0/forms/layout/'

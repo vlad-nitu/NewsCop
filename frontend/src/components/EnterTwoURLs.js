@@ -62,7 +62,7 @@ export default function EnterTwoURLs () {
 
     await axios.post(`${compareURLsEndpoint}`, createRequestBody(inputValueOriginal, inputValueChanged))
       .then(response => {
-        const answer = Math.round(100 * response.data)
+        const answer = Math.round(100 * response.data.similarity)
 
         // change color accordingly
         if (answer >= 80) setOutputColor('red')

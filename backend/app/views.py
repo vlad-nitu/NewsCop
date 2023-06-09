@@ -19,7 +19,7 @@ from .plagiarism_checker.fingerprinting import compute_fingerprint
 from .plagiarism_checker.crawling import crawl_url, extract_data_from_url
 from .plagiarism_checker.sanitizing import sanitizing_url
 from .plagiarism_checker.similarity import compute_similarity
-from .response_entities import ResponseUrlEntity, ResponseUrlEncoder
+from .response_entities import ResponseUrlEntity, ResponseUrlEncoder, ResponseTwoUrlsEntity, ResponseTwoUrlsEncoder
 
 import multiprocessing
 import time
@@ -333,13 +333,33 @@ def compare_URLs(request):
             return HttpResponseBadRequest("The changed url provided is invalid.")
 
         # do crawling on the given urls
-        article_text_left, _ = crawl_url(url_left)
-        article_text_right, _ = crawl_url(url_right)
+        article_text_left, date_left = crawl_url(url_left)
+        article_text_right, date_right = crawl_url(url_right)
 
         # compute fingerprints for both urls
         fingerprint_left = compute_fingerprint(article_text_left)
         fingerprint_right = compute_fingerprint(article_text_right)
-
-        return HttpResponse(compute_similarity(fingerprint_left, fingerprint_right))
+        result_similarity = compute_similarity(fingerprint_left, fingerprint_right)
+        if date_left is None or date_right is None:  # In this case we cannot compare dates => ownership = 0
+            return construct_response_helper(result_similarity, 0)
+        if date_left <= date_right:
+            # The left input is likely to own the content
+            return construct_response_helper(result_similarity, 1)
+        else:
+            # The right input is likely to own the content
+            return construct_response_helper(result_similarity, 2)
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
+
+
+def construct_response_helper(similarity, ownership):
+    """
+    In order not to avoid code duplication, we made this helper function to return a response entity
+    according to the parameters.
+    :param similarity: the similarity between the articles
+    :param ownership: the ownership value
+    :return: an HTTP response with the correct parameters
+    """
+    return HttpResponse(
+        ResponseTwoUrlsEncoder().encode(ResponseTwoUrlsEntity(similarity=similarity, ownership=ownership)),
+        status=200, content_type="application/json")
