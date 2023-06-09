@@ -9,24 +9,27 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
  * @returns {JSX.Element} the element that contains the error
  */
 
-export default function Ownership ({ result }) {
-  return (
-    <div className='d-flex  justify-content-center mx-auto'>
-      {
-        result.includes('right')
-          ? (
-            <>
-              <h2 className='description-overlap d-inline-block' data-testid='ownership-prompt'> {result}</h2>
-              <FontAwesomeIcon icon={faArrowTurnUp} style={{ color: '#2e837e' }} className='d-inline-block float-right turn-up-arrow-icon ml-2' data-testid='turn-up-icon' />
-            </>
-            )
-          : (
-            <>
-              <FontAwesomeIcon icon={faArrowTurnUp} flip='horizontal' style={{ color: '#2e837e' }} className='d-inline-block float-right turn-up-arrow-icon ml-2' data-testid='turn-up-icon' />
-              <h2 className='description-overlap d-inline-block' data-testid='ownership-prompt'> {result}</h2>
-            </>
-            )
-      }
-    </div>
-  )
+export default function Ownership({ result }) {
+  if (result.includes('right')) {
+    return (
+      <div className='d-flex  justify-content-center mx-auto'>
+        <h2 className='description-overlap d-inline-block' data-testid='ownership-prompt'> {result}</h2>
+        <FontAwesomeIcon icon={faArrowTurnUp} style={{ color: '#2e837e' }} className='d-inline-block float-right turn-up-arrow-icon ml-2' data-testid='turn-up-icon' />
+      </div>
+    )
+  } else if (result.includes('left')) {
+    return (
+      <div className='d-flex  justify-content-center mx-auto'>
+        <FontAwesomeIcon icon={faArrowTurnUp} flip='horizontal' style={{ color: '#2e837e' }} className='d-inline-block float-right turn-up-arrow-icon ml-2' data-testid='turn-up-icon' />
+        <h2 className='description-overlap d-inline-block' data-testid='ownership-prompt'> {result}</h2>
+      </div>
+    )
+  } else {
+    return (
+      <div className='d-flex  justify-content-center mx-auto'>
+        <h2 className='description-overlap d-inline-block' data-testid='ownership-prompt'> {result}</h2>
+      </div>
+    )
+  }
+
 }
