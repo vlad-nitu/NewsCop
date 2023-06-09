@@ -8,6 +8,8 @@ import ProgressLineCustom from './ProgressLineCustom'
 import SideBySideRender from './SideBySideRender'
 import LoadingCircle from './LoadingCircle'
 import Ownership from './Ownership'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowTurnUp } from '@fortawesome/free-solid-svg-icons'
 
 /**
  * Container that displays:
@@ -170,12 +172,18 @@ export default function EnterTwoURLs() {
                   )}
                 </div>
                 <ProgressLineCustom progress={answerValue} />
-                {outputColor === 'red' && (<Ownership result={ownershipValue} />)}
-              </div>
+                {outputColor === 'red' &&
+                  (
+                    <div className="d-flex align-items-center">
+                      <Ownership result={ownershipValue} />
+                      <FontAwesomeIcon icon={faArrowTurnUp} />
+                    </div> 
+                  )}
+                      </div>
             )}
-          </div>
-        )}
-      </div>
+                    </div>
+                  )}
+              </div>
     </Container>
-  )
-}
+        )
+        }
