@@ -21,7 +21,7 @@ import Ownership from './Ownership'
  * Can be found directly under the navbar component of the page
  */
 
-export default function EnterTwoURLs() {
+export default function EnterTwoURLs () {
   const PreInputArticlePromptOriginal = 'Enter the original URL'
   const PreInputArticlePromptChanged = 'Enter the changed URL'
 
@@ -42,7 +42,6 @@ export default function EnterTwoURLs() {
   const handleShow = () => setShowModal(true)
 
   const compareURLsEndpoint = 'http://localhost:8000/compareURLs/'
-
 
   const createRequestBody = (dataLeft, dataRight) => {
     return {
@@ -73,17 +72,16 @@ export default function EnterTwoURLs() {
           switch (ownership) {
             case 0:
               setOwnershipValue('These two news articles cannot be compared')
-              break;
+              break
             case 1:
               setOwnershipValue('The left input is likely to own the content')
-              break;
+              break
             case 2:
               setOwnershipValue('The right input is likely to own the content')
-              break;
+              break
           }
           setOutputColor('red')
-        }
-        else setOutputColor('green')
+        } else setOutputColor('green')
 
         setOutputValue(`The two news articles given have similarity level of ${answer} %`)
         setShowCompareButton(true)
@@ -172,7 +170,7 @@ export default function EnterTwoURLs() {
                 <ProgressLineCustom progress={answerValue} />
                 {outputColor === 'red' &&
                   (
-                          <Ownership result={ownershipValue} />
+                    <Ownership result={ownershipValue} />
                   )}
               </div>
             )}

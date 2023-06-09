@@ -1,31 +1,30 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import Ownership from '../Ownership';
+import React from 'react'
+import { render, screen } from '@testing-library/react'
+import Ownership from '../Ownership'
 
 describe('Ownership component', () => {
   it('renders the text and arrow correctly when result includes "right"', () => {
-    const result = 'The right input is likely to own the content';
-    render(<Ownership result={result} />);
-    
-    const ownershipPrompt = screen.getByTestId('ownership-prompt');
-    expect(ownershipPrompt).toHaveTextContent(result);
+    const result = 'The right input is likely to own the content'
+    render(<Ownership result={result} />)
 
-    const arrowIcon = screen.getByTestId('turn-up-icon');
-    expect(arrowIcon).toHaveClass('fa-arrow-turn-up');
-    expect(arrowIcon).toHaveStyle('color: #2e837e;');
-  });
+    const ownershipPrompt = screen.getByTestId('ownership-prompt')
+    expect(ownershipPrompt).toHaveTextContent(result)
+
+    const arrowIcon = screen.getByTestId('turn-up-icon')
+    expect(arrowIcon).toHaveClass('fa-arrow-turn-up')
+    expect(arrowIcon).toHaveStyle('color: #2e837e;')
+  })
 
   it('renders the text and arrow correctly when result does not include "right"', () => {
-    const result = 'The left input is likely to own the content';
-    render(<Ownership result={result} />);
-    
-    const ownershipPrompt = screen.getByTestId('ownership-prompt');
-    expect(ownershipPrompt).toHaveTextContent(result);
+    const result = 'The left input is likely to own the content'
+    render(<Ownership result={result} />)
 
-    const arrowIcon = screen.getByTestId('turn-up-icon');
-    expect(arrowIcon).toHaveClass('fa-arrow-turn-up');
-    expect(arrowIcon).toHaveStyle('color: #2e837e;');
-    expect(arrowIcon).toHaveStyle('transform: scale(-1, 1);'); // rotated
-  });
-});
+    const ownershipPrompt = screen.getByTestId('ownership-prompt')
+    expect(ownershipPrompt).toHaveTextContent(result)
 
+    const arrowIcon = screen.getByTestId('turn-up-icon')
+    expect(arrowIcon).toHaveClass('fa-arrow-turn-up')
+    expect(arrowIcon).toHaveStyle('color: #2e837e;')
+    expect(arrowIcon).toHaveStyle('transform: scale(-1, 1);') // rotated
+  })
+})
