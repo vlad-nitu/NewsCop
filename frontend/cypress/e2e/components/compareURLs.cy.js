@@ -96,7 +96,7 @@ describe('CheckTwoURLs testing flow', () => {
         cy.get('[data-testid="submit_button"]')
             .should('exist')
             .and('be.disabled')
-            .wait(5000)
+            .wait(6000)
             .should('be.enabled')
 
         // Check that the error-prompt disappears after timeout
@@ -281,6 +281,17 @@ describe('CheckTwoURLs testing flow', () => {
 
         cy.isInViewport('#footer') // Assert that it has scrolled down (if it was not already visible) to Footer component
 
+    })
+
+    it('Test redirect to Help page from NavBar component', () => {
+        cy.get('[data-testid="navbar-component"]')
+            .should('exist')
+            .get('a[href="/help"]').contains('Help')
+            .click()
+        cy.url()
+            .should(
+                'be.equal',
+                `${HOST}/help`)
     })
 })
 
