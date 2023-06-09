@@ -27,4 +27,13 @@ describe('Ownership component', () => {
     expect(arrowIcon).toHaveStyle('color: #2e837e;')
     expect(arrowIcon).toHaveStyle('transform: scale(-1, 1);') // rotated
   })
+
+  it('renders at least one document that does not have a valid date', () => {
+    const result = 'These two news articles cannot be compared'
+
+    render(<Ownership result={result} />)
+
+    const ownershipPrompt = screen.getByTestId('ownership-prompt')
+    expect(ownershipPrompt).toHaveTextContent(result)
+  })
 })
