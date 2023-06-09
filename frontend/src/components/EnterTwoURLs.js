@@ -174,16 +174,22 @@ export default function EnterTwoURLs() {
                 <ProgressLineCustom progress={answerValue} />
                 {outputColor === 'red' &&
                   (
-                    <div className="d-flex align-items-center">
-                      <Ownership result={ownershipValue} />
-                      <FontAwesomeIcon icon={faArrowTurnUp} />
-                    </div> 
-                  )}
-                      </div>
-            )}
-                    </div>
+                    <Container>
+                      <Row>
+                        <Col xs={11} className="text-center">
+                          <Ownership result={ownershipValue} />
+                        </Col>
+                        <Col xs={1}>
+                          <FontAwesomeIcon icon={faArrowTurnUp} />
+                        </Col>
+                      </Row>
+                    </Container>
                   )}
               </div>
+            )}
+          </div>
+        )}
+      </div>
     </Container>
-        )
-        }
+  )
+}
