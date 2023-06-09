@@ -16,9 +16,16 @@ class Handler(ABC):
     It encapsulates also the abstract methods used.
     """
 
+    """
+    Abstract method of the interface corresponding to setting the next handler in the chain.
+    """
+
     @abstractmethod
     def set_next(self, handler: Handler) -> Handler:
         pass
+
+    """Abstract method  of the interface for handling the content in the current handler. Note that fif the check 
+    passes for this handler, the content will be forwarded to the nex handler for further checks."""
 
     @abstractmethod
     def handle(self, content) -> HttpResponse:
@@ -32,9 +39,20 @@ class AbstractHandler(Handler):
 
     _next_handler: Handler = None
 
+    """
+    Method for setting the next handler in the chain.
+    :handler: the next Handler in the chain.
+    """
+
     def set_next(self, handler: Handler) -> Handler:
         self._next_handler = handler
         return handler
+
+    """
+    Method for handling the content which sends the content to the next handler to be checked, or if the next handler 
+    is None (meaning that the chain reached its end) a HttpResponse 200 is send since all checks in the chain passed.
+    :content: the content (URL) to be processed for checks.
+    """
 
     @abstractmethod
     def handle(self, content: str) -> HttpResponse:
@@ -49,6 +67,10 @@ All the Concrete Handlers used to go thorough checks on the input provided by an
 Note that a Concrete Handler either handles a request or passes it to the next handler for further checks.
 """
 
+"""
+Concrete Handler for verifying if the content (URL) is valid.
+"""
+
 
 class SanitizationHandler(AbstractHandler):
     def handle(self, content: str) -> HttpResponse:
@@ -59,6 +81,11 @@ class SanitizationHandler(AbstractHandler):
             return HttpResponseBadRequest("The url provided is invalid")
 
 
+"""
+Concrete Handler for verifying if the content is persisted in the DB or it needs to be persisted.
+"""
+
+
 class DatabaseHandler(AbstractHandler):
     def handle(self, content: str) -> HttpResponse:
         # Checking if the URL is already presented in the database
@@ -67,6 +94,11 @@ class DatabaseHandler(AbstractHandler):
             return HttpResponse(content, status=200)
         else:
             return super().handle(content)
+
+
+"""
+Concrete Handler for verifying if the text of the content (URL) is valid (has text and does not exceed the limit).
+"""
 
 
 class ContentHandler(AbstractHandler):
@@ -92,7 +124,14 @@ class ContentHandler(AbstractHandler):
         return super().handle(content)
 
 
-def persist_chain(request):
+"""
+Function created for creating the Chain of Responsibility used in the persist functionality.
+This creates a SanitizationHandler -> DatabaseHandler -> ContentHandler chain and passes the request body through it
+for getting a Response representing whether the URL passed all the checks or not.
+"""
+
+
+def persist_chasin(request):
     # Initialise handlers
     sanitise = SanitizationHandler()
     database_check = DatabaseHandler()
