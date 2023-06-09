@@ -7,6 +7,7 @@ import SubmitButton from './submitButton'
 import ProgressLineCustom from './ProgressLineCustom'
 import SideBySideRender from './SideBySideRender'
 import LoadingCircle from './LoadingCircle'
+import Ownership from './Ownership'
 
 /**
  * Container that displays:
@@ -35,6 +36,8 @@ export default function EnterTwoURLs () {
   const [loadingValue, setLoadingValue] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [outputVisualisations, setOutputVisualisations] = useState(false)
+  const [ownershipValue, setOwnershipValue] = useState('')
+  const [datesValues, setDatesValues] = useState(['', ''])
 
   const handleClose = () => setShowModal(false)
   const handleShow = () => setShowModal(true)
@@ -62,11 +65,28 @@ export default function EnterTwoURLs () {
 
     await axios.post(`${compareURLsEndpoint}`, createRequestBody(inputValueOriginal, inputValueChanged))
       .then(response => {
-        const answer = Math.round(100 * response.data)
+        const answer = Math.round(100 * response.data.similarity)
+        const ownership = response.data.ownership
+        const dateLeft = response.data.left_date
+        const dateRight = response.data.right_date
 
         // change color accordingly
-        if (answer >= 80) setOutputColor('red')
-        else setOutputColor('green')
+        if (answer >= 80) {
+          switch (ownership) {
+            case 0:
+              setOwnershipValue('We do not know who owns the content!')
+              break
+            case 1:
+              setOwnershipValue('The left input is likely to own the content!')
+              setDatesValues([dateLeft, dateRight])
+              break
+            case 2:
+              setOwnershipValue('The right input is likely to own the content!')
+              setDatesValues([dateLeft, dateRight])
+              break
+          }
+          setOutputColor('red')
+        } else setOutputColor('green')
 
         setOutputValue(`The two news articles given have similarity level of ${answer} %`)
         setShowCompareButton(true)
@@ -155,6 +175,10 @@ export default function EnterTwoURLs () {
                   )}
                 </div>
                 <ProgressLineCustom progress={answerValue} />
+                {outputColor === 'red' &&
+                  (
+                    <Ownership result={ownershipValue} dateLeft={datesValues[0]} dateRight={datesValues[1]} />
+                  )}
               </div>
             )}
           </div>

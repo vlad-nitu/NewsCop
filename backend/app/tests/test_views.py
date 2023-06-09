@@ -7,6 +7,7 @@ from django.test import TestCase, RequestFactory
 from django.http import HttpResponse, HttpResponseBadRequest
 from rest_framework import status
 
+from app.response_entities import ResponseTwoUrlsEncoder
 from app.views import compare_texts_view
 from app.views import persist_url_view
 from app.views import try_view
@@ -14,7 +15,6 @@ from app.views import reqex_view
 from app.views import url_similarity_checker
 from app.views import compare_URLs
 from app.views import text_similarity_checker
-
 from utils import db
 import sys
 
@@ -215,9 +215,10 @@ class TestCompareURLs(TestCase):
 
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.content.decode(), '1.0')
+        self.assertEqual(json.loads(response.content.decode())['similarity'], 1.0)
 
     def test_different_urls_valid(self):
+        # Date is None for both urls
         url_left = 'https://getbootstrap.com/docs/5.0/forms/layout/'
         url_right = 'https://getbootstrap.com/docs/5.0/forms/validation/'
 
@@ -234,6 +235,54 @@ class TestCompareURLs(TestCase):
 
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_different_urls_valid_date(self):
+        # Date is 2020-05-20 15:38:02
+        url_left = 'https://ratherexposethem.org/2020/05/20/pelosis-heroes-' \
+                   'act-forces-unemployed-americans-to-compete-with-illegal-aliens/'
+        # Date is 2020-05-20 16:59:30
+        url_right = 'https://dcdirtylaundry.com/pelosis-heroes-act-forces-un' \
+                    'employed-americans-to-compete-with-illegal-aliens/'
+        # Create the request body
+        data = {
+            'url_left': url_left,
+            'url_right': url_right
+        }
+        json_data = json.dumps(data)
+        request = self.factory.post("/compareURLs/", data=json_data, content_type='application/json')
+        response = compare_URLs(request)
+        parsed_response = json.loads(response.content.decode())
+
+        self.assertIsInstance(response, HttpResponse)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(0.88, round(parsed_response["similarity"], 2))
+        self.assertEqual(1, parsed_response["ownership"])
+        self.assertEqual('2020-05-20 15:38:02', parsed_response["left_date"])
+        self.assertEqual('2020-05-20 16:59:30', parsed_response["right_date"])
+
+    def test_different_urls_valid_date_swapped(self):
+        # Date is 2020-05-20 15:38:02
+        url_right = 'https://ratherexposethem.org/2020/05/20/pelosis-heroes-' \
+                    'act-forces-unemployed-americans-to-compete-with-illegal-aliens/'
+        # Date is 2020-05-20 16:59:30
+        url_left = 'https://dcdirtylaundry.com/pelosis-heroes-act-forces-un' \
+                   'employed-americans-to-compete-with-illegal-aliens/'
+        # Create the request body
+        data = {
+            'url_left': url_left,
+            'url_right': url_right
+        }
+        json_data = json.dumps(data)
+        request = self.factory.post("/compareURLs/", data=json_data, content_type='application/json')
+        response = compare_URLs(request)
+        parsed_response = json.loads(response.content.decode())
+
+        self.assertIsInstance(response, HttpResponse)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(0.88, round(parsed_response["similarity"], 2))
+        self.assertEqual(2, parsed_response["ownership"])
+        self.assertEqual('2020-05-20 15:38:02', parsed_response["right_date"])
+        self.assertEqual('2020-05-20 16:59:30', parsed_response["left_date"])
 
     def test_left_invalid(self):
         url_left = 'https://dianamicloiu.com/'
