@@ -1,6 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import Ownership from '../Ownership'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 describe('Ownership component', () => {
   it('renders the text and arrow correctly when result includes "right"', () => {
@@ -35,5 +36,8 @@ describe('Ownership component', () => {
 
     const ownershipPrompt = screen.getByTestId('ownership-prompt')
     expect(ownershipPrompt).toHaveTextContent(result)
+
+    const arrowIcon = screen.queryByTestId('turn-up-icon')
+    expect(arrowIcon).not.toBeInTheDocument()
   })
 })
