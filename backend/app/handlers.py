@@ -41,19 +41,18 @@ class AbstractHandler(Handler):
         if self._next_handler:
             return self._next_handler.handle(content)
 
-        # end of chain reached which equals with all the checks passing
         return HttpResponse(content, status=200)
 
 
 """
-All the Concrete Handlers used to to thorough checks on the input provided by an user. 
-Note that a Concrete Handler either handles a request or passes it to teh next handler for further checks.
+All the Concrete Handlers used to go thorough checks on the input provided by an user. 
+Note that a Concrete Handler either handles a request or passes it to the next handler for further checks.
 """
 
 
 class SanitizationHandler(AbstractHandler):
     def handle(self, content: str) -> HttpResponse:
-        # check if the content provided (URL) is valid (URL form + actual media content)
+        # Check if the content provided (URL) is valid (URL form + actual media content)
         if sanitizing_url(content):
             return super().handle(content)
         else:
@@ -62,7 +61,7 @@ class SanitizationHandler(AbstractHandler):
 
 class DatabaseHandler(AbstractHandler):
     def handle(self, content: str) -> HttpResponse:
-        # checking if the URL is already presented in the database
+        # Checking if the URL is already presented in the database
         url_exists = db.news_collection.find_one({'_id': content}) is not None
         if url_exists:
             return HttpResponse(content, status=200)
@@ -72,18 +71,18 @@ class DatabaseHandler(AbstractHandler):
 
 class ContentHandler(AbstractHandler):
     def handle(self, content: str) -> HttpResponse:
-        # trying to persist the URL in the database by checking its content
-        # do crawling on the given url
+        # Trying to persist the URL in the database by checking its content
+        # Do crawling on the given url
         article_text, _ = crawl_url(content)
 
         fingerprints = compute_fingerprint(article_text)
         only_shingle_values = [fp['shingle_hash'] for fp in fingerprints]
 
-        # verify if it has more than 2000 hashes
+        # Verify if it has more than 2000 hashes
         if len(only_shingle_values) > 2000:
             return HttpResponseBadRequest("The article given has exceeded the maximum size supported.")
 
-        # verify if it has any fingerprints
+        # Verify if it has any fingerprints
         if len(only_shingle_values) == 0:
             return HttpResponseBadRequest("The article provided has no text.")
 
@@ -94,14 +93,14 @@ class ContentHandler(AbstractHandler):
 
 
 def persist_chain(request):
-    # initialise handlers
+    # Initialise handlers
     sanitise = SanitizationHandler()
     database_check = DatabaseHandler()
     content_check = ContentHandler()
 
-    # do the chaining step
+    # Do the chaining step
     sanitise.set_next(database_check)
     database_check.set_next(content_check)
 
-    # handle the input
+    # Handle the input
     return sanitise.handle(request)
