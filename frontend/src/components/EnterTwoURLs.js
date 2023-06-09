@@ -71,7 +71,7 @@ export default function EnterTwoURLs () {
         if (answer >= 80) {
           switch (ownership) {
             case 0:
-              setOwnershipValue('These two news articles cannot be compared')
+              setOwnershipValue('We do not know who owns the content')
               break
             case 1:
               setOwnershipValue('The left input is likely to own the content')
