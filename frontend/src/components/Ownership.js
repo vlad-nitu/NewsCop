@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
  * @returns {JSX.Element} the element that contains the error
  */
 
-export default function Ownership({ result }) {
+export default function Ownership ({ result }) {
   if (result.includes('right')) {
     return (
       <div className='d-flex  justify-content-center mx-auto'>
@@ -31,5 +31,4 @@ export default function Ownership({ result }) {
       </div>
     )
   }
-
 }

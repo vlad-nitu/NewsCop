@@ -1,7 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import Ownership from '../Ownership'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 describe('Ownership component', () => {
   it('renders the text and arrow correctly when result includes "right"', () => {
