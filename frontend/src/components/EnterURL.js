@@ -67,9 +67,6 @@ export default function EnterURL () {
           // that falls out of the range of 2xx
           setErrorVal('You entered an invalid URL!')
           setErrorPrompt(true)
-          console.log(error.response.data)
-          console.log(error.response.status)
-          console.log(error.response.headers)
         } else if (error.request) {
           setLoadingValue(false)
           // The request was made but no response was received
@@ -77,17 +74,14 @@ export default function EnterURL () {
           // and an instance of http.ClientRequest in node.js
           setErrorVal('The server might not be running!')
           setErrorPrompt(true)
-          console.log(error.request)
         } else {
           setLoadingValue(false)
           // Something happened in setting up the request that triggered an Error
           setErrorVal('An error occurred, please try again later!')
           setErrorPrompt(true)
-          console.log('Error', error.message)
         }
       })
     if (response != null) {
-      console.log(response.data)
       const articles = []
       for (let i = 0; i < response.data.similarArticles.length; ++i) {
         const item = response.data.similarArticles[i]
@@ -124,11 +118,10 @@ export default function EnterURL () {
     setSourceArticle(emptyArticle)
     setArticlesValues([])
     setInputValue(event.target.value)
-    console.log(event.target.value)
   }
 
   return (
-    <Container className='my-3'>
+    <Container data-testid='enter-url' className='my-3'>
       <div className='mt-5'>
         <h2 className='text-center' style={{ fontSize: '1.5vh' }}>
           Enter the article's URL to check for overlap

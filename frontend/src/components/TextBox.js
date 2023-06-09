@@ -62,6 +62,7 @@ const TextBox = ({
               <RichTextarea
                 placeholder={placeholder} value={textAreaValue} disabled={disabled}
                 className='form-control custom-textarea' id='textBox' rows='4' onSelect={() => setHighlightedText([''])}
+                data-testid='textAreaCompareTexts'
                 onChange={handleTextAreaChange} style={{ width: '100%', height: '100px' }}
               >
                 {(text) => (
@@ -79,7 +80,7 @@ const TextBox = ({
             {!isHighlighted && (
               <textarea
                 placeholder={placeholder} value={textAreaValue} disabled={disabled}
-                className='form-control custom-textarea vh-mobile-custom' id='textBox' rows='4'
+                className='form-control custom-textarea vh-mobile-custom' data-testid='textAreaCheckOneText' id='textBox' rows='4'
                 onChange={handleTextAreaChange} style={{ width: '100%' }}
               />
             )}

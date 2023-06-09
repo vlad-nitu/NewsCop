@@ -34,10 +34,10 @@ export default function NavbarComponent ({ name, mainPage }) {
   }
 
   return (
-    <Navbar bg='light' expand='lg' className='border-bottom-navbar'>
+    <Navbar data-testid='navbar-component' bg='light' expand='lg' className='border-bottom-navbar'>
       <Container>
         {mainPage && <Navbar.Brand href='#home'>{name}</Navbar.Brand>}
-        {!mainPage && <Navbar.Brand href='/#home' onClick={handleClick}>{name}</Navbar.Brand>}
+        {!mainPage && <Navbar.Brand href='/#home' data-testid='to-home-page' onClick={handleClick}>{name}</Navbar.Brand>}
         <Navbar.Toggle aria-controls='content-on-the-right' />
         <Navbar.Collapse id='content-on-the-right' className='justify-content-end'>
           {/* ml-auto is used to align a particular element to the right side of its container. */}
@@ -56,6 +56,7 @@ export default function NavbarComponent ({ name, mainPage }) {
                 <NavDropdown.Item role='option' href='/compareURLs'>Similarity Checker for two URLs</NavDropdown.Item>
               </NavDropdown>}
             <Nav.Link href='#footer'>Contact</Nav.Link>
+            <Nav.Link href='/help'>Help</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

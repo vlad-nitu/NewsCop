@@ -35,6 +35,7 @@ describe('Footer', () => {
     expect(screen.getByTestId('TextPlag')).toBeInTheDocument()
     expect(screen.getByTestId('URLSim')).toBeInTheDocument()
     expect(screen.getByTestId('TextSim')).toBeInTheDocument()
+    expect(screen.getByTestId('helpLink')).toBeInTheDocument()
 
     /* Check if the contact information is rendered */
     expect(screen.getByText('info@getsourcer.com')).toBeInTheDocument()

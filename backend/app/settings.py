@@ -27,9 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SILKY_PYTHON_PROFILER = True
 
-# Application definition
-
+#  Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,19 +41,19 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_mongoengine',
     'corsheaders',
+    'silk',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.common.CommonMiddleware",  
-    # Allows users to interact more with the browser itself (i.e: input their data) 
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'silk.middleware.SilkyMiddleware',  # Profiler for Django requests
 ]
 
 # Manually configured to tie Django app to React frontend -> do not block React when trying to interact with Django

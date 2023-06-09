@@ -20,7 +20,7 @@ frontend-test:
     - cd frontend
     - npm install
   script:
-    - npm run test --passWithNoTests
+    - npm run test --passWithNoTests -- --detectOpenHandles
   only:
     refs:
       - merge_requests

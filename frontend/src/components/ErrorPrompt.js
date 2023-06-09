@@ -8,7 +8,7 @@ export default function ErrorPrompt ({ prompt }) {
     <div>
       <div className='d-flex flex-column justify-content-center mx-auto'>
         <div className='mb-3 mx-auto'>
-          <h2 className='description-overlap' id='forErrorPrompt'>{prompt}</h2>
+          <h2 className='description-overlap' data-testid='error-prompt' id='forErrorPrompt'>{prompt}</h2>
         </div>
       </div>
     </div>

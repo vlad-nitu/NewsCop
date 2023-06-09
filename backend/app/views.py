@@ -1,3 +1,5 @@
+from silk.profiling.profiler import silk_profile
+
 import concurrent.futures
 import heapq
 from datetime import datetime
@@ -17,11 +19,12 @@ from .plagiarism_checker.fingerprinting import compute_fingerprint
 from .plagiarism_checker.crawling import crawl_url, extract_data_from_url
 from .plagiarism_checker.sanitizing import sanitizing_url
 from .plagiarism_checker.similarity import compute_similarity
-from .response_entities import ResponseUrlEntity, ResponseUrlEncoder
+from .response_entities import ResponseUrlEntity, ResponseUrlEncoder, ResponseTwoUrlsEntity, ResponseTwoUrlsEncoder
 
 import multiprocessing
 import time
 from .plagiarism_checker.similarity import compute_similarity
+from .handlers import *
 
 from collections import Counter, defaultdict
 
@@ -30,6 +33,7 @@ from collections import Counter, defaultdict
 class ReactView(APIView):
     serializer_class = ReactSerializer
 
+    @silk_profile(name='View GET')
     def get(self, request):
         obtained = [{'url': output['_id'], 'published_date': output['published_date']}
                     for output in db.copy_collection.find()]
@@ -77,6 +81,7 @@ def reqex_view(request):
         return HttpResponseBadRequest("Invalid request method")
 
 
+@silk_profile(name='Persist_URL GET')
 def persist_url_view(request):
     '''
     The endpoint that can be consumed by posting on localhost:8000/persistURL/ with the request body as <urlString>.
@@ -90,34 +95,8 @@ def persist_url_view(request):
         #  Serialises the url into a json => use request body instead of path variable
         url = json.loads(request.body)["key"]
 
-        # check if the given url is indeed valid
-        if not sanitizing_url(url):
-            return HttpResponseBadRequest("The url provided is invalid")
-
-        # Check whether the current URL is present in the database
-        url_exists = db.news_collection.find_one({'_id': url}) is not None
-
-        # If current URL is not part of the database, persist it
-        if not url_exists:
-            # do crawling on the given url
-            article_text, article_date = crawl_url(url)
-
-            fingerprints = compute_fingerprint(article_text)
-            only_shingle_values = [fp['shingle_hash'] for fp in fingerprints]
-
-            # verify if it has more than 2000 hashes
-            if len(only_shingle_values) > 2000:
-                return HttpResponseBadRequest("The article given has exceeded the maximum size supported.")
-
-            # verify if it has any fingerprints
-            if len(only_shingle_values) == 0:
-                return HttpResponseBadRequest("The article provided has no text.")
-
-            newsdoc = NewsDocument(url=url, published_date=article_date, fingerprints=only_shingle_values)
-            newsdoc.save()
-
-        return HttpResponse(url, status=200)
-
+        # create the chain for persisting a URL and put the URL through this chain
+        return persist_chain(url)
     else:
         return HttpResponseBadRequest(f'Expected POST, but got {request.method} instead')
 
@@ -329,13 +308,37 @@ def compare_URLs(request):
             return HttpResponseBadRequest("The changed url provided is invalid.")
 
         # do crawling on the given urls
-        article_text_left, _ = crawl_url(url_left)
-        article_text_right, _ = crawl_url(url_right)
+        article_text_left, date_left = crawl_url(url_left)
+        article_text_right, date_right = crawl_url(url_right)
 
         # compute fingerprints for both urls
         fingerprint_left = compute_fingerprint(article_text_left)
         fingerprint_right = compute_fingerprint(article_text_right)
-
-        return HttpResponse(compute_similarity(fingerprint_left, fingerprint_right))
+        result_similarity = compute_similarity(fingerprint_left, fingerprint_right)
+        if date_left is None or date_right is None:  # In this case we cannot compare dates => ownership = 0
+            return construct_response_helper(result_similarity, 0, date_left, date_right)
+        if date_left <= date_right:
+            # The left input is likely to own the content
+            return construct_response_helper(result_similarity, 1, date_left, date_right)
+        else:
+            # The right input is likely to own the content
+            return construct_response_helper(result_similarity, 2, date_left, date_right)
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
+
+
+def construct_response_helper(similarity, ownership, date_left, date_right):
+    """
+    In order not to avoid code duplication, we made this helper function to return a response entity
+    according to the parameters.
+    :param date_right: date of the left input
+    :param date_left: date of the right input
+    :param similarity: the similarity between the articles
+    :param ownership: the ownership value
+    :return: an HTTP response with the correct parameters
+    """
+    return HttpResponse(
+        ResponseTwoUrlsEncoder().encode(
+            ResponseTwoUrlsEntity(similarity=similarity, ownership=ownership, left_date=str(date_left),
+                                  right_date=str(date_right))),
+        status=200, content_type="application/json")

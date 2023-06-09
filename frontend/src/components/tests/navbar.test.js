@@ -24,10 +24,12 @@ describe('NavbarComponent', () => {
     const aboutLink = screen.getByText('About us')
     const servicesLink = screen.getByText('Services')
     const contactLink = screen.getByText('Contact')
+    const helpLink = screen.getByText('Help')
     expect(homeLink).toBeInTheDocument()
     expect(aboutLink).toBeInTheDocument()
     expect(servicesLink).toBeInTheDocument()
     expect(contactLink).toBeInTheDocument()
+    expect(helpLink).toBeInTheDocument()
 
     fireEvent.click(contactLink)
     expect(window.scrollX).toBe(0)

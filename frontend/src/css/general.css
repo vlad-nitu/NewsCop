@@ -48,6 +48,7 @@
     font-size: xx-large;
     margin-top: 50px;
 }
+
 .description-overlap{
     font-size: 1.3rem;
     text-align: center
@@ -263,4 +264,18 @@ a.custom_cursor:hover {
 .markercluster-map {
     height: 400px;
     width: 100%;
+}
+
+.expanded {
+    transform: rotate(180deg);
+}
+
+.turn-up-arrow-icon {
+    line-height:40px;
+}
+.custom-icon {
+    transition: transform 0.2s ease-in-out;
+    width: 36px;
+    height: 36px;
+    color: rgb(46, 131, 126);
 }

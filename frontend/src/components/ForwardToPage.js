@@ -14,9 +14,10 @@ export default function ForwardToPage ({ page, prompt }) {
   }
 
   return (
-    <div className='mt-auto pt-3 pb-5' id='plagiarismCheckerText'>
+    <div data-testid='forward-to-page' className='mt-auto pt-3 pb-5' id='plagiarismCheckerText'>
       <div className='d-flex flex-column justify-content-center mx-auto'>
         <Link
+          data-testid='forward-to-link'
           to={page}
           onClick={handleClick}
           className='description-paragraph-forward text-center'
