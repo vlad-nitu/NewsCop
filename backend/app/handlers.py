@@ -131,7 +131,7 @@ for getting a Response representing whether the URL passed all the checks or not
 """
 
 
-def persist_chasin(request):
+def persist_chain(request):
     # Initialise handlers
     sanitise = SanitizationHandler()
     database_check = DatabaseHandler()
