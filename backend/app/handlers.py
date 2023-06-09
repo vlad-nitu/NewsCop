@@ -18,6 +18,7 @@ class Handler(ABC):
 
     """
     Abstract method of the interface corresponding to setting the next handler in the chain.
+    :handler: the next Handler in the chain.
     """
 
     @abstractmethod
@@ -25,7 +26,9 @@ class Handler(ABC):
         pass
 
     """Abstract method  of the interface for handling the content in the current handler. Note that fif the check 
-    passes for this handler, the content will be forwarded to the nex handler for further checks."""
+    passes for this handler, the content will be forwarded to the next handler for further checks.
+    :content: the content (URL) to be processed for checks.
+    """
 
     @abstractmethod
     def handle(self, content) -> HttpResponse:
