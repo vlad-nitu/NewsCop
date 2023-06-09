@@ -62,6 +62,7 @@ const TextBox = ({
               <RichTextarea
                 placeholder={placeholder} value={textAreaValue} disabled={disabled}
                 className='form-control custom-textarea' id='textBox' rows='4' onSelect={() => setHighlightedText([''])}
+                data-testid='textAreaCompareTexts'
                 onChange={handleTextAreaChange} style={{ width: '100%', height: '100px' }}
               >
                 {(text) => (
