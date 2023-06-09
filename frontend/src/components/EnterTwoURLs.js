@@ -70,9 +70,6 @@ export default function EnterTwoURLs () {
         const dateLeft = response.data.left_date
         const dateRight = response.data.right_date
 
-        console.log(dateLeft)
-        console.log(dateRight)
-
         // change color accordingly
         if (answer >= 80) {
           switch (ownership) {
