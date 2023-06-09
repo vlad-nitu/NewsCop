@@ -21,9 +21,9 @@ export default function SideBySideRender ({ urlLeft, urlRight, showModal, handle
   const [backgroundColorRight, setBackgroundColorRight] = useState('#fff')
 
   return (
-    <Modal show={showModal} onHide={handleClose} fullscreen>
+    <Modal data-testid='render-two' show={showModal} onHide={handleClose} fullscreen>
       <ModalHeader>
-        <a title='close_button' onClick={() => { handleClose(); setBackgroundColorLeft('#fff') }} className='custom_cursor'>
+        <a data-testid='go-back' title='close_button' onClick={() => { handleClose(); setBackgroundColorLeft('#fff') }} className='custom_cursor'>
           <FontAwesomeIcon icon={faChevronLeft} className='pe-1' />
           <span>Go back</span>
         </a>
