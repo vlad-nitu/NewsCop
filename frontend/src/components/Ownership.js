@@ -11,8 +11,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 export default function Ownership({ result }) {
   return (
     <div className='d-flex  justify-content-center mx-auto'>
-      <h2 className="description-overlap d-inline-block" data-testid="ownership-prompt"> {result}</h2>
-      <FontAwesomeIcon icon={faArrowTurnUp} bounce style={{color: "#2e837e",}} className="d-inline-block float-right turn-up-arrow-icon ml-2" />
+      {
+        result.includes("right") ? (
+          <>
+            <h2 className="description-overlap d-inline-block" data-testid="ownership-prompt"> {result}</h2>
+            <FontAwesomeIcon icon={faArrowTurnUp} style={{ color: "#2e837e", }} className="d-inline-block float-right turn-up-arrow-icon ml-2" />
+          </>
+        ) : (
+          <>
+            <FontAwesomeIcon icon={faArrowTurnUp} flip="horizontal" style={{ color: "#2e837e", }} className="d-inline-block float-right turn-up-arrow-icon ml-2" />
+            <h2 className="description-overlap d-inline-block" data-testid="ownership-prompt"> {result}</h2>
+          </>
+        )
+      }
     </div>
   );
 }

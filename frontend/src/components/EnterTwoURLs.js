@@ -8,8 +8,6 @@ import ProgressLineCustom from './ProgressLineCustom'
 import SideBySideRender from './SideBySideRender'
 import LoadingCircle from './LoadingCircle'
 import Ownership from './Ownership'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowTurnUp } from '@fortawesome/free-solid-svg-icons'
 
 /**
  * Container that displays:
