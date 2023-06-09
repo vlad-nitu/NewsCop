@@ -67,11 +67,11 @@ export default function EnterTwoURLs () {
       .then(response => {
         const answer = Math.round(100 * response.data.similarity)
         const ownership = response.data.ownership
-        const date_left = response.data.left_date
-        const date_right = response.data.right_date
+        const dateLeft = response.data.left_date
+        const dateRight = response.data.right_date
 
-      console.log(date_left)
-      console.log(date_right)
+        console.log(dateLeft)
+        console.log(dateRight)
 
         // change color accordingly
         if (answer >= 80) {
@@ -81,11 +81,11 @@ export default function EnterTwoURLs () {
               break
             case 1:
               setOwnershipValue('The left input is likely to own the content!')
-              setDatesValues([date_left, date_right])
+              setDatesValues([dateLeft, dateRight])
               break
             case 2:
               setOwnershipValue('The right input is likely to own the content!')
-              setDatesValues([date_left, date_right])
+              setDatesValues([dateLeft, dateRight])
               break
           }
           setOutputColor('red')
@@ -178,7 +178,7 @@ export default function EnterTwoURLs () {
                 <ProgressLineCustom progress={answerValue} />
                 {outputColor === 'red' &&
                   (
-                    <Ownership result={ownershipValue} date_left={datesValues[0]} date_right={datesValues[1]}/>
+                    <Ownership result={ownershipValue} dateLeft={datesValues[0]} dateRight={datesValues[1]} />
                   )}
               </div>
             )}

@@ -259,7 +259,6 @@ class TestCompareURLs(TestCase):
         self.assertEqual('2020-05-20 15:38:02', parsed_response["left_date"])
         self.assertEqual('2020-05-20 16:59:30', parsed_response["right_date"])
 
-
     def test_different_urls_valid_date_swapped(self):
         # Date is 2020-05-20 15:38:02
         url_right = 'https://ratherexposethem.org/2020/05/20/pelosis-heroes-' \

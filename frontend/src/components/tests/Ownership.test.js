@@ -5,16 +5,16 @@ import Ownership from '../Ownership'
 describe('Ownership component', () => {
   it('renders the text and arrow correctly when result includes "right"', () => {
     const result = 'The right input is likely to own the content'
-    const left_date = '2020-07-07 23:33:00'
-    const right_date = '2020-07-06 18:47:45'
-    render(<Ownership result={result} date_left={left_date} date_right={right_date} />)
+    const dateLeft = '2020-07-07 23:33:00'
+    const dateRight = '2020-07-06 18:47:45'
+    render(<Ownership result={result} dateLeft={dateLeft} dateRight={dateRight} />)
 
     const ownershipPrompt = screen.getByTestId('ownership-prompt')
     const leftDatePrompt = screen.getByTestId('date-left-prompt')
     const rightDatePrompt = screen.getByTestId('date-right-prompt')
     expect(ownershipPrompt).toHaveTextContent(result)
-    expect(leftDatePrompt).toHaveTextContent(left_date)
-    expect(rightDatePrompt).toHaveTextContent(right_date)
+    expect(leftDatePrompt).toHaveTextContent(dateLeft)
+    expect(rightDatePrompt).toHaveTextContent(dateRight)
 
     const arrowIcon = screen.getByTestId('turn-up-icon')
     expect(arrowIcon).toHaveClass('fa-arrow-turn-up')
@@ -23,16 +23,16 @@ describe('Ownership component', () => {
 
   it('renders the text and arrow correctly when result includes "left"', () => {
     const result = 'The left input is likely to own the content'
-    const left_date = '2020-07-06 18:47:45'
-    const right_date = '2020-07-07 23:33:00'
-    render(<Ownership result={result} date_left={left_date} date_right={right_date} />)
+    const dateLeft = '2020-07-06 18:47:45'
+    const dateRight = '2020-07-07 23:33:00'
+    render(<Ownership result={result} dateLeft={dateLeft} dateRight={dateRight} />)
 
     const ownershipPrompt = screen.getByTestId('ownership-prompt')
     const leftDatePrompt = screen.getByTestId('date-left-prompt')
     const rightDatePrompt = screen.getByTestId('date-right-prompt')
     expect(ownershipPrompt).toHaveTextContent(result)
-    expect(leftDatePrompt).toHaveTextContent(left_date)
-    expect(rightDatePrompt).toHaveTextContent(right_date)
+    expect(leftDatePrompt).toHaveTextContent(dateLeft)
+    expect(rightDatePrompt).toHaveTextContent(dateRight)
 
     const arrowIcon = screen.getByTestId('turn-up-icon')
     expect(arrowIcon).toHaveClass('fa-arrow-turn-up')
