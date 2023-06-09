@@ -256,6 +256,9 @@ class TestCompareURLs(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(0.88, round(parsed_response["similarity"], 2))
         self.assertEqual(1, parsed_response["ownership"])
+        self.assertEqual('2020-05-20 15:38:02', parsed_response["left_date"])
+        self.assertEqual('2020-05-20 16:59:30', parsed_response["right_date"])
+
 
     def test_different_urls_valid_date_swapped(self):
         # Date is 2020-05-20 15:38:02
@@ -264,7 +267,7 @@ class TestCompareURLs(TestCase):
         # Date is 2020-05-20 16:59:30
         url_left = 'https://dcdirtylaundry.com/pelosis-heroes-act-forces-un' \
                    'employed-americans-to-compete-with-illegal-aliens/'
-        # create the request body
+        # Create the request body
         data = {
             'url_left': url_left,
             'url_right': url_right
@@ -278,6 +281,8 @@ class TestCompareURLs(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(0.88, round(parsed_response["similarity"], 2))
         self.assertEqual(2, parsed_response["ownership"])
+        self.assertEqual('2020-05-20 15:38:02', parsed_response["right_date"])
+        self.assertEqual('2020-05-20 16:59:30', parsed_response["left_date"])
 
     def test_left_invalid(self):
         url_left = 'https://dianamicloiu.com/'

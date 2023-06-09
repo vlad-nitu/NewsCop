@@ -22,14 +22,18 @@ class ResponseUrlEncoder(json.JSONEncoder):
 
 
 class ResponseTwoUrlsEntity:
-    def __init__(self, similarity, ownership):
+    def __init__(self, similarity, ownership, left_date, right_date):
         """
         Constructor for the response of the two urls endpoint.
         :param similarity: the similarity between the two urls
         :param ownership: the ownership relation between the news articles
+        :param left_date: the date in the left input
+        :param right_date: the date in the right input
         """
         self.similarity = similarity
         self.ownership = ownership
+        self.left_date = left_date
+        self.right_date = right_date
 
 
 class ResponseTwoUrlsEncoder(json.JSONEncoder):
@@ -42,4 +46,6 @@ class ResponseTwoUrlsEncoder(json.JSONEncoder):
         return {
             'similarity': obj.similarity,
             'ownership': obj.ownership,
+            'left_date': obj.left_date,
+            'right_date': obj.right_date
         }

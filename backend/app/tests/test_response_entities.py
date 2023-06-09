@@ -36,14 +36,21 @@ class ResponseEntitiesTest(TestCase):
     def test_response_two_urls(self):
         similarity = 0.6
         ownership = 0
-        entity = ResponseTwoUrlsEntity(similarity, ownership)
+        left_date = '2020-05-20 16:59:30'
+        right_date = '2020-05-20 16:59:31'
+        entity = ResponseTwoUrlsEntity(similarity, ownership, left_date, right_date)
         self.assertEqual(entity.similarity, similarity)
         self.assertEqual(entity.ownership, ownership)
+        self.assertEqual(entity.left_date, left_date)
+        self.assertEqual(entity.right_date, right_date)
 
     def test_response_two_urls_encoder(self):
         similarity = 0.6
         ownership = 0
-        entity = ResponseTwoUrlsEntity(similarity, ownership)
-        expected_json = '{"similarity": 0.6, "ownership": 0}'
+        left_date = '2020-05-20 16:59:30'
+        right_date = '2020-05-20 16:59:31'
+        entity = ResponseTwoUrlsEntity(similarity, ownership, left_date, right_date)
+        expected_json = '{"similarity": 0.6, "ownership": 0, ' \
+                        '"left_date": "2020-05-20 16:59:30", "right_date": "2020-05-20 16:59:31"}'
         json_data = json.dumps(entity, cls=ResponseTwoUrlsEncoder)
         self.assertEqual(json_data, expected_json)

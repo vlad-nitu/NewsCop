@@ -341,25 +341,29 @@ def compare_URLs(request):
         fingerprint_right = compute_fingerprint(article_text_right)
         result_similarity = compute_similarity(fingerprint_left, fingerprint_right)
         if date_left is None or date_right is None:  # In this case we cannot compare dates => ownership = 0
-            return construct_response_helper(result_similarity, 0)
+            return construct_response_helper(result_similarity, 0, date_left, date_right)
         if date_left <= date_right:
             # The left input is likely to own the content
-            return construct_response_helper(result_similarity, 1)
+            return construct_response_helper(result_similarity, 1, date_left, date_right)
         else:
             # The right input is likely to own the content
-            return construct_response_helper(result_similarity, 2)
+            return construct_response_helper(result_similarity, 2, date_left, date_right)
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
 
 
-def construct_response_helper(similarity, ownership):
+def construct_response_helper(similarity, ownership, date_left, date_right):
     """
     In order not to avoid code duplication, we made this helper function to return a response entity
     according to the parameters.
+    :param date_right: date of the left input
+    :param date_left: date of the right input
     :param similarity: the similarity between the articles
     :param ownership: the ownership value
     :return: an HTTP response with the correct parameters
     """
     return HttpResponse(
-        ResponseTwoUrlsEncoder().encode(ResponseTwoUrlsEntity(similarity=similarity, ownership=ownership)),
+        ResponseTwoUrlsEncoder().encode(
+            ResponseTwoUrlsEntity(similarity=similarity, ownership=ownership, left_date=str(date_left),
+                                  right_date=str(date_right))),
         status=200, content_type="application/json")
