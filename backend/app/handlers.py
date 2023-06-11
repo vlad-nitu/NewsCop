@@ -1,13 +1,14 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Any
+
+from app.models import NewsDocument
 from .plagiarism_checker.sanitizing import sanitizing_url
 from .plagiarism_checker.fingerprinting import compute_fingerprint
 from .plagiarism_checker.crawling import crawl_url
 
 from django.http import HttpResponse, HttpResponseBadRequest
-from .models import *
+from utils import conn
 
 
 class Handler(ABC):
@@ -91,8 +92,16 @@ Concrete Handler for verifying if the content is persisted in the DB or it needs
 
 class DatabaseHandler(AbstractHandler):
     def handle(self, content: str) -> HttpResponse:
+        # Create a cursor that returns a dictionary as a result
+        cur = conn.cursor()
+
         # Checking if the URL is already presented in the database
-        url_exists = db.news_collection.find_one({'_id': content}) is not None
+        cur.execute("SELECT 1 FROM news_schema.urls WHERE url = %s LIMIT 1", (content,))
+        url_exists = cur.fetchone() is not None
+
+        # Close the cursor
+        cur.close()
+
         if url_exists:
             return HttpResponse(content, status=200)
         else:

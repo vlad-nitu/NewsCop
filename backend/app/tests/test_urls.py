@@ -14,7 +14,6 @@ from app.views import compare_texts_view
 from app.views import persist_url_view
 from app.views import try_view
 from app.views import reqex_view
-from app.views import ReactView
 from app.views import url_similarity_checker
 
 from app.plagiarism_checker.fingerprinting import compute_fingerprint
@@ -165,17 +164,6 @@ class UrlsTest(TestCase):
         response = client.post(obtained_url, data=data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.content.decode(), "Invalid JSON data")
-
-    @tag("unit")
-    def test_react_unit(self):
-        obtained_url = reverse('main_view')
-        expected_url = '/'
-
-        obtained_view_function = resolve(obtained_url).func.view_class
-        expected_view_function = ReactView
-
-        self.assertEquals(obtained_url, expected_url)
-        self.assertEquals(obtained_view_function, expected_view_function)
 
     @tag("integration")
     def test_react_integration_get(self):

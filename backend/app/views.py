@@ -2,16 +2,9 @@ from silk.profiling.profiler import silk_profile
 
 import concurrent.futures
 import heapq
-from datetime import datetime
 from functools import partial
 
-import numpy as np
-from django.shortcuts import render
-from numpy import str_
-from rest_framework.views import APIView
 from .models import *
-from rest_framework.response import Response
-from .serializer import *
 from django.http import HttpResponse, HttpResponseBadRequest
 import json
 from django.views.decorators.csrf import csrf_exempt
@@ -21,32 +14,10 @@ from .plagiarism_checker.sanitizing import sanitizing_url
 from .plagiarism_checker.similarity import compute_similarity
 from .response_entities import ResponseUrlEntity, ResponseUrlEncoder, ResponseTwoUrlsEntity, ResponseTwoUrlsEncoder
 
-import multiprocessing
-import time
 from .plagiarism_checker.similarity import compute_similarity
 from .handlers import *
 
-from collections import Counter, defaultdict
-
-
-# Create your views here.
-class ReactView(APIView):
-    serializer_class = ReactSerializer
-
-    @silk_profile(name='View GET')
-    def get(self, request):
-        obtained = [{'url': output['_id'], 'published_date': output['published_date']}
-                    for output in db.copy_collection.find()]
-        return Response(obtained, status=200)
-
-    def post(self, request):
-        srlzr = ReactSerializer(data=request.data)  # Pass data to React serializer method
-
-        if srlzr.is_valid(raise_exception=True):
-            srlzr.save()
-
-        return Response(srlzr.data, status=200)
-
+from collections import defaultdict
 
 def try_view(request, url):
     '''

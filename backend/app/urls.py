@@ -22,7 +22,6 @@ from app.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', ReactView.as_view(), name = "main_view"),
     path('try/<str:url>/', try_view, name = "try"),
     path('reqex/', reqex_view, name = "reqex"),
     path('persistURL/', persist_url_view, name = "persist_url"),
