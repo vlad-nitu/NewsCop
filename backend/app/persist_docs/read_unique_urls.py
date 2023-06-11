@@ -67,7 +67,7 @@ def main(input_files, output_file):
 
 
 if __name__ == '__main__':
-    input_files = ['unique_urls.txt', 'app/persist_docs/unique_urls.txt']
+    input_files = ['preprocessed_unique_urls.txt', 'app/persist_docs/preprocessed_unique_urls.txt']
     output_file = 'preprocessed_unique_urls.txt'
 
     main(input_files, output_file)
