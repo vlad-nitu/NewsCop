@@ -23,7 +23,7 @@ cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 cur.execute("SELECT fingerprint FROM news_schema.fingerprints")
 
 # Fetch all rows as a list of dictionaries and create a set from the 'url' values
-existing_fps = set(row['fp'] for row in cur.fetchall())
+existing_fps = set(row['fingerprint'] for row in cur.fetchall())
 
 # Close the cursor
 cur.close()
