@@ -9,6 +9,7 @@ from .plagiarism_checker.crawling import crawl_url
 
 from django.http import HttpResponse, HttpResponseBadRequest
 from utils import conn
+from utils import schema
 
 
 class Handler(ABC):
@@ -96,7 +97,7 @@ class DatabaseHandler(AbstractHandler):
         cur = conn.cursor()
 
         # Checking if the URL is already presented in the database
-        cur.execute("SELECT 1 FROM news_schema.urls WHERE url = %s LIMIT 1", (content,))
+        cur.execute(f'SELECT 1 FROM {schema}.urls WHERE url = %s LIMIT 1', (content,))
         url_exists = cur.fetchone() is not None
 
         # Close the cursor

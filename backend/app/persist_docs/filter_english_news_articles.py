@@ -77,11 +77,11 @@ def process_article(url):
         # verify if it has any fingerprints
         if len(only_shingle_values) == 0:
             return url, False
-        try:
-            newsdoc = NewsDocument(url=url, fingerprints=only_shingle_values)
-            newsdoc.save()
-        except:
-            logging.warning("encountered another error")
+        # try:
+        newsdoc = NewsDocument(url=url, fingerprints=only_shingle_values)
+        newsdoc.save()
+        # except:
+        #     logging.warning("encountered another error")
         return url, True
 
     elif hasattr(article, 'language'):

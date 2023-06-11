@@ -1,8 +1,8 @@
 import psycopg2
 from utils import conn
 from utils import existing_fps
+from utils import schema
 from django.db import models
-
 
 class NewsDocument(models.Model):
     def __init__(self, url, fingerprints):
@@ -17,7 +17,7 @@ class NewsDocument(models.Model):
             # Insert the url into the urls table and retrieve its id
             cur.execute(
                 """
-                INSERT INTO news_schema.urls (url) VALUES (%s) 
+                INSERT INTO {schema}.urls (url) VALUES (%s) 
                 ON CONFLICT (url) DO NOTHING RETURNING id
                 """, (self.url,))
             url_id = cur.fetchone()[0]
@@ -29,7 +29,7 @@ class NewsDocument(models.Model):
             if new_fingerprints:
                 cur.executemany(
                     """
-                    INSERT INTO news_schema.fingerprints (fingerprint) VALUES (%s) 
+                    INSERT INTO {schema}.fingerprints (fingerprint) VALUES (%s) 
                     ON CONFLICT (fingerprint) DO NOTHING
                     """, new_fingerprints)
                 # Update existing_fps with the new fingerprints
@@ -40,7 +40,7 @@ class NewsDocument(models.Model):
 
             # Insert the pairs of url_id and fingerprint_id into the url_fingerprints table
             cur.executemany("""
-            INSERT INTO news_schema.url_fingerprints (url_id, fingerprint_id) VALUES (%s, %s) 
+            INSERT INTO {schema}.url_fingerprints (url_id, fingerprint_id) VALUES (%s, %s) 
             ON CONFLICT DO NOTHING
             """, url_fingerprints_data)
 
