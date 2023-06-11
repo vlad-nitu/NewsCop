@@ -1,3 +1,5 @@
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
 from silk.profiling.profiler import silk_profile
 
 import concurrent.futures
@@ -20,6 +22,7 @@ from collections import defaultdict
 
 import psycopg2.extras
 from utils import schema, conn
+
 
 def try_view(request, url):
     '''
@@ -88,18 +91,19 @@ def process_document(url_helper, length_first, string_list):
     # Query the database for the url and its associated fingerprints
     cur.execute(
         f"""
-        SELECT urls.url, fingerprints.fingerprint
-        FROM {schema}.urls
-        INNER JOIN {schema}.url_fingerprints ON urls.id = url_fingerprints.url_id
-        INNER JOIN {schema}.fingerprints ON url_fingerprints.fingerprint_id = fingerprints.fingerprint
-        WHERE urls.url = %s
+         SELECT array_agg(DISTINCT fingerprints.fingerprint)
+            FROM {schema}.urls
+            INNER JOIN {schema}.url_fingerprints ON urls.id = url_fingerprints.url_id
+            INNER JOIN {schema}.fingerprints ON url_fingerprints.fingerprint_id = fingerprints.fingerprint
+            WHERE urls.url = %s
+            GROUP BY urls.url;
         """, (url_helper,))
 
     # Fetch the result
     document = cur.fetchone()
 
     if document is not None:
-        length_second = len(set(document['fingerprints']))
+        length_second = len(document[0])
         inters = string_list[url_helper]
         comp = inters / (length_second + length_first - inters)
         cur.close()
@@ -123,29 +127,32 @@ def url_similarity_checker(request):
         source_url = json.loads(request.body)["key"]
 
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-
-        # Query the database for the url and its associated fingerprints
-        cur.execute(
-            f"""
-            SELECT urls.url, fingerprints.fingerprint
+        query = f"""
+          SELECT array_agg(DISTINCT fingerprints.fingerprint)
             FROM {schema}.urls
             INNER JOIN {schema}.url_fingerprints ON urls.id = url_fingerprints.url_id
             INNER JOIN {schema}.fingerprints ON url_fingerprints.fingerprint_id = fingerprints.fingerprint
             WHERE urls.url = %s
-            """, (source_url,))
+            GROUP BY urls.url;
+            """
+        # Query the database for the url and its associated fingerprints
+        cur.execute(
+            query, (source_url,))
 
-        # Fetch the result
+        # Fetch the result, if you cannot fetch at least one => None
         document = cur.fetchone()
-
+        print(document)
         # If the URL has not been persisted yet, persist it in the DB
         if document is None:
             response = persist_url_view(request)
             if response.status_code == 400:  # Cannot persist URL as either it is too long, or it does not have text.
-                return response
-
+                return
+        if document is None:
+            cur.execute(
+                query, (source_url,))
+        document = cur.fetchone()
         # Get the fingerprints for the current URL
-        submitted_url_fingerprints = document['fingerprints']
-
+        submitted_url_fingerprints = document[0]
         return find_similar_documents_by_fingerprints(submitted_url_fingerprints, source_url)
 
     else:
@@ -181,6 +188,7 @@ def text_similarity_checker(request):
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
 
+
 def find_similar_documents_by_fingerprints(fingerprints, input=''):
     '''
     Helper method which is used by the two endpoints /checkText and /checkURL for doing query on the database
@@ -190,7 +198,7 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
     :return: HttpResponse with the five most similar articles in decreasing order of similarity magnitude
     '''
     cur = conn.cursor()
-    
+
     # Get the length of the fingerprints for later use when computing Jaccard Similarity
     length_first = len(set(fingerprints))
     string_list = defaultdict(int)
@@ -205,11 +213,11 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
             JOIN {schema}.url_fingerprints as uf ON f.fingerprint = uf.fingerprint_id
             GROUP BY f.fingerprint
             HAVING COUNT(*) <= 21 AND f.fingerprint IN %(fingerprints)s
-            """, 
+            """,
             {'fingerprints': tuple(fingerprints)})
-        
+
         candidates = [row[0] for row in cur.fetchall()]
-        
+
         # Second query to construct the map (url, nr of occurrences of the url)
         cur.execute(
             f"""
@@ -217,7 +225,7 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
             FROM {schema}.urls as u
             JOIN {schema}.url_fingerprints as uf ON u.id = uf.url_id
             WHERE uf.fingerprint_id IN %(candidates)s
-            """, 
+            """,
             {'candidates': tuple(candidates)})
 
         for row in cur.fetchall():
@@ -229,9 +237,10 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
         with ThreadPoolExecutor() as executor:
             # Submit tasks for processing urls
             futures = [
-                executor.submit(partial(process_document, length_first=length_first, string_list=string_list), helper_url)
+                executor.submit(partial(process_document, length_first=length_first, string_list=string_list),
+                                helper_url)
                 for helper_url in visited]
-            
+
         heap = []
         capacity = 5
 
@@ -246,7 +255,7 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
                     # Equivalent to a pop, then a push, but faster
                     if computed_similarity > heap[0][0]:
                         heapq.heapreplace(heap, (computed_similarity, article_url))
-    
+
     except Exception as e:
         print(f"Could not query data: {e}")
         # Rollback the current transaction if there's any error
@@ -255,7 +264,7 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
     finally:
         # Close the cursor
         cur.close()
-    
+
     # construct the response entity
     response = []
     for (similarity, url) in heapq.nlargest(len(heap), heap):
