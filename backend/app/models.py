@@ -16,7 +16,7 @@ class NewsDocument(models.Model):
         try:
             # Insert the url into the urls table and retrieve its id
             cur.execute(
-                """
+               f"""
                 INSERT INTO {schema}.urls (url) VALUES (%s) 
                 ON CONFLICT (url) DO NOTHING RETURNING id
                 """, (self.url,))
@@ -28,7 +28,7 @@ class NewsDocument(models.Model):
             # If there are new fingerprints, insert them into the fingerprints table
             if new_fingerprints:
                 cur.executemany(
-                    """
+                    f"""
                     INSERT INTO {schema}.fingerprints (fingerprint) VALUES (%s) 
                     ON CONFLICT (fingerprint) DO NOTHING
                     """, new_fingerprints)
@@ -39,10 +39,11 @@ class NewsDocument(models.Model):
             url_fingerprints_data = [(url_id, fp) for fp in self.fingerprints]
 
             # Insert the pairs of url_id and fingerprint_id into the url_fingerprints table
-            cur.executemany("""
-            INSERT INTO {schema}.url_fingerprints (url_id, fingerprint_id) VALUES (%s, %s) 
-            ON CONFLICT DO NOTHING
-            """, url_fingerprints_data)
+            cur.executemany(
+                    f"""
+                    INSERT INTO {schema}.url_fingerprints (url_id, fingerprint_id) VALUES (%s, %s) 
+                    ON CONFLICT DO NOTHING
+                    """, url_fingerprints_data)
 
         except psycopg2.Error as e:
             print(f"Could not insert data: {e}")
