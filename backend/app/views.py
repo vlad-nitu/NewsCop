@@ -205,6 +205,7 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
             JOIN {schema}.url_fingerprints as uf ON u.id = uf.url_id
             WHERE uf.fingerprint_id IN %(candidates)s AND u.url <> %(source_url)s
             GROUP BY u.url
+            HAVING COUNT(*) >= 100
             """,
             {'candidates': tuple(fingerprint_candidates), 'source_url': input}
         )
@@ -213,8 +214,7 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
         string_list = {doc[0]: doc[1] for doc in document}
         url_candidates = [doc[0] for doc in document]
 
-
-        cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur = conn.cursor()
 
         # Query the database for the url and its associated fingerprints
         cur.execute(
