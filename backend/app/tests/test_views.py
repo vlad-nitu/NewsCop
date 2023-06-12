@@ -5,6 +5,7 @@ from unittest.mock import MagicMock
 
 from django.test import TestCase, RequestFactory
 from django.http import HttpResponse, HttpResponseBadRequest
+import psycopg2
 from rest_framework import status
 
 from app.response_entities import ResponseTwoUrlsEncoder
@@ -15,13 +16,37 @@ from app.views import reqex_view
 from app.views import url_similarity_checker
 from app.views import compare_URLs
 from app.views import text_similarity_checker
-from utils import schema, conn
-import sys
+from utils import schema, host, dbname, port
 
 
 class TestPersistUrlView(TestCase):
+
     def setUp(self):
         self.factory = RequestFactory()
+        # Set up database connection
+        self.conn = psycopg2.connect(
+            dbname=dbname,
+            user="newscop",
+            host=host,
+            password="newscop",
+            port=port
+        )
+        self.cursor = self.conn.cursor()
+
+        # Delete existing data from tables
+        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
+        self.cursor.execute(f'DELETE FROM {schema}.urls')
+        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+
+    def tearDown(self):
+        # Roll back the transaction after each test
+        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
+        self.cursor.execute(f'DELETE FROM {schema}.urls')
+        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+
+        self.conn.rollback()
+        self.conn.close()
+        
 
     def test_post_request_compare_texts(self):
         # create the request body
@@ -42,19 +67,6 @@ class TestPersistUrlView(TestCase):
     def test_post_request_with_valid_url_no_text(self):
         url = 'https://www.bbc.com/news/world-asia-65657996'
 
-        # Create a cursor object
-        cur = conn.cursor()
-
-        # Clear database
-        # Define the SQL query to delete a row
-        sql = f"DELETE FROM {schema}.urls WHERE url = %s"
-
-        # Execute the query with the provided value
-        cur.execute(sql, (url,))
-
-        # Commit the transaction
-        conn.commit()
-
         # create the request body
         data = {
             'key': url,
@@ -67,25 +79,11 @@ class TestPersistUrlView(TestCase):
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), url)
-        # res = \
-        cur.execute(sql, (url,))
-        # self.assertEqual(res.rowcount, 1)
-
-        # Close the cursor
-        cur.close()
 
     # note that this test also tests the correct persist chaining
     def test_post_request_with_valid_url_text(self):
         url = 'https://www.bbc.com/news/world-asia-65657996'
 
-        # Create a cursor object
-        cur = conn.cursor()
-
-        # Clear database
-        # Define the SQL query to delete a row
-        sql = f"DELETE FROM {schema}.urls WHERE url = %s"
-        cur.execute(sql, (url,))
-
         # create the request body
         data = {
             'key': url,
@@ -98,19 +96,9 @@ class TestPersistUrlView(TestCase):
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), url)
-        cur.execute(sql, (url,))
-        cur.close()
 
     def test_post_request_with_invalid_url(self):
         url = 'https://www.dianamicloiu.com'
-
-        # Create a cursor object
-        cur = conn.cursor()
-
-        # Clear database
-        # Define the SQL query to delete a row
-        sql = f"DELETE FROM {schema}.urls WHERE url = %s"
-        cur.execute(sql, (url,))
 
         # create the request body
         data = {

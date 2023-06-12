@@ -181,7 +181,9 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
     # Get the length of the fingerprints for later use when computing Jaccard Similarity
     length_first = len(set(fingerprints))
     string_list = defaultdict(int)
-    visited = set()
+
+    heap = []
+    capacity = 5
 
     try:
         # First query to find candidates and prefilter to only consider "informative hashes"
@@ -229,8 +231,6 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
 
         document = cur.fetchall() # [(url, fp_list)]
 
-        heap = []
-        capacity = 5
 
         for (url, fp_list_size) in document:
             inters = string_list[url]
@@ -255,22 +255,22 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
         # Close the cursor
         cur.close()
 
-    # construct the response entity
-    response = []
-    for (similarity, url) in heapq.nlargest(len(heap), heap):
-        title, publisher, date = extract_data_from_url(url)
-        if title is not None and publisher is not None:
-            response.append(ResponseUrlEntity(url, similarity, title, publisher, date))
+        # construct the response entity
+        response = []
+        for (similarity, url) in heapq.nlargest(len(heap), heap):
+            title, publisher, date = extract_data_from_url(url)
+            if title is not None and publisher is not None:
+                response.append(ResponseUrlEntity(url, similarity, title, publisher, date))
 
-    source_title, _, source_date = extract_data_from_url(input)
-    request_response = {
-        'sourceTitle': source_title,
-        'sourceDate': source_date,
-        'similarArticles': response
-    }
+        source_title, _, source_date = extract_data_from_url(input)
+        request_response = {
+            'sourceTitle': source_title,
+            'sourceDate': source_date,
+            'similarArticles': response
+        }
 
-    return HttpResponse(json.dumps(request_response, cls=ResponseUrlEncoder), status=200,
-                        content_type="application/json")
+        return HttpResponse(json.dumps(request_response, cls=ResponseUrlEncoder), status=200,
+                            content_type="application/json")
 
 
 def compare_texts_view(request):

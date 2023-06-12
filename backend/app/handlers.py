@@ -97,8 +97,6 @@ class DatabaseHandler(AbstractHandler):
         # Create a cursor that returns a dictionary as a result
         cur = conn.cursor()
 
-        print(schema)
-
         # Checking if the URL is already presented in the database
         cur.execute(f"SELECT 1 FROM {schema}.urls WHERE url = %s LIMIT 1", (content,))
         url_exists = cur.fetchone() is not None
