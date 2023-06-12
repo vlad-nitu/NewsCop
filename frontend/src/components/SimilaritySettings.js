@@ -30,7 +30,8 @@ export default function SimilaritySettings ({ type, sourceUrl, articles }) {
     {
       value: articles[0].similarity,
       label: `${articles[0].similarity}`
-    }]
+    }
+  ]
 
   const handleRatioValueChange = (event) => {
     setRatioValue(event.target.value)
@@ -48,9 +49,10 @@ export default function SimilaritySettings ({ type, sourceUrl, articles }) {
       <div className='d-flex justify-content-center slider-container pt-3'>
         <Accordion>
           <AccordionDetails>
-            <div>
-              <Typography style={{ textAlign: 'center' }}>Display articles with similarity above {ratioValue} %</Typography>
+            <div style={{ textAlign: 'center' }}>
+              <Typography>Display articles with similarity above {ratioValue} %</Typography>
               <Slider
+                style={{ width: window.innerWidth / 2 }}
                 marks={marks}
                 value={ratioValue} onChange={handleRatioValueChange} min={0} max={articles[0].similarity}
               />
