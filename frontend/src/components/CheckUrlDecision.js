@@ -1,8 +1,8 @@
 import ListURLs from './ListURLs'
-import { Accordion, AccordionSummary, AccordionDetails, Typography, Slider } from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Slider } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import React from "react";
-import {collect} from "collect.js";
+import React from 'react'
+import { collect } from 'collect.js'
 
 /**
  * The decision that is shown after entering the url. If no articles were found, a special message is displayed.
@@ -18,15 +18,14 @@ export default function CheckUrlDecision ({ type, sourceArticle, articles, displ
   const [resultArticles, setResultArticles] = React.useState(articles)
 
   const handleRatioValueChange = (event) => {
-    setRatioValue(event.target.value);
+    setRatioValue(event.target.value)
     setResultArticles(articles.filter(a => a.similarity >= ratioValue))
-  };
+  }
 
   const handleArticlesAmountChange = (event) => {
-    setArticlesAmount(event.target.value);
+    setArticlesAmount(event.target.value)
     setResultArticles(collect(articles).take(articlesAmount - 1))
-  };
-
+  }
 
   return (
     <div data-testid='check-decision' id='similar_articles' style={{ display: display }}>
@@ -60,9 +59,10 @@ export default function CheckUrlDecision ({ type, sourceArticle, articles, displ
                 <ListURLs type={type} sourceUrl={sourceArticle.url} articles={resultArticles} />
                 <Accordion>
                   <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      aria-controls='panel1a-content'
-                      id='panel1a-header'>
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls='panel1a-content'
+                    id='panel1a-header'
+                  >
                     <Typography>Options</Typography>
                   </AccordionSummary>
                   <AccordionDetails>
