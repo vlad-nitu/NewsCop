@@ -16,7 +16,7 @@ from app.views import reqex_view
 from app.views import url_similarity_checker
 from app.views import compare_URLs
 from app.views import text_similarity_checker
-from utils import schema, host, dbname, port
+from utils import schema, conn
 
 
 class TestPersistUrlView(TestCase):
@@ -24,14 +24,7 @@ class TestPersistUrlView(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         # Set up database connection
-        self.conn = psycopg2.connect(
-            dbname=dbname,
-            user="newscop",
-            host=host,
-            password="newscop",
-            port=port
-        )
-        self.cursor = self.conn.cursor()
+        self.cursor = conn.cursor()
 
         # Delete existing data from tables
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
@@ -43,10 +36,7 @@ class TestPersistUrlView(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
-
-        self.conn.rollback()
-        self.conn.close()
-        
+      
 
     def test_post_request_compare_texts(self):
         # create the request body
@@ -125,6 +115,22 @@ class TestPersistUrlView(TestCase):
 class TestTryView(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
+        # Set up database connection
+        self.cursor = conn.cursor()
+
+        # Delete existing data from tables
+        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
+        self.cursor.execute(f'DELETE FROM {schema}.urls')
+        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+
+    def tearDown(self):
+        # Roll back the transaction after each test
+        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
+        self.cursor.execute(f'DELETE FROM {schema}.urls')
+        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+
+       #conn.rollback()
+        
 
     def test_get_request_with_valid_url(self):
         url = "www.google.com"
@@ -148,6 +154,22 @@ class TestTryView(TestCase):
 class TestReqExView(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
+        # Set up database connection
+        self.cursor = conn.cursor()
+
+        # Delete existing data from tables
+        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
+        self.cursor.execute(f'DELETE FROM {schema}.urls')
+        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+
+    def tearDown(self):
+        # Roll back the transaction after each test
+        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
+        self.cursor.execute(f'DELETE FROM {schema}.urls')
+        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+
+       #conn.rollback()
+        
 
     def test_post_request_with_valid_url(self):
         data = {
@@ -188,6 +210,22 @@ class TestCompareURLs(TestCase):
 
     def setUp(self):
         self.factory = RequestFactory()
+        # Set up database connection
+        self.cursor = conn.cursor()
+
+        # Delete existing data from tables
+        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
+        self.cursor.execute(f'DELETE FROM {schema}.urls')
+        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+
+    def tearDown(self):
+        # Roll back the transaction after each test
+        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
+        self.cursor.execute(f'DELETE FROM {schema}.urls')
+        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+
+       #conn.rollback()
+        
 
     def test_same_url(self):
         url = 'https://getbootstrap.com/docs/5.0/forms/layout/'
@@ -324,6 +362,22 @@ class TestCompareURLs(TestCase):
 class TestUrlSimilarity(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
+        # Set up database connection
+        self.cursor = conn.cursor()
+
+        # Delete existing data from tables
+        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
+        self.cursor.execute(f'DELETE FROM {schema}.urls')
+        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+
+    def tearDown(self):
+        # Roll back the transaction after each test
+        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
+        self.cursor.execute(f'DELETE FROM {schema}.urls')
+        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+
+       #conn.rollback()
+        
 
     # note that for this test the url provided is already in the db
     def test_valid_url(self):
@@ -375,6 +429,22 @@ class TestUrlSimilarity(TestCase):
 class TestTextSimilarity(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
+        # Set up database connection
+        self.cursor = conn.cursor()
+
+        # Delete existing data from tables
+        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
+        self.cursor.execute(f'DELETE FROM {schema}.urls')
+        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+
+    def tearDown(self):
+        # Roll back the transaction after each test
+        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
+        self.cursor.execute(f'DELETE FROM {schema}.urls')
+        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+
+       #conn.rollback()
+        
 
     # note that for this test the url provided is already in the db
     def test_valid_text(self):

@@ -6,12 +6,25 @@ from app.handlers import SanitizationHandler
 from app.handlers import ContentHandler
 from app.handlers import DatabaseHandler
 
-from utils import schema
+from utils import schema, conn
 
 
 class TestSanitizationHandler(TestCase):
     def setUp(self):
         self.sanitise = SanitizationHandler()
+        # Set up database connection
+        self.cursor = conn.cursor()
+
+        # Delete existing data from tables
+        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
+        self.cursor.execute(f'DELETE FROM {schema}.urls')
+        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+
+    def tearDown(self):
+        # Roll back the transaction after each test
+        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
+        self.cursor.execute(f'DELETE FROM {schema}.urls')
+        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
 
     # note that the handler is not
     def test_url_valid(self):
@@ -48,6 +61,19 @@ class TestSanitizationHandler(TestCase):
 class TestDatabaseHandler(TestCase):
     def setUp(self):
         self.database_check = DatabaseHandler()
+        # Set up database connection
+        self.cursor = conn.cursor()
+
+        # Delete existing data from tables
+        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
+        self.cursor.execute(f'DELETE FROM {schema}.urls')
+        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+
+    def tearDown(self):
+        # Roll back the transaction after each test
+        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
+        self.cursor.execute(f'DELETE FROM {schema}.urls')
+        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
 
     # note that the handler is not
     def test_url_existent(self):
@@ -75,8 +101,22 @@ class TestDatabaseHandler(TestCase):
 
 
 class TestContentHandler(TestCase):
+    @pytest.fixture(autouse=True)
     def setUp(self):
         self.content_check = ContentHandler()
+        # Set up database connection
+        self.cursor = conn.cursor()
+
+        # Delete existing data from tables
+        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
+        self.cursor.execute(f'DELETE FROM {schema}.urls')
+        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+
+    def tearDown(self):
+        # Roll back the transaction after each test
+        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
+        self.cursor.execute(f'DELETE FROM {schema}.urls')
+        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
 
     # note that the handler is not
     def test_url_no_text(self):
