@@ -71,9 +71,8 @@ class TestPersistUrlView(TestCase):
         cur.execute(sql, (url,))
         # self.assertEqual(res.rowcount, 1)
 
-        # Close the cursor and the connection
+        # Close the cursor
         cur.close()
-        conn.close()
 
     # note that this test also tests the correct persist chaining
     def test_post_request_with_valid_url_text(self):
@@ -101,7 +100,6 @@ class TestPersistUrlView(TestCase):
         self.assertEqual(response.content.decode(), url)
         cur.execute(sql, (url,))
         cur.close()
-        conn.close()
 
     def test_post_request_with_invalid_url(self):
         url = 'https://www.dianamicloiu.com'
