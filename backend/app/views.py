@@ -200,20 +200,18 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
         # Second query to construct the map (url, nr of occurrences of the url)
         cur.execute(
             f"""
-            SELECT u.url
+            SELECT u.url, count(*) as cnt
             FROM {schema}.urls as u
             JOIN {schema}.url_fingerprints as uf ON u.id = uf.url_id
-            WHERE uf.fingerprint_id IN %(candidates)s
+            WHERE uf.fingerprint_id IN %(candidates)s AND u.url <> %(source_url)s
+            GROUP BY u.url
             """,
-            {'candidates': tuple(fingerprint_candidates)})
+            {'candidates': tuple(fingerprint_candidates), 'source_url': input}
+        )
 
         document = cur.fetchall()
+        string_list = {doc[0]: doc[1] for doc in document}
         url_candidates = [doc[0] for doc in document]
-
-        for url in url_candidates:
-            if url != input:
-                visited.add(url)
-                string_list[url] += 1
 
 
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
@@ -221,7 +219,7 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
         # Query the database for the url and its associated fingerprints
         cur.execute(
             f"""
-            SELECT u.url, array_agg(DISTINCT f.fingerprint)
+            SELECT u.url, count(DISTINCT f.fingerprint)
             FROM {schema}.urls u
             INNER JOIN {schema}.url_fingerprints uf ON u.id = uf.url_id
             INNER JOIN {schema}.fingerprints f ON uf.fingerprint_id = f.fingerprint
@@ -229,14 +227,14 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
             GROUP BY u.url;
             """, {'candidates': tuple(url_candidates)})
 
-        document = cur.fetchall(); # [(url, fp_list)]
+        document = cur.fetchall() # [(url, fp_list)]
 
         heap = []
         capacity = 5
 
-        for (url, fp_list) in document:
+        for (url, fp_list_size) in document:
             inters = string_list[url]
-            result = process_document(length_first, len(fp_list), inters)
+            result = process_document(length_first, fp_list_size, inters)
             if result != -1:
                 article_url = url
                 computed_similarity = result
