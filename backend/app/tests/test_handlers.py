@@ -6,7 +6,7 @@ from app.handlers import SanitizationHandler
 from app.handlers import ContentHandler
 from app.handlers import DatabaseHandler
 
-from utils import db
+from utils import schema
 
 
 class TestSanitizationHandler(TestCase):

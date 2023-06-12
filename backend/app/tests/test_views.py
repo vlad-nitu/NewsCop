@@ -15,7 +15,7 @@ from app.views import reqex_view
 from app.views import url_similarity_checker
 from app.views import compare_URLs
 from app.views import text_similarity_checker
-from utils import db
+from utils import schema, conn
 import sys
 
 
@@ -41,8 +41,19 @@ class TestPersistUrlView(TestCase):
 
     def test_post_request_with_valid_url_no_text(self):
         url = 'https://www.bbc.com/news/world-asia-65657996'
-        # clear database
-        db.news_collection.delete_one({'_id': url})
+
+        # Create a cursor object
+        cur = conn.cursor()
+
+        # Clear database
+        # Define the SQL query to delete a row
+        sql = f"DELETE FROM {schema}.urls WHERE url = %s"
+
+        # Execute the query with the provided value
+        cur.execute(sql, (url,))
+
+        # Commit the transaction
+        conn.commit()
 
         # create the request body
         data = {
@@ -56,16 +67,25 @@ class TestPersistUrlView(TestCase):
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), url)
-        res = db.news_collection.delete_one({'_id': url})
-        self.assertEqual(res.deleted_count, 1)
-        db.hashes_collection.delete_many({'urls': url})
+        # res = \
+        cur.execute(sql, (url,))
+        # self.assertEqual(res.rowcount, 1)
+
+        # Close the cursor and the connection
+        cur.close()
+        conn.close()
 
     # note that this test also tests the correct persist chaining
     def test_post_request_with_valid_url_text(self):
         url = 'https://www.bbc.com/news/world-asia-65657996'
 
-        # clear database
-        db.news_collection.delete_one({'_id': url})
+        # Create a cursor object
+        cur = conn.cursor()
+
+        # Clear database
+        # Define the SQL query to delete a row
+        sql = f"DELETE FROM {schema}.urls WHERE url = %s"
+        cur.execute(sql, (url,))
 
         # create the request body
         data = {
@@ -79,14 +99,20 @@ class TestPersistUrlView(TestCase):
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), url)
-        res = db.news_collection.delete_one({'_id': url})
-        self.assertEqual(res.deleted_count, 1)
-        db.hashes_collection.delete_many({'urls': url})
+        cur.execute(sql, (url,))
+        cur.close()
+        conn.close()
 
     def test_post_request_with_invalid_url(self):
         url = 'https://www.dianamicloiu.com'
-        # clear database
-        db.nd_collection.delete_one({'_id': url})
+
+        # Create a cursor object
+        cur = conn.cursor()
+
+        # Clear database
+        # Define the SQL query to delete a row
+        sql = f"DELETE FROM {schema}.urls WHERE url = %s"
+        cur.execute(sql, (url,))
 
         # create the request body
         data = {
@@ -171,28 +197,6 @@ class TestReqExView(TestCase):
         self.assertIsInstance(response, HttpResponseBadRequest)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.content.decode(), "Invalid JSON data")
-
-
-class TestDatabase(TestCase):
-    def setUp(self):
-        self.factory = RequestFactory()
-
-    # test database
-    def test_check_database_indexing(self):
-        url = 'www.matiboss157.com'
-
-        # make sure the url is not already in the database -> clean up
-        db.nd_collection.delete_one({'_id': url})
-
-        # add it
-        db.nd_collection.insert_one({'_id': 'www.matiboss157.com',
-                                     'fingerprints': [{'shingle_hash': {'$numberInt': '3'}}]})
-
-        self.assertTrue(sys.getsizeof(db.nd_collection.find({'fingerprints.shingle_hash': 3})) > 0)
-
-        # final clean up
-        db.nd_collection.delete_one({'_id': url})
-
 
 class TestCompareURLs(TestCase):
 

@@ -1,7 +1,7 @@
 import datetime
 from unittest.mock import patch, MagicMock
 
-from utils import db
+from utils import schema
 import http.client
 import json
 import unittest
