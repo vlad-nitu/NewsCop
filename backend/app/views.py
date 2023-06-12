@@ -149,7 +149,6 @@ def url_similarity_checker(request):
             else:
                 return url_similarity_checker(request)
 
-
         # Get the fingerprints for the current URL
         submitted_url_fingerprints = document[0]
         return find_similar_documents_by_fingerprints(submitted_url_fingerprints, source_url)

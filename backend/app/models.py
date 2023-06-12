@@ -4,6 +4,7 @@ from utils import existing_fps
 from utils import schema
 from django.db import models
 
+
 class NewsDocument(models.Model):
     def __init__(self, url, fingerprints):
         self.url = url
@@ -16,7 +17,7 @@ class NewsDocument(models.Model):
         try:
             # Insert the url into the urls table and retrieve its id
             cur.execute(
-               f"""
+                f"""
                 INSERT INTO {schema}.urls (url) VALUES (%s) 
                 ON CONFLICT (url) DO NOTHING RETURNING id
                 """, (self.url,))
@@ -40,7 +41,7 @@ class NewsDocument(models.Model):
 
             # Insert the pairs of url_id and fingerprint_id into the url_fingerprints table
             cur.executemany(
-                    f"""
+                f"""
                     INSERT INTO {schema}.url_fingerprints (url_id, fingerprint_id) VALUES (%s, %s) 
                     ON CONFLICT DO NOTHING
                     """, url_fingerprints_data)
