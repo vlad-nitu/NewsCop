@@ -77,7 +77,7 @@ def persist_url_view(request):
         return HttpResponseBadRequest(f'Expected POST, but got {request.method} instead')
 
 
-def process_document(url_helper, length_first, string_list):
+def process_document(length_first, length_second, inters):
     '''
     Helper function that is used to process tasks in parallel for
     computing the jaccard similarity between the candidate urls and the input url.
@@ -86,31 +86,12 @@ def process_document(url_helper, length_first, string_list):
     :param string_list: the frequency count
     :return: the url and its jaccard similarity with the input url
     '''
-    cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-    # Query the database for the url and its associated fingerprints
-    cur.execute(
-        f"""
-         SELECT array_agg(DISTINCT fingerprints.fingerprint)
-            FROM {schema}.urls
-            INNER JOIN {schema}.url_fingerprints ON urls.id = url_fingerprints.url_id
-            INNER JOIN {schema}.fingerprints ON url_fingerprints.fingerprint_id = fingerprints.fingerprint
-            WHERE urls.url = %s
-            GROUP BY urls.url;
-        """, (url_helper,))
-
-    # Fetch the result
-    document = cur.fetchone()
-
-    if document is not None:
-        length_second = len(document[0])
-        inters = string_list[url_helper]
+    if (length_second != 0):
         comp = inters / (length_second + length_first - inters)
-        cur.close()
-        return url_helper, comp
+        return comp
     else:
-        cur.close()
-        return '', -1
+        return  -1
 
 
 def url_similarity_checker(request):
@@ -209,12 +190,12 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
             SELECT f.fingerprint 
             FROM {schema}.fingerprints as f
             JOIN {schema}.url_fingerprints as uf ON f.fingerprint = uf.fingerprint_id
-            GROUP BY f.fingerprint
-            HAVING COUNT(*) <= 21 AND f.fingerprint IN %(fingerprints)s
+            WHERE f.fingerprint IN %(fingerprints)s
+            GROUP BY f.fingerprint;
             """,
             {'fingerprints': tuple(fingerprints)})
 
-        candidates = [row[0] for row in cur.fetchall()]
+        fingerprint_candidates = [row[0] for row in cur.fetchall()]
 
         # Second query to construct the map (url, nr of occurrences of the url)
         cur.execute(
@@ -224,28 +205,41 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
             JOIN {schema}.url_fingerprints as uf ON u.id = uf.url_id
             WHERE uf.fingerprint_id IN %(candidates)s
             """,
-            {'candidates': tuple(candidates)})
+            {'candidates': tuple(fingerprint_candidates)})
 
-        for row in cur.fetchall():
-            url = row[0]
+        document = cur.fetchall()
+        url_candidates = [doc[0] for doc in document]
+
+        for url in url_candidates:
             if url != input:
                 visited.add(url)
                 string_list[url] += 1
 
-        with ThreadPoolExecutor() as executor:
-            # Submit tasks for processing urls
-            futures = [
-                executor.submit(partial(process_document, length_first=length_first, string_list=string_list),
-                                helper_url)
-                for helper_url in visited]
+
+        cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+
+        # Query the database for the url and its associated fingerprints
+        cur.execute(
+            f"""
+            SELECT u.url, array_agg(DISTINCT f.fingerprint)
+            FROM {schema}.urls u
+            INNER JOIN {schema}.url_fingerprints uf ON u.id = uf.url_id
+            INNER JOIN {schema}.fingerprints f ON uf.fingerprint_id = f.fingerprint
+            WHERE u.url IN %(candidates)s
+            GROUP BY u.url;
+            """, {'candidates': tuple(url_candidates)})
+
+        document = cur.fetchall(); # [(url, fp_list)]
 
         heap = []
         capacity = 5
 
-        for future in as_completed(futures):
-            result = future.result()
-            if result[0] != '':
-                article_url, computed_similarity = result
+        for (url, fp_list) in document:
+            inters = string_list[url]
+            result = process_document(length_first, len(fp_list), inters)
+            if result != -1:
+                article_url = url
+                computed_similarity = result
 
                 if len(heap) < capacity:
                     heapq.heappush(heap, (computed_similarity, article_url))
