@@ -224,7 +224,7 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
             for helper_url in visited]
 
     heap = []
-    capacity = 5
+    capacity = 10
 
     for future in concurrent.futures.as_completed(futures):
         result = future.result()

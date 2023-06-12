@@ -1,8 +1,10 @@
 import ProgressLineCustom from './ProgressLineCustom'
 import { Button, Container, Row, Col, Card, Accordion } from 'react-bootstrap'
 import SideBySideRender from './SideBySideRender'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import OneArticleRender from './OneArticleRender'
+import { collect } from 'collect.js'
+import { AccordionDetails, Slider, Typography } from '@mui/material'
 
 /**
  * Displays a list of articles (title, publisher, date) together with their similarities.
@@ -16,6 +18,22 @@ import OneArticleRender from './OneArticleRender'
 export default function ListURLs ({ type, sourceUrl, articles }) {
   const [showModal, setShowModal] = useState(false)
   const [selectedArticleIndex, setSelectedArticleIndex] = useState(null)
+
+  const [ratioValue, setRatioValue] = React.useState(0)
+  const [resultArticles, setResultArticles] = React.useState(collect(articles).take(5))
+  const [displayButton, setDisplayButton] = React.useState(true)
+  const [articlesAmount, setArticlesAmount] = React.useState(5)
+
+  const handleRatioValueChange = (event) => {
+    setRatioValue(event.target.value)
+    setResultArticles(collect(articles).take(articlesAmount).filter(a => a.similarity >= ratioValue))
+  }
+
+  const handleSeeMoreArticles = (event) => {
+    setResultArticles(articles)
+    setArticlesAmount(articles.length)
+    setDisplayButton(false)
+  }
 
   function RenderingButtons ({ index }) {
     if (type === 'text') { return <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={() => handleShowByIndex(index)}>See article</Button> } else { return <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={() => handleShowByIndex(index)}>Compare</Button> }
@@ -52,7 +70,7 @@ export default function ListURLs ({ type, sourceUrl, articles }) {
     return () => window.removeEventListener('resize', updateDimensions)
   }, [])
 
-  if (articles.length === 0) {
+  if (resultArticles.length === 0) {
     return <p>No articles were found</p>
   } else {
     return (
@@ -60,7 +78,7 @@ export default function ListURLs ({ type, sourceUrl, articles }) {
       <div>
         <Row>
           {width >= 992
-            ? articles.map((article, index) => (
+            ? resultArticles.map((article, index) => (
               <Col xs={12} className='mb-3' key={index}>
                 <Card className='d-flex flex-row'>
                   <Container fluid className='d-flex flex-row my-3'>
@@ -96,7 +114,7 @@ export default function ListURLs ({ type, sourceUrl, articles }) {
               ))
             : (
               <Accordion alwaysOpen>
-                {articles.map((article, index) => (
+                {resultArticles.map((article, index) => (
                   <Accordion.Item eventKey={index} key={index} style={{ marginBottom: '20px' }}>
                     <Accordion.Header className='d-flex flex-row'>
                       <div className='pe-3 title-wrapper'>
@@ -132,6 +150,38 @@ export default function ListURLs ({ type, sourceUrl, articles }) {
                 ))}
               </Accordion>)}
         </Row>
+        <div className='d-flex justify-content-center slider-container pt-3'>
+          <Accordion>
+            <AccordionDetails>
+              <div>
+                <Typography style={{ textAlign: 'center' }}>Display articles with similarity above {ratioValue} %</Typography>
+                <Slider
+                  marks={[
+                    {
+                      value: 0,
+                      label: '0'
+                    },
+                    {
+                      value: articles[0].similarity,
+                      label: `${articles[0].similarity}`
+                    }]}
+                  value={ratioValue} onChange={handleRatioValueChange} min={0} max={articles[0].similarity}
+                />
+              </div>
+            </AccordionDetails>
+          </Accordion>
+        </div>
+        <div className='d-flex justify-content-center pt-3'>
+          {(articles.length > 5) &&
+            (displayButton) &&
+            (<div>
+              <Button
+                className='mx-auto custom-outline-button' variant='outline-success'
+                onClick={handleSeeMoreArticles}
+              >See more articles
+              </Button>
+             </div>)}
+        </div>
       </div>
     )
   }
