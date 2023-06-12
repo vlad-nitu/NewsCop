@@ -80,6 +80,7 @@ Concrete Handler for verifying if the content (URL) is valid.
 class SanitizationHandler(AbstractHandler):
     def handle(self, content: str) -> HttpResponse:
         # Check if the content provided (URL) is valid (URL form + actual media content)
+
         if sanitizing_url(content):
             return super().handle(content)
         else:

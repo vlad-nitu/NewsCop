@@ -122,10 +122,9 @@ def url_similarity_checker(request):
     '''
     #  Ensure the request method is POST
     if request.method == 'POST':
-
+        print(1)
         # Retrieve the URL from the request body
         source_url = json.loads(request.body)["key"]
-
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         query = f"""
           SELECT array_agg(DISTINCT fingerprints.fingerprint)
@@ -141,16 +140,16 @@ def url_similarity_checker(request):
 
         # Fetch the result, if you cannot fetch at least one => None
         document = cur.fetchone()
-        print(document)
+
         # If the URL has not been persisted yet, persist it in the DB
         if document is None:
             response = persist_url_view(request)
             if response.status_code == 400:  # Cannot persist URL as either it is too long, or it does not have text.
-                return
-        if document is None:
-            cur.execute(
-                query, (source_url,))
-        document = cur.fetchone()
+                return response
+            else:
+                return url_similarity_checker(request)
+
+
         # Get the fingerprints for the current URL
         submitted_url_fingerprints = document[0]
         return find_similar_documents_by_fingerprints(submitted_url_fingerprints, source_url)
