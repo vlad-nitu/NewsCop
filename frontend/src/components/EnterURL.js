@@ -7,6 +7,7 @@ import ErrorPrompt from './ErrorPrompt'
 import LoadingCircle from './LoadingCircle'
 import Article from './Article'
 import ForwardToPage from './ForwardToPage'
+import ParameterSetting from "./ParameterSetting";
 
 /* The endpoint that is going to be used for the request, see urls.py and views.py */
 const persistUrlEndpoint = 'http://localhost:8000/urlsimilarity/'

@@ -1,4 +1,8 @@
 import ListURLs from './ListURLs'
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Slider } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import React from "react";
+import {collect} from "collect.js";
 
 /**
  * The decision that is shown after entering the url. If no articles were found, a special message is displayed.
@@ -9,6 +13,21 @@ import ListURLs from './ListURLs'
  * @returns {JSX.Element} the element that contains the decision
  */
 export default function CheckUrlDecision ({ type, sourceArticle, articles, display }) {
+  const [articlesAmount, setArticlesAmount] = React.useState(5)
+  const [ratioValue, setRatioValue] = React.useState(0)
+  const [resultArticles, setResultArticles] = React.useState(articles)
+
+  const handleRatioValueChange = (event) => {
+    setRatioValue(event.target.value);
+    setResultArticles(articles.filter(a => a.similarity >= ratioValue))
+  };
+
+  const handleArticlesAmountChange = (event) => {
+    setArticlesAmount(event.target.value);
+    setResultArticles(collect(articles).take(articlesAmount - 1))
+  };
+
+
   return (
     <div data-testid='check-decision' id='similar_articles' style={{ display: display }}>
       <div className='d-flex flex-column'>
@@ -38,9 +57,26 @@ export default function CheckUrlDecision ({ type, sourceArticle, articles, displ
               <div className='pt-3'>
                 <h2>We found the following similar articles:</h2>
                 <hr />
-                <ListURLs type={type} sourceUrl={sourceArticle.url} articles={articles} />
+                <ListURLs type={type} sourceUrl={sourceArticle.url} articles={resultArticles} />
+                <Accordion>
+                  <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls='panel1a-content'
+                      id='panel1a-header'>
+                    <Typography>Options</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <div>
+                      <Typography>Filtering ratio: {ratioValue}</Typography>
+                      <Slider value={ratioValue} onChange={handleRatioValueChange} min={0} max={100} />
+                    </div>
+                    <div>
+                      <Typography>Number of articles: {articlesAmount}</Typography>
+                      <Slider value={articlesAmount} onChange={handleArticlesAmountChange} min={1} max={10} />
+                    </div>
+                  </AccordionDetails>
+                </Accordion>
               </div>)}
-
         </div>
       </div>
     </div>
