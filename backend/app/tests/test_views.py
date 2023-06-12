@@ -30,12 +30,15 @@ class TestPersistUrlView(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        self.cursor.close()
 
     def tearDown(self):
+        self.cursor = conn.cursor()
         # Roll back the transaction after each test
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        self.cursor.close()
       
 
     def test_post_request_compare_texts(self):
@@ -122,14 +125,16 @@ class TestTryView(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        self.cursor.close()
 
     def tearDown(self):
+        self.cursor = conn.cursor()
         # Roll back the transaction after each test
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        self.cursor.close()
 
-       #conn.rollback()
         
 
     def test_get_request_with_valid_url(self):
@@ -161,14 +166,16 @@ class TestReqExView(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        self.cursor.close()
 
     def tearDown(self):
+        self.cursor = conn.cursor()
         # Roll back the transaction after each test
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        self.cursor.close()
 
-       #conn.rollback()
         
 
     def test_post_request_with_valid_url(self):
@@ -217,14 +224,16 @@ class TestCompareURLs(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        self.cursor.close()
 
     def tearDown(self):
         # Roll back the transaction after each test
+        self.cursor = conn.cursor()
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        self.cursor.close()
 
-       #conn.rollback()
         
 
     def test_same_url(self):
@@ -364,19 +373,19 @@ class TestUrlSimilarity(TestCase):
         self.factory = RequestFactory()
         # Set up database connection
         self.cursor = conn.cursor()
-
         # Delete existing data from tables
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        self.cursor.close()
 
     def tearDown(self):
+        self.cursor = conn.cursor()
         # Roll back the transaction after each test
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
-
-       #conn.rollback()
+        self.cursor.close()
         
 
     # note that for this test the url provided is already in the db
@@ -436,14 +445,16 @@ class TestTextSimilarity(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        self.cursor.close()
 
     def tearDown(self):
+        self.cursor = conn.cursor()
         # Roll back the transaction after each test
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        self.cursor.close()
 
-       #conn.rollback()
         
 
     # note that for this test the url provided is already in the db

@@ -150,6 +150,8 @@ class TestContentHandler(TestCase):
         self.assertEqual(res.deleted_count, 1)
         db.hashes_collection.delete_many({'urls': url})
 
+
+
     def test_chaining(self):
         sanitise = SanitizationHandler()
         self.content_check.set_next(sanitise)
