@@ -30,6 +30,7 @@ class TestPersistUrlView(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        conn.commit()  # commit the changes
         existing_fps.clear()
         self.cursor.close()
 
@@ -39,6 +40,7 @@ class TestPersistUrlView(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        conn.commit()  # commit the changes
         existing_fps.clear()
         self.cursor.close()
 
@@ -126,6 +128,7 @@ class TestTryView(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        conn.commit()  # commit the changes
         existing_fps.clear()
         self.cursor.close()
 
@@ -135,6 +138,7 @@ class TestTryView(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        conn.commit()  # commit the changes
         existing_fps.clear()
         self.cursor.close()
 
@@ -167,6 +171,7 @@ class TestReqExView(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        conn.commit()  # commit the changes
         existing_fps.clear()
         self.cursor.close()
 
@@ -176,6 +181,7 @@ class TestReqExView(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        conn.commit()  # commit the changes
         existing_fps.clear()
         self.cursor.close()
 
@@ -226,6 +232,7 @@ class TestCompareURLs(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        conn.commit()  # commit the changes
         existing_fps.clear()
         self.cursor.close()
 
@@ -235,6 +242,7 @@ class TestCompareURLs(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        conn.commit()  # commit the changes
         existing_fps.clear()
         self.cursor.close()
 
@@ -451,6 +459,7 @@ class TestTextSimilarity(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        conn.commit()  # commit the changes
         existing_fps.clear()
         self.cursor.close()
 
@@ -460,6 +469,7 @@ class TestTextSimilarity(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        conn.commit()  # commit the changes
         existing_fps.clear()
         self.cursor.close()
 
