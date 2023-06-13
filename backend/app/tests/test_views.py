@@ -16,7 +16,7 @@ from app.views import reqex_view
 from app.views import url_similarity_checker
 from app.views import compare_URLs
 from app.views import text_similarity_checker
-from utils import schema, conn
+from utils import schema, conn, existing_fps
 
 
 class TestPersistUrlView(TestCase):
@@ -30,6 +30,7 @@ class TestPersistUrlView(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        existing_fps.clear()
         self.cursor.close()
 
     def tearDown(self):
@@ -38,6 +39,7 @@ class TestPersistUrlView(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        existing_fps.clear()
         self.cursor.close()
 
     def test_post_request_compare_texts(self):
@@ -124,6 +126,7 @@ class TestTryView(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        existing_fps.clear()
         self.cursor.close()
 
     def tearDown(self):
@@ -132,6 +135,7 @@ class TestTryView(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        existing_fps.clear()
         self.cursor.close()
 
     def test_get_request_with_valid_url(self):
@@ -163,6 +167,7 @@ class TestReqExView(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        existing_fps.clear()
         self.cursor.close()
 
     def tearDown(self):
@@ -171,6 +176,7 @@ class TestReqExView(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        existing_fps.clear()
         self.cursor.close()
 
     def test_post_request_with_valid_url(self):
@@ -220,6 +226,7 @@ class TestCompareURLs(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        existing_fps.clear()
         self.cursor.close()
 
     def tearDown(self):
@@ -228,6 +235,7 @@ class TestCompareURLs(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        existing_fps.clear()
         self.cursor.close()
 
     def test_same_url(self):
@@ -371,6 +379,7 @@ class TestUrlSimilarity(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        existing_fps.clear()
         self.cursor.close()
 
     def tearDown(self):
@@ -379,7 +388,9 @@ class TestUrlSimilarity(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        existing_fps.clear()
         self.cursor.close()
+
 
     # note that for this test the url provided is already in the db
     def test_valid_url(self):
@@ -438,6 +449,7 @@ class TestTextSimilarity(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        existing_fps.clear()
         self.cursor.close()
 
     def tearDown(self):
@@ -446,6 +458,7 @@ class TestTextSimilarity(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        existing_fps.clear()
         self.cursor.close()
 
     # note that for this test the url provided is already in the db
