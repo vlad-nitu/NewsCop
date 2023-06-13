@@ -21,6 +21,7 @@ class NewsDocument(models.Model):
                 INSERT INTO {schema}.urls (url) VALUES (%s) 
                 ON CONFLICT (url) DO NOTHING
                 """, (self.url,))
+            conn.commit()
 
             doc = cur.fetchone()
 
@@ -37,6 +38,7 @@ class NewsDocument(models.Model):
                         INSERT INTO {schema}.fingerprints (fingerprint) VALUES (%s) 
                         ON CONFLICT (fingerprint) DO NOTHING
                         """, new_fingerprints)
+                    conn.commit()
                     # Update existing_fps with the new fingerprints
                     existing_fps.update(fp for fp, in new_fingerprints)
 
@@ -49,14 +51,12 @@ class NewsDocument(models.Model):
                         INSERT INTO {schema}.url_fingerprints (url_id, fingerprint_id) VALUES (%s, %s) 
                         ON CONFLICT DO NOTHING
                         """, url_fingerprints_data)
+                conn.commit()
 
         except psycopg2.Error as e:
             print(f"Could not insert data: {e}")
             # Rollback the current transaction if there's any error
             conn.rollback()
-
-        # Commit the transaction
-        conn.commit()
 
         # Close the cursor
         cur.close()
