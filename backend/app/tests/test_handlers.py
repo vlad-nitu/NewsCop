@@ -6,7 +6,7 @@ from app.handlers import SanitizationHandler
 from app.handlers import ContentHandler
 from app.handlers import DatabaseHandler
 
-from utils import schema, conn
+from utils import schema, conn, existing_fps
 
 
 class TestSanitizationHandler(TestCase):
@@ -14,13 +14,14 @@ class TestSanitizationHandler(TestCase):
         self.sanitise = SanitizationHandler()
         # Set up database connection
         self.cursor = conn.cursor()
-
+        existing_fps.clear()
         # Delete existing data from tables
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
 
     def tearDown(self):
+        existing_fps.clear()
         # Roll back the transaction after each test
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
@@ -63,7 +64,7 @@ class TestDatabaseHandler(TestCase):
         self.database_check = DatabaseHandler()
         # Set up database connection
         self.cursor = conn.cursor()
-
+        existing_fps.clear()
         # Delete existing data from tables
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
@@ -101,12 +102,12 @@ class TestDatabaseHandler(TestCase):
 
 
 class TestContentHandler(TestCase):
-    @pytest.fixture(autouse=True)
+
     def setUp(self):
         self.content_check = ContentHandler()
         # Set up database connection
         self.cursor = conn.cursor()
-
+        existing_fps.clear()
         # Delete existing data from tables
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
@@ -138,17 +139,11 @@ class TestContentHandler(TestCase):
     def test_url_content_valid(self):
         url = 'https://www.bbc.com/news/world-asia-65657996'
 
-        # clear database
-        db.news_collection.delete_one({'_id': url})
         response = self.content_check.handle(url)
 
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), url)
-
-        res = db.news_collection.delete_one({'_id': url})
-        self.assertEqual(res.deleted_count, 1)
-        db.hashes_collection.delete_many({'urls': url})
 
     def test_chaining(self):
         sanitise = SanitizationHandler()
