@@ -36,6 +36,9 @@ class NewsDocument(models.Model):
                 # Update existing_fps with the new fingerprints
                 existing_fps.update(fp for fp, in new_fingerprints)
 
+            # Commit the transaction after inserting fingerprints
+            conn.commit()
+
             # Prepare the data for the url_fingerprints
             url_fingerprints_data = [(url_id, fp) for fp in self.fingerprints]
 

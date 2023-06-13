@@ -199,51 +199,53 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
 
         fingerprint_candidates = [row[0] for row in cur.fetchall()]
 
-        # Second query to construct the map (url, nr of occurrences of the url)
-        cur.execute(
-            f"""
-            SELECT u.url, count(*) as cnt
-            FROM {schema}.urls as u
-            JOIN {schema}.url_fingerprints as uf ON u.id = uf.url_id
-            WHERE uf.fingerprint_id IN %(candidates)s AND u.url <> %(source_url)s
-            GROUP BY u.url
-            HAVING COUNT(*) >= 100
-            """,
-            {'candidates': tuple(fingerprint_candidates), 'source_url': input}
-        )
+        if fingerprint_candidates:
+            # Second query to construct the map (url, nr of occurrences of the url)
+            cur.execute(
+                f"""
+                SELECT u.url, count(*) as cnt
+                FROM {schema}.urls as u
+                JOIN {schema}.url_fingerprints as uf ON u.id = uf.url_id
+                WHERE uf.fingerprint_id IN %(candidates)s AND u.url <> %(source_url)s
+                GROUP BY u.url
+                HAVING COUNT(*) >= 100
+                """,
+                {'candidates': tuple(fingerprint_candidates), 'source_url': input}
+            )
 
-        document = cur.fetchall()
-        string_list = {doc[0]: doc[1] for doc in document}
-        url_candidates = [doc[0] for doc in document]
+            document = cur.fetchall()
+            string_list = {doc[0]: doc[1] for doc in document}
+            url_candidates = [doc[0] for doc in document]
 
-        cur = conn.cursor()
+            cur = conn.cursor()
 
-        # Query the database for the url and its associated fingerprints
-        cur.execute(
-            f"""
-            SELECT u.url, count(DISTINCT f.fingerprint)
-            FROM {schema}.urls u
-            INNER JOIN {schema}.url_fingerprints uf ON u.id = uf.url_id
-            INNER JOIN {schema}.fingerprints f ON uf.fingerprint_id = f.fingerprint
-            WHERE u.url IN %(candidates)s
-            GROUP BY u.url;
-            """, {'candidates': tuple(url_candidates)})
+            if url_candidates:
+                # Query the database for the url and its associated fingerprints
+                cur.execute(
+                    f"""
+                    SELECT u.url, count(DISTINCT f.fingerprint)
+                    FROM {schema}.urls u
+                    INNER JOIN {schema}.url_fingerprints uf ON u.id = uf.url_id
+                    INNER JOIN {schema}.fingerprints f ON uf.fingerprint_id = f.fingerprint
+                    WHERE u.url IN %(candidates)s
+                    GROUP BY u.url;
+                    """, {'candidates': tuple(url_candidates)})
 
-        document = cur.fetchall()  # [(url, fp_list)]
+                document = cur.fetchall()  # [(url, fp_list)]
 
-        for (url, fp_list_size) in document:
-            inters = string_list[url]
-            result = process_document(length_first, fp_list_size, inters)
-            if result != -1:
-                article_url = url
-                computed_similarity = result
+                for (url, fp_list_size) in document:
+                    inters = string_list[url]
+                    result = process_document(length_first, fp_list_size, inters)
+                    if result != -1:
+                        article_url = url
+                        computed_similarity = result
 
-                if len(heap) < capacity:
-                    heapq.heappush(heap, (computed_similarity, article_url))
-                else:
-                    # Equivalent to a pop, then a push, but faster
-                    if computed_similarity > heap[0][0]:
-                        heapq.heapreplace(heap, (computed_similarity, article_url))
+                        if len(heap) < capacity:
+                            heapq.heappush(heap, (computed_similarity, article_url))
+                        else:
+                            # Equivalent to a pop, then a push, but faster
+                            if computed_similarity > heap[0][0]:
+                                heapq.heapreplace(heap, (computed_similarity, article_url))
 
     except Exception as e:
         print(f"Could not query data: {e}")
