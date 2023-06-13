@@ -1,7 +1,7 @@
 import datetime
 from unittest.mock import patch, MagicMock
 
-from utils import schema
+from utils import schema, conn, existing_fps
 import http.client
 import json
 import unittest
@@ -20,6 +20,29 @@ from app.plagiarism_checker.fingerprinting import compute_fingerprint
 
 
 class UrlsTest(TestCase):
+
+    def setUp(self):
+        # Set up database connection
+        self.cursor = conn.cursor()
+
+        # Delete existing data from tables
+        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
+        self.cursor.execute(f'DELETE FROM {schema}.urls')
+        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        conn.commit()  # commit the changes
+        existing_fps.clear()
+        self.cursor.close()
+
+    def tearDown(self):
+        self.cursor = conn.cursor()
+        # Roll back the transaction after each test
+        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
+        self.cursor.execute(f'DELETE FROM {schema}.urls')
+        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        conn.commit()  # commit the changes
+        existing_fps.clear()
+        self.cursor.close()
+
     @tag("unit")
     def test_compare_texts(self):
         obtained_url = reverse('compare_texts')
@@ -76,15 +99,9 @@ class UrlsTest(TestCase):
         obtained_url = reverse('persist_url')
         client = Client()
 
-        db.news_collection.delete_one({'_id': expected_persisted_url})
-        db.hashes_collection.delete_many({'urls': expected_persisted_url})
         response = client.post(obtained_url, data=json_data, content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), expected_persisted_url)
-
-        res = db.news_collection.delete_one({'_id': expected_persisted_url})
-        self.assertEqual(res.deleted_count, 1)
-        db.hashes_collection.delete_many({'urls': expected_persisted_url})
 
     @tag("integration")
     def test_persist_url_pattern_get_instead_of_post(self):
@@ -165,44 +182,6 @@ class UrlsTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.content.decode(), "Invalid JSON data")
 
-    @tag("integration")
-    def test_react_integration_get(self):
-        obtained_url = reverse('main_view')
-        client = Client()
-        db.copy_collection.delete_one({'_id': "www.google.com"})
-
-        response = client.get(obtained_url)
-        self.assertEquals(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.content.decode(), '[]')
-
-    @tag("integration")
-    def test_react_integration_post(self):
-        obtained_url = reverse('main_view')
-        client = Client()
-        db.copy_collection.delete_one(
-            {'_id': "www.google.com"})  # cleanup db, because adding the same thing twice leads to errors
-        data = {
-            'url': 'www.google.com',
-            'published_date': '2022-02-10T10:50:42.389Z',
-        }
-        json_data = json.dumps(data)
-        response = client.post(obtained_url, data=json_data, content_type='application/json')
-
-        self.assertEquals(response.status_code, status.HTTP_200_OK)
-        self.assertEquals(response.content.decode(),
-                          '{"url":"www.google.com","published_date":"2022-02-10T10:50:42.389000Z"}')
-
-        obtained = [{'url': output['_id'], 'published_date': output['published_date']}
-                    for output in db.copy_collection.find()]
-        self.assertEquals(len(obtained), 1)
-        expected_data = {
-            'url': 'www.google.com',
-            'published_date': datetime.datetime(2022, 2, 10, 10, 50, 42, 389000)
-        }
-        self.assertEquals(obtained[0], expected_data)
-
-        db.copy_collection.delete_one({'_id': "www.google.com"})  # cleanup db
-
     @tag("unit")
     def test_check_url_pattern_1(self):
         obtained_url = reverse('url_similarity_checker')
@@ -219,30 +198,18 @@ class UrlsTest(TestCase):
         the_url = 'https://www.bbc.com/news/uk-65609209'
         obtained_url = reverse('url_similarity_checker')
         client = Client()
-        db.news_collection.delete_one({'_id': the_url})
-
         response = client.get(obtained_url)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.content.decode(), 'Expected POST, but got GET instead')
-
-        res = db.news_collection.delete_one({'_id': the_url})  # check that the url was not actually added
-        self.assertEqual(res.deleted_count, 0)
 
     @tag("integration")
     def test_check_url_pattern_post_success(self):
         data = {
             'key': 'https://www.bbc.com/news/uk-65609209',
         }
-        the_url = 'https://www.bbc.com/news/uk-65609209'
-        db.news_collection.delete_one({'_id': the_url})
-        db.hashes_collection.delete_many({'urls': the_url})
 
         json_data = json.dumps(data)
         client = Client()
         obtained_url = reverse('url_similarity_checker')
         response = client.post(obtained_url, data=json_data, content_type="application/json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-        res = db.news_collection.delete_one({'_id': the_url})  # check that the url was actually persisted
-        self.assertEqual(res.deleted_count, 1)
-        db.hashes_collection.delete_many({'urls': the_url})

@@ -29,7 +29,6 @@ class TestSanitizationHandler(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
         conn.commit()
 
-
     # note that the handler is not
     def test_url_valid(self):
         url = "https://www.bbc.com/news/entertainment-arts-65488861"

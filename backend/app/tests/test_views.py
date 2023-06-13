@@ -401,7 +401,6 @@ class TestUrlSimilarity(TestCase):
         existing_fps.clear()
         self.cursor.close()
 
-
     # note that for this test the url provided is already in the db
     def test_valid_url(self):
         data = {
