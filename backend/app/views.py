@@ -91,7 +91,7 @@ def process_document(length_first, length_second, inters):
         comp = inters / (length_second + length_first - inters)
         return comp
     else:
-        return  -1
+        return -1
 
 
 def url_similarity_checker(request):
@@ -229,8 +229,7 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
             GROUP BY u.url;
             """, {'candidates': tuple(url_candidates)})
 
-        document = cur.fetchall() # [(url, fp_list)]
-
+        document = cur.fetchall()  # [(url, fp_list)]
 
         for (url, fp_list_size) in document:
             inters = string_list[url]

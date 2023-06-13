@@ -39,7 +39,6 @@ class TestPersistUrlView(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
         self.cursor.close()
-      
 
     def test_post_request_compare_texts(self):
         # create the request body
@@ -135,8 +134,6 @@ class TestTryView(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
         self.cursor.close()
 
-        
-
     def test_get_request_with_valid_url(self):
         url = "www.google.com"
         request = self.factory.get(f"/try/{url}")
@@ -176,8 +173,6 @@ class TestReqExView(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
         self.cursor.close()
 
-        
-
     def test_post_request_with_valid_url(self):
         data = {
             'key': 'www.google.com',
@@ -213,6 +208,7 @@ class TestReqExView(TestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.content.decode(), "Invalid JSON data")
 
+
 class TestCompareURLs(TestCase):
 
     def setUp(self):
@@ -233,8 +229,6 @@ class TestCompareURLs(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
         self.cursor.close()
-
-        
 
     def test_same_url(self):
         url = 'https://getbootstrap.com/docs/5.0/forms/layout/'
@@ -386,7 +380,6 @@ class TestUrlSimilarity(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
         self.cursor.close()
-        
 
     # note that for this test the url provided is already in the db
     def test_valid_url(self):
@@ -454,8 +447,6 @@ class TestTextSimilarity(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
         self.cursor.close()
-
-        
 
     # note that for this test the url provided is already in the db
     def test_valid_text(self):
