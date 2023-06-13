@@ -103,7 +103,7 @@ def process_urls(urls):
 
     articles = []
     urls_seen = 0
-    for url_id, url in enumerate(urls):
+    for url_id, url in enumerate(reversed(urls)):
         logging.info(f'You are currently seeing URL_ID {url_id} being crawled.')
         urls_seen += 1
         signal.signal(signal.SIGALRM, timeout_handler)
@@ -116,6 +116,9 @@ def process_urls(urls):
                 logging.info(f'Article w/ URL: {url} appended')
         except TimeoutException:
             logging.warning(f'Timeout occurred while processing article: {url}')
+        except Exception:
+            logging.warning(f'Another error occured for: {url}')
+
     return urls_seen, articles
 
 
