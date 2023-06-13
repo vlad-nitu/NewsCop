@@ -103,7 +103,6 @@ def url_similarity_checker(request):
     '''
     #  Ensure the request method is POST
     if request.method == 'POST':
-        print(1)
         # Retrieve the URL from the request body
         source_url = json.loads(request.body)["key"]
         cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)

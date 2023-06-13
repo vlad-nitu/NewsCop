@@ -20,6 +20,7 @@ class NewsDocument(models.Model):
                 f"""
                 INSERT INTO {schema}.urls (url) VALUES (%s) 
                 ON CONFLICT (url) DO NOTHING
+                RETURNING id
                 """, (self.url,))
             conn.commit()
 
@@ -27,7 +28,7 @@ class NewsDocument(models.Model):
 
             if doc:
                 url_id = doc[0]
-
+                print(url_id)
                 # Prepare the data for the fingerprints
                 new_fingerprints = [(fp,) for fp in self.fingerprints if fp not in existing_fps]
 
