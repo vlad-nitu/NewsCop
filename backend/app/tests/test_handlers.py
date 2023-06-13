@@ -19,6 +19,7 @@ class TestSanitizationHandler(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        conn.commit()
 
     def tearDown(self):
         existing_fps.clear()
@@ -26,6 +27,8 @@ class TestSanitizationHandler(TestCase):
         self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
         self.cursor.execute(f'DELETE FROM {schema}.urls')
         self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        conn.commit()
+
 
     # note that the handler is not
     def test_url_valid(self):
