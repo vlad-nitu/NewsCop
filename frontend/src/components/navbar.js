@@ -55,6 +55,8 @@ export default function NavbarComponent ({ name, mainPage }) {
                 <NavDropdown.Item role='option' href='/compareTexts'>Similarity Checker for two Texts</NavDropdown.Item>
                 <NavDropdown.Item role='option' href='/compareURLs'>Similarity Checker for two URLs</NavDropdown.Item>
               </NavDropdown>}
+            {mainPage && <Nav.Link href='#statistics'>Statistics</Nav.Link>}
+            {!mainPage && <Nav.Link href='/#statistics' onClick={handleClick}>Statistics</Nav.Link>}
             <Nav.Link href='#footer'>Contact</Nav.Link>
             <Nav.Link href='/help'>Help</Nav.Link>
           </Nav>
