@@ -13,6 +13,8 @@ if __name__ == "__main__":
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
+    # The following line is used for setting an environment variable to true,
+    # that will be later used to determine the schema
     if 'test' in sys.argv:
         os.environ['RUNNING_TESTS'] = 'True'
     execute_from_command_line(sys.argv)
