@@ -7,10 +7,19 @@ from django.db import models
 
 class NewsDocument(models.Model):
     def __init__(self, url, fingerprints):
+        """
+        The constructor for the NewsDocument model.
+        :param url: the URL of the news article
+        :param fingerprints: the article's fingerprints
+        """
         self.url = url
         self.fingerprints = fingerprints
 
     def save(self):
+        """
+        This method saves a NewsDocument in the database.
+        :return: nothing / throws an error
+        """
         # Create a cursor that returns a dictionary as a result
         cur = conn.cursor()
 
@@ -24,12 +33,14 @@ class NewsDocument(models.Model):
                 """, (self.url,))
             conn.commit()
 
+            # Fetch the result
             doc = cur.fetchone()
 
             if doc:
                 url_id = doc[0]
                 print(url_id)
-                # Prepare the data for the fingerprints
+
+                # These are the fingerprints that have to be inserted
                 new_fingerprints = [(fp,) for fp in self.fingerprints if fp not in existing_fps]
 
                 # If there are new fingerprints, insert them into the fingerprints table
@@ -40,6 +51,7 @@ class NewsDocument(models.Model):
                         ON CONFLICT (fingerprint) DO NOTHING
                         """, new_fingerprints)
                     conn.commit()
+
                     # Update existing_fps with the new fingerprints
                     existing_fps.update(fp for fp, in new_fingerprints)
 
@@ -53,7 +65,7 @@ class NewsDocument(models.Model):
                         ON CONFLICT DO NOTHING
                         """, url_fingerprints_data)
                 conn.commit()
-
+        # In case of a database error, we roll back any commits that have been made
         except psycopg2.Error as e:
             print(f"Could not insert data: {e}")
             # Rollback the current transaction if there's any error
