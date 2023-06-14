@@ -17,4 +17,3 @@ class BaseTest(TestCase):
         existing_fps.clear()
 
         self.cursor.close()
-

@@ -183,7 +183,6 @@ class TestCompareURLs(BaseTest):
     def tearDown(self):
         self.reset_database()
 
-
     def test_same_url(self):
         url = 'https://getbootstrap.com/docs/5.0/forms/layout/'
 
