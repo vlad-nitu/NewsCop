@@ -3,12 +3,13 @@ import time
 from unittest.mock import patch
 from unittest.mock import MagicMock
 
-from django.test import TestCase, RequestFactory
+from django.test import RequestFactory
 from django.http import HttpResponse, HttpResponseBadRequest
 import psycopg2
 from rest_framework import status
 
 from app.response_entities import ResponseTwoUrlsEncoder
+from app.tests.base_test import BaseTest
 from app.views import compare_texts_view
 from app.views import persist_url_view
 from app.views import try_view
@@ -19,30 +20,14 @@ from app.views import text_similarity_checker
 from utils import schema, conn, existing_fps
 
 
-class TestPersistUrlView(TestCase):
+class TestPersistUrlView(BaseTest):
 
     def setUp(self):
         self.factory = RequestFactory()
-        # Set up database connection
-        self.cursor = conn.cursor()
-
-        # Delete existing data from tables
-        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
-        self.cursor.execute(f'DELETE FROM {schema}.urls')
-        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
-        conn.commit()  # commit the changes
-        existing_fps.clear()
-        self.cursor.close()
+        self.reset_database()
 
     def tearDown(self):
-        self.cursor = conn.cursor()
-        # Roll back the transaction after each test
-        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
-        self.cursor.execute(f'DELETE FROM {schema}.urls')
-        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
-        conn.commit()  # commit the changes
-        existing_fps.clear()
-        self.cursor.close()
+        self.reset_database()
 
     def test_post_request_compare_texts(self):
         # create the request body
@@ -118,29 +103,13 @@ class TestPersistUrlView(TestCase):
         self.assertEqual(response.content.decode(), "Expected POST, but got GET instead")
 
 
-class TestTryView(TestCase):
+class TestTryView(BaseTest):
     def setUp(self):
         self.factory = RequestFactory()
-        # Set up database connection
-        self.cursor = conn.cursor()
-
-        # Delete existing data from tables
-        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
-        self.cursor.execute(f'DELETE FROM {schema}.urls')
-        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
-        conn.commit()  # commit the changes
-        existing_fps.clear()
-        self.cursor.close()
+        self.reset_database()
 
     def tearDown(self):
-        self.cursor = conn.cursor()
-        # Roll back the transaction after each test
-        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
-        self.cursor.execute(f'DELETE FROM {schema}.urls')
-        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
-        conn.commit()  # commit the changes
-        existing_fps.clear()
-        self.cursor.close()
+        self.reset_database()
 
     def test_get_request_with_valid_url(self):
         url = "www.google.com"
@@ -161,29 +130,13 @@ class TestTryView(TestCase):
         self.assertEqual(response.content.decode(), "Endpoint called with something different than GET")
 
 
-class TestReqExView(TestCase):
+class TestReqExView(BaseTest):
     def setUp(self):
         self.factory = RequestFactory()
-        # Set up database connection
-        self.cursor = conn.cursor()
-
-        # Delete existing data from tables
-        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
-        self.cursor.execute(f'DELETE FROM {schema}.urls')
-        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
-        conn.commit()  # commit the changes
-        existing_fps.clear()
-        self.cursor.close()
+        self.reset_database()
 
     def tearDown(self):
-        self.cursor = conn.cursor()
-        # Roll back the transaction after each test
-        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
-        self.cursor.execute(f'DELETE FROM {schema}.urls')
-        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
-        conn.commit()  # commit the changes
-        existing_fps.clear()
-        self.cursor.close()
+        self.reset_database()
 
     def test_post_request_with_valid_url(self):
         data = {
@@ -221,30 +174,15 @@ class TestReqExView(TestCase):
         self.assertEqual(response.content.decode(), "Invalid JSON data")
 
 
-class TestCompareURLs(TestCase):
+class TestCompareURLs(BaseTest):
 
     def setUp(self):
         self.factory = RequestFactory()
-        # Set up database connection
-        self.cursor = conn.cursor()
-
-        # Delete existing data from tables
-        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
-        self.cursor.execute(f'DELETE FROM {schema}.urls')
-        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
-        conn.commit()  # commit the changes
-        existing_fps.clear()
-        self.cursor.close()
+        self.reset_database()
 
     def tearDown(self):
-        # Roll back the transaction after each test
-        self.cursor = conn.cursor()
-        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
-        self.cursor.execute(f'DELETE FROM {schema}.urls')
-        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
-        conn.commit()  # commit the changes
-        existing_fps.clear()
-        self.cursor.close()
+        self.reset_database()
+
 
     def test_same_url(self):
         url = 'https://getbootstrap.com/docs/5.0/forms/layout/'
@@ -378,28 +316,13 @@ class TestCompareURLs(TestCase):
         self.assertEqual(response.content.decode(), "Expected POST, but got GET instead")
 
 
-class TestUrlSimilarity(TestCase):
+class TestUrlSimilarity(BaseTest):
     def setUp(self):
         self.factory = RequestFactory()
-        # Set up database connection
-        self.cursor = conn.cursor()
-        # Delete existing data from tables
-        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
-        self.cursor.execute(f'DELETE FROM {schema}.urls')
-        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
-        conn.commit()  # commit the changes
-        existing_fps.clear()
-        self.cursor.close()
+        self.reset_database()
 
     def tearDown(self):
-        self.cursor = conn.cursor()
-        # Roll back the transaction after each test
-        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
-        self.cursor.execute(f'DELETE FROM {schema}.urls')
-        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
-        conn.commit()  # commit the changes
-        existing_fps.clear()
-        self.cursor.close()
+        self.reset_database()
 
     # note that for this test the url provided is already in the db
     def test_valid_url(self):
@@ -448,29 +371,13 @@ class TestUrlSimilarity(TestCase):
         self.assertEqual(response.content.decode(), "Expected POST, but got GET instead")
 
 
-class TestTextSimilarity(TestCase):
+class TestTextSimilarity(BaseTest):
     def setUp(self):
         self.factory = RequestFactory()
-        # Set up database connection
-        self.cursor = conn.cursor()
-
-        # Delete existing data from tables
-        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
-        self.cursor.execute(f'DELETE FROM {schema}.urls')
-        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
-        conn.commit()  # commit the changes
-        existing_fps.clear()
-        self.cursor.close()
+        self.reset_database()
 
     def tearDown(self):
-        self.cursor = conn.cursor()
-        # Roll back the transaction after each test
-        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
-        self.cursor.execute(f'DELETE FROM {schema}.urls')
-        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
-        conn.commit()  # commit the changes
-        existing_fps.clear()
-        self.cursor.close()
+        self.reset_database()
 
     # note that for this test the url provided is already in the db
     def test_valid_text(self):
