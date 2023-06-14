@@ -104,6 +104,7 @@ class DatabaseHandler(AbstractHandler):
         # Close the cursor
         cur.close()
 
+        # If the URL is already persisted, we do not need to do anything else
         if url_exists:
             return HttpResponse(content, status=200)
         else:
