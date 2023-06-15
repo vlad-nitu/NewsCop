@@ -20,6 +20,7 @@ from .plagiarism_checker.crawling import crawl_url, extract_data_from_url
 from .plagiarism_checker.sanitizing import sanitizing_url
 from .plagiarism_checker.similarity import compute_similarity
 from .response_entities import ResponseUrlEntity, ResponseUrlEncoder, ResponseTwoUrlsEntity, ResponseTwoUrlsEncoder
+from .response_statistics import ResponseStatisticsEncoder
 
 import multiprocessing
 import time
@@ -28,6 +29,7 @@ from .handlers import *
 
 from collections import Counter, defaultdict
 
+from utils import statistics
 
 # Create your views here.
 class ReactView(APIView):
@@ -245,6 +247,16 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
         if title is not None and publisher is not None:
             response.append(ResponseUrlEntity(url, similarity, title, publisher, date))
 
+    if input != '':
+        # This is a URL check query, thus we need to updated the statistics
+        statistics.increment_performed_queries()
+        similarities = [0, 0, 0, 0, 0]
+        for resp in response:
+            sim = round(resp.similarity * 100)
+            index = sim // 20
+            similarities[index] = similarities[index] + 1
+        statistics.add_similarities_retrieved(similarities)
+
     source_title, _, source_date = extract_data_from_url(input)
     request_response = {
         'sourceTitle': source_title,
@@ -342,3 +354,29 @@ def construct_response_helper(similarity, ownership, date_left, date_right):
             ResponseTwoUrlsEntity(similarity=similarity, ownership=ownership, left_date=str(date_left),
                                   right_date=str(date_right))),
         status=200, content_type="application/json")
+
+def update_users(request):
+    """
+    This method is called by the frontend whenever a user starts the application.
+    It updates the number of users that.
+    :param request: the request
+    :return: an HTTP response with status 200 if the request was successful else HttpResponseBadRequest
+    """
+    if request.method == 'POST':
+        statistics.increment_users()
+        return HttpResponse("Users were successfully updated", status=200)
+    else:
+        return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
+
+def retrieve_statistics(request):
+    '''
+    Endpoint
+    :param request: the request
+    :return: a HttpResponse with status 200, if successful else HttpResponseBadRequest
+    '''
+    if (request.method == 'GET'):
+        articles = db.news_collection.count_documents({})
+        statistics.set_stored_articles(articles)
+        return HttpResponse(ResponseStatisticsEncoder().encode(statistics), status=200, content_type="application/json")
+    else:
+        return HttpResponseBadRequest(f"Expected GET, but got {request.method} instead")
