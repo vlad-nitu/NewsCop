@@ -59,14 +59,14 @@ function App () {
   ]
 
   useEffect(() => {
-    async function updateStatistics() {
+    async function updateStatistics () {
       await axios.post('http://localhost:8000/updateUsers/')
-      .then(res => {
-        console.log("successfully updated the statistics.")
-      })
-      .catch(error => {
-        console.log(error)
-      })
+        .then(res => {
+          console.log('successfully updated the statistics.')
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
     updateStatistics()
   }, [])

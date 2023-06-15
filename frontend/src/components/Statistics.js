@@ -25,59 +25,48 @@ export default function Statistics ({ titles, descriptions, images }) {
     throw Error('Different lengths of the arrays.')
   }
 
-  const [width, setWidth] = useState(window.innerWidth)
   const [statistics, setStatistics] = useState(null)
-
-  /**
-   * Update the width on resizing
-   */
-  const updateDimensions = () => {
-    setWidth(window.innerWidth)
-  }
 
   /**
    * When the size of the windows are changed call the updateDimensions method
    */
   useEffect(() => {
-    window.addEventListener('resize', updateDimensions)
-
-    async function getStatistics() {
+    async function getStatistics () {
       await axios.get('http://localhost:8000/retireveStatistics/')
-      .then(res => {
-        console.log(res)
-        setStatistics(res.data)
-        titles[0] = res.data.stored_articles + titles[0]
-        titles[1] = res.data.users + titles[1]
-        titles[2] = res.data.performed_queries + titles[2]
-      })
-      .catch(error => {
-        console.log(error)
-      })
+        .then(res => {
+          console.log(res)
+          setStatistics(res.data)
+          titles[0] = res.data.stored_articles + titles[0]
+          titles[1] = res.data.users + titles[1]
+          titles[2] = res.data.performed_queries + titles[2]
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
-
     getStatistics()
-    
-    return () => window.removeEventListener('resize', updateDimensions)
   }, [])
 
   // const statistics = {
-  //   "users": 32, 
-  //   "performed_queries": 43, 
-  //   "stored_articles": 140, 
+  //   "users": 32,
+  //   "performed_queries": 43,
+  //   "stored_articles": 140,
   //   "similarities_retrieved": [10, 15, 8, 2, 10]
   // }
 
   const colors = ['#000', '#000', '#000', '#000', '#000']
   const percentages = ['0 - 20%', '20 - 40%', '40 - 60%', '60 - 80%', '80 - 100%']
 
-  const bars = statistics == null ? [] : statistics.similarities_retrieved.map((statistic, index) => {
-    return {
-      "ratio": statistics.performed_queries === 0 ? 0 : ((statistic / statistics.similarities_retrieved.reduce(function(acc, val) { return acc + val; }, 0)) * 100),
-      "color": colors[index],
-      "articles": statistic,
-      "percentages": percentages[index]
-    }
-  })
+  const bars = statistics == null
+    ? []
+    : statistics.similarities_retrieved.map((statistic, index) => {
+      return {
+        ratio: statistics.performed_queries === 0 ? 0 : ((statistic / statistics.similarities_retrieved.reduce(function (acc, val) { return acc + val }, 0)) * 100),
+        color: colors[index],
+        articles: statistic,
+        percentages: percentages[index]
+      }
+    })
 
   // Renders a JSX element with information about statistics.
   return (
@@ -85,19 +74,21 @@ export default function Statistics ({ titles, descriptions, images }) {
       <Container className='py-5'>
         <h2 className='statistics-title'>Did you know that...</h2>
         <Row className='pt-4'>
-          {statistics != null ? titles.map((title, index) => (
-            <Col key={index} xs={12} sm={12} md={4} lg={4} className='mb-3 align-items-stretch'>
-              <Card className='custom-statistics-card text-center mt-3 h-100'>
-                <Card.Img alt={`Service ${index + 1}`} src={images[index]} className='card-img mx-auto' />
-                <Card.Body className='d-flex flex-column px-0'>
-                  <Card.Title className='fw-bold'>{title}</Card.Title>
-                  <Card.Text className='mb-4'>
-                    {descriptions[index]}
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-          )) : (<div></div>)}
+          {statistics != null
+            ? titles.map((title, index) => (
+              <Col key={index} xs={12} sm={12} md={4} lg={4} className='mb-3 align-items-stretch'>
+                <Card className='custom-statistics-card text-center mt-3 h-100'>
+                  <Card.Img alt={`Service ${index + 1}`} src={images[index]} className='card-img mx-auto' />
+                  <Card.Body className='d-flex flex-column px-0'>
+                    <Card.Title className='fw-bold'>{title}</Card.Title>
+                    <Card.Text className='mb-4'>
+                      {descriptions[index]}
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+              ))
+            : (<div />)}
         </Row>
         <div className='pt-5'>
           {statistics != null
@@ -107,10 +98,10 @@ export default function Statistics ({ titles, descriptions, images }) {
                   <p className='fs-4 fw-bolder m-0'>Number of articles for each overlap threshold</p>
                   <p className='fs-5 text-muted mt-0'>from our database</p>
                 </div>
-                <div className="d-flex flex-row flex-grow-1 pt-3 pt-lg-0">
+                <div className='d-flex flex-row flex-grow-1 pt-3 pt-lg-0'>
                   {bars.map((bar, index) => {
                     return (
-                      <div id={`bar${index}`} className={`flex-grow-1 ${index === bars.length - 1 ? '' : 'pe-2'}`}>
+                      <div key={index} id={`bar${index}`} className={`flex-grow-1 ${index === bars.length - 1 ? '' : 'pe-2'}`}>
                         <div style={{ height: '300px' }} className='custom-width position-relative mx-auto'>
                           <div className='rounded shadow bar-statistic-vertical position-absolute'>
                             <div className='custom-rounded' style={{ position: 'absolute', bottom: 0, height: `max(20%, ${bar.ratio}%`, width: '100%', backgroundColor: bar.color }}>
