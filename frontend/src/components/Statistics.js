@@ -46,9 +46,9 @@ export default function Statistics ({ titles, descriptions, images }) {
       .then(res => {
         console.log(res)
         setStatistics(res.data)
-        titles[0] = statistics.stored_articles + titles[0]
-        titles[1] = statistics.users + titles[1]
-        titles[2] = statistics.performed_queries + titles[2]
+        titles[0] = res.data.stored_articles + titles[0]
+        titles[1] = res.data.users + titles[1]
+        titles[2] = res.data.performed_queries + titles[2]
       })
       .catch(error => {
         console.log(error)
@@ -72,7 +72,7 @@ export default function Statistics ({ titles, descriptions, images }) {
 
   const bars = statistics == null ? [] : statistics.similarities_retrieved.map((statistic, index) => {
     return {
-      "ratio": statistics.performed_queries === 0 ? 0 : ((statistic / statistics.performed_queries) * 100),
+      "ratio": statistics.performed_queries === 0 ? 0 : ((statistic / statistics.similarities_retrieved.reduce(function(acc, val) { return acc + val; }, 0)) * 100),
       "color": colors[index],
       "articles": statistic,
       "percentages": percentages[index]
@@ -85,7 +85,7 @@ export default function Statistics ({ titles, descriptions, images }) {
       <Container className='py-5'>
         <h2 className='statistics-title'>Did you know that...</h2>
         <Row className='pt-4'>
-          {titles.map((title, index) => (
+          {statistics != null ? titles.map((title, index) => (
             <Col key={index} xs={12} sm={12} md={4} lg={4} className='mb-3 align-items-stretch'>
               <Card className='custom-statistics-card text-center mt-3 h-100'>
                 <Card.Img alt={`Service ${index + 1}`} src={images[index]} className='card-img mx-auto' />
@@ -97,7 +97,7 @@ export default function Statistics ({ titles, descriptions, images }) {
                 </Card.Body>
               </Card>
             </Col>
-          ))}
+          )) : (<div></div>)}
         </Row>
         <div className='pt-5'>
           {statistics != null
@@ -110,7 +110,7 @@ export default function Statistics ({ titles, descriptions, images }) {
                 <div className="d-flex flex-row flex-grow-1 pt-3 pt-lg-0">
                   {bars.map((bar, index) => {
                     return (
-                      <div id={`bar${index}`} className={`pe-2 ${index === bars.length - 1 ? '' : 'flex-grow-1'}`}>
+                      <div id={`bar${index}`} className={`flex-grow-1 ${index === bars.length - 1 ? '' : 'pe-2'}`}>
                         <div style={{ height: '300px' }} className='custom-width position-relative mx-auto'>
                           <div className='rounded shadow bar-statistic-vertical position-absolute'>
                             <div className='custom-rounded' style={{ position: 'absolute', bottom: 0, height: `max(20%, ${bar.ratio}%`, width: '100%', backgroundColor: bar.color }}>

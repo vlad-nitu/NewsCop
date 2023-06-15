@@ -36,6 +36,7 @@ class ResponseStatistics:
         :param similarities: A list of similarities to be added to the existing similarities retrieved.
                              The list should have a length of 5.
         """
+        assert len(similarities) == 5
         for i in range(5):
             self.similarities_retrieved[i] = self.similarities_retrieved[i] + similarities[i]
 
