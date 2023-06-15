@@ -57,7 +57,7 @@ def reqex_view(request):
         return HttpResponseBadRequest("Invalid request method")
 
 
-@silk_profile(name='Persist_URL GET')
+# @silk_profile(name='Persist_URL GET')
 def persist_url_view(request):
     '''
     The endpoint that can be consumed by posting on localhost:8000/persistURL/ with the request body as <urlString>.
