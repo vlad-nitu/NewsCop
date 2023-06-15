@@ -6,7 +6,7 @@ import http.client
 import json
 import unittest
 
-from django.test import Client, TestCase, tag
+from django.test import Client, tag
 from django.urls import resolve, reverse
 from rest_framework import status
 
@@ -18,30 +18,16 @@ from app.views import url_similarity_checker
 
 from app.plagiarism_checker.fingerprinting import compute_fingerprint
 
+from base_test import BaseTest
 
-class UrlsTest(TestCase):
+
+class UrlsTest(BaseTest):
 
     def setUp(self):
-        # Set up database connection
-        self.cursor = conn.cursor()
-
-        # Delete existing data from tables
-        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
-        self.cursor.execute(f'DELETE FROM {schema}.urls')
-        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
-        conn.commit()  # commit the changes
-        existing_fps.clear()
-        self.cursor.close()
+        self.reset_database()
 
     def tearDown(self):
-        self.cursor = conn.cursor()
-        # Roll back the transaction after each test
-        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
-        self.cursor.execute(f'DELETE FROM {schema}.urls')
-        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
-        conn.commit()  # commit the changes
-        existing_fps.clear()
-        self.cursor.close()
+        self.reset_database()
 
     @tag("unit")
     def test_compare_texts(self):

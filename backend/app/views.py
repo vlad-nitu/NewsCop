@@ -97,6 +97,13 @@ def process_document(length_first, length_second, inters):
 def url_similarity_checker(request):
     '''
     The endpoint that will be used in the CheckURL page.
+    There is only one query made in order to check whether the URL has already been persisted
+    If this is not the case, the URL gets persisted and the method is recursively called. 
+    Otherwise, we call the helper method
+    in order to obtain obtains all the similar documents to the current one. 
+    In the given query, all 3 tables are joined by performing 2 join operations
+    GROUP BY used to obtain an array of all fingerprints of a document, 
+        instead of a 2 columns table: [(url, fp1), (url, fp2), ...]
     :param request: the request body.
     :return: a HTTP response with status 200, and a pair of url and jaccard similarity,
     with this url being the most similar to the input url present in the request body
@@ -114,7 +121,7 @@ def url_similarity_checker(request):
             WHERE urls.url = %s
             GROUP BY urls.url;
             """
-        # Query the database for the url and its associated fingerprints
+        # Query the database for the url and its associated fingerprints; 
         cur.execute(
             query, (source_url,))
 
@@ -170,6 +177,8 @@ def text_similarity_checker(request):
 def find_similar_documents_by_fingerprints(fingerprints, input=''):
     '''
     Helper method which is used by the two endpoints /checkText and /checkURL for doing query on the database
+    3 queries are computed throughout this method, check the code for in-line comments
+    The entire block of logic was encapsulated in a try-catch block to rollback the transaction in case of failure
     :fingerprints: the fingerprints computed for the text/url input given by the user
     :input: for /checkURL is the url provided by the user, so we do not consider it when computing the similarities
     for /checkText is the empty string as we do not have any URL to check it against
@@ -186,6 +195,7 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
 
     try:
         # First query to find candidates and prefilter to only consider "informative hashes"
+        # "informative hashes" - at least one overlap with the fingerprints received as input
         cur.execute(
             f"""
             SELECT f.fingerprint 
@@ -200,6 +210,7 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
 
         if fingerprint_candidates:
             # Second query to construct the map (url, nr of occurrences of the url)
+            # Drop URL (do not consider as candidate) if it has < 100 hashes in common with the source_url
             cur.execute(
                 f"""
                 SELECT u.url, count(*) as cnt
@@ -220,6 +231,9 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
 
             if url_candidates:
                 # Query the database for the url and its associated fingerprints
+                # Obtain map (url, size of fingerprint_set associated to url) to reduce overhead of query, 
+                # as only the size is needed, the fingerprints' values are irrelevant
+
                 cur.execute(
                     f"""
                     SELECT u.url, count(DISTINCT f.fingerprint)

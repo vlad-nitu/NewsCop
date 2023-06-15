@@ -1,33 +1,19 @@
-from django.test import TestCase, RequestFactory
+from django.test import RequestFactory
 from django.http import HttpResponse, HttpResponseBadRequest
 from rest_framework import status
 
 from app.handlers import SanitizationHandler
 from app.handlers import ContentHandler
 from app.handlers import DatabaseHandler
+from app.tests.base_test import BaseTest
 
-from utils import schema, conn, existing_fps
-
-
-class TestSanitizationHandler(TestCase):
+class TestSanitizationHandler(BaseTest):
     def setUp(self):
         self.sanitise = SanitizationHandler()
-        # Set up database connection
-        self.cursor = conn.cursor()
-        existing_fps.clear()
-        # Delete existing data from tables
-        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
-        self.cursor.execute(f'DELETE FROM {schema}.urls')
-        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
-        conn.commit()
+        self.reset_database()
 
     def tearDown(self):
-        existing_fps.clear()
-        # Roll back the transaction after each test
-        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
-        self.cursor.execute(f'DELETE FROM {schema}.urls')
-        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
-        conn.commit()
+        self.reset_database()
 
     # note that the handler is not
     def test_url_valid(self):
@@ -61,22 +47,13 @@ class TestSanitizationHandler(TestCase):
         self.assertEqual(content_check, self.sanitise._next_handler)
 
 
-class TestDatabaseHandler(TestCase):
+class TestDatabaseHandler(BaseTest):
     def setUp(self):
         self.database_check = DatabaseHandler()
-        # Set up database connection
-        self.cursor = conn.cursor()
-        existing_fps.clear()
-        # Delete existing data from tables
-        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
-        self.cursor.execute(f'DELETE FROM {schema}.urls')
-        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        self.reset_database()
 
     def tearDown(self):
-        # Roll back the transaction after each test
-        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
-        self.cursor.execute(f'DELETE FROM {schema}.urls')
-        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        self.reset_database()
 
     # note that the handler is not
     def test_url_existent(self):
@@ -103,23 +80,14 @@ class TestDatabaseHandler(TestCase):
         self.assertEqual(content_check, self.database_check._next_handler)
 
 
-class TestContentHandler(TestCase):
+class TestContentHandler(BaseTest):
 
     def setUp(self):
         self.content_check = ContentHandler()
-        # Set up database connection
-        self.cursor = conn.cursor()
-        existing_fps.clear()
-        # Delete existing data from tables
-        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
-        self.cursor.execute(f'DELETE FROM {schema}.urls')
-        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        self.reset_database()
 
     def tearDown(self):
-        # Roll back the transaction after each test
-        self.cursor.execute(f'DELETE FROM {schema}.url_fingerprints')
-        self.cursor.execute(f'DELETE FROM {schema}.urls')
-        self.cursor.execute(f'DELETE FROM {schema}.fingerprints')
+        self.reset_database()
 
     # note that the handler is not
     def test_url_no_text(self):
