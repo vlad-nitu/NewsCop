@@ -14,7 +14,9 @@ class ResponseStatistics:
         self.users = users
         self.performed_queries = performed_queries
         self.stored_articles = stored_articles
-        self.similarities_retrieved = similarities_retrieved
+        self.similarities_retrieved = []
+        for i in range(5):
+            self.similarities_retrieved.append(similarities_retrieved[i])
 
     def increment_users(self):
         """
@@ -52,7 +54,9 @@ class ResponseStatistics:
         self.users = statistics.users
         self.performed_queries = statistics.performed_queries
         self.stored_articles = statistics.stored_articles
-        self.similarities_retrieved = statistics.similarities_retrieved
+        self.similarities_retrieved = []
+        for i in range(5):
+            self.similarities_retrieved.append(statistics.similarities_retrieved[i])
 
 class ResponseStatisticsEncoder(json.JSONEncoder):
     def default(self, obj):

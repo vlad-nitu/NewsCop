@@ -254,7 +254,7 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
         for resp in response:
             sim = round(resp.similarity * 100)
             index = sim // 20
-            similarities[index] += 1
+            similarities[index] = similarities[index] + 1
         statistics.add_similarities_retrieved(similarities)
 
     source_title, _, source_date = extract_data_from_url(input)
@@ -377,7 +377,7 @@ def retrieve_statistics(request):
     if (request.method == 'GET'):
         articles = db.news_collection.count_documents({})
         statistics.set_stored_articles(articles)
-        HttpResponse(ResponseStatisticsEncoder().encode(statistics, status=200, content_type="application/json"))
+        return HttpResponse(ResponseStatisticsEncoder().encode(statistics), status=200, content_type="application/json")
     else:
         return HttpResponseBadRequest(f"Expected GET, but got {request.method} instead")
 

@@ -16,11 +16,20 @@ from app.views import try_view
 from app.views import reqex_view
 from app.views import ReactView
 from app.views import url_similarity_checker
+from utils import statistics
 
 from app.plagiarism_checker.fingerprinting import compute_fingerprint
+from app.response_statistics import ResponseStatistics
 
 
 class UrlsTest(TestCase):
+    def setUp(self):
+        self.copy_statistics = ResponseStatistics(statistics.users, statistics.performed_queries,
+                                             statistics.stored_articles, statistics.similarities_retrieved)
+
+    def tearDown(self):
+        statistics.set_values(self.copy_statistics)
+
     @tag("unit")
     def test_compare_texts(self):
         obtained_url = reverse('compare_texts')
