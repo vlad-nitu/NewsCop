@@ -25,7 +25,7 @@ export default function Home ({ applicationName, applicationDescription, ourMiss
   const images = ['service1.jpeg', 'service2.webp', 'service3.jpeg', 'service4.jpeg']
 
   const statisticsTitles = [' articles', ' users', ' articles']
-  const statisticsDescription = ['are stored in the database', 'in the last 24 hours', 'have been checked for overlapping in the last 24 hours']
+  const statisticsDescription = ['are stored in the database', 'have used the application', 'have been checked for overlapping']
   const statisticsImages = ['newspaper-regular.svg', 'user-regular.svg', 'list-check-solid.svg']
 
   return (

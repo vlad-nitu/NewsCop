@@ -164,5 +164,17 @@ describe('template spec & clicking a button after inputting some text', () => {
     cy.isInViewport('#footer') // Assert that it has scrolled down (if it was not already visible) to Footer component
 
   })
+
+  it('Redirection to statistics through navbar', () => {
+     /** Retrieve statistics section from the navbar **/
+    cy.get('[data-testid="navbar-component"]')
+      .should('exist')
+      .get('a[href="/#statistics"]').contains('Statistics')
+      .click()
+    cy.url()
+      .should(
+        'be.equal',
+        `${HOST}/#statistics`)
+  })
 })
 

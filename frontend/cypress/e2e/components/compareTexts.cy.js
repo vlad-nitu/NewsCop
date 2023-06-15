@@ -194,4 +194,16 @@ describe('tests for several interactions within compare texts', () => {
         'be.equal',
         `${rootUrl}/help`)
   })
+
+  it('Redirection to statistics through navbar', () => {
+     /** Retrieve statistics section from the navbar **/
+    cy.get('[data-testid="navbar-component"]')
+      .should('exist')
+      .get('a[href="/#statistics"]').contains('Statistics')
+      .click()
+    cy.url()
+      .should(
+        'be.equal',
+        `${rootUrl}/#statistics`)
+  })
 })
