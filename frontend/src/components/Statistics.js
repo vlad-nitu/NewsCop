@@ -54,7 +54,7 @@ export default function Statistics ({ titles, descriptions, images }) {
   //   "similarities_retrieved": [10, 15, 8, 2, 10]
   // }
 
-  const colors = ['#000', '#000', '#000', '#000', '#000']
+  const colors = ['#F06060', '#35A0CE', '#3C8A49', '#963A87', '#DC9326']
   const percentages = ['0 - 20%', '20 - 40%', '40 - 60%', '60 - 80%', '80 - 100%']
 
   const bars = statistics == null
