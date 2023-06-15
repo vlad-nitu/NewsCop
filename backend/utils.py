@@ -8,6 +8,7 @@ test_db = client['test_db']
 # Retrieve the set of hashes
 existing_fps = set(db.hashes_collection.find({}, {"_id": 1}).distinct('_id'))
 
+# The statistics that will be displayed on the frontend
 statistics = ResponseStatistics(0, 0, 0, [0, 0, 0, 0, 0])
 
 

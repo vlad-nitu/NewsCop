@@ -27,7 +27,6 @@ class TestPersistUrlView(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
 
-
     def test_post_request_compare_texts(self):
         # create the request body
         data = {
@@ -341,7 +340,7 @@ class TestUrlSimilarity(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         self.copy_statistics = ResponseStatistics(statistics.users, statistics.performed_queries,
-                                             statistics.stored_articles, statistics.similarities_retrieved)
+                                                  statistics.stored_articles, statistics.similarities_retrieved)
 
     def tearDown(self):
         statistics.set_values(self.copy_statistics)
@@ -452,7 +451,7 @@ class TestStatisticsUpdates(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         self.copy_statistics = ResponseStatistics(statistics.users, statistics.performed_queries,
-                                             statistics.stored_articles, statistics.similarities_retrieved)
+                                                  statistics.stored_articles, statistics.similarities_retrieved)
 
     def tearDown(self):
         statistics.set_values(self.copy_statistics)
@@ -486,6 +485,7 @@ class TestStatisticsUpdates(TestCase):
         self.assertEqual(statistics.performed_queries, parsed_response["performed_queries"])
         self.assertEqual(db.news_collection.count_documents({}), parsed_response["stored_articles"])
         self.assertEqual(statistics.similarities_retrieved, parsed_response["similarities_retrieved"])
+
     def test_retrieve_statistics_invalid(self):
         request = self.factory.post("/retireveStatistics/")
         response = retrieve_statistics(request)
@@ -511,4 +511,3 @@ class TestStatisticsUpdates(TestCase):
         self.assertEqual(self.copy_statistics.performed_queries + 1, parsed_response["performed_queries"])
         self.assertEqual(db.news_collection.count_documents({}), parsed_response["stored_articles"])
         self.assertNotEqual(self.copy_statistics.similarities_retrieved, parsed_response["similarities_retrieved"])
-

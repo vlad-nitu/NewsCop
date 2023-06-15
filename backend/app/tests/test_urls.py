@@ -25,7 +25,7 @@ from app.response_statistics import ResponseStatistics
 class UrlsTest(TestCase):
     def setUp(self):
         self.copy_statistics = ResponseStatistics(statistics.users, statistics.performed_queries,
-                                             statistics.stored_articles, statistics.similarities_retrieved)
+                                                  statistics.stored_articles, statistics.similarities_retrieved)
 
     def tearDown(self):
         statistics.set_values(self.copy_statistics)

@@ -380,7 +380,3 @@ def retrieve_statistics(request):
         return HttpResponse(ResponseStatisticsEncoder().encode(statistics), status=200, content_type="application/json")
     else:
         return HttpResponseBadRequest(f"Expected GET, but got {request.method} instead")
-
-
-
-
