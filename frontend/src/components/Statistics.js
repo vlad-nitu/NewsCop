@@ -41,6 +41,15 @@ export default function Statistics ({ titles, descriptions, images }) {
     return () => window.removeEventListener('resize', updateDimensions)
   }, [])
 
+  const bars = [
+    {
+      "ratio": "78%",
+      "color": "#000",
+      "articles": "2432",
+      "percentages": "0 - 20%"
+    }
+  ]
+
   // Renders a JSX element with information about statistics.
   return (
     <div id='statistics'>
@@ -64,65 +73,27 @@ export default function Statistics ({ titles, descriptions, images }) {
         <div className='pt-5'>
           {true
             ? (
-              <div id='bar-statistics' className='d-flex flex-row'>
+              <div id='bar-statistics' className='d-flex flex-lg-row flex-column'>
                 <div id='left-side-text' className='mt-auto flex-shrink-1 pe-5' style={{ width: '350px' }}>
                   <p className='fs-4 fw-bolder m-0'>Number of articles for each overlap threshold</p>
                   <p className='fs-5 text-muted mt-0'>from our database</p>
                 </div>
-                <div id='bar1' className='pe-2 flex-grow-1'>
-                  <div style={{ height: '300px' }} className='custom-width position-relative mx-auto'>
-                    <div className='rounded shadow bar-statistic-vertical position-absolute'>
-                      <div className='custom-rounded' style={{ position: 'absolute', bottom: 0, height: '30%', width: '100%', backgroundColor: '#000' }}>
-                        <p className='text-white fw-normal fs-6 pt-2 text-center m-0'>2404</p>
-                        <p className='text-white fw-normal fs-7 text-center m-0'>articles</p>
+                <div className="d-flex flex-row flex-grow-1 pt-3 pt-lg-0">
+                  {bars.map((bar, index) => {
+                    return (
+                      <div id={`bar${index}`} className='pe-2 flex-grow-1'>
+                        <div style={{ height: '300px' }} className='custom-width position-relative mx-auto'>
+                          <div className='rounded shadow bar-statistic-vertical position-absolute'>
+                            <div className='custom-rounded' style={{ position: 'absolute', bottom: 0, height: bar.ratio, width: '100%', backgroundColor: bar.color }}>
+                              <p className='text-white fw-normal fs-6 pt-2 text-center m-0'>{bar.articles}</p>
+                              <p className='text-white fw-normal fs-7 text-center m-0'>articles</p>
+                            </div>
+                          </div>
+                        </div>
+                        <p className='text-muted fs-5 text-center pt-3'>{bar.percentages}</p>
                       </div>
-                    </div>
-                  </div>
-                  <p className='text-muted fs-5 text-center pt-3'>0 - 20%</p>
-                </div>
-                <div id='bar2' className='px-2 flex-grow-1'>
-                  <div style={{ height: '300px' }} className='custom-width position-relative mx-auto'>
-                    <div className='rounded shadow bar-statistic-vertical position-absolute'>
-                      <div className='custom-rounded' style={{ position: 'absolute', bottom: 0, height: '30%', width: '100%', backgroundColor: '#000' }}>
-                        <p className='text-white fw-normal fs-6 pt-2 text-center m-0'>2404</p>
-                        <p className='text-white fw-normal fs-7 text-center m-0'>articles</p>
-                      </div>
-                    </div>
-                  </div>
-                  <p className='text-muted fs-5 text-center pt-3'>0 - 20%</p>
-                </div>
-                <div id='bar3' className='px-2 flex-grow-1'>
-                  <div style={{ height: '300px' }} className='custom-width position-relative mx-auto'>
-                    <div className='rounded shadow bar-statistic-vertical position-absolute'>
-                      <div className='custom-rounded' style={{ position: 'absolute', bottom: 0, height: '70%', width: '100%', backgroundColor: '#000' }}>
-                        <p className='text-white fw-normal fs-6 pt-2 text-center m-0'>2404</p>
-                        <p className='text-white fw-normal fs-7 text-center m-0'>articles</p>
-                      </div>
-                    </div>
-                  </div>
-                  <p className='text-muted fs-5 text-center pt-3'>0 - 20%</p>
-                </div>
-                <div id='bar4' className='px-2 flex-grow-1'>
-                  <div style={{ height: '300px' }} className='custom-width position-relative mx-auto'>
-                    <div className='rounded shadow bar-statistic-vertical position-absolute'>
-                      <div className='custom-rounded' style={{ position: 'absolute', bottom: 0, height: '30%', width: '100%', backgroundColor: '#000' }}>
-                        <p className='text-white fw-normal fs-6 pt-2 text-center m-0'>2404</p>
-                        <p className='text-white fw-normal fs-7 text-center m-0'>articles</p>
-                      </div>
-                    </div>
-                  </div>
-                  <p className='text-muted fs-5 text-center pt-3'>0 - 20%</p>
-                </div>
-                <div id='bar5' className='ps-2 flex-grow-1'>
-                  <div style={{ height: '300px' }} className='custom-width position-relative mx-auto'>
-                    <div className='rounded shadow bar-statistic-vertical position-absolute'>
-                      <div className='custom-rounded' style={{ position: 'absolute', bottom: 0, height: '30%', width: '100%', backgroundColor: '#000' }}>
-                        <p className='text-white fw-normal fs-6 pt-2 text-center m-0'>2404</p>
-                        <p className='text-white fw-normal fs-7 text-center m-0'>articles</p>
-                      </div>
-                    </div>
-                  </div>
-                  <p className='text-muted fs-5 text-center pt-3'>0 - 20%</p>
+                    )
+                  })}
                 </div>
               </div>
               )
