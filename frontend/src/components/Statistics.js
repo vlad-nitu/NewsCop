@@ -44,8 +44,11 @@ export default function Statistics ({ titles, descriptions, images }) {
     async function getStatistics() {
       await axios.get('http://localhost:8000/retireveStatistics/')
       .then(res => {
-        console.log("cox")
-        setStatistics(res)
+        console.log(res)
+        setStatistics(res.data)
+        titles[0] = statistics.stored_articles + titles[0]
+        titles[1] = statistics.users + titles[1]
+        titles[2] = statistics.performed_queries + titles[2]
       })
       .catch(error => {
         console.log(error)
@@ -87,7 +90,7 @@ export default function Statistics ({ titles, descriptions, images }) {
               <Card className='custom-statistics-card text-center mt-3 h-100'>
                 <Card.Img alt={`Service ${index + 1}`} src={images[index]} className='card-img mx-auto' />
                 <Card.Body className='d-flex flex-column px-0'>
-                  <Card.Title className='font-weight-bold'>{title}</Card.Title>
+                  <Card.Title className='fw-bold'>{title}</Card.Title>
                   <Card.Text className='mb-4'>
                     {descriptions[index]}
                   </Card.Text>
