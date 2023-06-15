@@ -16,6 +16,43 @@ class ResponseStatistics:
         self.stored_articles = stored_articles
         self.similarities_retrieved = similarities_retrieved
 
+    def increment_users(self):
+        """
+        Increments the number of users by 1.
+        """
+        self.users = self.users + 1
+
+    def increment_performed_queries(self):
+        """
+        Increments the number of performed queries by 1.
+        """
+        self.performed_queries = self.performed_queries + 1
+
+    def add_similarities_retrieved(self, similarities):
+        """
+        Adds the provided similarities to the existing similarities retrieved.
+        :param similarities: A list of similarities to be added to the existing similarities retrieved.
+                             The list should have a length of 5.
+        """
+        for i in range(5):
+            self.similarities_retrieved[i] = self.similarities_retrieved[i] + similarities[i]
+
+    def set_stored_articles(self, articles):
+        """
+        Sets the stored articles to the provided articles.
+        :param articles: The number of articles stored in the database.
+        """
+        self.stored_articles = articles
+
+    def set_values(self, statistics):
+        """
+        Sets all the fields to the values stored in statistics.
+        :param articles: The new values for the fields
+        """
+        self.users = statistics.users
+        self.performed_queries = statistics.performed_queries
+        self.stored_articles = statistics.stored_articles
+        self.similarities_retrieved = statistics.similarities_retrieved
 
 class ResponseStatisticsEncoder(json.JSONEncoder):
     def default(self, obj):

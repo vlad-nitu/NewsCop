@@ -20,7 +20,7 @@ from .plagiarism_checker.crawling import crawl_url, extract_data_from_url
 from .plagiarism_checker.sanitizing import sanitizing_url
 from .plagiarism_checker.similarity import compute_similarity
 from .response_entities import ResponseUrlEntity, ResponseUrlEncoder, ResponseTwoUrlsEntity, ResponseTwoUrlsEncoder
-from .response_statistics import ResponseStatistics, ResponseStatisticsEncoder
+from .response_statistics import ResponseStatisticsEncoder
 
 import multiprocessing
 import time
@@ -29,7 +29,7 @@ from .handlers import *
 
 from collections import Counter, defaultdict
 
-from utils import users, url_check_queries, similarities_retrieved
+from utils import statistics
 
 # Create your views here.
 class ReactView(APIView):
@@ -144,8 +144,6 @@ def url_similarity_checker(request):
         # Get the fingerprints for the current URL
         submitted_url_fingerprints = db.news_collection.find_one({'_id': source_url})['fingerprints']
 
-        url_check_queries += 1
-
         return find_similar_documents_by_fingerprints(submitted_url_fingerprints, source_url)
 
     else:
@@ -251,17 +249,20 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
 
     if input != '':
         # This is a URL check query, thus we need to updated the statistics
-        url_check_queries += 1
+        statistics.increment_performed_queries()
+        similarities = [0, 0, 0, 0, 0]
         for resp in response:
             sim = round(resp.similarity * 100)
             index = sim // 20
-            similarities_retrieved[index] += 1
-        source_title, _, source_date = extract_data_from_url(input)
-        request_response = {
-            'sourceTitle': source_title,
-            'sourceDate': source_date,
-            'similarArticles': response
-        }
+            similarities[index] += 1
+        statistics.add_similarities_retrieved(similarities)
+
+    source_title, _, source_date = extract_data_from_url(input)
+    request_response = {
+        'sourceTitle': source_title,
+        'sourceDate': source_date,
+        'similarArticles': response
+    }
 
     return HttpResponse(json.dumps(request_response, cls=ResponseUrlEncoder), status=200,
                         content_type="application/json")
@@ -362,7 +363,7 @@ def update_users(request):
     :return: an HTTP response with status 200 if the request was successful else HttpResponseBadRequest
     """
     if request.method == 'POST':
-        users += 1
+        statistics.increment_users()
         return HttpResponse("Users were successfully updated", status=200)
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
@@ -375,11 +376,8 @@ def retrieve_statistics(request):
     '''
     if (request.method == 'GET'):
         articles = db.news_collection.count_documents({})
-        HttpResponse(
-            ResponseStatisticsEncoder().encode(
-                ResponseStatistics(users = users, performed_queries = url_check_queries,
-                                   stored_articles = articles, similarities_retrieved = similarities_retrieved),
-            status=200, content_type="application/json")
+        statistics.set_stored_articles(articles)
+        HttpResponse(ResponseStatisticsEncoder().encode(statistics, status=200, content_type="application/json"))
     else:
         return HttpResponseBadRequest(f"Expected GET, but got {request.method} instead")
 

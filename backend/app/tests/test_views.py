@@ -17,14 +17,10 @@ from app.views import compare_URLs
 from app.views import text_similarity_checker
 from app.views import update_users
 from app.views import retrieve_statistics
+from app.response_statistics import ResponseStatistics, ResponseStatisticsEncoder
 from utils import db
-from utils import users, url_check_queries, similarities_retrieved
+from utils import statistics
 import sys
-
-users_copy = 0
-url_check_queries_copy = 0
-similarities_retrieved_copy = [0, 0, 0, 0, 0]
-
 
 class TestPersistUrlView(TestCase):
 
@@ -341,16 +337,14 @@ class TestCompareURLs(TestCase):
 
 
 class TestUrlSimilarity(TestCase):
+
     def setUp(self):
         self.factory = RequestFactory()
-        users_copy = users
-        url_check_queries_copy = url_check_queries
-        similarities_retrieved_copy = similarities_retrieved
+        self.copy_statistics = ResponseStatistics(statistics.users, statistics.performed_queries,
+                                             statistics.stored_articles, statistics.similarities_retrieved)
 
     def tearDown(self):
-        users = users_copy
-        url_check_queries = url_check_queries_copy
-        similarities_retrieved = similarities_retrieved_copy
+        statistics.set_values(self.copy_statistics)
 
     # note that for this test the url provided is already in the db
     def test_valid_url(self):
@@ -457,14 +451,11 @@ class TestTextSimilarity(TestCase):
 class TestStatisticsUpdates(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
-        users_copy = users
-        url_check_queries_copy = url_check_queries
-        similarities_retrieved_copy = similarities_retrieved
+        self.copy_statistics = ResponseStatistics(statistics.users, statistics.performed_queries,
+                                             statistics.stored_articles, statistics.similarities_retrieved)
 
     def tearDown(self):
-        users = users_copy
-        url_check_queries = url_check_queries_copy
-        similarities_retrieved = similarities_retrieved_copy
+        statistics.set_values(self.copy_statistics)
 
     def test_update_users(self):
         request = self.factory.post("/updateUsers/")
@@ -473,7 +464,7 @@ class TestStatisticsUpdates(TestCase):
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-        self.assertEqual(users_copy + 1, users)
+        self.assertEqual(self.copy_statistics.users + 1, statistics.users)
 
     def test_update_users_invalid(self):
         request = self.factory.get("/updateUsers/")
@@ -485,18 +476,18 @@ class TestStatisticsUpdates(TestCase):
 
     def test_retrieve_statistics(self):
         request = self.factory.get("/retireveStatistics/")
-        response = update_users(request)
+        response = retrieve_statistics(request)
         parsed_response = json.loads(response.content.decode())
 
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(users, parsed_response["users"])
-        self.assertEqual(url_check_queries, parsed_response["performed_queries"])
+        self.assertEqual(statistics.users, parsed_response["users"])
+        self.assertEqual(statistics.url_check_queries, parsed_response["performed_queries"])
         self.assertEqual(db.news_collection.count_documents({}), parsed_response["stored_articles"])
-        self.assertEqual(similarities_retrieved, parsed_response["similarities_retrieved"])
+        self.assertEqual(statistics.similarities_retrieved, parsed_response["similarities_retrieved"])
     def test_retrieve_statistics_invalid(self):
         request = self.factory.post("/retireveStatistics/")
-        response = update_users(request)
+        response = retrieve_statistics(request)
 
         self.assertIsInstance(response, HttpResponseBadRequest)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -515,8 +506,8 @@ class TestStatisticsUpdates(TestCase):
         request = self.factory.get("/retireveStatistics/")
         response = update_users(request)
         parsed_response = json.loads(response.content.decode())
-        self.assertEqual(users_copy + 1, parsed_response["users"])
-        self.assertEqual(url_check_queries_copy + 1, parsed_response["performed_queries"])
+        self.assertEqual(self.copy_statistics.users + 1, parsed_response["users"])
+        self.assertEqual(self.copy_statistics.url_check_queries + 1, parsed_response["performed_queries"])
         self.assertEqual(db.news_collection.count_documents({}), parsed_response["stored_articles"])
-        self.assertNotEqual(similarities_retrieved_copy, parsed_response["similarities_retrieved"])
+        self.assertNotEqual(self.copy_statistics.similarities_retrieved, parsed_response["similarities_retrieved"])
 

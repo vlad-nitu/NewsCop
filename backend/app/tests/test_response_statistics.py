@@ -24,8 +24,8 @@ class ResponseStatisticsTest(TestCase):
         stored_articles = 140
         similarities_retrieved = [1, 2, 3, 4, 5]
         entity = ResponseStatistics(users, performed_queries, stored_articles, similarities_retrieved)
-        expected_json = '{"users": 32, "performed_queries": 43, "stored_articles": 40, ' \
-                        '"similarities_retrieved" = [1, 2, 3, 4, 5]}'
+        expected_json = '{"users": 32, "performed_queries": 43, "stored_articles": 140, ' \
+                        '"similarities_retrieved": [1, 2, 3, 4, 5]}'
 
         json_data = json.dumps(entity, cls=ResponseStatisticsEncoder)
         self.assertEqual(json_data, expected_json)
