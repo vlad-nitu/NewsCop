@@ -3,6 +3,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { Card } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 /**
  *
@@ -25,6 +26,7 @@ export default function Statistics ({ titles, descriptions, images }) {
   }
 
   const [width, setWidth] = useState(window.innerWidth)
+  const [statistics, setStatistics] = useState(null)
 
   /**
    * Update the width on resizing
@@ -38,17 +40,41 @@ export default function Statistics ({ titles, descriptions, images }) {
    */
   useEffect(() => {
     window.addEventListener('resize', updateDimensions)
+
+    async function getStatistics() {
+      await axios.get('http://localhost:8000/retireveStatistics/')
+      .then(res => {
+        console.log("cox")
+        setStatistics(res)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    }
+
+    getStatistics()
+    
     return () => window.removeEventListener('resize', updateDimensions)
   }, [])
 
-  const bars = [
-    {
-      "ratio": "78%",
-      "color": "#000",
-      "articles": "2432",
-      "percentages": "0 - 20%"
+  // const statistics = {
+  //   "users": 32, 
+  //   "performed_queries": 43, 
+  //   "stored_articles": 140, 
+  //   "similarities_retrieved": [10, 15, 8, 2, 10]
+  // }
+
+  const colors = ['#000', '#000', '#000', '#000', '#000']
+  const percentages = ['0 - 20%', '20 - 40%', '40 - 60%', '60 - 80%', '80 - 100%']
+
+  const bars = statistics == null ? [] : statistics.similarities_retrieved.map((statistic, index) => {
+    return {
+      "ratio": statistics.performed_queries === 0 ? 0 : ((statistic / statistics.performed_queries) * 100),
+      "color": colors[index],
+      "articles": statistic,
+      "percentages": percentages[index]
     }
-  ]
+  })
 
   // Renders a JSX element with information about statistics.
   return (
@@ -71,7 +97,7 @@ export default function Statistics ({ titles, descriptions, images }) {
           ))}
         </Row>
         <div className='pt-5'>
-          {true
+          {statistics != null
             ? (
               <div id='bar-statistics' className='d-flex flex-lg-row flex-column'>
                 <div id='left-side-text' className='mt-auto flex-shrink-1 pe-5' style={{ width: '350px' }}>
@@ -81,16 +107,16 @@ export default function Statistics ({ titles, descriptions, images }) {
                 <div className="d-flex flex-row flex-grow-1 pt-3 pt-lg-0">
                   {bars.map((bar, index) => {
                     return (
-                      <div id={`bar${index}`} className='pe-2 flex-grow-1'>
+                      <div id={`bar${index}`} className={`pe-2 ${index === bars.length - 1 ? '' : 'flex-grow-1'}`}>
                         <div style={{ height: '300px' }} className='custom-width position-relative mx-auto'>
                           <div className='rounded shadow bar-statistic-vertical position-absolute'>
-                            <div className='custom-rounded' style={{ position: 'absolute', bottom: 0, height: bar.ratio, width: '100%', backgroundColor: bar.color }}>
+                            <div className='custom-rounded' style={{ position: 'absolute', bottom: 0, height: `max(20%, ${bar.ratio}%`, width: '100%', backgroundColor: bar.color }}>
                               <p className='text-white fw-normal fs-6 pt-2 text-center m-0'>{bar.articles}</p>
                               <p className='text-white fw-normal fs-7 text-center m-0'>articles</p>
                             </div>
                           </div>
                         </div>
-                        <p className='text-muted fs-5 text-center pt-3'>{bar.percentages}</p>
+                        <p className='text-muted fs-6 text-center pt-3'>{bar.percentages}</p>
                       </div>
                     )
                   })}
