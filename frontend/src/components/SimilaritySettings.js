@@ -40,6 +40,7 @@ export default function SimilaritySettings ({ type, sourceUrl, articles }) {
   const handleSeeMoreArticles = (event) => {
     setResultArticles(articles)
     setArticlesAmount(articles.length)
+    setRatioValue(0)
     setDisplayButton(false)
   }
 
