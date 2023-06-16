@@ -76,12 +76,12 @@ export default function Statistics ({ titles, descriptions, images }) {
           <h2 className='statistics-title'>Did you know that...</h2>
           <Row className='pt-4'>
             {titles.map((title, index) => (
-              <Col key={index} xs={12} sm={12} md={4} lg={4} className='mb-3 align-items-stretch'>
-                <Card className='custom-statistics-card text-center mt-3 h-100'>
-                  <Card.Img alt={`Service ${index + 1}`} src={images[index]} className='card-img mx-auto' />
-                  <Card.Body className='d-flex flex-column px-0'>
-                    <Card.Title className='fw-bold'>{title}</Card.Title>
-                    <Card.Text className='mb-4'>
+              <Col key={index} xs={12} sm={12} md={4} lg={4} className='pb-3'>
+                <Card className='custom-statistics-card text-center py-5'>
+                  <img alt={`Service ${index + 1}`} src={images[index]} style={{height: '64px', width: '64px'}} className='mx-auto pb-1' />
+                  <Card.Body className="pb-0">
+                    <Card.Title className='fw-bold fs-4 m-0'>{title}</Card.Title>
+                    <Card.Text>
                       {descriptions[index]}
                     </Card.Text>
                   </Card.Body>
