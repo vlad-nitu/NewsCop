@@ -4,6 +4,15 @@ import { Accordion, Button } from 'react-bootstrap'
 import { AccordionDetails, Slider, Typography } from '@mui/material'
 import ListURLs from './ListURLs'
 
+/**
+ * A special component encapsulating the slider and "see more articles" functionalities.
+ * The component also represents the parent of the ListURLs component as the latter is updated dynamically
+ * based on the settings of the lower-bound and number of documents.
+ *
+ * @param type - The type of the service for which is called (text/url similarity checker).
+ * @param sourceUrl - The URL for which it was called.
+ * @param articles - The similar articles to the one given.
+ */
 export default function SimilaritySettings ({ type, sourceUrl, articles }) {
   const [ratioValue, setRatioValue] = React.useState(0)
   const [resultArticles, setResultArticles] = React.useState(collect(articles).take(5))
