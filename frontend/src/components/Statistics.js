@@ -94,7 +94,7 @@ export default function Statistics ({ titles, descriptions, images }) {
             <div id='bar-statistics' className='d-flex flex-lg-row flex-column'>
               <div id='left-side-text' className='mt-auto flex-shrink-1 pe-5' style={{ width: '350px' }}>
                 <p className='fs-4 fw-bolder m-0'>Number of overlapping articles for each threshold</p>
-                <p className='fs-5 text-muted mt-0'>from our database</p>
+                <p className='fs-5 text-muted mt-0'>from the last URL similarity checks</p>
               </div>
               <div className='d-flex flex-row flex-grow-1 pt-3 pt-lg-0'>
                 {bars.map((bar, index) => {

@@ -11,7 +11,7 @@ describe('Statistics', () => {
 
     const title1 = 'Did you know that...'
     const title2 = 'Number of overlapping articles for each threshold'
-    const title3 = 'from our database'
+    const title3 = 'from the last URL similarity checks'
 
     const expectedData = {
       users: 32,
