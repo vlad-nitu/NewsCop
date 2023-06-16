@@ -33,11 +33,10 @@ export default function SimilaritySettings ({ type, sourceUrl, articles }) {
     }
   ]
 
-  const handleRatioValueChange = (event) => {
-    setRatioValue(event.target.value)
-    setResultArticles(collect(articles).take(articlesAmount).filter(a => a.similarity >= ratioValue))
+  const handleRatioValueChange = (event, newValue) => {
+      setRatioValue(newValue)
+      setResultArticles(collect(articles).take(articlesAmount).filter(a => a.similarity >= newValue))
   }
-
   const handleSeeMoreArticles = (event) => {
     setResultArticles(articles)
     setArticlesAmount(articles.length)
