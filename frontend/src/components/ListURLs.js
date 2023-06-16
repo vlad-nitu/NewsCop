@@ -1,7 +1,7 @@
 import ProgressLineCustom from './ProgressLineCustom'
 import { Button, Container, Row, Col, Card, Accordion } from 'react-bootstrap'
 import SideBySideRender from './SideBySideRender'
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import OneArticleRender from './OneArticleRender'
 
 /**
