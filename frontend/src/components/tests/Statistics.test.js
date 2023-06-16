@@ -77,6 +77,38 @@ describe('Statistics', () => {
       expect(barValue).toBeInTheDocument()
     }
   })
+  test('check one user test', async () => {
+    jest.useFakeTimers() /* Mock the timer */
+
+    const expectedData = {
+      users: 1,
+      performed_queries: 43,
+      stored_articles: 140,
+      similarities_retrieved: [20, 15, 8, 2, 30]
+    }
+
+    axios.get = jest.fn().mockResolvedValue({ data: expectedData })
+
+    const statisticsTitles = [' articles', ' users', ' articles']
+    const statisticsDescription = ['are stored in the database', 'have used the application', 'have been checked for overlapping']
+    const statisticsImages = ['newspaper-regular.svg', 'user-regular.svg', 'list-check-solid.svg']
+
+    render(
+      <MemoryRouter>
+        <Statistics titles={statisticsTitles} descriptions={statisticsDescription} images={statisticsImages} />
+      </MemoryRouter>
+    )
+
+    // Resolve the axios post promise
+    await act(async () => {
+      await axios.get.mock.results[0].value
+    })
+
+    // Check if the title of the second card is displayed
+    const card2title = screen.getByText('1 user')
+    expect(card2title).toBeInTheDocument()
+  })
+
   test('statistics properly render2', async () => {
     jest.useFakeTimers() /* Mock the timer */
 
