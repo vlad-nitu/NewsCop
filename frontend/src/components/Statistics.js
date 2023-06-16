@@ -37,7 +37,7 @@ export default function Statistics ({ titles, descriptions, images }) {
           console.log(res)
           setStatistics(res.data)
           titles[0] = res.data.stored_articles + titles[0]
-          titles[1] = res.data.users + (res.data.users === 1 ? " user" : " users")
+          titles[1] = res.data.users + (res.data.users === 1 ? ' user' : ' users')
           titles[2] = res.data.performed_queries + titles[2]
         })
         .catch(error => {
@@ -78,8 +78,8 @@ export default function Statistics ({ titles, descriptions, images }) {
             {titles.map((title, index) => (
               <Col key={index} xs={12} sm={12} md={4} lg={4} className='pb-3'>
                 <Card className='custom-statistics-card text-center py-5'>
-                  <img alt={`Service ${index + 1}`} src={images[index]} style={{height: '64px', width: '64px'}} className='mx-auto pb-1' />
-                  <Card.Body className="pb-0">
+                  <img alt={`Service ${index + 1}`} src={images[index]} style={{ height: '64px', width: '64px' }} className='mx-auto pb-1' />
+                  <Card.Body className='pb-0'>
                     <Card.Title className='fw-bold fs-4 m-0'>{title}</Card.Title>
                     <Card.Text>
                       {descriptions[index]}
