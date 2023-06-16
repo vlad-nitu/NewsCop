@@ -37,7 +37,7 @@ export default function Statistics ({ titles, descriptions, images }) {
           console.log(res)
           setStatistics(res.data)
           titles[0] = res.data.stored_articles + titles[0]
-          titles[1] = res.data.users + titles[1]
+          titles[1] = res.data.users + (res.data.users === 1 ? " user" : " users")
           titles[2] = res.data.performed_queries + titles[2]
         })
         .catch(error => {
