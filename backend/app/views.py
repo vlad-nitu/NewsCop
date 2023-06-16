@@ -99,7 +99,7 @@ def url_similarity_checker(request):
     There is only one query made in order to check whether the URL has already been persisted
     If this is not the case, the URL gets persisted and the method is recursively called. 
     Otherwise, we call the helper method
-    in order to obtain obtains all the similar documents to the current one. 
+    in order to obtain all the similar documents to the current one. 
     In the given query, all 3 tables are joined by performing 2 join operations
     GROUP BY used to obtain an array of all fingerprints of a document, 
         instead of a 2 columns table: [(url, fp1), (url, fp2), ...]
