@@ -49,3 +49,15 @@ Cypress.Commands.add('isInViewport', element => {
     expect(rect.bottom).not.to.be.greaterThan(bottom_upper_bound)
   })
 })
+
+Cypress.Commands.add('redirectionStatistics', () => {
+  /** Retrieve statistics section from the navbar **/
+  cy.get('[data-testid="navbar-component"]')
+    .should('exist')
+    .get('a[href="/#statistics"]').contains('Statistics')
+    .click()
+  cy.url()
+    .should(
+      'be.equal',
+      `http://localhost:3000/#statistics`)
+})

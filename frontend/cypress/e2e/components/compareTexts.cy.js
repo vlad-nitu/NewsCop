@@ -1,3 +1,5 @@
+import "../../support/commands";
+
 describe('tests for several interactions within compare texts', () => {
 
   const rootUrl = 'http://localhost:3000'
@@ -196,14 +198,6 @@ describe('tests for several interactions within compare texts', () => {
   })
 
   it('Redirection to statistics through navbar', () => {
-     /** Retrieve statistics section from the navbar **/
-    cy.get('[data-testid="navbar-component"]')
-      .should('exist')
-      .get('a[href="/#statistics"]').contains('Statistics')
-      .click()
-    cy.url()
-      .should(
-        'be.equal',
-        `${rootUrl}/#statistics`)
+    cy.redirectionStatistics()
   })
 })

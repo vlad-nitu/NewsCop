@@ -1,3 +1,5 @@
+import "../../support/commands";
+
 describe('CheckTwoURLs testing flow', () => {
 
     const HOST = 'http://localhost:3000'
@@ -295,15 +297,7 @@ describe('CheckTwoURLs testing flow', () => {
     })
 
   it('Redirection to statistics through navbar', () => {
-     /** Retrieve statistics section from the navbar **/
-    cy.get('[data-testid="navbar-component"]')
-      .should('exist')
-      .get('a[href="/#statistics"]').contains('Statistics')
-      .click()
-    cy.url()
-      .should(
-        'be.equal',
-        `${HOST}/#statistics`)
+    cy.redirectionStatistics()
   })
 })
 

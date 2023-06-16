@@ -1,3 +1,5 @@
+import "../../support/commands";
+
 describe('HelpPage', () => {
 
   const rootUrl = 'http://localhost:3000'
@@ -65,13 +67,6 @@ describe('HelpPage', () => {
 
   it('Redirection to statistics through navbar', () => {
      /** Retrieve statistics section from the navbar **/
-    cy.get('[data-testid="navbar-component"]')
-      .should('exist')
-      .get('a[href="/#statistics"]').contains('Statistics')
-      .click()
-    cy.url()
-      .should(
-        'be.equal',
-        `${rootUrl}/#statistics`)
+    cy.redirectionStatistics()
   })
 })

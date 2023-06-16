@@ -1,3 +1,5 @@
+import "../../support/commands";
+
 describe('template spec & clicking a button after inputting some text', () => {
 
   const HOST = 'http://localhost:3000' // TODO: put the actual URL after we deploy our app on Heroku
@@ -166,15 +168,7 @@ describe('template spec & clicking a button after inputting some text', () => {
   })
 
   it('Redirection to statistics through navbar', () => {
-     /** Retrieve statistics section from the navbar **/
-    cy.get('[data-testid="navbar-component"]')
-      .should('exist')
-      .get('a[href="/#statistics"]').contains('Statistics')
-      .click()
-    cy.url()
-      .should(
-        'be.equal',
-        `${HOST}/#statistics`)
+    cy.redirectionStatistics()
   })
 })
 
