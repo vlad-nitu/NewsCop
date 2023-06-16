@@ -79,11 +79,10 @@ def persist_url_view(request):
 
 def process_document(length_first, length_second, inters):
     '''
-    Helper function that is used to process tasks in parallel for
-    computing the jaccard similarity between the candidate urls and the input url.
-    :param url_helper: the candidate url
+    Computes the jaccard similarity between the candidate URL and the input URL.
     :param length_first: the fingerprint size of the input url
-    :param string_list: the frequency count
+    :param string_list: the fingerprint size of the candidate url
+    :param inters: the size of the intersection set between candidate URL and input ULR
     :return: the url and its jaccard similarity with the input url
     '''
 
