@@ -116,8 +116,8 @@ def process_urls(urls):
                 logging.info(f'Article w/ URL: {url} appended')
         except TimeoutException:
             logging.warning(f'Timeout occurred while processing article: {url}')
-        except Exception:
-            logging.warning(f'Another error occured for: {url}')
+        except Exception as e:
+            logging.warning(f'Another error occured for: {url}, the error is %s', str(e))
 
     return urls_seen, articles
 
