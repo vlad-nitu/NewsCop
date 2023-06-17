@@ -5,9 +5,13 @@ import psycopg2.extras
 import os
 
 # Connection parameters
-host = "localhost"
-dbname = "news_articles"
-port = "5432"
+host = "news-articles.ct9yvcb6c1se.eu-west-3.rds.amazonaws.com"  # The endpoint of our RDS instance
+dbname = "postgres" # DB name set up by @rtoader while initialising AWS RDS cluster
+port = "5432" # Default PostgreSQL port
+
+# Database authentication parameters
+user = "postgres"  # Master username 
+password = "postgres"  # Master password
 
 # Default schema
 # Note that the schema differs, according to the environment
@@ -24,9 +28,9 @@ if os.environ.get('RUNNING_TESTS') == 'True':
 # Establish a connection to the PostgreSQL database
 conn = psycopg2.connect(
     dbname=dbname,
-    user="newscop",
+    user=user,
     host=host,
-    password="newscop",
+    password=password,
     port=port
 )
 
