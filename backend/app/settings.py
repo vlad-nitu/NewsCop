@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',
     'rest_framework',
-    'rest_framework_mongoengine',
+    'django.contrib.postgres', 
     'corsheaders',
     'silk',
 ]
@@ -87,8 +87,12 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'news-articles.ct9yvcb6c1se.eu-west-3.rds.amazonaws.com',
+        'PORT': '5432',  # Optional: specify the port if not the default (5432)
     }
 }
 
