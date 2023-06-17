@@ -85,7 +85,7 @@ export default function EnterURL () {
       const articles = []
       for (let i = 0; i < response.data.similarArticles.length; ++i) {
         const item = response.data.similarArticles[i]
-        const similarity = Math.round(1000 * item.similarity)
+        const similarity = Math.round(100 * item.similarity)
         if (similarity === 0) { continue }
         const title = item.title
         const publisher = item.publisher
