@@ -90,7 +90,7 @@ def process_document(length_first, length_second, inters):
     :return: the jaccard similarity with the input url
     '''
 
-    if (length_second != 0):
+    if ((length_second + length_first - inters) != 0):
         comp = inters / (length_second + length_first - inters)
         return comp
     else:
