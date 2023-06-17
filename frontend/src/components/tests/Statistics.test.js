@@ -22,8 +22,8 @@ describe('Statistics', () => {
 
     axios.get = jest.fn().mockResolvedValue({ data: expectedData })
 
-    const statisticsTitles = [' articles', ' users', ' articles']
-    const statisticsDescription = ['are stored in the database', 'have used the application', 'have been checked for overlapping']
+    const statisticsTitles = [' article', ' user', ' article']
+    const statisticsDescription = ['stored in the database', 'used the application', 'been checked for overlapping']
     const statisticsImages = ['newspaper-regular.svg', 'user-regular.svg', 'list-check-solid.svg']
 
     render(
@@ -77,20 +77,20 @@ describe('Statistics', () => {
       expect(barValue).toBeInTheDocument()
     }
   })
-  test('check one user test', async () => {
+  test('check singular forms', async () => {
     jest.useFakeTimers() /* Mock the timer */
 
     const expectedData = {
       users: 1,
-      performed_queries: 43,
-      stored_articles: 140,
+      performed_queries: 1,
+      stored_articles: 1,
       similarities_retrieved: [20, 15, 8, 2, 30]
     }
 
     axios.get = jest.fn().mockResolvedValue({ data: expectedData })
 
-    const statisticsTitles = [' articles', ' users', ' articles']
-    const statisticsDescription = ['are stored in the database', 'have used the application', 'have been checked for overlapping']
+    const statisticsTitles = [' article', ' user', ' article']
+    const statisticsDescription = ['stored in the database', 'used the application', 'been checked for overlapping']
     const statisticsImages = ['newspaper-regular.svg', 'user-regular.svg', 'list-check-solid.svg']
 
     render(
@@ -104,9 +104,29 @@ describe('Statistics', () => {
       await axios.get.mock.results[0].value
     })
 
+    // Get all '1 article' texts
+    const elements = screen.getAllByText('1 article')
+
+    // Check if the title of the first card is displayed
+    const card1title = elements[0]
+    expect(card1title).toBeInTheDocument()
+    // Check if the description of the first card is displayed
+    const card1description = screen.getByText('is stored in the database')
+    expect(card1description).toBeInTheDocument()
+
     // Check if the title of the second card is displayed
     const card2title = screen.getByText('1 user')
     expect(card2title).toBeInTheDocument()
+    // Check if the description of the second card is displayed
+    const card2description = screen.getByText('has used the application')
+    expect(card2description).toBeInTheDocument()
+
+    // Check if the title of the third card is displayed
+    const card3title = elements[1]
+    expect(card3title).toBeInTheDocument()
+    // Check if the description of the third card is displayed
+    const card3description = screen.getByText('has been checked for overlapping')
+    expect(card3description).toBeInTheDocument()
   })
 
   test('statistics properly render2', async () => {
@@ -116,8 +136,8 @@ describe('Statistics', () => {
 
     axios.get = jest.fn().mockResolvedValue({ data: expectedData })
 
-    const statisticsTitles = [' articles', ' users', ' articles']
-    const statisticsDescription = ['are stored in the database', 'have used the application', 'have been checked for overlapping']
+    const statisticsTitles = [' article', ' user', ' article']
+    const statisticsDescription = ['stored in the database', 'used the application', 'been checked for overlapping']
     const statisticsImages = ['newspaper-regular.svg', 'user-regular.svg', 'list-check-solid.svg']
 
     const { container } = render(
@@ -145,8 +165,8 @@ describe('Statistics', () => {
 
     axios.get = jest.fn().mockResolvedValue({ data: expectedData })
 
-    const statisticsTitles = [' articles', ' users', ' articles']
-    const statisticsDescription = ['are stored in the database', 'have used the application', 'have been checked for overlapping']
+    const statisticsTitles = [' article', ' user', ' article']
+    const statisticsDescription = ['stored in the database', 'used the application', 'been checked for overlapping']
     const statisticsImages = ['newspaper-regular.svg', 'user-regular.svg', 'list-check-solid.svg']
 
     render(

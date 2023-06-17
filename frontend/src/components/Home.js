@@ -24,8 +24,8 @@ export default function Home ({ applicationName, applicationDescription, ourMiss
     'Test the similarity between two news articles by using this powerful tool which enables you to input two URLs of media content and see the likeness of the two.']
   const images = ['service1.jpeg', 'service2.webp', 'service3.jpeg', 'service4.jpeg']
 
-  const statisticsTitles = [' articles', ' users', ' articles']
-  const statisticsDescription = ['are stored in the database', 'have used the application', 'have been checked for overlapping']
+  const statisticsTitles = [' article', ' user', ' article']
+  const statisticsDescription = ['stored in the database', 'used the application', 'been checked for overlapping']
   const statisticsImages = ['newspaper-regular.svg', 'user-regular.svg', 'list-check-solid.svg']
 
   return (

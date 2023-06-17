@@ -36,9 +36,33 @@ export default function Statistics ({ titles, descriptions, images }) {
         .then(res => {
           console.log(res)
           setStatistics(res.data)
-          titles[0] = res.data.stored_articles + titles[0]
-          titles[1] = res.data.users + (res.data.users === 1 ? ' user' : ' users')
-          titles[2] = res.data.performed_queries + titles[2]
+          if (res.data.stored_articles !== 1) {
+            // Plural form
+            titles[0] = res.data.stored_articles + titles[0] + 's'
+            descriptions[0] = 'are ' + descriptions[0]
+          } else {
+            // Singular form
+            titles[0] = res.data.stored_articles + titles[0]
+            descriptions[0] = 'is ' + descriptions[0]
+          }
+          if (res.data.users !== 1) {
+            // Plural form
+            titles[1] = res.data.users + titles[1] + 's'
+            descriptions[1] = 'have ' + descriptions[1]
+          } else {
+            // Singular form
+            titles[1] = res.data.users + titles[1]
+            descriptions[1] = 'has ' + descriptions[1]
+          }
+          if (res.data.performed_queries !== 1) {
+            // Plural form
+            titles[2] = res.data.performed_queries + titles[2] + 's'
+            descriptions[2] = 'have ' + descriptions[2]
+          } else {
+            // Singular form
+            titles[2] = res.data.performed_queries + titles[2]
+            descriptions[2] = 'has ' + descriptions[2]
+          }
         })
         .catch(error => {
           console.log(error)
