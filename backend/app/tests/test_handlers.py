@@ -1,17 +1,19 @@
-from django.test import TestCase, RequestFactory
+from django.test import RequestFactory
 from django.http import HttpResponse, HttpResponseBadRequest
 from rest_framework import status
 
 from app.handlers import SanitizationHandler
 from app.handlers import ContentHandler
 from app.handlers import DatabaseHandler
+from app.tests.base_test import BaseTest
 
-from utils import db
-
-
-class TestSanitizationHandler(TestCase):
+class TestSanitizationHandler(BaseTest):
     def setUp(self):
         self.sanitise = SanitizationHandler()
+        self.reset_database()
+
+    def tearDown(self):
+        self.reset_database()
 
     # note that the handler is not
     def test_url_valid(self):
@@ -45,9 +47,13 @@ class TestSanitizationHandler(TestCase):
         self.assertEqual(content_check, self.sanitise._next_handler)
 
 
-class TestDatabaseHandler(TestCase):
+class TestDatabaseHandler(BaseTest):
     def setUp(self):
         self.database_check = DatabaseHandler()
+        self.reset_database()
+
+    def tearDown(self):
+        self.reset_database()
 
     # note that the handler is not
     def test_url_existent(self):
@@ -74,9 +80,14 @@ class TestDatabaseHandler(TestCase):
         self.assertEqual(content_check, self.database_check._next_handler)
 
 
-class TestContentHandler(TestCase):
+class TestContentHandler(BaseTest):
+
     def setUp(self):
         self.content_check = ContentHandler()
+        self.reset_database()
+
+    def tearDown(self):
+        self.reset_database()
 
     # note that the handler is not
     def test_url_no_text(self):
@@ -98,17 +109,11 @@ class TestContentHandler(TestCase):
     def test_url_content_valid(self):
         url = 'https://www.bbc.com/news/world-asia-65657996'
 
-        # clear database
-        db.news_collection.delete_one({'_id': url})
         response = self.content_check.handle(url)
 
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), url)
-
-        res = db.news_collection.delete_one({'_id': url})
-        self.assertEqual(res.deleted_count, 1)
-        db.hashes_collection.delete_many({'urls': url})
 
     def test_chaining(self):
         sanitise = SanitizationHandler()

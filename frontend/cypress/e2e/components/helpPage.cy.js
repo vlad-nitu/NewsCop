@@ -1,4 +1,9 @@
+import "../../support/commands";
+
 describe('HelpPage', () => {
+
+  const rootUrl = 'http://localhost:3000'
+
   beforeEach(() => {
     cy.visit('http://localhost:3000/help') // Assuming the HelpPage component is rendered at '/help' route
   })
@@ -58,5 +63,10 @@ describe('HelpPage', () => {
   it('displays the navbar and footer components', () => {
     cy.get('nav').should('be.visible')
     cy.get('footer').should('be.visible')
+  })
+
+  it('Redirection to statistics through navbar', () => {
+     /** Retrieve statistics section from the navbar **/
+    cy.redirectionStatistics()
   })
 })

@@ -8,6 +8,8 @@ import CheckURL from './components/CheckURL'
 import CheckTwoTexts from './components/CheckTwoTexts'
 import CheckTwoURLs from './components/CheckTwoURLs'
 import HelpPage from './components/HelpPage'
+import { useEffect } from 'react'
+import axios from 'axios'
 
 /**
  * The entire page was built around the Bootstrap library.
@@ -55,6 +57,19 @@ function App () {
       answer: 'Yes, a news article overlap platform that employs fingerprinting techniques can effectively detect lexical similarity between news articles. By generating unique fingerprints for each article through hashing or other techniques, the platform can compare these fingerprints to identify similarities and potential overlaps in the lexical content of different news articles. This approach allows for efficient comparison without relying on complex natural language processing (NLP) algorithms, as the focus is on generating and comparing fixed-length codes rather than analyzing semantic meaning.'
     }
   ]
+  useEffect(() => {
+    async function updateStatistics () {
+      await axios.post('http://localhost:8000/updateUsers/')
+        .then(res => {
+          console.log('successfully updated the statistics.')
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
+    updateStatistics()
+  }, [])
+
   return (
     <Router>
       <div>

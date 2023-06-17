@@ -1,3 +1,5 @@
+import "../../support/commands";
+
 describe('tests for several interactions within check text', () => {
 
   const rootUrl = 'http://localhost:3000'
@@ -190,6 +192,10 @@ describe('tests for several interactions within check text', () => {
       .should(
         'be.equal',
         `${rootUrl}/help`)
+  })
+
+  it('Redirection to statistics through navbar', () => {
+    cy.redirectionStatistics()
   })
 })
 

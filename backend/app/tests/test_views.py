@@ -1,13 +1,16 @@
 import json
 import time
+from unittest import TestCase
 from unittest.mock import patch
 from unittest.mock import MagicMock
 
-from django.test import TestCase, RequestFactory
+from django.test import RequestFactory
 from django.http import HttpResponse, HttpResponseBadRequest
+import psycopg2
 from rest_framework import status
 
 from app.response_entities import ResponseTwoUrlsEncoder
+from app.tests.base_test import BaseTest
 from app.views import compare_texts_view
 from app.views import persist_url_view
 from app.views import try_view
@@ -15,13 +18,22 @@ from app.views import reqex_view
 from app.views import url_similarity_checker
 from app.views import compare_URLs
 from app.views import text_similarity_checker
-from utils import db
+from utils import schema, conn, existing_fps
+from app.views import update_users
+from app.views import retrieve_statistics
+from app.response_statistics import ResponseStatistics, ResponseStatisticsEncoder
+from utils import statistics
 import sys
 
 
-class TestPersistUrlView(TestCase):
+class TestPersistUrlView(BaseTest):
+
     def setUp(self):
         self.factory = RequestFactory()
+        self.reset_database()
+
+    def tearDown(self):
+        self.reset_database()
 
     def test_post_request_compare_texts(self):
         # create the request body
@@ -41,8 +53,6 @@ class TestPersistUrlView(TestCase):
 
     def test_post_request_with_valid_url_no_text(self):
         url = 'https://www.bbc.com/news/world-asia-65657996'
-        # clear database
-        db.news_collection.delete_one({'_id': url})
 
         # create the request body
         data = {
@@ -56,17 +66,11 @@ class TestPersistUrlView(TestCase):
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), url)
-        res = db.news_collection.delete_one({'_id': url})
-        self.assertEqual(res.deleted_count, 1)
-        db.hashes_collection.delete_many({'urls': url})
 
     # note that this test also tests the correct persist chaining
     def test_post_request_with_valid_url_text(self):
         url = 'https://www.bbc.com/news/world-asia-65657996'
 
-        # clear database
-        db.news_collection.delete_one({'_id': url})
-
         # create the request body
         data = {
             'key': url,
@@ -79,14 +83,9 @@ class TestPersistUrlView(TestCase):
         self.assertIsInstance(response, HttpResponse)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.content.decode(), url)
-        res = db.news_collection.delete_one({'_id': url})
-        self.assertEqual(res.deleted_count, 1)
-        db.hashes_collection.delete_many({'urls': url})
 
     def test_post_request_with_invalid_url(self):
         url = 'https://www.dianamicloiu.com'
-        # clear database
-        db.nd_collection.delete_one({'_id': url})
 
         # create the request body
         data = {
@@ -110,9 +109,13 @@ class TestPersistUrlView(TestCase):
         self.assertEqual(response.content.decode(), "Expected POST, but got GET instead")
 
 
-class TestTryView(TestCase):
+class TestTryView(BaseTest):
     def setUp(self):
         self.factory = RequestFactory()
+        self.reset_database()
+
+    def tearDown(self):
+        self.reset_database()
 
     def test_get_request_with_valid_url(self):
         url = "www.google.com"
@@ -133,9 +136,13 @@ class TestTryView(TestCase):
         self.assertEqual(response.content.decode(), "Endpoint called with something different than GET")
 
 
-class TestReqExView(TestCase):
+class TestReqExView(BaseTest):
     def setUp(self):
         self.factory = RequestFactory()
+        self.reset_database()
+
+    def tearDown(self):
+        self.reset_database()
 
     def test_post_request_with_valid_url(self):
         data = {
@@ -173,31 +180,14 @@ class TestReqExView(TestCase):
         self.assertEqual(response.content.decode(), "Invalid JSON data")
 
 
-class TestDatabase(TestCase):
-    def setUp(self):
-        self.factory = RequestFactory()
-
-    # test database
-    def test_check_database_indexing(self):
-        url = 'www.matiboss157.com'
-
-        # make sure the url is not already in the database -> clean up
-        db.nd_collection.delete_one({'_id': url})
-
-        # add it
-        db.nd_collection.insert_one({'_id': 'www.matiboss157.com',
-                                     'fingerprints': [{'shingle_hash': {'$numberInt': '3'}}]})
-
-        self.assertTrue(sys.getsizeof(db.nd_collection.find({'fingerprints.shingle_hash': 3})) > 0)
-
-        # final clean up
-        db.nd_collection.delete_one({'_id': url})
-
-
-class TestCompareURLs(TestCase):
+class TestCompareURLs(BaseTest):
 
     def setUp(self):
         self.factory = RequestFactory()
+        self.reset_database()
+
+    def tearDown(self):
+        self.reset_database()
 
     def test_same_url(self):
         url = 'https://getbootstrap.com/docs/5.0/forms/layout/'
@@ -331,9 +321,16 @@ class TestCompareURLs(TestCase):
         self.assertEqual(response.content.decode(), "Expected POST, but got GET instead")
 
 
-class TestUrlSimilarity(TestCase):
+class TestUrlSimilarity(BaseTest):
     def setUp(self):
         self.factory = RequestFactory()
+        self.reset_database()
+        self.copy_statistics = ResponseStatistics(statistics.users, statistics.performed_queries,
+                                                  statistics.stored_articles, statistics.similarities_retrieved)
+
+    def tearDown(self):
+        self.reset_database()
+        statistics.set_values(self.copy_statistics)
 
     # note that for this test the url provided is already in the db
     def test_valid_url(self):
@@ -382,9 +379,13 @@ class TestUrlSimilarity(TestCase):
         self.assertEqual(response.content.decode(), "Expected POST, but got GET instead")
 
 
-class TestTextSimilarity(TestCase):
+class TestTextSimilarity(BaseTest):
     def setUp(self):
         self.factory = RequestFactory()
+        self.reset_database()
+
+    def tearDown(self):
+        self.reset_database()
 
     # note that for this test the url provided is already in the db
     def test_valid_text(self):
@@ -436,3 +437,85 @@ class TestTextSimilarity(TestCase):
         self.assertIsInstance(response, HttpResponseBadRequest)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.content.decode(), "Expected POST, but got GET instead")
+
+
+class TestStatisticsUpdates(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.copy_statistics = ResponseStatistics(statistics.users, statistics.performed_queries,
+                                                  statistics.stored_articles, statistics.similarities_retrieved)
+
+    def tearDown(self):
+        statistics.set_values(self.copy_statistics)
+
+    def test_update_users(self):
+        statistics.similarities_retrieved[0] = statistics.similarities_retrieved[0] + 1
+        request = self.factory.post("/updateUsers/")
+        response = update_users(request)
+
+        self.assertIsInstance(response, HttpResponse)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertEqual(self.copy_statistics.users + 1, statistics.users)
+
+    def test_update_users_invalid(self):
+        request = self.factory.get("/updateUsers/")
+        response = update_users(request)
+
+        self.assertIsInstance(response, HttpResponseBadRequest)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.content.decode(), "Expected POST, but got GET instead")
+
+    def test_retrieve_statistics(self):
+        request = self.factory.get("/retrieveStatistics/")
+        response = retrieve_statistics(request)
+        parsed_response = json.loads(response.content.decode())
+
+        self.assertIsInstance(response, HttpResponse)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(statistics.users, parsed_response["users"])
+        self.assertEqual(statistics.performed_queries, parsed_response["performed_queries"])
+        # Create a cursor object to interact with the database
+        cursor = conn.cursor()
+
+        # Execute the SQL query to count the number of URLs in the table
+        cursor.execute(f"SELECT COUNT(*) FROM {schema}.urls")
+
+        # Fetch the result
+        articles = cursor.fetchone()[0]
+        self.assertEqual(articles, parsed_response["stored_articles"])
+        self.assertEqual(statistics.similarities_retrieved, parsed_response["similarities_retrieved"])
+
+    def test_retrieve_statistics_invalid(self):
+        request = self.factory.post("/retrieveStatistics/")
+        response = retrieve_statistics(request)
+
+        self.assertIsInstance(response, HttpResponseBadRequest)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.content.decode(), "Expected GET, but got POST instead")
+
+    def test_statistics_update(self):
+        data = {
+            'key': 'https://www.formula1.com/en/latest/article.breaking-honda-to-make-full-scale-f1-return-in-2026-as'
+                   '-they-join-forces-with.WlzHSedIbSrZpXEXdC5QQ.html',
+        }
+
+        json_data = json.dumps(data)
+        request = self.factory.post("/urlsimilarity/", data=json_data, content_type='application/json')
+        url_similarity_checker(request)
+
+        request = self.factory.get("/retrieveStatistics/")
+        response = retrieve_statistics(request)
+        parsed_response = json.loads(response.content.decode())
+        self.assertEqual(self.copy_statistics.users, parsed_response["users"])
+        self.assertEqual(self.copy_statistics.performed_queries + 1, parsed_response["performed_queries"])
+        # Create a cursor object to interact with the database
+        cursor = conn.cursor()
+
+        # Execute the SQL query to count the number of URLs in the table
+        cursor.execute(f"SELECT COUNT(*) FROM {schema}.urls")
+
+        # Fetch the result
+        articles = cursor.fetchone()[0]
+        self.assertEqual(articles, parsed_response["stored_articles"])
+        # self.assertNotEqual(self.copy_statistics.similarities_retrieved, parsed_response["similarities_retrieved"])

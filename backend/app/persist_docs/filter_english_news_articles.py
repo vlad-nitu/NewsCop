@@ -1,14 +1,20 @@
 import sys
 import os
+import django
 
-backend_path = os.path.abspath(os.curdir)
+# Add the project's root directory to the system path
 persist_docs_path = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(backend_path)
-sys.path.append(persist_docs_path)
+root_path = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), '../..'))
+sys.path.append(root_path)
+
+# Set the Django settings module environment variable
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'app.settings')
+
+# Initialize Django
+django.setup()
 
 import logging
 import time
-import pymongo.errors
 from newsplease import NewsPlease as NewsPlease
 from app.models import NewsDocument
 from app.plagiarism_checker.crawling import crawl_url
@@ -71,13 +77,13 @@ def process_article(url):
         # verify if it has any fingerprints
         if len(only_shingle_values) == 0:
             return url, False
-
+        # try:
         newsdoc = NewsDocument(url=url, fingerprints=only_shingle_values)
-        try:
-            newsdoc.save()
-            return url, True
-        except pymongo.errors.DuplicateKeyError:
-            logging.info(f'URL: {url} was already persisted in DB')
+        newsdoc.save()
+        # except:
+        #     logging.warning("encountered another error")
+        return url, True
+
     elif hasattr(article, 'language'):
         logging.info('Article found, but it is not written in EN')
     return url, False
@@ -97,7 +103,7 @@ def process_urls(urls):
 
     articles = []
     urls_seen = 0
-    for url_id, url in enumerate(urls):
+    for url_id, url in enumerate(reversed(urls)):
         logging.info(f'You are currently seeing URL_ID {url_id} being crawled.')
         urls_seen += 1
         signal.signal(signal.SIGALRM, timeout_handler)
@@ -110,6 +116,9 @@ def process_urls(urls):
                 logging.info(f'Article w/ URL: {url} appended')
         except TimeoutException:
             logging.warning(f'Timeout occurred while processing article: {url}')
+        except Exception as e:
+            logging.warning(f'Another error occured for: {url}, the error is %s', str(e))
+
     return urls_seen, articles
 
 

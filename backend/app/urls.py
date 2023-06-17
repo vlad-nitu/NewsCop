@@ -22,7 +22,6 @@ from app.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', ReactView.as_view(), name = "main_view"),
     path('try/<str:url>/', try_view, name = "try"),
     path('reqex/', reqex_view, name = "reqex"),
     path('persistURL/', persist_url_view, name = "persist_url"),
@@ -30,6 +29,8 @@ urlpatterns = [
     path('compareTexts/', compare_texts_view, name = "compare_texts"),
     path('compareURLs/', compare_URLs, name = "compare_URLs"),
     path('checkText/', text_similarity_checker, name = "text_similarity_checker"),
+    path('updateUsers/', update_users, name = "update_users"),
+    path('retrieveStatistics/', retrieve_statistics, name = "retrieve_statistics"),
     path('silk/', include('silk.urls', namespace='silk')),  # `silk` 3rd-party profiler
     # Set localhost on port 8000 (default for Django)  to be the main endpoint for ReactView class
 ]
