@@ -20,6 +20,10 @@
     margin-top: 50px;
 }
 
+.slider-container .MuiSlider-root {
+    /* Adjust the width as per your desired size */
+    color: #2E837E;
+}
 /*
     Display links in black and truncate them to one line
  */
