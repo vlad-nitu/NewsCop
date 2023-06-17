@@ -1,3 +1,5 @@
+import "../../support/commands";
+
 describe('tests for several interactions within compare texts', () => {
 
   const rootUrl = 'http://localhost:3000'
@@ -193,5 +195,9 @@ describe('tests for several interactions within compare texts', () => {
       .should(
         'be.equal',
         `${rootUrl}/help`)
+  })
+
+  it('Redirection to statistics through navbar', () => {
+    cy.redirectionStatistics()
   })
 })

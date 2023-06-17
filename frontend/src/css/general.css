@@ -104,6 +104,12 @@
     color: white;
 }
 
+.statistics-title {
+    font-size: 2rem;
+    font-weight: bolder;
+    color: black;
+}
+
 .pin1 {
     border-radius: 50% 50% 50% 0;
     border: 4px solid red;
@@ -230,6 +236,18 @@ a.custom_cursor:hover {
     border-top-right-radius: 0 !important;
 }
 
+.custom-statistics-card {
+  width: 100%;
+  background-color: #F3F3F3;
+  border-radius: 35px;
+}
+
+.custom-statistics-card .card-img {
+  padding-top: 3vh;
+  width: 40%;
+  height: 40%;
+}
+
 .description-paragraph-forward {
     font-size: 1.3rem;
 }
@@ -282,4 +300,19 @@ a.custom_cursor:hover {
     width: 36px;
     height: 36px;
     color: rgb(46, 131, 126);
+}
+
+.bar-statistic-vertical {
+    height: 300px;
+    background-color: #F3F3F3;
+    width: min(100%, 80px);
+    border-radius: 35px !important;
+}
+
+.custom-rounded {
+    border-radius: 35px !important;
+}
+
+.custom-width {
+    width: min(100%, 80px);
 }
