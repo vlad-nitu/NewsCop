@@ -87,7 +87,7 @@ def process_document(length_first, length_second, inters):
     :param length_first: the fingerprint size of the input url
     :param string_list: the fingerprint size of the candidate url
     :param inters: the size of the intersection set between candidate URL and input ULR
-    :return: the url and its jaccard similarity with the input url
+    :return: the jaccard similarity with the input url
     '''
 
     if (length_second != 0):
