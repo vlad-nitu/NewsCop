@@ -88,10 +88,10 @@ WSGI_APPLICATION = 'app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'news_articles',
-        'USER': 'newscop',
-        'PASSWORD': 'newscop',
-        'HOST': 'localhost',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'news-articles.ct9yvcb6c1se.eu-west-3.rds.amazonaws.com',
         'PORT': '5432',  # Optional: specify the port if not the default (5432)
     }
 }
