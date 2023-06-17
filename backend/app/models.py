@@ -3,7 +3,7 @@ from utils import conn
 from utils import existing_fps
 from utils import schema
 from django.db import models
-
+from psycopg2 import extras
 
 class NewsDocument(models.Model):
     def __init__(self, url, fingerprints):
@@ -21,7 +21,7 @@ class NewsDocument(models.Model):
         :return: nothing / throws an error
         """
         # Create a cursor that returns a dictionary as a result
-        cur = conn.cursor()
+        cur = conn.cursor(cursor_factory=extras.DictCursor)
 
         try:
             # Insert the url into the urls table and retrieve its id
@@ -45,11 +45,18 @@ class NewsDocument(models.Model):
 
                 # If there are new fingerprints, insert them into the fingerprints table
                 if new_fingerprints:
-                    cur.executemany(
-                        f"""
-                        INSERT INTO {schema}.fingerprints (fingerprint) VALUES (%s) 
-                        ON CONFLICT (fingerprint) DO NOTHING
-                        """, new_fingerprints)
+
+                    # Split the array into chunks for batch processing
+                    chunk_size = 1000  # Number of fingerprints to insert in each batch
+                    chunks = [new_fingerprints[i:i + chunk_size] for i in range(0, len(new_fingerprints), chunk_size)]
+                    # Begin a transaction
+                    cur.execute("BEGIN")
+
+                    # Perform batch insert
+                    insert_query = f"""INSERT INTO {schema}.fingerprints (fingerprint) 
+                    VALUES (%s) ON CONFLICT (fingerprint) DO NOTHING"""
+                    extras.execute_batch(cur, insert_query, [(f,) for chunk in chunks for f in chunk])
+
                     conn.commit()
 
                     # Update existing_fps with the new fingerprints
@@ -59,11 +66,19 @@ class NewsDocument(models.Model):
                 url_fingerprints_data = [(url_id, fp) for fp in self.fingerprints]
 
                 # Insert the pairs of url_id and fingerprint_id into the url_fingerprints table
-                cur.executemany(
-                    f"""
-                        INSERT INTO {schema}.url_fingerprints (url_id, fingerprint_id) VALUES (%s, %s) 
-                        ON CONFLICT DO NOTHING
-                        """, url_fingerprints_data)
+                # Split the array into chunks for batch processing
+                chunk_size = 1000  # Number of fingerprints to insert in each batch
+                chunks = [url_fingerprints_data[i:i + chunk_size] for i in range(0, len(url_fingerprints_data),
+                                                                                 chunk_size)]
+                # Begin a transaction
+                cur.execute("BEGIN")
+
+                # Perform batch insert
+                insert_query = f"""INSERT INTO {schema}.url_fingerprints (url_id, fingerprint_id) 
+                VALUES (%s, %s) ON CONFLICT DO NOTHING"""
+                extras.execute_batch(cur, insert_query, [(url_id, fingerprint_id) for chunk in chunks
+                                                         for (url_id, fingerprint_id) in chunk])
+
                 conn.commit()
         # In case of a database error, we roll back any commits that have been made
         except psycopg2.Error as e:
