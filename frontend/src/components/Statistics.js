@@ -11,7 +11,7 @@ import axios from 'axios'
  *
  * @param {string[]} titles - The titles for each statistics card.
  * @param {string[]} descriptions - The descriptions for each statistics card.
- * @param {string[]} images - The URLs for each image to be displayed on each statistics card.
+ * @param {string[]} images - The logos to be displayed on the statistics card.
  * @throws {Error} Will throw an error if the length of the titles array is different from the length of the descriptions array,
  the length of the images array, or if the length of the descriptions array is different from the length of the images array.
  *
