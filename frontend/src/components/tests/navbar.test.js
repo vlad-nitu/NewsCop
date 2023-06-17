@@ -23,11 +23,13 @@ describe('NavbarComponent', () => {
     const homeLink = screen.getByText(name)
     const aboutLink = screen.getByText('About us')
     const servicesLink = screen.getByText('Services')
+    const statisticsLink = screen.getByText('Statistics')
     const contactLink = screen.getByText('Contact')
     const helpLink = screen.getByText('Help')
     expect(homeLink).toBeInTheDocument()
     expect(aboutLink).toBeInTheDocument()
     expect(servicesLink).toBeInTheDocument()
+    expect(statisticsLink).toBeInTheDocument()
     expect(contactLink).toBeInTheDocument()
     expect(helpLink).toBeInTheDocument()
 

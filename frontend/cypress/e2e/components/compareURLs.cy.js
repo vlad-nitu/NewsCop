@@ -1,3 +1,5 @@
+import "../../support/commands";
+
 describe('CheckTwoURLs testing flow', () => {
 
     const HOST = 'http://localhost:3000'
@@ -293,5 +295,9 @@ describe('CheckTwoURLs testing flow', () => {
                 'be.equal',
                 `${HOST}/help`)
     })
+
+  it('Redirection to statistics through navbar', () => {
+    cy.redirectionStatistics()
+  })
 })
 

@@ -1,3 +1,5 @@
+import "../../support/commands";
+
 describe('template spec & clicking a button after inputting some text', () => {
 
   const HOST = 'http://localhost:3000' // TODO: put the actual URL after we deploy our app on Heroku
@@ -163,6 +165,10 @@ describe('template spec & clicking a button after inputting some text', () => {
 
     cy.isInViewport('#footer') // Assert that it has scrolled down (if it was not already visible) to Footer component
 
+  })
+
+  it('Redirection to statistics through navbar', () => {
+    cy.redirectionStatistics()
   })
 })
 

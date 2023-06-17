@@ -2,6 +2,7 @@ import NavbarComponent from './navbar'
 import MainPageBigImage from './mainPageBigImage'
 import Mission from './mission'
 import Services from './services'
+import Statistics from './Statistics'
 import Footer from './footer'
 import MapCustom from './map'
 
@@ -23,6 +24,10 @@ export default function Home ({ applicationName, applicationDescription, ourMiss
     'Test the similarity between two news articles by using this powerful tool which enables you to input two URLs of media content and see the likeness of the two.']
   const images = ['service1.jpeg', 'service2.webp', 'service3.jpeg', 'service4.jpeg']
 
+  const statisticsTitles = [' article', ' user', ' article']
+  const statisticsDescription = ['stored in the database', 'used the application', 'been checked for overlapping']
+  const statisticsImages = ['newspaper-regular.svg', 'user-regular.svg', 'list-check-solid.svg']
+
   return (
     <>
       {/* Navbar */}
@@ -39,6 +44,9 @@ export default function Home ({ applicationName, applicationDescription, ourMiss
 
       {/* Services Section */}
       <Services titles={titles} descriptions={descriptions} images={images} />
+
+      {/* Statistics Section */}
+      <Statistics titles={statisticsTitles} descriptions={statisticsDescription} images={statisticsImages} />
 
       {/* Map Section */}
       <MapCustom />

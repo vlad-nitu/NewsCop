@@ -1,4 +1,5 @@
-import ListURLs from './ListURLs'
+import React from 'react'
+import SimilaritySettings from './SimilaritySettings'
 
 /**
  * The decision that is shown after entering the url. If no articles were found, a special message is displayed.
@@ -38,9 +39,8 @@ export default function CheckUrlDecision ({ type, sourceArticle, articles, displ
               <div className='pt-3'>
                 <h2>We found the following similar articles:</h2>
                 <hr />
-                <ListURLs type={type} sourceUrl={sourceArticle.url} articles={articles} />
+                <SimilaritySettings type={type} sourceUrl={sourceArticle.url} articles={articles} />
               </div>)}
-
         </div>
       </div>
     </div>

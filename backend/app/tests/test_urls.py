@@ -15,8 +15,10 @@ from app.views import persist_url_view
 from app.views import try_view
 from app.views import reqex_view
 from app.views import url_similarity_checker
+from utils import statistics
 
 from app.plagiarism_checker.fingerprinting import compute_fingerprint
+from app.response_statistics import ResponseStatistics
 
 from base_test import BaseTest
 
@@ -25,9 +27,12 @@ class UrlsTest(BaseTest):
 
     def setUp(self):
         self.reset_database()
+        self.copy_statistics = ResponseStatistics(statistics.users, statistics.performed_queries,
 
     def tearDown(self):
         self.reset_database()
+        statistics.set_values(self.copy_statistics)
+
 
     @tag("unit")
     def test_compare_texts(self):

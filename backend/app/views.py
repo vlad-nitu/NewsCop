@@ -14,10 +14,14 @@ from .plagiarism_checker.crawling import crawl_url, extract_data_from_url
 from .plagiarism_checker.sanitizing import sanitizing_url
 from .plagiarism_checker.similarity import compute_similarity
 from .response_entities import ResponseUrlEntity, ResponseUrlEncoder, ResponseTwoUrlsEntity, ResponseTwoUrlsEncoder
+from .response_statistics import ResponseStatisticsEncoder
 
 from .plagiarism_checker.similarity import compute_similarity
 from .handlers import *
 
+from collections import Counter, defaultdict
+
+from utils import statistics
 from collections import defaultdict
 
 import psycopg2.extras
@@ -97,11 +101,11 @@ def url_similarity_checker(request):
     '''
     The endpoint that will be used in the CheckURL page.
     There is only one query made in order to check whether the URL has already been persisted
-    If this is not the case, the URL gets persisted and the method is recursively called. 
+    If this is not the case, the URL gets persisted and the method is recursively called.
     Otherwise, we call the helper method
-    in order to obtain all the similar documents to the current one. 
+    in order to obtain all the similar documents to the current one.
     In the given query, all 3 tables are joined by performing 2 join operations
-    GROUP BY used to obtain an array of all fingerprints of a document, 
+    GROUP BY used to obtain an array of all fingerprints of a document,
         instead of a 2 columns table: [(url, fp1), (url, fp2), ...]
     :param request: the request body.
     :return: a HTTP response with status 200, and a pair of url and jaccard similarity,
@@ -120,7 +124,7 @@ def url_similarity_checker(request):
             WHERE urls.url = %s
             GROUP BY urls.url;
             """
-        # Query the database for the url and its associated fingerprints; 
+        # Query the database for the url and its associated fingerprints;
         cur.execute(
             query, (source_url,))
 
@@ -190,7 +194,7 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
     string_list = defaultdict(int)
 
     heap = []
-    capacity = 5
+    capacity = 10
 
     try:
         # First query to find candidates and prefilter to only consider "informative hashes"
@@ -230,7 +234,7 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
 
             if url_candidates:
                 # Query the database for the url and its associated fingerprints
-                # Obtain map (url, size of fingerprint_set associated to url) to reduce overhead of query, 
+                # Obtain map (url, size of fingerprint_set associated to url) to reduce overhead of query,
                 # as only the size is needed, the fingerprints' values are irrelevant
 
                 cur.execute(
@@ -275,14 +279,25 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
             if title is not None and publisher is not None:
                 response.append(ResponseUrlEntity(url, similarity, title, publisher, date))
 
-        source_title, _, source_date = extract_data_from_url(input)
-        request_response = {
-            'sourceTitle': source_title,
-            'sourceDate': source_date,
-            'similarArticles': response
-        }
 
-        return HttpResponse(json.dumps(request_response, cls=ResponseUrlEncoder), status=200,
+    if input != '':
+        # This is a URL check query, thus we need to updated the statistics
+        statistics.increment_performed_queries()
+        similarities = [0, 0, 0, 0, 0]
+        for resp in response:
+            sim = round(resp.similarity * 100)
+            index = sim // 20
+            similarities[index] = similarities[index] + 1
+        statistics.add_similarities_retrieved(similarities)
+
+    source_title, _, source_date = extract_data_from_url(input)
+    request_response = {
+        'sourceTitle': source_title,
+        'sourceDate': source_date,
+        'similarArticles': response
+    }
+
+    return HttpResponse(json.dumps(request_response, cls=ResponseUrlEncoder), status=200,
                             content_type="application/json")
 
 
@@ -372,3 +387,29 @@ def construct_response_helper(similarity, ownership, date_left, date_right):
             ResponseTwoUrlsEntity(similarity=similarity, ownership=ownership, left_date=str(date_left),
                                   right_date=str(date_right))),
         status=200, content_type="application/json")
+
+def update_users(request):
+    """
+    This method is called by the frontend whenever a user starts the application.
+    It updates the number of users that.
+    :param request: the request
+    :return: an HTTP response with status 200 if the request was successful else HttpResponseBadRequest
+    """
+    if request.method == 'POST':
+        statistics.increment_users()
+        return HttpResponse("Users were successfully updated", status=200)
+    else:
+        return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
+
+def retrieve_statistics(request):
+    '''
+    Endpoint
+    :param request: the request
+    :return: a HttpResponse with status 200, if successful else HttpResponseBadRequest
+    '''
+    if (request.method == 'GET'):
+        articles = db.news_collection.count_documents({})
+        statistics.set_stored_articles(articles)
+        return HttpResponse(ResponseStatisticsEncoder().encode(statistics), status=200, content_type="application/json")
+    else:
+        return HttpResponseBadRequest(f"Expected GET, but got {request.method} instead")
