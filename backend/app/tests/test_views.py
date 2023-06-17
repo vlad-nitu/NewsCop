@@ -475,7 +475,7 @@ class TestStatisticsUpdates(TestCase):
         self.assertEqual(response.content.decode(), "Expected POST, but got GET instead")
 
     def test_retrieve_statistics(self):
-        request = self.factory.get("/retireveStatistics/")
+        request = self.factory.get("/retrieveStatistics/")
         response = retrieve_statistics(request)
         parsed_response = json.loads(response.content.decode())
 
@@ -487,7 +487,7 @@ class TestStatisticsUpdates(TestCase):
         self.assertEqual(statistics.similarities_retrieved, parsed_response["similarities_retrieved"])
 
     def test_retrieve_statistics_invalid(self):
-        request = self.factory.post("/retireveStatistics/")
+        request = self.factory.post("/retrieveStatistics/")
         response = retrieve_statistics(request)
 
         self.assertIsInstance(response, HttpResponseBadRequest)
@@ -504,7 +504,7 @@ class TestStatisticsUpdates(TestCase):
         request = self.factory.post("/urlsimilarity/", data=json_data, content_type='application/json')
         url_similarity_checker(request)
 
-        request = self.factory.get("/retireveStatistics/")
+        request = self.factory.get("/retrieveStatistics/")
         response = retrieve_statistics(request)
         parsed_response = json.loads(response.content.decode())
         self.assertEqual(self.copy_statistics.users, parsed_response["users"])

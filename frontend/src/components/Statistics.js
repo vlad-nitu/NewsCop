@@ -32,7 +32,7 @@ export default function Statistics ({ titles, descriptions, images }) {
    */
   useEffect(() => {
     async function getStatistics () {
-      await axios.get('http://localhost:8000/retireveStatistics/')
+      await axios.get('http://localhost:8000/retrieveStatistics/')
         .then(res => {
           console.log(res)
           setStatistics(res.data)
