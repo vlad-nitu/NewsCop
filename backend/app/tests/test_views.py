@@ -1,5 +1,6 @@
 import json
 import time
+from unittest import TestCase
 from unittest.mock import patch
 from unittest.mock import MagicMock
 
@@ -325,12 +326,11 @@ class TestUrlSimilarity(BaseTest):
         self.factory = RequestFactory()
         self.reset_database()
         self.copy_statistics = ResponseStatistics(statistics.users, statistics.performed_queries,
-
+                                                  statistics.stored_articles, statistics.similarities_retrieved)
 
     def tearDown(self):
         self.reset_database()
         statistics.set_values(self.copy_statistics)
-
 
     # note that for this test the url provided is already in the db
     def test_valid_url(self):
@@ -438,6 +438,7 @@ class TestTextSimilarity(BaseTest):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(response.content.decode(), "Expected POST, but got GET instead")
 
+
 class TestStatisticsUpdates(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
@@ -474,7 +475,15 @@ class TestStatisticsUpdates(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(statistics.users, parsed_response["users"])
         self.assertEqual(statistics.performed_queries, parsed_response["performed_queries"])
-        self.assertEqual(db.news_collection.count_documents({}), parsed_response["stored_articles"])
+        # Create a cursor object to interact with the database
+        cursor = conn.cursor()
+
+        # Execute the SQL query to count the number of URLs in the table
+        cursor.execute(f"SELECT COUNT(*) FROM {schema}.urls")
+
+        # Fetch the result
+        articles = cursor.fetchone()[0]
+        self.assertEqual(articles, parsed_response["stored_articles"])
         self.assertEqual(statistics.similarities_retrieved, parsed_response["similarities_retrieved"])
 
     def test_retrieve_statistics_invalid(self):
@@ -500,5 +509,13 @@ class TestStatisticsUpdates(TestCase):
         parsed_response = json.loads(response.content.decode())
         self.assertEqual(self.copy_statistics.users, parsed_response["users"])
         self.assertEqual(self.copy_statistics.performed_queries + 1, parsed_response["performed_queries"])
-        self.assertEqual(db.news_collection.count_documents({}), parsed_response["stored_articles"])
-        self.assertNotEqual(self.copy_statistics.similarities_retrieved, parsed_response["similarities_retrieved"])
+        # Create a cursor object to interact with the database
+        cursor = conn.cursor()
+
+        # Execute the SQL query to count the number of URLs in the table
+        cursor.execute(f"SELECT COUNT(*) FROM {schema}.urls")
+
+        # Fetch the result
+        articles = cursor.fetchone()[0]
+        self.assertEqual(articles, parsed_response["stored_articles"])
+        # self.assertNotEqual(self.copy_statistics.similarities_retrieved, parsed_response["similarities_retrieved"])

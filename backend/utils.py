@@ -6,9 +6,9 @@ import os
 from app.response_statistics import ResponseStatistics
 
 # Connection parameters
-host = "news-articles.ct9yvcb6c1se.eu-west-3.rds.amazonaws.com"  # The endpoint of our RDS instance
-dbname = "postgres" # DB name set up by @rtoader while initialising AWS RDS cluster
-port = "5432" # Default PostgreSQL port
+host = "news-articles.ct9yvcb6c1se.eu-west-3.rds.amazonaws.com"   # The endpoint of our RDS instance
+dbname = "postgres"  # DB name set up by @rtoader while initialising AWS RDS cluster
+port = "5432"  # Default PostgreSQL port
 
 # Database authentication parameters
 user = "postgres"  # Master username
@@ -16,7 +16,6 @@ password = "postgres"  # Master password
 
 # The statistics that will be displayed on the frontend
 statistics = ResponseStatistics(0, 0, 0, [0, 0, 0, 0, 0])
-
 
 # Default schema
 # Note that the schema differs, according to the environment

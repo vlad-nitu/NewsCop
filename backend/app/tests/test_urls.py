@@ -28,11 +28,11 @@ class UrlsTest(BaseTest):
     def setUp(self):
         self.reset_database()
         self.copy_statistics = ResponseStatistics(statistics.users, statistics.performed_queries,
+                                                  statistics.stored_articles, statistics.similarities_retrieved)
 
     def tearDown(self):
         self.reset_database()
         statistics.set_values(self.copy_statistics)
-
 
     @tag("unit")
     def test_compare_texts(self):

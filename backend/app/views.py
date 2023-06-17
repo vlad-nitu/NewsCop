@@ -221,7 +221,7 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
                 JOIN {schema}.url_fingerprints as uf ON u.id = uf.url_id
                 WHERE uf.fingerprint_id IN %(candidates)s AND u.url <> %(source_url)s
                 GROUP BY u.url
-                HAVING COUNT(*) >= 500
+                HAVING COUNT(*) >= 100
                 """,
                 {'candidates': tuple(fingerprint_candidates), 'source_url': input}
             )
@@ -279,7 +279,6 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
             if title is not None and publisher is not None:
                 response.append(ResponseUrlEntity(url, similarity, title, publisher, date))
 
-
     if input != '':
         # This is a URL check query, thus we need to updated the statistics
         statistics.increment_performed_queries()
@@ -298,9 +297,7 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
     }
 
     return HttpResponse(json.dumps(request_response, cls=ResponseUrlEncoder), status=200,
-                            content_type="application/json")
-
-
+                        content_type="application/json")
 def compare_texts_view(request):
     '''
     The endpoint that can be consumed by posting on localhost:8000/compareTexts/ having two texts attached in the body
@@ -408,7 +405,15 @@ def retrieve_statistics(request):
     :return: a HttpResponse with status 200, if successful else HttpResponseBadRequest
     '''
     if (request.method == 'GET'):
-        articles = db.news_collection.count_documents({})
+        # Create a cursor object to interact with the database
+        cursor = conn.cursor()
+
+        # Execute the SQL query to count the number of URLs in the table
+        cursor.execute(f"SELECT COUNT(*) FROM {schema}.urls")
+
+        # Fetch the result
+        articles = cursor.fetchone()[0]
+
         statistics.set_stored_articles(articles)
         return HttpResponse(ResponseStatisticsEncoder().encode(statistics), status=200, content_type="application/json")
     else:
