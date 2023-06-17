@@ -31,7 +31,6 @@ class NewsDocument(models.Model):
                 ON CONFLICT (url) DO NOTHING
                 RETURNING id
                 """, (self.url,))
-            conn.commit()
 
             # Fetch the result
             doc = cur.fetchone()
@@ -57,8 +56,6 @@ class NewsDocument(models.Model):
                     VALUES (%s) ON CONFLICT (fingerprint) DO NOTHING"""
                     extras.execute_batch(cur, insert_query, [(f,) for chunk in chunks for f in chunk])
 
-                    conn.commit()
-
                     # Update existing_fps with the new fingerprints
                     existing_fps.update(fp for fp, in new_fingerprints)
 
@@ -78,8 +75,8 @@ class NewsDocument(models.Model):
                 VALUES (%s, %s) ON CONFLICT DO NOTHING"""
                 extras.execute_batch(cur, insert_query, [(url_id, fingerprint_id) for chunk in chunks
                                                          for (url_id, fingerprint_id) in chunk])
-
-                conn.commit()
+            # Commit after all transactions are done
+            conn.commit()
         # In case of a database error, we roll back any commits that have been made
         except psycopg2.Error as e:
             print(f"Could not insert data: {e}")
