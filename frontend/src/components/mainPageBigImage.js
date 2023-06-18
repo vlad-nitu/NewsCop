@@ -52,7 +52,7 @@ export default function MainPageBigImage ({ description, projectName, imageUrl }
 
   // Return the JSX element with the container, background, overlay, and text elements.
   return (
-    <div style={containerStyle}>
+    <div style={containerStyle} data-testid="mainPageBigImage">
       <div id='background-image' style={backgroundStyle} />
       <div style={overlayStyle} />
       <div style={textStyle}>
