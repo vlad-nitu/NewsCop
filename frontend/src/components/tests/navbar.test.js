@@ -24,7 +24,7 @@ describe('NavbarComponent', () => {
       <BrowserRouter>
         <NavbarComponent name={name} mainPage={false} />
       </BrowserRouter>
-    );
+    )
 
     const homeLink = screen.getByText(name)
     const aboutLink = screen.getByText('About us')
@@ -45,22 +45,22 @@ describe('NavbarComponent', () => {
       <BrowserRouter>
         <NavbarComponent name='My Website' mainPage={false} />
       </BrowserRouter>
-    );
+    )
 
-    const aboutUsLink = screen.getByText('About us');
-    expect(aboutUsLink).toBeInTheDocument();
+    const aboutUsLink = screen.getByText('About us')
+    expect(aboutUsLink).toBeInTheDocument()
 
-    fireEvent.click(aboutUsLink);
+    fireEvent.click(aboutUsLink)
 
-    expect(aboutUsLink.getAttribute('href')).toBe('/#ourMission');
-  });
+    expect(aboutUsLink.getAttribute('href')).toBe('/#ourMission')
+  })
 
   test('shows dropdown menu when hovering over "Services" option', () => {
     render(
       <BrowserRouter>
         <NavbarComponent name='My Website' mainPage={false} />
       </BrowserRouter>
-    );
+    )
     const servicesLink = screen.getByText('Services')
     /* Find the hidden dropdown menu */
     const dropdownMenu = screen.getByTestId('navbar', { hidden: true })
