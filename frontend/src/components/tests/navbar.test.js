@@ -40,7 +40,7 @@ describe('NavbarComponent', () => {
     expect(helpLink).toBeInTheDocument()
   })
 
-  test('navigates to "About us" section when "About us" link is clicked', () => {
+  test('navigates to "About us" section when "About us" link is clicked from navbar', () => {
     render(
       <BrowserRouter>
         <NavbarComponent name='My Website' mainPage={false} />
@@ -53,6 +53,21 @@ describe('NavbarComponent', () => {
     fireEvent.click(aboutUsLink)
 
     expect(aboutUsLink.getAttribute('href')).toBe('/#ourMission')
+  })
+
+  test('navigates to "Statistics" section when "Statistics" link is clicked from navbar', () => {
+    render(
+      <BrowserRouter>
+        <NavbarComponent name='My Website' mainPage={false} />
+      </BrowserRouter>
+    )
+
+    const statisticsLink = screen.getByText('Statistics')
+    expect(statisticsLink).toBeInTheDocument()
+
+    fireEvent.click(statisticsLink)
+
+    expect(statisticsLink.getAttribute('href')).toBe('/#statistics')
   })
 
   test('shows dropdown menu when hovering over "Services" option', () => {
