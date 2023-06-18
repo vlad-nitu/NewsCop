@@ -86,7 +86,7 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
       {/* Navbar */}
       <NavbarComponent name={applicationName} mainPage={false} />
 
-      <Container className='d-flex flex-column' style={{ height: 'calc(100svh - 57px)' }}>
+      <Container className='d-flex flex-column'>
         {/* The description text about news overlap */}
         <BodyCheckGeneric description={description} secondDescription={secondDescription} />
         <Row>
