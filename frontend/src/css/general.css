@@ -326,8 +326,9 @@ a.custom_cursor:hover {
     transform: translateX(-50%);
 	margin-left: 0px;
 	bottom: 5%;
-  z-index:999;
+    z-index:999;
 }
+
 /* set arrow styles */
 .arrow path {
 	stroke: #fff;
@@ -337,12 +338,18 @@ a.custom_cursor:hover {
 }
 /* arrow keyframe animation */
 @keyframes down{
-0% { opacity:0 }
-25% { opacity:1 }
-75% { opacity:0 }
-100% { opacity:0 }
+    0% { opacity:0 }
+    25% { opacity:1 }
+    75% { opacity:0 }
+    100% { opacity:0 }
 }
 /* arrow animation delay */
-.arrow path.a1{	animation-delay:-1s; }
-.arrow path.a2{	animation-delay:-.5s; }
-.arrow path.a3{	animation-delay:0s; }
+.arrow path.a1 {
+    animation-delay:-1s;
+}
+.arrow path.a2 {
+    animation-delay:-.5s;
+}
+.arrow path.a3 {
+    animation-delay:0s;
+}
