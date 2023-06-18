@@ -94,7 +94,7 @@ export default function Statistics ({ titles, descriptions, images }) {
           <Row className='pt-4'>
             {titles.map((title, index) => (
               <Col key={index} xs={12} sm={12} md={4} lg={4} className='pb-3'>
-                <Card className='custom-statistics-card text-center py-5'>
+                <Card className='custom-statistics-card text-center py-5' data-testid={`card${index}`}>
                   <img alt={`Service ${index + 1}`} src={images[index]} style={{ height: '64px', width: '64px' }} className='mx-auto pb-1' />
                   <Card.Body className='pb-0'>
                     <Card.Title className='fw-bold fs-4 m-0'>{title}</Card.Title>
@@ -117,7 +117,7 @@ export default function Statistics ({ titles, descriptions, images }) {
                 {bars.map((bar, index) => {
                   return (
                     <div
-                      key={index} id={`bar${index}`}
+                      key={index} id={`bar${index}`} data-testid={`bar${index}`}
                       className={`flex-grow-1 ${index === bars.length - 1 ? '' : 'pe-2'}`}
                     >
                       <div style={{ height: '300px' }} className='custom-width position-relative mx-auto'>
