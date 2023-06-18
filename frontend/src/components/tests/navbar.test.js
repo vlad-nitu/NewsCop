@@ -2,6 +2,7 @@
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import NavbarComponent from '../navbar'
+import { BrowserRouter } from 'react-router-dom'
 
 test('get navbar name', () => {
   const name = 'NewsCop'
@@ -19,7 +20,12 @@ Object.defineProperty(window, 'scrollTo', {
 describe('NavbarComponent', () => {
   test('renders the navbar with links', () => {
     const name = 'My Website'
-    render(<NavbarComponent name={name} mainPage={false} />)
+    render(
+      <BrowserRouter>
+        <NavbarComponent name={name} mainPage={false} />
+      </BrowserRouter>
+    );
+
     const homeLink = screen.getByText(name)
     const aboutLink = screen.getByText('About us')
     const servicesLink = screen.getByText('Services')
@@ -32,23 +38,29 @@ describe('NavbarComponent', () => {
     expect(statisticsLink).toBeInTheDocument()
     expect(contactLink).toBeInTheDocument()
     expect(helpLink).toBeInTheDocument()
-
-    fireEvent.click(contactLink)
-    expect(window.scrollX).toBe(0)
-    expect(window.scrollY).toBe(0)
   })
 
-  test('scrolls to top when "About us" link is clicked', () => {
-    render(<NavbarComponent name='My Website' mainPage={false} />)
-    const aboutUsLink = screen.getByText('About us')
-    expect(aboutUsLink).toBeInTheDocument()
-    window.scrollTo = jest.fn() // Mock scrollTo function
-    fireEvent.click(aboutUsLink)
-    expect(window.scrollTo).toHaveBeenCalledWith(0, 0)
-  })
+  test('navigates to "About us" section when "About us" link is clicked', () => {
+    render(
+      <BrowserRouter>
+        <NavbarComponent name='My Website' mainPage={false} />
+      </BrowserRouter>
+    );
+
+    const aboutUsLink = screen.getByText('About us');
+    expect(aboutUsLink).toBeInTheDocument();
+
+    fireEvent.click(aboutUsLink);
+
+    expect(aboutUsLink.getAttribute('href')).toBe('/#ourMission');
+  });
 
   test('shows dropdown menu when hovering over "Services" option', () => {
-    render(<NavbarComponent name='My Website' mainPage={false} />)
+    render(
+      <BrowserRouter>
+        <NavbarComponent name='My Website' mainPage={false} />
+      </BrowserRouter>
+    );
     const servicesLink = screen.getByText('Services')
     /* Find the hidden dropdown menu */
     const dropdownMenu = screen.getByTestId('navbar', { hidden: true })
