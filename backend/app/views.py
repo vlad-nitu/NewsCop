@@ -177,6 +177,121 @@ def text_similarity_checker(request):
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
 
 
+def get_fingerprint_candidates(cur, fingerprints):
+    """
+    Retrieves the fingerprint candidates from the database based on the given fingerprints.
+
+    :param cur: The database cursor object.
+    :param fingerprints: A list of fingerprints.
+    :return: A list of fingerprint candidates.
+    """
+    cur.execute(
+        f"""
+        SELECT f.fingerprint 
+        FROM {schema}.fingerprints as f
+        JOIN {schema}.url_fingerprints as uf ON f.fingerprint = uf.fingerprint_id
+        WHERE f.fingerprint IN %(fingerprints)s
+        GROUP BY f.fingerprint;
+        """,
+        {'fingerprints': tuple(fingerprints)}
+    )
+    return [row[0] for row in cur.fetchall()]
+
+
+def get_url_candidates(cur, fingerprint_candidates, input):
+    """
+    Retrieves the URL candidates and their occurrence counts from the database based on the fingerprint candidates
+    and input URL.
+
+    :param cur: The database cursor object.
+    :param fingerprint_candidates: A list of fingerprint candidates.
+    :param input: The URL provided by the user.
+    :return: A tuple containing the list of URL candidates and a dictionary with URL occurrence counts.
+    """
+    cur.execute(
+        f"""
+        SELECT u.url, count(*) as cnt
+        FROM {schema}.urls as u
+        JOIN {schema}.url_fingerprints as uf ON u.id = uf.url_id
+        WHERE uf.fingerprint_id IN %(candidates)s AND u.url <> %(source_url)s
+        GROUP BY u.url
+        HAVING COUNT(*) >= 100
+        """,
+        {'candidates': tuple(fingerprint_candidates), 'source_url': input}
+    )
+    document = cur.fetchall()
+    string_list = {doc[0]: doc[1] for doc in document}
+    url_candidates = [doc[0] for doc in document]
+    return url_candidates, string_list
+
+
+def get_document(cur, url_candidates):
+    """
+    Retrieves the documents (URLs and fingerprint set sizes) from the database based on the URL candidates.
+
+    :param cur: The database cursor object.
+    :param url_candidates: A list of URL candidates.
+    :return: A list of tuples containing URL and fingerprint set size.
+    """
+    cur.execute(
+        f"""
+        SELECT u.url, count(DISTINCT f.fingerprint)
+        FROM {schema}.urls u
+        INNER JOIN {schema}.url_fingerprints uf ON u.id = uf.url_id
+        INNER JOIN {schema}.fingerprints f ON uf.fingerprint_id = f.fingerprint
+        WHERE u.url IN %(candidates)s
+        GROUP BY u.url;
+        """, {'candidates': tuple(url_candidates)}
+    )
+    return cur.fetchall()
+
+
+def update_heap(heap, capacity, computed_similarity, article_url):
+    """
+    Updates the heap (priority queue) with the computed similarity and article URL, maintaining its capacity.
+
+    :param heap: The heap (priority queue) to update.
+    :param capacity: The maximum capacity of the heap.
+    :param computed_similarity: The computed similarity value.
+    :param article_url: The URL of the article.
+    """
+    if len(heap) < capacity:
+        heapq.heappush(heap, (computed_similarity, article_url))
+    else:
+        if computed_similarity > heap[0][0]:
+            heapq.heapreplace(heap, (computed_similarity, article_url))
+
+
+def construct_response(heap):
+    """
+    Constructs the response entity containing the most similar articles from the heap.
+
+    :param heap: The heap (priority queue) containing the computed similarities and article URLs.
+    :return: A list of ResponseUrlEntity objects representing the most similar articles.
+    """
+    response = []
+    for (similarity, url) in heapq.nlargest(len(heap), heap):
+        title, publisher, date = extract_data_from_url(url)
+        if title is not None and publisher is not None:
+            response.append(ResponseUrlEntity(url, similarity, title, publisher, date))
+    return response
+
+
+def update_statistics(response):
+    """
+    Updates the statistics based on the retrieved similar articles.
+
+    :param response: A list of ResponseUrlEntity objects representing the most similar articles.
+    """
+    statistics.increment_performed_queries()
+    similarities = [0, 0, 0, 0, 0]
+    for resp in response:
+        sim = round(resp.similarity * 100)
+        index = sim // 20
+        similarities[index] = similarities[index] + 1
+    statistics.add_similarities_retrieved(similarities)
+
+
 def find_similar_documents_by_fingerprints(fingerprints, input=''):
     '''
     Helper method which is used by the two endpoints /checkText and /checkURL for doing query on the database
@@ -197,57 +312,13 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
     capacity = 10
 
     try:
-        # First query to find candidates and prefilter to only consider "informative hashes"
-        # "informative hashes" - at least one overlap with the fingerprints received as input
-        cur.execute(
-            f"""
-            SELECT f.fingerprint 
-            FROM {schema}.fingerprints as f
-            JOIN {schema}.url_fingerprints as uf ON f.fingerprint = uf.fingerprint_id
-            WHERE f.fingerprint IN %(fingerprints)s
-            GROUP BY f.fingerprint;
-            """,
-            {'fingerprints': tuple(fingerprints)})
-
-        fingerprint_candidates = [row[0] for row in cur.fetchall()]
+        fingerprint_candidates = get_fingerprint_candidates(cur, fingerprints)
 
         if fingerprint_candidates:
-            # Second query to construct the map (url, nr of occurrences of the url)
-            # Drop URL (do not consider as candidate) if it has < 100 hashes in common with the source_url
-            cur.execute(
-                f"""
-                SELECT u.url, count(*) as cnt
-                FROM {schema}.urls as u
-                JOIN {schema}.url_fingerprints as uf ON u.id = uf.url_id
-                WHERE uf.fingerprint_id IN %(candidates)s AND u.url <> %(source_url)s
-                GROUP BY u.url
-                HAVING COUNT(*) >= 100
-                """,
-                {'candidates': tuple(fingerprint_candidates), 'source_url': input}
-            )
-
-            document = cur.fetchall()
-            string_list = {doc[0]: doc[1] for doc in document}
-            url_candidates = [doc[0] for doc in document]
-
-            cur = conn.cursor()
+            url_candidates, string_list = get_url_candidates(cur, fingerprint_candidates, input)
 
             if url_candidates:
-                # Query the database for the url and its associated fingerprints
-                # Obtain map (url, size of fingerprint_set associated to url) to reduce overhead of query,
-                # as only the size is needed, the fingerprints' values are irrelevant
-
-                cur.execute(
-                    f"""
-                    SELECT u.url, count(DISTINCT f.fingerprint)
-                    FROM {schema}.urls u
-                    INNER JOIN {schema}.url_fingerprints uf ON u.id = uf.url_id
-                    INNER JOIN {schema}.fingerprints f ON uf.fingerprint_id = f.fingerprint
-                    WHERE u.url IN %(candidates)s
-                    GROUP BY u.url;
-                    """, {'candidates': tuple(url_candidates)})
-
-                document = cur.fetchall()  # [(url, fp_list)]
+                document = get_document(cur, url_candidates)
 
                 for (url, fp_list_size) in document:
                     inters = string_list[url]
@@ -255,13 +326,7 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
                     if result != -1:
                         article_url = url
                         computed_similarity = result
-
-                        if len(heap) < capacity:
-                            heapq.heappush(heap, (computed_similarity, article_url))
-                        else:
-                            # Equivalent to a pop, then a push, but faster
-                            if computed_similarity > heap[0][0]:
-                                heapq.heapreplace(heap, (computed_similarity, article_url))
+                        update_heap(heap, capacity, computed_similarity, article_url)
 
     except Exception as e:
         print(f"Could not query data: {e}")
@@ -273,21 +338,10 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
         cur.close()
 
         # construct the response entity
-        response = []
-        for (similarity, url) in heapq.nlargest(len(heap), heap):
-            title, publisher, date = extract_data_from_url(url)
-            if title is not None and publisher is not None:
-                response.append(ResponseUrlEntity(url, similarity, title, publisher, date))
+        response = construct_response(heap)
 
     if input != '':
-        # This is a URL check query, thus we need to updated the statistics
-        statistics.increment_performed_queries()
-        similarities = [0, 0, 0, 0, 0]
-        for resp in response:
-            sim = round(resp.similarity * 100)
-            index = sim // 20
-            similarities[index] = similarities[index] + 1
-        statistics.add_similarities_retrieved(similarities)
+        update_statistics(response)
 
     source_title, _, source_date = extract_data_from_url(input)
     request_response = {
@@ -298,6 +352,8 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
 
     return HttpResponse(json.dumps(request_response, cls=ResponseUrlEncoder), status=200,
                         content_type="application/json")
+
+
 def compare_texts_view(request):
     '''
     The endpoint that can be consumed by posting on localhost:8000/compareTexts/ having two texts attached in the body
@@ -385,6 +441,7 @@ def construct_response_helper(similarity, ownership, date_left, date_right):
                                   right_date=str(date_right))),
         status=200, content_type="application/json")
 
+
 def update_users(request):
     """
     This method is called by the frontend whenever a user starts the application.
@@ -397,6 +454,7 @@ def update_users(request):
         return HttpResponse("Users were successfully updated", status=200)
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
+
 
 def retrieve_statistics(request):
     '''
