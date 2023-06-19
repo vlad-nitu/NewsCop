@@ -1,9 +1,7 @@
 {
   "name": "frontend",
-  "homepage": ".",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8000",
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.10",
     "@emotion/react": "^11.11.1",
@@ -88,9 +86,5 @@
     "moduleNameMapper": {
       "axios": "axios/dist/node/axios.cjs"
     }
-  },
-  "engines": {
-    "node": "20.3.0",
-    "npm": "9.7.1"
   }
 }
