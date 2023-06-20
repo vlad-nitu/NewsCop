@@ -1,9 +1,8 @@
 import "../../support/commands";
 
+const HOST = 'http://localhost:3000'
+
 describe('Home Page testing flow', () => {
-
-    const HOST = 'http://localhost:3000'
-
     beforeEach(() => {
         cy.visit(`${HOST}/`)
     })
@@ -27,8 +26,6 @@ describe('Home Page testing flow', () => {
 })
 
 describe('Navbar tests', () => {
-    const HOST = 'http://localhost:3000'
-
     beforeEach(() => {
         cy.visit(`${HOST}/`)
     })
@@ -45,8 +42,6 @@ describe('Navbar tests', () => {
 });
 
 describe('Main page Image tests', () => {
-    const HOST = 'http://localhost:3000'
-
     const description = 'NewsCop is a news article overlap detection platform that helps businesses stay on top of competitors\' news coverage. Our service quickly checks for duplicated stories, allowing you to spot trends and identify opportunities to maximize coverage. With NewsCop, you\'ll never miss a story.'
     const projectName = 'News article overlap'
     const imageUrl = 'http://localhost:3000/background_image.png'
@@ -74,8 +69,6 @@ describe('Main page Image tests', () => {
 });
 
 describe('Mission tests', () => {
-    const HOST = 'http://localhost:3000'
-
     const description = 'Creating a platform that provides various ways of comparing news articles, helping users to identify overlapping content quickly and accurately and, consequently, decreasing the impact of misinformation and bias in the media.'
     const image = './ourMissionImage.png'
 
@@ -101,8 +94,6 @@ describe('Mission tests', () => {
 });
 
 describe('Services tests', () => {
-    const HOST = 'http://localhost:3000'
-
     const titles = ['URL similarity checker', 'Text similarity checker', 'Similarity checker for two texts', 'Similarity checker for two URLs']
     const descriptions = ['NewsCop provides users with a way of checking the URL of a news article against a large database of articles for fast and accurate overlap detection.',
         'NewsCop provides users with a way of checking the text of a news article against a large database of articles for fast and accurate overlap detection.', 'Test the similarity between two news articles by using this powerful tool which enables you to compare two paragraphs of media content.',
@@ -163,8 +154,6 @@ describe('Services tests', () => {
 });
 
 describe('Statistics tests', () => {
-    const HOST = 'http://localhost:3000'
-
     beforeEach(() => {
         cy.intercept('GET', 'http://localhost:8000/retrieveStatistics/').as('getStatistics');
     });
@@ -233,8 +222,6 @@ describe('Statistics tests', () => {
 })
 
 describe('Map tests', () => {
-    const HOST = 'http://localhost:3000'
-
     beforeEach(() => {
         cy.visit(`${HOST}/`);
     });
@@ -251,8 +238,6 @@ describe('Map tests', () => {
 });
 
 describe('Footer tests', () => {
-    const HOST = 'http://localhost:3000'
-
     beforeEach(() => {
         cy.visit(`${HOST}/`);
     });
