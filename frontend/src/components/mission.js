@@ -14,7 +14,7 @@ import Col from 'react-bootstrap/Col'
 */
 export default function Mission ({ description, imageUrl }) {
   return (
-    <Container className='my-5' id='ourMission'>
+    <Container className='my-5' id='ourMission' data-testid='ourMission'>
       <Row>
         <Col md={6}>
           <img src={imageUrl} alt='Mission' className='img-fluid' id='missionImage' />
