@@ -66,6 +66,30 @@ describe('Main page Image tests', () => {
             .and('eq', `url("${imageUrl}")`)
     })
 
+    it('should contain the SVG arrow element', () => {
+      cy.get('[data-testid="mainPageBigImage"]')
+        .find('.arrow')
+        .should('exist');
+  
+      cy.get('[data-testid="mainPageBigImage"]')
+        .find('.a1')
+        .should('exist');
+  
+      cy.get('[data-testid="mainPageBigImage"]')
+        .find('.a2')
+        .should('exist');
+  
+      cy.get('[data-testid="mainPageBigImage"]')
+        .find('.a3')
+        .should('exist');
+    });
+
+    it('should have a link to #ourMission', () => {
+      cy.get('[data-testid="mainPageBigImage"]')
+        .find('a')
+        .should('have.attr', 'href', '#ourMission');
+    });
+
 });
 
 describe('Mission tests', () => {
