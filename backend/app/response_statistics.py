@@ -5,6 +5,7 @@ class ResponseStatistics:
     def __init__(self, users, performed_queries, stored_articles, similarities_retrieved):
         """
         Constructor for the response of the statistics endpoint.
+
         :param users: the number of users that used the application
         :param performed_queries: the number of of URL checks performed
         :param stored_articles: the number of articles stored in the database
@@ -33,6 +34,7 @@ class ResponseStatistics:
     def add_similarities_retrieved(self, similarities):
         """
         Adds the provided similarities to the existing similarities retrieved.
+
         :param similarities: A list of similarities to be added to the existing similarities retrieved.
                              The list should have a length of 5.
         """
@@ -43,6 +45,7 @@ class ResponseStatistics:
     def set_stored_articles(self, articles):
         """
         Sets the stored articles to the provided articles.
+
         :param articles: The number of articles stored in the database.
         """
         self.stored_articles = articles
@@ -50,6 +53,7 @@ class ResponseStatistics:
     def set_values(self, statistics):
         """
         Sets all the fields to the values stored in statistics.
+
         :param articles: The new values for the fields
         """
         self.users = statistics.users
@@ -63,6 +67,7 @@ class ResponseStatisticsEncoder(json.JSONEncoder):
     def default(self, obj):
         """
         The encoder for the statistics entity.
+
         :param obj: the entity
         :return: a JSON object
         """

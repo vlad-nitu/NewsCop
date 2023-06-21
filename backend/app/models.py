@@ -9,6 +9,7 @@ class NewsDocument(models.Model):
     def __init__(self, url, fingerprints):
         """
         The constructor for the NewsDocument model.
+
         :param url: the URL of the news article
         :param fingerprints: the article's fingerprints
         """
@@ -18,6 +19,7 @@ class NewsDocument(models.Model):
     def save(self):
         """
         This method saves a NewsDocument in the database.
+
         :return: nothing / throws an error
         """
         cur = conn.cursor(cursor_factory=extras.DictCursor)
@@ -36,6 +38,7 @@ class NewsDocument(models.Model):
     def insert_url(self, cur):
         """
         Inserts the URL into the "urls" table and retrieves its ID.
+
         :param cur: the database cursor
         :return: the ID of the inserted URL if successful, None otherwise
         """
@@ -54,6 +57,7 @@ class NewsDocument(models.Model):
     def insert_fingerprints(self, cur):
         """
         Inserts new fingerprints into the "fingerprints" table if they don't already exist.
+
         :param cur: the database cursor
         """
         new_fingerprints = [(fp,) for fp in self.fingerprints if fp not in existing_fps]
@@ -69,6 +73,7 @@ class NewsDocument(models.Model):
     def insert_url_fingerprints(self, cur, doc_id):
         """
         Inserts the document's URL-fingerprint pairs into the "url_fingerprints" table.
+
         :param cur: the database cursor
         :param doc_id: the ID of the document
         """

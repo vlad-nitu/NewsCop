@@ -29,12 +29,13 @@ from utils import schema, conn
 
 
 def try_view(request, url):
-    '''
+    """
     Example endpoint that can be consumed by requesting localhost:8000/try/<string>/
+
     :param request: the request
     :param url: the string path variable
-    :return: a HttpResponse with status 200, if successful else HttpResponseBadRequest
-    '''
+    :return: a HttpResponse with status 200 if successful, else HttpResponseBadRequest
+    """
     if (request.method == 'GET'):
         return HttpResponse("You entered " + url, status=200)
     else:
@@ -42,12 +43,13 @@ def try_view(request, url):
 
 
 def reqex_view(request):
-    '''
+    """
     Example endpoint that can be consumed by posting a json object under
     localhost:8000/reqex/.
+
     :param request: the request
     :return: a HttpResponse with status 200 if successful, else a HttpBadRequest with status 400.
-    '''
+    """
     #  Ensure the request method is POST
     if request.method == 'POST':
         #  Retrieve the request body data
@@ -63,12 +65,12 @@ def reqex_view(request):
 
 # @silk_profile(name='Persist_URL GET')
 def persist_url_view(request):
-    '''
+    """
     The endpoint that can be consumed by posting on localhost:8000/persistURL/ with the request body as <urlString>.
     This will be used for the persist functionality of URLs.
     :param request: the request
     :return: a HttpResponse with status 200, if successful else HttpResponseBadRequest with status 400
-    '''
+    """
 
     #  Ensure the request method is POST
     if request.method == 'POST':
@@ -82,13 +84,13 @@ def persist_url_view(request):
 
 
 def process_document(length_first, length_second, inters):
-    '''
+    """
     Computes the jaccard similarity between the candidate URL and the input URL.
     :param length_first: the fingerprint size of the input url
     :param string_list: the fingerprint size of the candidate url
     :param inters: the size of the intersection set between candidate URL and input ULR
     :return: the jaccard similarity with the input url
-    '''
+    """
 
     if ((length_second + length_first - inters) != 0):
         comp = inters / (length_second + length_first - inters)
@@ -98,7 +100,7 @@ def process_document(length_first, length_second, inters):
 
 
 def url_similarity_checker(request):
-    '''
+    """
     The endpoint that will be used in the CheckURL page.
     There is only one query made in order to check whether the URL has already been persisted
     If this is not the case, the URL gets persisted and the method is recursively called.
@@ -107,10 +109,11 @@ def url_similarity_checker(request):
     In the given query, all 3 tables are joined by performing 2 join operations
     GROUP BY used to obtain an array of all fingerprints of a document,
         instead of a 2 columns table: [(url, fp1), (url, fp2), ...]
+
     :param request: the request body.
     :return: a HTTP response with status 200, and a pair of url and jaccard similarity,
     with this url being the most similar to the input url present in the request body
-    '''
+    """
     #  Ensure the request method is POST
     if request.method == 'POST':
         # Retrieve the URL from the request body
@@ -148,12 +151,13 @@ def url_similarity_checker(request):
 
 
 def text_similarity_checker(request):
-    '''
+    """
     The endpoint that will be used in the CheckText page.
+
     :param request: the request body.
     :return: a HTTP response with status 200, and a pair of url and jaccard similarity,
     with this url being the most similar to the input text present in the request body
-    '''
+    """
     #  Ensure the request method is POST
     if request.method == 'POST':
 
@@ -293,15 +297,16 @@ def update_statistics(response):
 
 
 def find_similar_documents_by_fingerprints(fingerprints, input=''):
-    '''
+    """
     Helper method which is used by the two endpoints /checkText and /checkURL for doing query on the database
-    3 queries are computed throughout this method, check the code for in-line comments
-    The entire block of logic was encapsulated in a try-catch block to rollback the transaction in case of failure
+    3 queries are computed throughout this method, check the code for in-line comments.
+    The entire block of logic was encapsulated in a try-catch block to rollback the transaction in case of failure.
+
     :fingerprints: the fingerprints computed for the text/url input given by the user
     :input: for /checkURL is the url provided by the user, so we do not consider it when computing the similarities
     for /checkText is the empty string as we do not have any URL to check it against
     :return: HttpResponse with the five most similar articles in decreasing order of similarity magnitude
-    '''
+    """
     cur = conn.cursor()
 
     # Get the length of the fingerprints for later use when computing Jaccard Similarity
@@ -355,14 +360,15 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
 
 
 def compare_texts_view(request):
-    '''
+    """
     The endpoint that can be consumed by posting on localhost:8000/compareTexts/ having two texts attached in the body
-    of the request
-    This will be used for computing the similarity between the two texts
+    of the request.
+    This will be used for computing the similarity between the two texts.
+
     :param request: the request
     :return: a HttpResponse with status 200 and the computed similarity, if successful
     else HttpResponseBadRequest with status 400
-    '''
+    """
 
     #  Ensure the request method is POST
     if request.method == 'POST':
@@ -383,13 +389,14 @@ def compare_texts_view(request):
 
 
 def compare_URLs(request):
-    '''
+    """
     The endpoint that can be consumed by posting on localhost:8000/compareURLs/ with the request body
     containing two URL strings.
     This will be used for the similarity computation between two given URLs.
+
     :param request: the request
     :return: a HttpResponse with status 200, if successful else HttpResponseBadRequest with status 400
-    '''
+    """
 
     #  Ensure the request method is POST
     if request.method == 'POST':
@@ -429,6 +436,7 @@ def construct_response_helper(similarity, ownership, date_left, date_right):
     """
     In order not to avoid code duplication, we made this helper function to return a response entity
     according to the parameters.
+
     :param date_right: date of the left input
     :param date_left: date of the right input
     :param similarity: the similarity between the articles
@@ -446,6 +454,7 @@ def update_users(request):
     """
     This method is called by the frontend whenever a user starts the application.
     It updates the number of users that.
+
     :param request: the request
     :return: an HTTP response with status 200 if the request was successful else HttpResponseBadRequest
     """
@@ -457,11 +466,12 @@ def update_users(request):
 
 
 def retrieve_statistics(request):
-    '''
-    Endpoint
+    """
+    Endpoint for retrieving the statistics called by the frontend whenever the main page is loaded.
+
     :param request: the request
     :return: a HttpResponse with status 200, if successful else HttpResponseBadRequest
-    '''
+    """
     if (request.method == 'GET'):
         # Create a cursor object to interact with the database
         cursor = conn.cursor()
