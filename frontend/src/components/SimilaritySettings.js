@@ -19,6 +19,7 @@ export default function SimilaritySettings ({ type, sourceUrl, articles }) {
   const [displayButton, setDisplayButton] = React.useState(true)
   const [articlesAmount, setArticlesAmount] = React.useState(5)
 
+  // constant created to dynamically determine the marks displayed on the slider given the maximum similarity ratio
   const marks = [
     {
       value: 0,
@@ -42,10 +43,20 @@ export default function SimilaritySettings ({ type, sourceUrl, articles }) {
     }
   ]
 
+  /**
+   * Handle change of similairty ratio value being changed
+   * @param event of moving the slider hence modifying its value
+   * @param newValue the new value that the slider points to
+   */
   const handleRatioValueChange = (event, newValue) => {
     setRatioValue(newValue)
     setResultArticles(collect(articles).take(articlesAmount).filter(a => a.similarity >= newValue))
   }
+
+  /**
+   * Handle clicking on the "See more articles" button
+   * @param event of clicking on the button
+   */
   const handleSeeMoreArticles = (event) => {
     setResultArticles(articles)
     setArticlesAmount(articles.length)

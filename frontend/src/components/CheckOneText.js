@@ -17,7 +17,7 @@ const checkTextEndpoint = 'http://localhost:8000/checkText/'
 /**
  * The page for the check text for similarity page. It contains all the components that will be present in the page,
  * and reuses some of the elements that can be found in the main page.
- *
+ * @param applicationName the name of the application to be displayed in the navbar component
  * @returns {JSX.Element} the check text for similarity component
  */
 export default function CheckOneText ({ applicationName }) {

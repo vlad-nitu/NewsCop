@@ -17,10 +17,20 @@ export default function ListURLs ({ type, sourceUrl, articles }) {
   const [showModal, setShowModal] = useState(false)
   const [selectedArticleIndex, setSelectedArticleIndex] = useState(null)
 
+  /**
+   * Function for generating button types based on the scope of the service (text/URL) comparison
+   * @param index of the similar article from the array to be displayed
+   * @returns {JSX.Element} the button to be rendered ("Compare" rendering for URL similairty checking and "See article for text)
+   */
   function RenderingButtons ({ index }) {
     if (type === 'text') { return <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={() => handleShowByIndex(index)}>See article</Button> } else { return <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={() => handleShowByIndex(index)}>Compare</Button> }
   }
 
+  /**
+   * Function for generating rendering component types based on the scope of the service (text/URL) comparison
+   * @param index of the similar article from the array to be displayed
+   * @returns {JSX.Element} the component to be rendered
+   */
   function RenderingType ({ article }) {
     if (type === 'text') { return (<OneArticleRender url={article} showModal={showModal} handleClose={handleClose} />) } else { return (<SideBySideRender urlLeft={sourceUrl} urlRight={article} showModal={showModal} handleClose={handleClose} />) }
   }
@@ -33,6 +43,9 @@ export default function ListURLs ({ type, sourceUrl, articles }) {
     setShowModal(true)
     setSelectedArticleIndex(index)
   }
+  /**
+   * Close the modal ("pop-up") when going back from rendering option
+   */
   const handleClose = () => setShowModal(false)
 
   const [width, setWidth] = useState(window.innerWidth)
