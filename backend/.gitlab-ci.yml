@@ -12,8 +12,8 @@ cache:
       - .gitlab-ci.yml
     prefix: ${CI_JOB_NAME} # ensures each job his own cache
   paths:
-    - ./backend/.venv
-    - ./backend/.cache/pip
+    - ${CI_PROJECT_DIR}/backend/.venv
+    - ${CI_PROJECT_DIR}/backend/.cache/pip
 
 checkstyle-backend:
   image: ubuntu:20.04
@@ -31,6 +31,7 @@ checkstyle-backend:
     - source venv/bin/activate # activate virtual environment
     - pip install --upgrade pip
     - pip install -r requirements.txt # update requirements
+    - ls -la
     - pycodestyle app/
     - deactivate
 
