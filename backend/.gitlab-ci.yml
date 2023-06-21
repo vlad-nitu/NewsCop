@@ -3,6 +3,18 @@ stages:
   - check
   - test
 
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  key:
+    files:
+      - .gitlab-ci.yml
+    prefix: ${CI_JOB_NAME} # ensures each job his own cache
+  paths:
+    - backend/.venv
+    - backend/.cache/pip
+
 checkstyle-backend:
   image: ubuntu:20.04
   stage: check
