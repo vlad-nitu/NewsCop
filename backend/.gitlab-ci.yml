@@ -31,7 +31,6 @@ checkstyle-backend:
     - source venv/bin/activate # activate virtual environment
     - pip install --upgrade pip
     - pip install -r requirements.txt # update requirements
-    - ls -la
     - pycodestyle app/
     - deactivate
 
