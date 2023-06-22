@@ -12,7 +12,7 @@ import ErrorPrompt from './ErrorPrompt'
 import CheckUrlDecision from './CheckUrlDecision'
 import axios from 'axios'
 
-const checkTextEndpoint = 'http://localhost:8000/checkText/'
+const checkTextEndpoint = 'https://backend-news-cop-68d6c56b3a54.herokuapp.com/checkText/'
 
 /**
  * The page for the check text for similarity page. It contains all the components that will be present in the page,

@@ -32,7 +32,7 @@ export default function Statistics ({ titles, descriptions, images }) {
    */
   useEffect(() => {
     async function getStatistics () {
-      await axios.get('http://localhost:8000/retrieveStatistics/')
+      await axios.get('https://backend-news-cop-68d6c56b3a54.herokuapp.com/retrieveStatistics/')
         .then(res => {
           console.log(res)
           setStatistics(res.data)

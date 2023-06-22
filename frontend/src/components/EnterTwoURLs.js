@@ -42,7 +42,7 @@ export default function EnterTwoURLs () {
   const handleClose = () => setShowModal(false)
   const handleShow = () => setShowModal(true)
 
-  const compareURLsEndpoint = 'http://localhost:8000/compareURLs/'
+  const compareURLsEndpoint = 'https://backend-news-cop-68d6c56b3a54.herokuapp.com/compareURLs/'
 
   const createRequestBody = (dataLeft, dataRight) => {
     return {
