@@ -64,8 +64,9 @@ def reqex_view(request):
 # @silk_profile(name='Persist_URL GET')
 def persist_url_view(request):
     '''
-    The endpoint that can be consumed by posting on backend-news-cop-68d6c56b3a54.herokuapp.com/persistURL/ with the request body as <urlString>.
-    This will be used for the persist functionality of URLs.
+    The endpoint that can be consumed by posting on 
+    backend-news-cop-68d6c56b3a54.herokuapp.com/persistURL/ with the request body as <urlString>.
+    This will be used for the persist functionality of URLs.views
     :param request: the request
     :return: a HttpResponse with status 200, if successful else HttpResponseBadRequest with status 400
     '''
@@ -300,7 +301,9 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
                         content_type="application/json")
 def compare_texts_view(request):
     '''
-    The endpoint that can be consumed by posting on backend-news-cop-68d6c56b3a54.herokuapp.com/compareTexts/ having two texts attached in the body
+    The endpoint that can be consumed by posting on
+    backend-news-cop-68d6c56b3a54.herokuapp.com/compareTexts/ 
+    having two texts attached in the body
     of the request
     This will be used for computing the similarity between the two texts
     :param request: the request
@@ -328,7 +331,9 @@ def compare_texts_view(request):
 
 def compare_URLs(request):
     '''
-    The endpoint that can be consumed by posting on backend-news-cop-68d6c56b3a54.herokuapp.com/compareURLs/ with the request body
+    The endpoint that can be consumed by posting on
+    backend-news-cop-68d6c56b3a54.herokuapp.com/compareURLs/
+    with the request body
     containing two URL strings.
     This will be used for the similarity computation between two given URLs.
     :param request: the request
