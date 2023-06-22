@@ -49,7 +49,7 @@ class NewsDocument(models.Model):
                     chunk_size = 1000  # Number of fingerprints to insert in each batch
                     chunks = [new_fingerprints[i:i + chunk_size] for i in range(0, len(new_fingerprints), chunk_size)]
                     # Begin a transaction
-                    cur.execute("BEGIN")
+                    # cur.execute("BEGIN")
 
                     # Perform batch insert
                     insert_query = f"""INSERT INTO {schema}.fingerprints (fingerprint) 
@@ -68,7 +68,7 @@ class NewsDocument(models.Model):
                 chunks = [url_fingerprints_data[i:i + chunk_size] for i in range(0, len(url_fingerprints_data),
                                                                                  chunk_size)]
                 # Begin a transaction
-                cur.execute("BEGIN")
+                # cur.execute("BEGIN")
 
                 # Perform batch insert
                 insert_query = f"""INSERT INTO {schema}.url_fingerprints (url_id, fingerprint_id) 

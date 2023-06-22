@@ -20,7 +20,7 @@ statistics = ResponseStatistics(0, 0, 0, [0, 0, 0, 0, 0])
 # Default schema
 # Note that the schema differs, according to the environment
 # If we are running tests, the schema is test_schema
-schema = 'news_schema'
+schema = 'test_schema'
 
 # Parametrises the schema, so that we do not
 # use the production database on the tests
