@@ -149,6 +149,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Colourful tests, for more readabilty when reading stacktraces :D
 TEST_RUNNER = "redgreenunittest.django.runner.RedGreenDiscoverRunner"
 
-# Add this at the bottom of settings.py
 import django_heroku
 django_heroku.settings(locals())
