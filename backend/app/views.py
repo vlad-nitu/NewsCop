@@ -29,12 +29,11 @@ from utils import schema, conn
 
 
 def try_view(request, url):
-    '''
-    Example endpoint that can be consumed by requesting backend-news-cop-68d6c56b3a54.herokuapp.com/try/<string>/
+    """Example endpoint that can be consumed by requesting backend-news-cop-68d6c56b3a54.herokuapp.com/try/<string>/
     :param request: the request
     :param url: the string path variable
-    :return: a HttpResponse with status 200, if successful else HttpResponseBadRequest
-    '''
+    :return: a HttpResponse with status 200 if successful, else HttpResponseBadRequest
+    """
     if (request.method == 'GET'):
         return HttpResponse("You entered " + url, status=200)
     else:
@@ -42,12 +41,11 @@ def try_view(request, url):
 
 
 def reqex_view(request):
-    '''
-    Example endpoint that can be consumed by posting a json object under
+    """Example endpoint that can be consumed by posting a json object under
     backend-news-cop-68d6c56b3a54.herokuapp.com/reqex/.
     :param request: the request
     :return: a HttpResponse with status 200 if successful, else a HttpBadRequest with status 400.
-    '''
+    """
     #  Ensure the request method is POST
     if request.method == 'POST':
         #  Retrieve the request body data
@@ -63,13 +61,12 @@ def reqex_view(request):
 
 # @silk_profile(name='Persist_URL GET')
 def persist_url_view(request):
-    '''
-    The endpoint that can be consumed by posting on 
+    """The endpoint that can be consumed by posting on 
     backend-news-cop-68d6c56b3a54.herokuapp.com/persistURL/ with the request body as <urlString>.
     This will be used for the persist functionality of URLs.views
     :param request: the request
     :return: a HttpResponse with status 200, if successful else HttpResponseBadRequest with status 400
-    '''
+    """
 
     #  Ensure the request method is POST
     if request.method == 'POST':
@@ -83,13 +80,12 @@ def persist_url_view(request):
 
 
 def process_document(length_first, length_second, inters):
-    '''
-    Computes the jaccard similarity between the candidate URL and the input URL.
+    """Computes the jaccard similarity between the candidate URL and the input URL.
     :param length_first: the fingerprint size of the input url
     :param string_list: the fingerprint size of the candidate url
     :param inters: the size of the intersection set between candidate URL and input ULR
     :return: the jaccard similarity with the input url
-    '''
+    """
 
     if ((length_second + length_first - inters) != 0):
         comp = inters / (length_second + length_first - inters)
@@ -99,8 +95,7 @@ def process_document(length_first, length_second, inters):
 
 
 def url_similarity_checker(request):
-    '''
-    The endpoint that will be used in the CheckURL page.
+    """The endpoint that will be used in the CheckURL page.
     There is only one query made in order to check whether the URL has already been persisted
     If this is not the case, the URL gets persisted and the method is recursively called.
     Otherwise, we call the helper method
@@ -108,10 +103,11 @@ def url_similarity_checker(request):
     In the given query, all 3 tables are joined by performing 2 join operations
     GROUP BY used to obtain an array of all fingerprints of a document,
         instead of a 2 columns table: [(url, fp1), (url, fp2), ...]
+
     :param request: the request body.
     :return: a HTTP response with status 200, and a pair of url and jaccard similarity,
     with this url being the most similar to the input url present in the request body
-    '''
+    """
     #  Ensure the request method is POST
     if request.method == 'POST':
         # Retrieve the URL from the request body
@@ -149,12 +145,12 @@ def url_similarity_checker(request):
 
 
 def text_similarity_checker(request):
-    '''
-    The endpoint that will be used in the CheckText page.
+    """The endpoint that will be used in the CheckText page.
+
     :param request: the request body.
     :return: a HTTP response with status 200, and a pair of url and jaccard similarity,
     with this url being the most similar to the input text present in the request body
-    '''
+    """
     #  Ensure the request method is POST
     if request.method == 'POST':
 
@@ -178,16 +174,125 @@ def text_similarity_checker(request):
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
 
 
+def get_fingerprint_candidates(cur, fingerprints):
+    """Retrieves the fingerprint candidates from the database based on the given fingerprints.
+
+    :param cur: The database cursor object.
+    :param fingerprints: A list of fingerprints.
+    :return: A list of fingerprint candidates.
+    """
+    cur.execute(
+        f"""
+        SELECT f.fingerprint 
+        FROM {schema}.fingerprints as f
+        JOIN {schema}.url_fingerprints as uf ON f.fingerprint = uf.fingerprint_id
+        WHERE f.fingerprint IN %(fingerprints)s
+        GROUP BY f.fingerprint;
+        """,
+        {'fingerprints': tuple(fingerprints)}
+    )
+    return [row[0] for row in cur.fetchall()]
+
+
+def get_url_candidates(cur, fingerprint_candidates, input):
+    """Retrieves the URL candidates and their occurrence counts from the database based on the fingerprint candidates
+    and input URL.
+
+    :param cur: The database cursor object.
+    :param fingerprint_candidates: A list of fingerprint candidates.
+    :param input: The URL provided by the user.
+    :return: A tuple containing the list of URL candidates and a dictionary with URL occurrence counts.
+    """
+    cur.execute(
+        f"""
+        SELECT u.url, count(*) as cnt
+        FROM {schema}.urls as u
+        JOIN {schema}.url_fingerprints as uf ON u.id = uf.url_id
+        WHERE uf.fingerprint_id IN %(candidates)s AND u.url <> %(source_url)s
+        GROUP BY u.url
+        HAVING COUNT(*) >= 100
+        """,
+        {'candidates': tuple(fingerprint_candidates), 'source_url': input}
+    )
+    document = cur.fetchall()
+    string_list = {doc[0]: doc[1] for doc in document}
+    url_candidates = [doc[0] for doc in document]
+    return url_candidates, string_list
+
+
+def get_document(cur, url_candidates):
+    """Retrieves the documents (URLs and fingerprint set sizes) from the database based on the URL candidates.
+
+    :param cur: The database cursor object.
+    :param url_candidates: A list of URL candidates.
+    :return: A list of tuples containing URL and fingerprint set size.
+    """
+    cur.execute(
+        f"""
+        SELECT u.url, count(DISTINCT f.fingerprint)
+        FROM {schema}.urls u
+        INNER JOIN {schema}.url_fingerprints uf ON u.id = uf.url_id
+        INNER JOIN {schema}.fingerprints f ON uf.fingerprint_id = f.fingerprint
+        WHERE u.url IN %(candidates)s
+        GROUP BY u.url;
+        """, {'candidates': tuple(url_candidates)}
+    )
+    return cur.fetchall()
+
+
+def update_heap(heap, capacity, computed_similarity, article_url):
+    """Updates the heap (priority queue) with the computed similarity and article URL, maintaining its capacity.
+
+    :param heap: The heap (priority queue) to update.
+    :param capacity: The maximum capacity of the heap.
+    :param computed_similarity: The computed similarity value.
+    :param article_url: The URL of the article.
+    """
+    if len(heap) < capacity:
+        heapq.heappush(heap, (computed_similarity, article_url))
+    else:
+        if computed_similarity > heap[0][0]:
+            heapq.heapreplace(heap, (computed_similarity, article_url))
+
+
+def construct_response(heap):
+    """Constructs the response entity containing the most similar articles from the heap.
+
+    :param heap: The heap (priority queue) containing the computed similarities and article URLs.
+    :return: A list of ResponseUrlEntity objects representing the most similar articles.
+    """
+    response = []
+    for (similarity, url) in heapq.nlargest(len(heap), heap):
+        title, publisher, date = extract_data_from_url(url)
+        if title is not None and publisher is not None:
+            response.append(ResponseUrlEntity(url, similarity, title, publisher, date))
+    return response
+
+
+def update_statistics(response):
+    """Updates the statistics based on the retrieved similar articles.
+
+    :param response: A list of ResponseUrlEntity objects representing the most similar articles.
+    """
+    statistics.increment_performed_queries()
+    similarities = [0, 0, 0, 0, 0]
+    for resp in response:
+        sim = round(resp.similarity * 100)
+        index = sim // 20
+        similarities[index] = similarities[index] + 1
+    statistics.add_similarities_retrieved(similarities)
+
+
 def find_similar_documents_by_fingerprints(fingerprints, input=''):
-    '''
-    Helper method which is used by the two endpoints /checkText and /checkURL for doing query on the database
-    3 queries are computed throughout this method, check the code for in-line comments
-    The entire block of logic was encapsulated in a try-catch block to rollback the transaction in case of failure
+    """Helper method which is used by the two endpoints /checkText and /checkURL for doing query on the database
+    3 queries are computed throughout this method, check the code for in-line comments.
+    The entire block of logic was encapsulated in a try-catch block to rollback the transaction in case of failure.
+
     :fingerprints: the fingerprints computed for the text/url input given by the user
     :input: for /checkURL is the url provided by the user, so we do not consider it when computing the similarities
     for /checkText is the empty string as we do not have any URL to check it against
     :return: HttpResponse with the five most similar articles in decreasing order of similarity magnitude
-    '''
+    """
     cur = conn.cursor()
 
     # Get the length of the fingerprints for later use when computing Jaccard Similarity
@@ -198,57 +303,13 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
     capacity = 10
 
     try:
-        # First query to find candidates and prefilter to only consider "informative hashes"
-        # "informative hashes" - at least one overlap with the fingerprints received as input
-        cur.execute(
-            f"""
-            SELECT f.fingerprint 
-            FROM {schema}.fingerprints as f
-            JOIN {schema}.url_fingerprints as uf ON f.fingerprint = uf.fingerprint_id
-            WHERE f.fingerprint IN %(fingerprints)s
-            GROUP BY f.fingerprint;
-            """,
-            {'fingerprints': tuple(fingerprints)})
-
-        fingerprint_candidates = [row[0] for row in cur.fetchall()]
+        fingerprint_candidates = get_fingerprint_candidates(cur, fingerprints)
 
         if fingerprint_candidates:
-            # Second query to construct the map (url, nr of occurrences of the url)
-            # Drop URL (do not consider as candidate) if it has < 100 hashes in common with the source_url
-            cur.execute(
-                f"""
-                SELECT u.url, count(*) as cnt
-                FROM {schema}.urls as u
-                JOIN {schema}.url_fingerprints as uf ON u.id = uf.url_id
-                WHERE uf.fingerprint_id IN %(candidates)s AND u.url <> %(source_url)s
-                GROUP BY u.url
-                HAVING COUNT(*) >= 100
-                """,
-                {'candidates': tuple(fingerprint_candidates), 'source_url': input}
-            )
-
-            document = cur.fetchall()
-            string_list = {doc[0]: doc[1] for doc in document}
-            url_candidates = [doc[0] for doc in document]
-
-            cur = conn.cursor()
+            url_candidates, string_list = get_url_candidates(cur, fingerprint_candidates, input)
 
             if url_candidates:
-                # Query the database for the url and its associated fingerprints
-                # Obtain map (url, size of fingerprint_set associated to url) to reduce overhead of query,
-                # as only the size is needed, the fingerprints' values are irrelevant
-
-                cur.execute(
-                    f"""
-                    SELECT u.url, count(DISTINCT f.fingerprint)
-                    FROM {schema}.urls u
-                    INNER JOIN {schema}.url_fingerprints uf ON u.id = uf.url_id
-                    INNER JOIN {schema}.fingerprints f ON uf.fingerprint_id = f.fingerprint
-                    WHERE u.url IN %(candidates)s
-                    GROUP BY u.url;
-                    """, {'candidates': tuple(url_candidates)})
-
-                document = cur.fetchall()  # [(url, fp_list)]
+                document = get_document(cur, url_candidates)
 
                 for (url, fp_list_size) in document:
                     inters = string_list[url]
@@ -256,13 +317,7 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
                     if result != -1:
                         article_url = url
                         computed_similarity = result
-
-                        if len(heap) < capacity:
-                            heapq.heappush(heap, (computed_similarity, article_url))
-                        else:
-                            # Equivalent to a pop, then a push, but faster
-                            if computed_similarity > heap[0][0]:
-                                heapq.heapreplace(heap, (computed_similarity, article_url))
+                        update_heap(heap, capacity, computed_similarity, article_url)
 
     except Exception as e:
         print(f"Could not query data: {e}")
@@ -274,21 +329,10 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
         cur.close()
 
         # construct the response entity
-        response = []
-        for (similarity, url) in heapq.nlargest(len(heap), heap):
-            title, publisher, date = extract_data_from_url(url)
-            if title is not None and publisher is not None:
-                response.append(ResponseUrlEntity(url, similarity, title, publisher, date))
+        response = construct_response(heap)
 
     if input != '':
-        # This is a URL check query, thus we need to updated the statistics
-        statistics.increment_performed_queries()
-        similarities = [0, 0, 0, 0, 0]
-        for resp in response:
-            sim = round(resp.similarity * 100)
-            index = sim // 20
-            similarities[index] = similarities[index] + 1
-        statistics.add_similarities_retrieved(similarities)
+        update_statistics(response)
 
     source_title, _, source_date = extract_data_from_url(input)
     request_response = {
@@ -299,9 +343,10 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
 
     return HttpResponse(json.dumps(request_response, cls=ResponseUrlEncoder), status=200,
                         content_type="application/json")
+
+
 def compare_texts_view(request):
-    '''
-    The endpoint that can be consumed by posting on
+    """The endpoint that can be consumed by posting on
     backend-news-cop-68d6c56b3a54.herokuapp.com/compareTexts/ 
     having two texts attached in the body
     of the request
@@ -309,7 +354,7 @@ def compare_texts_view(request):
     :param request: the request
     :return: a HttpResponse with status 200 and the computed similarity, if successful
     else HttpResponseBadRequest with status 400
-    '''
+    """
 
     #  Ensure the request method is POST
     if request.method == 'POST':
@@ -330,15 +375,15 @@ def compare_texts_view(request):
 
 
 def compare_URLs(request):
-    '''
-    The endpoint that can be consumed by posting on
+    """The endpoint that can be consumed by posting on
     backend-news-cop-68d6c56b3a54.herokuapp.com/compareURLs/
     with the request body
     containing two URL strings.
     This will be used for the similarity computation between two given URLs.
+
     :param request: the request
     :return: a HttpResponse with status 200, if successful else HttpResponseBadRequest with status 400
-    '''
+    """
 
     #  Ensure the request method is POST
     if request.method == 'POST':
@@ -375,9 +420,9 @@ def compare_URLs(request):
 
 
 def construct_response_helper(similarity, ownership, date_left, date_right):
-    """
-    In order not to avoid code duplication, we made this helper function to return a response entity
+    """In order not to avoid code duplication, we made this helper function to return a response entity
     according to the parameters.
+
     :param date_right: date of the left input
     :param date_left: date of the right input
     :param similarity: the similarity between the articles
@@ -390,10 +435,11 @@ def construct_response_helper(similarity, ownership, date_left, date_right):
                                   right_date=str(date_right))),
         status=200, content_type="application/json")
 
+
 def update_users(request):
-    """
-    This method is called by the frontend whenever a user starts the application.
+    """This method is called by the frontend whenever a user starts the application.
     It updates the number of users that.
+
     :param request: the request
     :return: an HTTP response with status 200 if the request was successful else HttpResponseBadRequest
     """
@@ -403,12 +449,13 @@ def update_users(request):
     else:
         return HttpResponseBadRequest(f"Expected POST, but got {request.method} instead")
 
+
 def retrieve_statistics(request):
-    '''
-    Endpoint
+    """Endpoint for retrieving the statistics called by the frontend whenever the main page is loaded.
+
     :param request: the request
     :return: a HttpResponse with status 200, if successful else HttpResponseBadRequest
-    '''
+    """
     if (request.method == 'GET'):
         # Create a cursor object to interact with the database
         cursor = conn.cursor()

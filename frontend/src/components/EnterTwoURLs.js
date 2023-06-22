@@ -39,11 +39,24 @@ export default function EnterTwoURLs () {
   const [ownershipValue, setOwnershipValue] = useState('')
   const [datesValues, setDatesValues] = useState(['', ''])
 
+  /**
+   * Closes the modal ("pop-up") created for displaying articles side-by-side.
+   */
   const handleClose = () => setShowModal(false)
+
+  /**
+   * Opens the modal ("pop-up") created for displaying articles side-by-side.
+   */
   const handleShow = () => setShowModal(true)
 
   const compareURLsEndpoint = 'https://backend-news-cop-68d6c56b3a54.herokuapp.com/compareURLs/'
 
+  /**
+   * Create Request body entity for sending the information through a POST request to the backend
+   * @param dataLeft the URL input of left text container
+   * @param dataRight the URL input of right text container
+   * @returns {{url_right, url_left}} an enitity encapsualting the two URLs for checking similarity
+   */
   const createRequestBody = (dataLeft, dataRight) => {
     return {
       url_left: dataLeft,
@@ -51,6 +64,11 @@ export default function EnterTwoURLs () {
     }
   }
 
+  /**
+   * Handle submit function which is called when clicking on the submit button
+   * @param event the event of clicking on the submit button
+   * @returns {Promise<void>} replicating all the desired behavior on frontend components
+   */
   const handleSubmit = async (event) => {
     event.preventDefault()
     setButtonDisabled(true)
@@ -107,10 +125,18 @@ export default function EnterTwoURLs () {
     }, 5000)
   }
 
+  /**
+   * Function for handling the change of the text in the left container
+   * @param event the event of writing into the left text box
+   */
   const handleInputChangeOriginal = (event) => {
     setInputValueOriginal(event.target.value)
   }
 
+  /**
+   * Function for handling the change of the text in the right container
+   * @param event the event of writing into the right text box
+   */
   const handleInputChangeChanged = (event) => {
     setInputValueChanged(event.target.value)
   }

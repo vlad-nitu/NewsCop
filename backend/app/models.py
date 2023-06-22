@@ -7,8 +7,8 @@ from psycopg2 import extras
 
 class NewsDocument(models.Model):
     def __init__(self, url, fingerprints):
-        """
-        The constructor for the NewsDocument model.
+        """The constructor for the NewsDocument model.
+
         :param url: the URL of the news article
         :param fingerprints: the article's fingerprints
         """
@@ -16,72 +16,67 @@ class NewsDocument(models.Model):
         self.fingerprints = fingerprints
 
     def save(self):
-        """
-        This method saves a NewsDocument in the database.
+        """This method saves a NewsDocument in the database.
+
         :return: nothing / throws an error
         """
-        # Create a cursor that returns a dictionary as a result
         cur = conn.cursor(cursor_factory=extras.DictCursor)
-
         try:
-            # Insert the url into the urls table and retrieve its id
-            cur.execute(
-                f"""
-                INSERT INTO {schema}.urls (url) VALUES (%s) 
-                ON CONFLICT (url) DO NOTHING
-                RETURNING id
-                """, (self.url,))
-
-            # Fetch the result
-            doc = cur.fetchone()
-
-            if doc:
-                url_id = doc[0]
-                print(url_id)
-
-                # These are the fingerprints that have to be inserted
-                new_fingerprints = [(fp,) for fp in self.fingerprints if fp not in existing_fps]
-
-                # If there are new fingerprints, insert them into the fingerprints table
-                if new_fingerprints:
-
-                    # Split the array into chunks for batch processing
-                    chunk_size = 1000  # Number of fingerprints to insert in each batch
-                    chunks = [new_fingerprints[i:i + chunk_size] for i in range(0, len(new_fingerprints), chunk_size)]
-                    # Begin a transaction
-                    cur.execute("BEGIN")
-
-                    # Perform batch insert
-                    insert_query = f"""INSERT INTO {schema}.fingerprints (fingerprint) 
-                    VALUES (%s) ON CONFLICT (fingerprint) DO NOTHING"""
-                    extras.execute_batch(cur, insert_query, [(f,) for chunk in chunks for f in chunk])
-
-                    # Update existing_fps with the new fingerprints
-                    existing_fps.update(fp for fp, in new_fingerprints)
-
-                # Prepare the data for the url_fingerprints
-                url_fingerprints_data = [(url_id, fp) for fp in self.fingerprints]
-
-                # Insert the pairs of url_id and fingerprint_id into the url_fingerprints table
-                # Split the array into chunks for batch processing
-                chunk_size = 1000  # Number of fingerprints to insert in each batch
-                chunks = [url_fingerprints_data[i:i + chunk_size] for i in range(0, len(url_fingerprints_data),
-                                                                                 chunk_size)]
-                # Begin a transaction
-                cur.execute("BEGIN")
-
-                # Perform batch insert
-                insert_query = f"""INSERT INTO {schema}.url_fingerprints (url_id, fingerprint_id) 
-                VALUES (%s, %s) ON CONFLICT DO NOTHING"""
-                extras.execute_batch(cur, insert_query, [(url_id, fingerprint_id) for chunk in chunks
-                                                         for (url_id, fingerprint_id) in chunk])
-            # Commit after all transactions are done
+            doc_id = self.insert_url(cur)
+            if doc_id:
+                self.insert_fingerprints(cur)
+                self.insert_url_fingerprints(cur, doc_id)
             conn.commit()
-        # In case of a database error, we roll back any commits that have been made
         except psycopg2.Error as e:
             print(f"Could not insert data: {e}")
-            # Rollback the current transaction if there's any error
             conn.rollback()
+        finally:
+            cur.close()
 
-        # Close the cursor
-        cur.close()
+    def insert_url(self, cur):
+        """Inserts the URL into the "urls" table and retrieves its ID.
+
+        :param cur: the database cursor
+        :return: the ID of the inserted URL if successful, None otherwise
+        """
+        cur.execute(
+            f"""
+            INSERT INTO {schema}.urls (url) VALUES (%s) 
+            ON CONFLICT (url) DO NOTHING
+            RETURNING id
+            """, (self.url,)
+        )
+        doc = cur.fetchone()
+        if doc:
+            return doc[0]
+        return None
+
+    def insert_fingerprints(self, cur):
+        """Inserts new fingerprints into the "fingerprints" table if they don't already exist.
+
+        :param cur: the database cursor
+        """
+        new_fingerprints = [(fp,) for fp in self.fingerprints if fp not in existing_fps]
+        if new_fingerprints:
+            chunk_size = 1000
+            chunks = [new_fingerprints[i:i + chunk_size] for i in range(0, len(new_fingerprints), chunk_size)]
+            cur.execute("BEGIN")
+            insert_query = f"""INSERT INTO {schema}.fingerprints (fingerprint) 
+            VALUES (%s) ON CONFLICT (fingerprint) DO NOTHING"""
+            extras.execute_batch(cur, insert_query, [(f,) for chunk in chunks for f in chunk])
+            existing_fps.update(fp for fp, in new_fingerprints)
+
+    def insert_url_fingerprints(self, cur, doc_id):
+        """Inserts the document's URL-fingerprint pairs into the "url_fingerprints" table.
+
+        :param cur: the database cursor
+        :param doc_id: the ID of the document
+        """
+        url_fingerprints_data = [(doc_id, fp) for fp in self.fingerprints]
+        chunk_size = 1000
+        chunks = [url_fingerprints_data[i:i + chunk_size] for i in range(0, len(url_fingerprints_data), chunk_size)]
+        cur.execute("BEGIN")
+        insert_query = f"""INSERT INTO {schema}.url_fingerprints (url_id, fingerprint_id) 
+        VALUES (%s, %s) ON CONFLICT DO NOTHING"""
+        extras.execute_batch(cur, insert_query, [(doc_id, fingerprint_id) for chunk in chunks
+                                                 for (doc_id, fingerprint_id) in chunk])

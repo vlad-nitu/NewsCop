@@ -22,10 +22,18 @@ export default function NavbarComponent ({ name, mainPage }) {
      */
   const [show, setShow] = useState(false)
 
+  /**
+   * Function for setting the dropdown menu as visible
+   * @param e the event of triggering the dropdown option
+   */
   const showDropdown = (e) => {
     setShow(!show)
   }
 
+  /**
+   * Function for hiding the dropdown menu
+   * @param e the event of leaving the mouse from the dropdown button
+   */
   const hideDropdown = e => {
     setShow(false)
   }
