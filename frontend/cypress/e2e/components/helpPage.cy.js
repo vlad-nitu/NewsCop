@@ -2,10 +2,10 @@ import "../../support/commands";
 
 describe('HelpPage', () => {
 
-  const rootUrl = 'http://frntnd-01d860a10e63.herokuapp.com'
+  const rootUrl = 'http://frontend-news-cop-6e44f5245bf9.herokuapp.com'
 
   beforeEach(() => {
-    cy.visit('http://frntnd-01d860a10e63.herokuapp.com/help') // Assuming the HelpPage component is rendered at '/help' route
+    cy.visit('http://frontend-news-cop-6e44f5245bf9.herokuapp.com/help') // Assuming the HelpPage component is rendered at '/help' route
   })
 
   it('displays the FAQ section', () => {

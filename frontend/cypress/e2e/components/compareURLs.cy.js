@@ -2,7 +2,7 @@ import "../../support/commands";
 
 describe('CheckTwoURLs testing flow', () => {
 
-    const HOST = 'http://frntnd-01d860a10e63.herokuapp.com'
+    const HOST = 'http://frontend-news-cop-6e44f5245bf9.herokuapp.com'
 
     beforeEach(() => {
         cy.visit(`${HOST}/compareURLs/`)
