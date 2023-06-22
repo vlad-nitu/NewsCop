@@ -9,7 +9,7 @@ import Article from './Article'
 import ForwardToPage from './ForwardToPage'
 
 /* The endpoint that is going to be used for the request, see urls.py and views.py */
-const persistUrlEndpoint = 'http://localhost:8000/urlsimilarity/'
+const persistUrlEndpoint = 'https://backend-news-cop-68d6c56b3a54.herokuapp.com/urlsimilarity/'
 
 /**
  * Container that displays:

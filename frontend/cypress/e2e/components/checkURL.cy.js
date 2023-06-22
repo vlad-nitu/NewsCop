@@ -2,7 +2,7 @@ import "../../support/commands";
 
 describe('template spec & clicking a button after inputting some text', () => {
 
-  const HOST = 'http://localhost:3000' // TODO: put the actual URL after we deploy our app on Heroku
+  const HOST = 'http://frontend-news-cop-6e44f5245bf9.herokuapp.com' // TODO: put the actual URL after we deploy our app on Heroku
 
   beforeEach(() => {
     // Cypress starts out with a blank slate for each test

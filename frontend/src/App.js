@@ -59,7 +59,7 @@ function App () {
   ]
   useEffect(() => {
     async function updateStatistics () {
-      await axios.post('http://localhost:8000/updateUsers/')
+      await axios.post('https://backend-news-cop-68d6c56b3a54.herokuapp.com/updateUsers/')
         .then(res => {
           console.log('successfully updated the statistics.')
         })

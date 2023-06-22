@@ -115,7 +115,7 @@ class DatabaseHandler(AbstractHandler):
             return super().handle(content)
 
 class ContentHandler(AbstractHandler):
-    """Concrete Handler for verifying if the text of the content (URL) is valid (has text and does not exceed the limit).
+    """Concrete Handler for verifying if the text of the content (URL) is valid (has text and does not exceed the limit)
     """
 
     def handle(self, content: str) -> HttpResponse:

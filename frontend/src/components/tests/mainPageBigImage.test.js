@@ -30,3 +30,25 @@ test('get background image url', () => {
   const backgroundImage = window.getComputedStyle(element).getPropertyValue('background-image')
   expect(backgroundImage).toBe(expectedUrl)
 })
+
+test('renders a link with the correct SVG elements', () => {
+  render(<MainPageBigImage description={applicationDescription} projectName={projectName} imageUrl={imageUrl} />)
+
+  const linkElement = screen.getByRole('link')
+  expect(linkElement).toBeInTheDocument()
+
+  const svgElement = linkElement.querySelector('svg.arrow')
+  expect(svgElement).toBeInTheDocument()
+
+  const pathElements = svgElement.querySelectorAll('path')
+  expect(pathElements).toHaveLength(3)
+
+  expect(pathElements[0]).toHaveClass('a1')
+  expect(pathElements[0]).toHaveAttribute('d', 'M0 0 L30 22 L60 0')
+
+  expect(pathElements[1]).toHaveClass('a2')
+  expect(pathElements[1]).toHaveAttribute('d', 'M0 20 L30 42 L60 20')
+
+  expect(pathElements[2]).toHaveClass('a3')
+  expect(pathElements[2]).toHaveAttribute('d', 'M0 40 L30 62 L60 40')
+})

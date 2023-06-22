@@ -2,6 +2,10 @@
 
 exports[`Map component renders the map with a marker 1`] = `
 <div
-  className="markercluster-map"
-/>
+  data-testid="map"
+>
+  <div
+    className="markercluster-map"
+  />
+</div>
 `;

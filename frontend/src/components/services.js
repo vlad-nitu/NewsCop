@@ -35,7 +35,7 @@ export default function Services ({ titles, descriptions, images }) {
 
   // Renders a JSX element with information about services.
   return (
-    <div id='services' style={{ backgroundColor: '#2E837E' }}>
+    <div id='services' style={{ backgroundColor: '#2E837E' }} data-testid='services'>
       <Container className='py-5'>
         <h2 className='title'>Services</h2>
         <Row className='pt-4'>
