@@ -221,7 +221,7 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
                 JOIN {schema}.url_fingerprints as uf ON u.id = uf.url_id
                 WHERE uf.fingerprint_id IN %(candidates)s AND u.url <> %(source_url)s
                 GROUP BY u.url
-                HAVING COUNT(*) >= 100
+                HAVING COUNT(*) >= 1700
                 """,
                 {'candidates': tuple(fingerprint_candidates), 'source_url': input}
             )

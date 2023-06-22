@@ -9,11 +9,19 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Static files (CSS, JavaScript, images)
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+# Static files configuration
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, 'static'),)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # Quick-start development settings - unsuitable for production
@@ -23,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-(5caf$5xh_r)ty4xknp%t9^8is35acs#)a2(%-&wd+ob#*sh(u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -140,3 +148,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Colourful tests, for more readabilty when reading stacktraces :D
 TEST_RUNNER = "redgreenunittest.django.runner.RedGreenDiscoverRunner"
+
+# Add this at the bottom of settings.py
+import django_heroku
+django_heroku.settings(locals())
