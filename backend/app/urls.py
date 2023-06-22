@@ -32,5 +32,4 @@ urlpatterns = [
     path('updateUsers/', update_users, name = "update_users"),
     path('retrieveStatistics/', retrieve_statistics, name = "retrieve_statistics"),
     path('silk/', include('silk.urls', namespace='silk')),  # `silk` 3rd-party profiler
-    # Set localhost on port 8000 (default for Django)  to be the main endpoint for ReactView class
 ]

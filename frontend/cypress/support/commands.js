@@ -59,5 +59,5 @@ Cypress.Commands.add('redirectionStatistics', () => {
   cy.url()
     .should(
       'be.equal',
-      `http://localhost:3000/#statistics`)
+      `http://frntnd-01d860a10e63.herokuapp.com/#statistics`)
 })
