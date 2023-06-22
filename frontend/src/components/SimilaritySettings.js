@@ -44,7 +44,7 @@ export default function SimilaritySettings ({ type, sourceUrl, articles }) {
   ]
 
   /**
-   * Handle change of similairty ratio value being changed
+   * Handle change of similarity ratio value being changed
    * @param event of moving the slider hence modifying its value
    * @param newValue the new value that the slider points to
    */

@@ -20,7 +20,7 @@ export default function ListURLs ({ type, sourceUrl, articles }) {
   /**
    * Function for generating button types based on the scope of the service (text/URL) comparison
    * @param index of the similar article from the array to be displayed
-   * @returns {JSX.Element} the button to be rendered ("Compare" rendering for URL similairty checking and "See article for text)
+   * @returns {JSX.Element} the button to be rendered ("Compare" rendering for URL similairty checking and "See article for text")
    */
   function RenderingButtons ({ index }) {
     if (type === 'text') { return <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={() => handleShowByIndex(index)}>See article</Button> } else { return <Button className='mx-auto custom-outline-button' variant='outline-success' onClick={() => handleShowByIndex(index)}>Compare</Button> }
@@ -28,7 +28,7 @@ export default function ListURLs ({ type, sourceUrl, articles }) {
 
   /**
    * Function for generating rendering component types based on the scope of the service (text/URL) comparison
-   * @param index of the similar article from the array to be displayed
+   * @param article the article from the array to be displayed
    * @returns {JSX.Element} the component to be rendered
    */
   function RenderingType ({ article }) {
