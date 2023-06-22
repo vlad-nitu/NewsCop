@@ -23,8 +23,7 @@ import signal
 
 
 class TimeoutException(Exception):
-    """
-    Exception that is thrown to handle timeouts, if an URL was not crawled in at most 10 seconds
+    """Exception that is thrown to handle timeouts, if an URL was not crawled in at most 10 seconds
     """
     pass
 
@@ -52,8 +51,7 @@ def read_urls_from_file(filepath):
 
 
 def process_article(url):
-    """
-    Processes a single news article from the given URL.
+    """Processes a single news article from the given URL.
     Crawls the article to retrieve its text and published date, computes its fingerprint, and saves it to the database.
 
     :param url: The URL of the news article to process.
@@ -87,8 +85,7 @@ def process_article(url):
 
 
 def process_urls(urls):
-    """
-    Processes a list of news article URLs.
+    """Processes a list of news article URLs.
     Calls process_article on each URL, and appends successfully persisted URLs to the articles list.
 
     :param urls: A list of news article URLs to process.
@@ -117,8 +114,7 @@ def process_urls(urls):
 
 
 def main():
-    """
-    Reads news article URLs from a file, processes them, and saves them to the database.
+    """Reads news article URLs from a file, processes them, and saves them to the database.
     Outputs the number of URLs processed and the number of articles successfully persisted to the database.
     """
 

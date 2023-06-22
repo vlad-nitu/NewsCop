@@ -3,8 +3,7 @@ import json
 
 class ResponseStatistics:
     def __init__(self, users, performed_queries, stored_articles, similarities_retrieved):
-        """
-        Constructor for the response of the statistics endpoint.
+        """Constructor for the response of the statistics endpoint.
 
         :param users: the number of users that used the application
         :param performed_queries: the number of of URL checks performed
@@ -20,20 +19,17 @@ class ResponseStatistics:
             self.similarities_retrieved.append(similarities_retrieved[i])
 
     def increment_users(self):
-        """
-        Increments the number of users by 1.
+        """Increments the number of users by 1.
         """
         self.users = self.users + 1
 
     def increment_performed_queries(self):
-        """
-        Increments the number of performed queries by 1.
+        """Increments the number of performed queries by 1.
         """
         self.performed_queries = self.performed_queries + 1
 
     def add_similarities_retrieved(self, similarities):
-        """
-        Adds the provided similarities to the existing similarities retrieved.
+        """Adds the provided similarities to the existing similarities retrieved.
 
         :param similarities: A list of similarities to be added to the existing similarities retrieved.
                              The list should have a length of 5.
@@ -43,16 +39,14 @@ class ResponseStatistics:
             self.similarities_retrieved[i] = self.similarities_retrieved[i] + similarities[i]
 
     def set_stored_articles(self, articles):
-        """
-        Sets the stored articles to the provided articles.
+        """Sets the stored articles to the provided articles.
 
         :param articles: The number of articles stored in the database.
         """
         self.stored_articles = articles
 
     def set_values(self, statistics):
-        """
-        Sets all the fields to the values stored in statistics.
+        """Sets all the fields to the values stored in statistics.
 
         :param articles: The new values for the fields
         """
@@ -65,8 +59,7 @@ class ResponseStatistics:
 
 class ResponseStatisticsEncoder(json.JSONEncoder):
     def default(self, obj):
-        """
-        The encoder for the statistics entity.
+        """The encoder for the statistics entity.
 
         :param obj: the entity
         :return: a JSON object

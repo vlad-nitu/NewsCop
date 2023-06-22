@@ -29,8 +29,7 @@ from utils import schema, conn
 
 
 def try_view(request, url):
-    """
-    Example endpoint that can be consumed by requesting localhost:8000/try/<string>/
+    """Example endpoint that can be consumed by requesting localhost:8000/try/<string>/
 
     :param request: the request
     :param url: the string path variable
@@ -43,8 +42,7 @@ def try_view(request, url):
 
 
 def reqex_view(request):
-    """
-    Example endpoint that can be consumed by posting a json object under
+    """Example endpoint that can be consumed by posting a json object under
     localhost:8000/reqex/.
 
     :param request: the request
@@ -65,8 +63,7 @@ def reqex_view(request):
 
 # @silk_profile(name='Persist_URL GET')
 def persist_url_view(request):
-    """
-    The endpoint that can be consumed by posting on localhost:8000/persistURL/ with the request body as <urlString>.
+    """The endpoint that can be consumed by posting on localhost:8000/persistURL/ with the request body as <urlString>.
     This will be used for the persist functionality of URLs.
     :param request: the request
     :return: a HttpResponse with status 200, if successful else HttpResponseBadRequest with status 400
@@ -84,8 +81,7 @@ def persist_url_view(request):
 
 
 def process_document(length_first, length_second, inters):
-    """
-    Computes the jaccard similarity between the candidate URL and the input URL.
+    """Computes the jaccard similarity between the candidate URL and the input URL.
     :param length_first: the fingerprint size of the input url
     :param string_list: the fingerprint size of the candidate url
     :param inters: the size of the intersection set between candidate URL and input ULR
@@ -100,8 +96,7 @@ def process_document(length_first, length_second, inters):
 
 
 def url_similarity_checker(request):
-    """
-    The endpoint that will be used in the CheckURL page.
+    """The endpoint that will be used in the CheckURL page.
     There is only one query made in order to check whether the URL has already been persisted
     If this is not the case, the URL gets persisted and the method is recursively called.
     Otherwise, we call the helper method
@@ -151,8 +146,7 @@ def url_similarity_checker(request):
 
 
 def text_similarity_checker(request):
-    """
-    The endpoint that will be used in the CheckText page.
+    """The endpoint that will be used in the CheckText page.
 
     :param request: the request body.
     :return: a HTTP response with status 200, and a pair of url and jaccard similarity,
@@ -182,8 +176,7 @@ def text_similarity_checker(request):
 
 
 def get_fingerprint_candidates(cur, fingerprints):
-    """
-    Retrieves the fingerprint candidates from the database based on the given fingerprints.
+    """Retrieves the fingerprint candidates from the database based on the given fingerprints.
 
     :param cur: The database cursor object.
     :param fingerprints: A list of fingerprints.
@@ -203,8 +196,7 @@ def get_fingerprint_candidates(cur, fingerprints):
 
 
 def get_url_candidates(cur, fingerprint_candidates, input):
-    """
-    Retrieves the URL candidates and their occurrence counts from the database based on the fingerprint candidates
+    """Retrieves the URL candidates and their occurrence counts from the database based on the fingerprint candidates
     and input URL.
 
     :param cur: The database cursor object.
@@ -230,8 +222,7 @@ def get_url_candidates(cur, fingerprint_candidates, input):
 
 
 def get_document(cur, url_candidates):
-    """
-    Retrieves the documents (URLs and fingerprint set sizes) from the database based on the URL candidates.
+    """Retrieves the documents (URLs and fingerprint set sizes) from the database based on the URL candidates.
 
     :param cur: The database cursor object.
     :param url_candidates: A list of URL candidates.
@@ -251,8 +242,7 @@ def get_document(cur, url_candidates):
 
 
 def update_heap(heap, capacity, computed_similarity, article_url):
-    """
-    Updates the heap (priority queue) with the computed similarity and article URL, maintaining its capacity.
+    """Updates the heap (priority queue) with the computed similarity and article URL, maintaining its capacity.
 
     :param heap: The heap (priority queue) to update.
     :param capacity: The maximum capacity of the heap.
@@ -267,8 +257,7 @@ def update_heap(heap, capacity, computed_similarity, article_url):
 
 
 def construct_response(heap):
-    """
-    Constructs the response entity containing the most similar articles from the heap.
+    """Constructs the response entity containing the most similar articles from the heap.
 
     :param heap: The heap (priority queue) containing the computed similarities and article URLs.
     :return: A list of ResponseUrlEntity objects representing the most similar articles.
@@ -282,8 +271,7 @@ def construct_response(heap):
 
 
 def update_statistics(response):
-    """
-    Updates the statistics based on the retrieved similar articles.
+    """Updates the statistics based on the retrieved similar articles.
 
     :param response: A list of ResponseUrlEntity objects representing the most similar articles.
     """
@@ -297,8 +285,7 @@ def update_statistics(response):
 
 
 def find_similar_documents_by_fingerprints(fingerprints, input=''):
-    """
-    Helper method which is used by the two endpoints /checkText and /checkURL for doing query on the database
+    """Helper method which is used by the two endpoints /checkText and /checkURL for doing query on the database
     3 queries are computed throughout this method, check the code for in-line comments.
     The entire block of logic was encapsulated in a try-catch block to rollback the transaction in case of failure.
 
@@ -360,8 +347,7 @@ def find_similar_documents_by_fingerprints(fingerprints, input=''):
 
 
 def compare_texts_view(request):
-    """
-    The endpoint that can be consumed by posting on localhost:8000/compareTexts/ having two texts attached in the body
+    """The endpoint that can be consumed by posting on localhost:8000/compareTexts/ having two texts attached in the body
     of the request.
     This will be used for computing the similarity between the two texts.
 
@@ -389,8 +375,7 @@ def compare_texts_view(request):
 
 
 def compare_URLs(request):
-    """
-    The endpoint that can be consumed by posting on localhost:8000/compareURLs/ with the request body
+    """The endpoint that can be consumed by posting on localhost:8000/compareURLs/ with the request body
     containing two URL strings.
     This will be used for the similarity computation between two given URLs.
 
@@ -433,8 +418,7 @@ def compare_URLs(request):
 
 
 def construct_response_helper(similarity, ownership, date_left, date_right):
-    """
-    In order not to avoid code duplication, we made this helper function to return a response entity
+    """In order not to avoid code duplication, we made this helper function to return a response entity
     according to the parameters.
 
     :param date_right: date of the left input
@@ -451,8 +435,7 @@ def construct_response_helper(similarity, ownership, date_left, date_right):
 
 
 def update_users(request):
-    """
-    This method is called by the frontend whenever a user starts the application.
+    """This method is called by the frontend whenever a user starts the application.
     It updates the number of users that.
 
     :param request: the request
@@ -466,8 +449,7 @@ def update_users(request):
 
 
 def retrieve_statistics(request):
-    """
-    Endpoint for retrieving the statistics called by the frontend whenever the main page is loaded.
+    """Endpoint for retrieving the statistics called by the frontend whenever the main page is loaded.
 
     :param request: the request
     :return: a HttpResponse with status 200, if successful else HttpResponseBadRequest

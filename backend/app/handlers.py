@@ -13,15 +13,13 @@ from utils import schema
 
 
 class Handler(ABC):
-    """
-    The Handler interface used to build the Chain of Responsibility pattern upon.
+    """The Handler interface used to build the Chain of Responsibility pattern upon.
     It encapsulates also the abstract methods used.
     """
 
     @abstractmethod
     def set_next(self, handler: Handler) -> Handler:
-        """
-        Abstract method of the interface corresponding to setting the next handler in the chain.
+        """Abstract method of the interface corresponding to setting the next handler in the chain.
 
         :param handler: the next Handler in the chain.
         """
@@ -40,15 +38,13 @@ class Handler(ABC):
 
 
 class AbstractHandler(Handler):
-    """
-    The base handler class used to implement the chaining behaviour.
+    """The base handler class used to implement the chaining behaviour.
     """
 
     _next_handler: Handler = None
 
     def set_next(self, handler: Handler) -> Handler:
-        """
-        Method for setting the next handler in the chain.
+        """Method for setting the next handler in the chain.
 
         :param handler: the next Handler in the chain.
         """
@@ -57,8 +53,7 @@ class AbstractHandler(Handler):
 
     @abstractmethod
     def handle(self, content: str) -> HttpResponse:
-        """
-        Method for handling the content which sends the content to the next handler to be checked, or if the
+        """Method for handling the content which sends the content to the next handler to be checked, or if the
         next handler is None (meaning that the chain reached its end) a HttpResponse 200 is send
         since all checks in the chain passed.
 
@@ -70,18 +65,15 @@ class AbstractHandler(Handler):
         return HttpResponse(content, status=200)
 
 
-"""
-All the Concrete Handlers used to go thorough checks on the input provided by an user. 
+"""All the Concrete Handlers used to go thorough checks on the input provided by an user. 
 Note that a Concrete Handler either handles a request or passes it to the next handler for further checks.
 """
 
 class SanitizationHandler(AbstractHandler):
-    """
-    Concrete Handler for verifying if the content (URL) is valid.
+    """Concrete Handler for verifying if the content (URL) is valid.
     """
     def handle(self, content: str) -> HttpResponse:
-        """
-        Handle method that checks if the content is already stored in the database.
+        """Handle method that checks if the content is already stored in the database.
 
         :param: the content to be checked at this step.
         :return: a HttpResponse with status 200 if either content is already stored or if all the future steps are
@@ -96,12 +88,10 @@ class SanitizationHandler(AbstractHandler):
             return HttpResponseBadRequest("The url provided is invalid")
 
 class DatabaseHandler(AbstractHandler):
-    """
-    Concrete Handler for verifying if the content is persisted in the DB or it needs to be persisted.
+    """Concrete Handler for verifying if the content is persisted in the DB or it needs to be persisted.
     """
     def handle(self, content: str) -> HttpResponse:
-        """
-        Handle method that checks if the content is already stored in the database.
+        """Handle method that checks if the content is already stored in the database.
 
         :param: the content to be checked at this step.
         :return: a HttpResponse with status 200 if either content is already stored or if all the future steps are
@@ -125,13 +115,11 @@ class DatabaseHandler(AbstractHandler):
             return super().handle(content)
 
 class ContentHandler(AbstractHandler):
-    """
-    Concrete Handler for verifying if the text of the content (URL) is valid (has text and does not exceed the limit).
+    """Concrete Handler for verifying if the text of the content (URL) is valid (has text and does not exceed the limit).
     """
 
     def handle(self, content: str) -> HttpResponse:
-        """
-        Handle method that checks if the content has at least one shingle and at most 2000 shingles.
+        """Handle method that checks if the content has at least one shingle and at most 2000 shingles.
 
         :param: the content to be checked at this step.
         :return: a HttpResponse with status 200 if this and next steps are successful,
@@ -159,8 +147,7 @@ class ContentHandler(AbstractHandler):
         return super().handle(content)
 
 def persist_chain(request):
-    """
-    Function created for creating the Chain of Responsibility used in the persist functionality.
+    """Function created for creating the Chain of Responsibility used in the persist functionality.
     This creates a SanitizationHandler -> DatabaseHandler -> ContentHandler chain and passes the request body through it
     for getting a Response representing whether the URL passed all the checks or not.
 

@@ -4,8 +4,7 @@ import requests
 
 
 def sanitizing_url(url):
-    """
-    Function for sanitizing the input given by the client in a request body.
+    """Function for sanitizing the input given by the client in a request body.
     This ensures that we don't process invalid requests so that our application doesn't propagate the error
     in the code (check if url valid and if there is actually an existing internet content at the specified input)
 

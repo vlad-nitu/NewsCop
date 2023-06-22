@@ -7,8 +7,7 @@ from psycopg2 import extras
 
 class NewsDocument(models.Model):
     def __init__(self, url, fingerprints):
-        """
-        The constructor for the NewsDocument model.
+        """The constructor for the NewsDocument model.
 
         :param url: the URL of the news article
         :param fingerprints: the article's fingerprints
@@ -17,8 +16,7 @@ class NewsDocument(models.Model):
         self.fingerprints = fingerprints
 
     def save(self):
-        """
-        This method saves a NewsDocument in the database.
+        """This method saves a NewsDocument in the database.
 
         :return: nothing / throws an error
         """
@@ -36,8 +34,7 @@ class NewsDocument(models.Model):
             cur.close()
 
     def insert_url(self, cur):
-        """
-        Inserts the URL into the "urls" table and retrieves its ID.
+        """Inserts the URL into the "urls" table and retrieves its ID.
 
         :param cur: the database cursor
         :return: the ID of the inserted URL if successful, None otherwise
@@ -55,8 +52,7 @@ class NewsDocument(models.Model):
         return None
 
     def insert_fingerprints(self, cur):
-        """
-        Inserts new fingerprints into the "fingerprints" table if they don't already exist.
+        """Inserts new fingerprints into the "fingerprints" table if they don't already exist.
 
         :param cur: the database cursor
         """
@@ -71,8 +67,7 @@ class NewsDocument(models.Model):
             existing_fps.update(fp for fp, in new_fingerprints)
 
     def insert_url_fingerprints(self, cur, doc_id):
-        """
-        Inserts the document's URL-fingerprint pairs into the "url_fingerprints" table.
+        """Inserts the document's URL-fingerprint pairs into the "url_fingerprints" table.
 
         :param cur: the database cursor
         :param doc_id: the ID of the document

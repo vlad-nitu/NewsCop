@@ -7,8 +7,7 @@ logger.setLevel(level=logging.INFO)
 
 
 def read_urls_from_file(file_path):
-    """
-    Reads URLs from a file located at the given file path.
+    """Reads URLs from a file located at the given file path.
     Removes leading and trailing spaces from each URL.
     Removes any URLs that do not start with 'https://'.
 
@@ -26,8 +25,7 @@ def read_urls_from_file(file_path):
     return urls
 
 def write_urls_to_file(urls, file_path):
-    """
-    Writes a list of URLs to a file located at the given file path.
+    """Writes a list of URLs to a file located at the given file path.
 
     :param urls: A list of URLs to be written to file.
     :param file_path: The path to the output file.
@@ -37,8 +35,7 @@ def write_urls_to_file(urls, file_path):
         out.write('\n'.join(urls))
 
 def main(input_files, output_file):
-    """
-    Reads URLs from an input file, processes them, and writes the result to an output file.
+    """Reads URLs from an input file, processes them, and writes the result to an output file.
 
     Parameters:
     :param input_files: The possible paths the input file containing URLs.

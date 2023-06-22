@@ -2,8 +2,7 @@ from winnowing import sanitize, kgrams, select_min
 
 
 def compute_fingerprint(article_text):
-    """
-    Function for computing the fingerprint of a given article using winnowing.
+    """Function for computing the fingerprint of a given article using winnowing.
     See the algorithm encapsulated by the winnow function provided in pip package
     at https://pypi.org/project/winnowing/
     The function also checks for possible empty text edge case.
@@ -19,8 +18,7 @@ def compute_fingerprint(article_text):
 
 
 def modified_winnow(text, k=8):
-    """
-    Modified winnowing with adjustable n-gram length.
+    """Modified winnowing with adjustable n-gram length.
 
     :param text: The text from which the shingles are computed.
     :param k: n-gram length.
@@ -40,8 +38,7 @@ def modified_winnow(text, k=8):
 
 # modify the hash function used
 def modified_hash(text):
-    """
-    Modified hash function which stores 20-bit values.
+    """Modified hash function which stores 20-bit values.
 
     :param text: the text to be hashed.
     :return: the hashed value of the text.
