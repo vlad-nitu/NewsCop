@@ -24,6 +24,9 @@ export default function Services ({ titles, descriptions, images }) {
     throw Error('Different lengths of the arrays.')
   }
 
+  /**
+   * Scroll to top of the page when redirected to it
+   */
   const handleClick = () => {
     window.scrollTo(0, 0)
   }

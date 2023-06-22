@@ -9,7 +9,7 @@ import Article from './Article'
 import ForwardToPage from './ForwardToPage'
 
 /* The endpoint that is going to be used for the request, see urls.py and views.py */
-const persistUrlEndpoint = 'http://localhost:8000/urlsimilarity/'
+const persistUrlEndpoint = 'https://backend-news-cop-68d6c56b3a54.herokuapp.com/urlsimilarity/'
 
 /**
  * Container that displays:
@@ -53,6 +53,11 @@ export default function EnterURL () {
     // And any time any dependency value changes
   }, [articlesValues])
 
+  /**
+   * Handle submit function which is called when clicking on the submit button
+   * @param event the event of clicking on the submit button
+   * @returns {Promise<void>} replicating all the desired behavior on frontend components
+   */
   const handleSubmit = async (event) => {
     event.preventDefault()
     setButtonDisabled(true)
@@ -113,6 +118,10 @@ export default function EnterURL () {
     }, 10000)
   }
 
+  /**
+   * Function for handling the change of the text in the text container
+   * @param event the event of writing into the text box
+   */
   const handleInputChange = (event) => {
     setDisplayAnswer('none')
     setSourceArticle(emptyArticle)
@@ -144,7 +153,7 @@ export default function EnterURL () {
       {loadingValue && (<LoadingCircle />)}
       {errorPrompt && (<ErrorPrompt prompt={errorVal} />)}
       {/* Component that routes /checkURL to /checkText
-      if user wants to input a text fragment, not an URL that will be crawled */}
+      if user wants to input a text fragment, not a URL that will be crawled */}
       <ForwardToPage page='/checkText' prompt={prompt} />
       <CheckUrlDecision type='article' sourceArticle={sourceArticle} articles={articlesValues} display={displayAnswer} />
 

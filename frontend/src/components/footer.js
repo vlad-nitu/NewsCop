@@ -16,6 +16,9 @@ export default function Footer () {
     color: '#485A58'
   }
 
+  /**
+   * Scroll to the top of the page (used when redirected from footer to another page)
+   */
   const handleClick = () => {
     window.scrollTo(0, 0)
   }

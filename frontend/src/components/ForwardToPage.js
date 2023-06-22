@@ -9,6 +9,9 @@ import { Link } from 'react-router-dom'
  * @returns {JSX.Element} - The component's markup.
  */
 export default function ForwardToPage ({ page, prompt }) {
+  /**
+   * Scroll to top of the page when rediredirected to it
+   */
   const handleClick = () => {
     window.scrollTo(0, 0)
   }
