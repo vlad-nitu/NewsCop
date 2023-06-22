@@ -19,7 +19,7 @@ export default function SimilaritySettings ({ type, sourceUrl, articles }) {
   const [displayButton, setDisplayButton] = React.useState(true)
   const [articlesAmount, setArticlesAmount] = React.useState(5)
 
-  // constant created to dynamically determine the marks displayed on the slider given the maximum similarity ratio
+  // set of similarity thresholds used in the slider based on the maximum similarity score obtained from the query
   const marks = [
     {
       value: 0,
