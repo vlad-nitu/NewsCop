@@ -2,7 +2,7 @@ import "../../support/commands";
 
 describe('tests for several interactions within check text', () => {
 
-  const rootUrl = 'http://localhost:3000'
+  const rootUrl = 'http://frontend-news-cop-6e44f5245bf9.herokuapp.com'
 
   beforeEach(() => {
 
