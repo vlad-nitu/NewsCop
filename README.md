@@ -156,11 +156,24 @@ Thank you for considering to contribute!
 
 
 
+
 ## Acknowledgements
 
-[Here you can include the acknowledgements for projects (libraries, modules, etc.) you’ve used or for people who have inspired you.]
+Finally, we express our sincere gratitude to all those who have contributed to the success
+of this project. First and foremost, we extend our heartfelt thanks to the team at Sourcer
+for their invaluable support and involvement throughout the development process.
+Their expertise was essential in shaping the project’s direction. Additionally, we would
+like to express our appreciation to our technical writing lecturer, Edwin van Lacum, for
+his guidance and for the continuous feedback that he provided, guiding us to writting a succesfuly academic report about our journey. Furthermore,
+we thank Codrin Socol, our dedicated Teaching Assistant, for providing valuable insights
+and suggestions. Lastly, we thank Megha Kohsla, our coach, for keeping us motivated
+throughout the process. The unwavering support of everyone has been instrumental in
+our expedition towards achieving excellence within the Software Project course.
 
- + from Preface
 
 
+## Copyright
+2023 © Sourcer B.V. | KVK nummer: 87950030
+
+2023 © Delft University of Technology (TU Delft)
 
