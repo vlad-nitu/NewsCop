@@ -8,13 +8,13 @@
 
 Our team is comprised of five dedicated and passionate computer science students who are highly motivated and committed to delivering an excellent product. Each team member brings a strong background in software development and has gained valuable experience through internships and other practical engagements such as personal projects. An overview of all us, with a small picture is shown below:
 
-|     | Team Member | Photo |
-|---------|---------|---------|
-| 1.  | Cristian Ciacu  | Row1C3  |
-| 2.  | Diana Micloiu  | Row2C3  |
-| 3.  | Matei Mirica  | Row3C3  |
-| 4.  | Rares Toader  | raresPhoto.jpg  |
-| 5.  | Vlad Nitu  | Row5C3  |
+|    | Team Member    | Photo                              |
+|----|----------------|------------------------------------|
+| 1. | Cristian Ciacu | Row1C3                             |
+| 2. | Diana Micloiu  | Row2C3                             |
+| 3. | Matei Mirica   | Row3C3                             |
+| 4. | Rares Toader   | ![rares.png](teamPhotos/rares.png) |
+| 5. | Vlad Nitu      | Row5C3                             |
 
 ## Table of Contents
 
