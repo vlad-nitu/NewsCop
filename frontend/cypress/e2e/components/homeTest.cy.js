@@ -44,7 +44,7 @@ describe('Navbar tests', () => {
 describe('Main page Image tests', () => {
     const description = 'NewsCop is a news article overlap detection platform that helps businesses stay on top of competitors\' news coverage. Our service quickly checks for duplicated stories, allowing you to spot trends and identify opportunities to maximize coverage. With NewsCop, you\'ll never miss a story.'
     const projectName = 'News article overlap'
-    const imageUrl = 'http://localhost:3000/background_image.png'
+    const imageUrl = HOST + '/background_image.png'
 
     beforeEach(() => {
         cy.visit(`${HOST}/`)
@@ -179,7 +179,7 @@ describe('Services tests', () => {
 
 describe('Statistics tests', () => {
     beforeEach(() => {
-        cy.intercept('GET', 'http://localhost:8000/retrieveStatistics/').as('getStatistics');
+        cy.intercept('GET', HOST + '/retrieveStatistics/').as('getStatistics');
     });
     
       it('should render three statistics cards', () => {
