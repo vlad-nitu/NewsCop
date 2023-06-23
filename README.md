@@ -178,3 +178,7 @@ our expedition towards achieving excellence within the Software Project course.
 
 2023 © Delft University of Technology (TU Delft)
 
+2023 © NewsCop
+
+
+
