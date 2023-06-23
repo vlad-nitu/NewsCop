@@ -129,7 +129,21 @@ served as an effective means for the supervisors to track the project’s progre
 
 ## Contributing
 
-[If you are open to contributions, explain how external developers can help you. If not, this section can be removed.]
+We welcome contributions from everyone. Whether you're looking to fix bugs, add new features, or simply help with documentation and issues, we appreciate all the help we can get.
+
+Here are the steps to make a contribution:
+
+1. **Look for existing issues**: Before creating a new issue, please do a quick search to see if the issue has already been posted. If an issue already exists, you can use that thread to discuss the problem or to add a 👍 reaction to an existing comment to indicate you also find the issue important.
+
+2. **Open a new issue**: If what you're looking to report or improve is not yet reported or suggested, open a new issue. Please make sure to include a clear title and description in your issue report. If you're suggesting a feature, explain why you think it'd be useful to most of our users.
+
+3. **Create a merge request**: Once an issue has been created, you can then create a merge request. Make sure your MR is connected to the issue. If your MR resolves the issue, include Closes #issue-number in your MR description.
+
+4. **Use labels**: When creating an issue or merge request, please make use of the existing labels to categorize the issue/MR. This helps us and others understand the status, priority, or type of issue/MR at a glance.
+
+5. **Review process**: Once a MR has been created, it will go through a review process. This is where the team gets the opportunity to give feedback and ask for any necessary changes. Once the MR has been reviewed and approved by the team, it will be merged into the project.
+
+Thank you for considering to contribute! 
 
 ## License
 
