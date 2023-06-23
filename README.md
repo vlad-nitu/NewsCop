@@ -30,8 +30,9 @@
 - [Contributing](#contributing)
 - [License](#license) - Rares
 - [Contact](#contact)
-- [Acknowledgements](#acknowledgements) - Rares
-- [Copyright](#copyright) - Vlad
+- [Acknowledgements](#acknowledgements)
+- [Copyright](#copyright)
+
 
 ## Project Overview
 
