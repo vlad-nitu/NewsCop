@@ -148,7 +148,18 @@ Thank you for considering to contribute!
 
 ## License
 
-[Include details of the license.]
+All rights reserved.
+
+This code and the accompanying materials are made available under the terms of the "No Sharing License" defined in this section. 
+
+- You MAY NOT redistribute this code or any subset of it.
+- You MAY NOT use this code as your own or in any project, either source or binary form.
+- You MAY NOT modify, merge, publish, or distribute the code.
+- You MAY NOT sublicense or sell copies of this code.
+
+This software is provided "as is" without warranties or conditions of any kind, either express or implied, including, without limitation, any warranties or conditions of title, non-infringement, merchantability, or fitness for a particular purpose.
+
+For any questions, please contact Sourcer, as they are the rightful owners of the IP.
 
 ## Contact
 - For the **e-mail addresses of the team members**, please refer to the [Team Members](#team-members) subsection.
