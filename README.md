@@ -7,14 +7,14 @@
 ## Team Members
 
 Our team is comprised of five dedicated and passionate computer science students who are highly motivated and committed to delivering an excellent product. Each team member brings a strong background in software development and has gained valuable experience through internships and other practical engagements such as personal projects. An overview of all us, with a small picture is shown below:
-
+4678
 |    | Team Member    | Photo                              |  Email |
 |----|----------------|------------------------------------| -------- | 
-| 1. | Cristian Ciacu | Row1C3                             | D.C.Ciacu@student.tudelft.nl | 
-| 2. | Diana Micloiu  | Row2C3                             | D.Micloiu@student.tudelft.nl | 
-| 3. | Matei Mirica   | Row3C3                             | M.M.Mirica@student.tudelft.nl |
+| 1. | Cristian Ciacu | ![](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/4903/avatar.png?width=10)                             | D.C.Ciacu@student.tudelft.nl | 
+| 2. | Diana Micloiu  | ![](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/4678/avatar.png?width=10)                             | D.Micloiu@student.tudelft.nl | 
+| 3. | Matei Mirica   | ![](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/4878/avatar.png?width=10)                             | M.M.Mirica@student.tudelft.nl |
 | 4. | Rares Toader   | ![](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/4772/avatar.png?width=10) | R.A.Toader@student.tudelft.nl |
-| 5. | Vlad Nitu      | Row5C3                             | V.P.Nitu@student.tudelft.nl |
+| 5. | Vlad Nitu      | ![](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/4592/avatar.png?width=10)                            | V.P.Nitu@student.tudelft.nl |
 
 ## Table of Contents
 
