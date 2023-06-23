@@ -4,14 +4,17 @@
 
 **NewsCop** is a full-stack application developed by Team 8C as part of the Software Project course at the Technical University of Delft. The backend is built with Django, and the frontend is developed using React.js.
 
-## Team Members - Rares
+## Team Members
 
+Our team is comprised of five dedicated and passionate computer science students who are highly motivated and committed to delivering an excellent product. Each team member brings a strong background in software development and has gained valuable experience through internships and other practical engagements such as personal projects. An overview of all us, with a small picture is shown below:
 
-1. [Name 1]
-2. [Name 2]
-3. [Name 3]
-4. [Name 4]
-5. [Name 5]
+|     | Team Member | Photo |
+|---------|---------|---------|
+| 1.  | Cristian Ciacu  | Row1C3  |
+| 2.  | Diana Micloiu  | Row2C3  |
+| 3.  | Matei Mirica  | Row3C3  |
+| 4.  | Rares Toader  | Row4C3  |
+| 5.  | Vlad Nitu  | Row5C3  |
 
 ## Table of Contents
 
@@ -28,7 +31,7 @@
 - [Running Tests](#running-tests)
 - [Deployment](#deployment) - Rares
 - [Contributing](#contributing)
-- [License](#license) - Rares
+- [License](#license)
 - [Contact](#contact)
 - [Acknowledgements](#acknowledgements)
 - [Copyright](#copyright)
