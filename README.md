@@ -18,11 +18,11 @@
 
 - [Project Overview](#project-overview)
 - [Features](#features) - Rares 
-- [Getting Started](#getting-started) - Vlad
+- [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Usage](#usage) - Rares
-- [Development Process](#development-process) - Vlad
+- [Development Process](#development-process)
 - [Supporting Documents](#supporing-documents) - Rares
     - Make sure to include scripts.
 - [Running Tests](#running-tests) - Vlad
@@ -99,6 +99,12 @@ This should start the frontend server on `localhost:3000`, so on port `3000`.
 ## Usage
 
 [Include a section on how to use the application, possibly with images or screen captures]
+
+## Development process
+
+The team opperated by following Agile methodologies, such as running weekly sprints and conducting sprint retrospectives to discuss about how each team member is progressing in solving the issues he / she was assigned to. Moreover, two additional weekly meetings occured: one with our TA, and the other one with the cient. The entire progress was recorded and sustained using TUDelft Self-Managed GitLab
+service, allowing the team to coordinate, stay on track and organise better. Moreover, it
+served as an effective means for the supervisors to track the project’s progress.
 
 ## Running Tests
 
