@@ -13,7 +13,7 @@ Our team is comprised of five dedicated and passionate computer science students
 | 1. | Cristian Ciacu | Row1C3                             |
 | 2. | Diana Micloiu  | Row2C3                             |
 | 3. | Matei Mirica   | Row3C3                             |
-| 4. | Rares Toader   | ![rares.png](teamPhotos/rares.png) |
+| 4. | Rares Toader   | ![](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/4772/avatar.png?width=10) |
 | 5. | Vlad Nitu      | Row5C3                             |
 
 ## Table of Contents
