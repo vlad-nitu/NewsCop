@@ -1,6 +1,6 @@
 import "../../support/commands";
 
-const HOST = 'http://localhost:3000'
+const HOST = 'http://frontend-news-cop-6e44f5245bf9.herokuapp.com'
 
 describe('Home Page testing flow', () => {
     beforeEach(() => {
@@ -269,7 +269,7 @@ describe('Footer tests', () => {
     it('should display social network links', () => {
       cy.get('[data-testid="Facebook"]').should('exist');
       cy.get('[data-testid="Twitter"]').should('exist');
-      cy.get('[data-testid="Google"]').should('exist');
+      cy.get('[data-testid="Google"]').should( 'exist');
       cy.get('[data-testid="Instagram"]').should('exist');
       cy.get('[data-testid="LinkedIn"]').should('exist');
     });
