@@ -102,7 +102,7 @@ describe('CheckOneText', () => {
     expect(screen.getByRole('status')).toBeInTheDocument()
     await waitFor(() => {
       expect(screen.queryByTestId('loading-circle')).not.toBeInTheDocument()
-      expect(screen.getByText('Our system has not found no match for the news content you provided!')).toBeInTheDocument()
+      expect(screen.getByText('Our system has found no match for the news content you provided!')).toBeInTheDocument()
     })
   })
 
