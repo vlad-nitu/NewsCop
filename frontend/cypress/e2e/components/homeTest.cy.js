@@ -1,6 +1,7 @@
 import "../../support/commands";
 
 const HOST = 'http://frontend-news-cop-6e44f5245bf9.herokuapp.com'
+const backend =  'https://backend-news-cop-68d6c56b3a54.herokuapp.com'
 
 describe('Home Page testing flow', () => {
     beforeEach(() => {
@@ -179,7 +180,7 @@ describe('Services tests', () => {
 
 describe('Statistics tests', () => {
     beforeEach(() => {
-        cy.intercept('GET', HOST + '/retrieveStatistics/').as('getStatistics');
+        cy.intercept('GET', backend + '/retrieveStatistics/').as('getStatistics');
     });
     
       it('should render three statistics cards', () => {
