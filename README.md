@@ -148,6 +148,8 @@ Thank you for considering to contribute!
 
 ## License
 
+Copyright (c) [2023] Sourcer.
+
 All rights reserved.
 
 This code and the accompanying materials are made available under the terms of the "No Sharing License" defined in this section. 
@@ -165,8 +167,6 @@ For any questions, please contact Sourcer, as they are the rightful owners of th
 - For the **e-mail addresses of the team members**, please refer to the [Team Members](#team-members) subsection.
 - For contacting the **Software Project staff**, you can send an e-mail to [this address](mailto:sp-cs-ewi@tudelft.nl).
 - For contacting **our client, Sourcer**, you can refer to [their personal website](https://getsourcer.com/about). More contact information can be found at the bottom of the main page, in the footer section.
-
-
 
 
 ## Acknowledgements
