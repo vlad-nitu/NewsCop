@@ -27,11 +27,11 @@
     - Make sure to include scripts.
 - [Running Tests](#running-tests)
 - [Deployment](#deployment) - Rares
-- [Contributing](#contributing) - Vlad
+- [Contributing](#contributing)
 - [License](#license) - Rares
-- [Contact](#contact) - Vlad
-- [Acknowledgements](#acknowledgements) - Vlad
-- [Copyright](#copyright) - Rares
+- [Contact](#contact)
+- [Acknowledgements](#acknowledgements) - Rares
+- [Copyright](#copyright) - Vlad
 
 ## Project Overview
 
@@ -150,8 +150,11 @@ Thank you for considering to contribute!
 [Include details of the license.]
 
 ## Contact
+- For the **e-mail addresses of the team members**, please refer to the [Team Members](#team-members) subsection.
+- For contacting the **Software Project staff**, you can send an e-mail to [this address](mailto:sp-cs-ewi@tudelft.nl).
+- For contacting **our client, Sourcer**, you can refer to [their personal website](https://getsourcer.com/about). More contact information can be found at the bottom of the main page, in the footer section.
 
-[Include contact details for the project team or for each of the team members.]
+
 
 ## Acknowledgements
 
