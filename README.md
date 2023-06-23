@@ -25,7 +25,7 @@
 - [Development Process](#development-process)
 - [Supporting Documents](#supporing-documents) - Rares
     - Make sure to include scripts.
-- [Running Tests](#running-tests) - Vlad
+- [Running Tests](#running-tests)
 - [Deployment](#deployment) - Rares
 - [Contributing](#contributing) - Vlad
 - [License](#license) - Rares
@@ -108,7 +108,20 @@ served as an effective means for the supervisors to track the project’s progre
 
 ## Running Tests
 
-[Explain how to run the automated tests for this system]
+- We have followed an early-testing strategy while developing our software. Our test suite contains different types of automated tests, such as: unit tests, integration (for the frontend part) and E2E tests using [cypress](...). Moreover, the server was rigurously manually checked during peer reviews to ensure the code quality matches our standards. 
+- **Unit tests** are autoamitcally run on our GitLab CI/CD server for each created merge request, in order to not stress the server during each commit (as there are ~ 100 unit tests on the backend part, and ~ 75 unit tests on fronted). If you want to run these locally, use the following commands:
+
+    - `frontend`:
+    ```
+    cd frontend && npm test
+    ```
+
+    - `backend`:
+    ```
+    cd backend && python3 manage.py test app/tests
+    ```
+
+- **Integration tests** can only be manually run via: `npx cypress open`, after having all the [prerequisites](#prerequisites) installed. A Chrome web browser should open, and you should go on the `E2E testing` feature, and afterwards click on each service's integration test suite and press the run button. Now, you should see how `cypress` simulates the interaction with both our UI, and also the E2E incorporation with the backend server. 
 
 ## Deployment
 
@@ -131,5 +144,6 @@ served as an effective means for the supervisors to track the project’s progre
 [Here you can include the acknowledgements for projects (libraries, modules, etc.) you’ve used or for people who have inspired you.]
 
  + from Preface
+
 
 
