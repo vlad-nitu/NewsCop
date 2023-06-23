@@ -1,6 +1,6 @@
-# NewsCop - news articles overlapping detection system - Vlad
+# NewsCop - news articles overlapping detection system
 
-[Project Title] is a full-stack application developed by [Your Team Name] as part of the Software Project course at the Technical University of Delft. The backend is built with Django, and the frontend is developed using React.js.
+**NewsCop** is a full-stack application developed by Team 8C as part of the Software Project course at the Technical University of Delft. The backend is built with Django, and the frontend is developed using React.js.
 
 ## Team Members - Rares
 
