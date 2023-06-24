@@ -265,7 +265,6 @@ This code and the accompanying materials are made available under the terms of t
 
 - You MAY NOT redistribute this code or any subset of it.
 - You MAY NOT use this code as your own or in any project, either source or binary form.
-- You MAY NOT modify, merge, publish, or distribute the code.
 - You MAY NOT sublicense or sell copies of this code.
 
 This software is provided "as is" without warranties or conditions of any kind, either express or implied, including, without limitation, any warranties or conditions of title, non-infringement, merchantability, or fitness for a particular purpose.
