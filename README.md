@@ -148,10 +148,7 @@ This should start the frontend server on `localhost:3000`, so on port `3000`.
 
 ## Usage
 
-To see a detailed use of our application, we provided a short demo below:
-
-<iframe width="560" height="315" src="https://www.youtube.com/watch?v=dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
+To see a detailed use of our application, we provided a short demo at this link: https://www.youtube.com/watch?v=JJklX59P1mc. 
 
 
 ## Development Process
