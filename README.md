@@ -101,11 +101,22 @@ This should start the frontend server on `localhost:3000`, so on port `3000`.
 
 [Include a section on how to use the application, possibly with images or screen captures]
 
-## Development process
+## Development Process
 
 The team opperated by following Agile methodologies, such as running weekly sprints and conducting sprint retrospectives to discuss about how each team member is progressing in solving the issues he / she was assigned to. Moreover, two additional weekly meetings occured: one with our TA, and the other one with the cient. The entire progress was recorded and sustained using TUDelft Self-Managed GitLab
 service, allowing the team to coordinate, stay on track and organise better. Moreover, it
 served as an effective means for the supervisors to track the project’s progress.
+
+## Supporting Documents
+
+- Under `docs` directory, you can find: 
+    - `script.md`: a document that describes what scripts / commands to run.
+    - `troubleshooting.md`: documents errors that we encountered several times, and how we managed to fix them by describing each issue on a standard template.
+    - All the other sub-directories, each serving a specific purpose, such as: grouping agendas in `agendas`, presenting the design patterns that we've used through diagrams in `design-patterns`, etc.
+
+- Under `.gitlab` directory, you can find: our Merge Request, Merge Review and Issue templates.
+
+- [Organisational document](https://docs.google.com/document/d/1P7OsF6PWNiumD0p9M_SpTtwb2kUAoCCjLm1g6MAn6ZM/edit#heading=h.v9265q8m7rnj) - Google Docs file in which we have documented different crucial or supporting documents, notes from our Brainstorms, Client and TA Meetings, etc. Please refer to it if you want to dive deeper into our progress.
 
 ## Running Tests
 
