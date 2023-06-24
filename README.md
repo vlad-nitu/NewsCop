@@ -26,10 +26,9 @@ Our team consists of five dedicated and passionate computer science students who
   - [Installation](#installation)
 - [Usage](#usage) - Rares
 - [Development Process](#development-process)
-- [Supporting Documents](#supporing-documents) - Rares
-    - Make sure to include scripts.
+- [Supporting Documents](#supporing-documents)
 - [Running Tests](#running-tests)
-- [Deployment](#deployment) - Rares
+- [Deployment](#deployment)
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
@@ -234,7 +233,7 @@ Note: Make sure you have the proper environment variables and configurations set
 ---
 
 Happy deploying! If you encounter issues, check the Heroku logs for clues: `heroku logs --tail`
-Or refer to the [Heroku documentation](https://devcenter.heroku.com/) for help.
+or refer to the [Heroku documentation](https://devcenter.heroku.com/) for help.
 
 
 ## Contributing
