@@ -66,7 +66,7 @@ Our application offers a range of features designed to provide a seamless and co
 
 #### Service 2: CheckText
 
-- **Description**: Similar to `Service 1`, here you can submit the text of a news article, and you will be given the news articles that best resemble that text that have the highest similarity. The output is very similar to the one from the first service.
+- **Description**: Similar to `Service 1`, here you can submit the text of a news article, and you will be given the news articles that best resemble that text (having the highest similarity). The output is very similar to the one from the first service.
 - **Key Features**:
   - Feature 1: The text box is expandable so that if you want to enter a large piece of text, you can expand it to see more of it.
   - Feature 2: A visualisation shows how similar the input article is to that specific output article.
