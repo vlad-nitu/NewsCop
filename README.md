@@ -236,7 +236,7 @@ or refer to the [Heroku documentation](https://devcenter.heroku.com/) for help.
 
 ## Contributing
 
-As there is always room for improvement, future users can contribute as following:
+As there is always room for improvement, future contributors should consider the following guidelines:
 
 - If you spot any bugs, please let us know in order to fix the product as soon as possible. Our emails can be found in the "Team members" section.
 - If you have any idea that is relevant in improving our application, we are looking forward to hearing your proposals.
