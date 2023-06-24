@@ -20,7 +20,7 @@ Our team consists of five dedicated and passionate computer science students who
 
 
 - [Project Overview](#project-overview)
-- [Features](#features) - Rares 
+- [Features](#features) 
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
@@ -53,7 +53,55 @@ core values, including: "Contributing to a more informed society", led the clien
 
 ## Features
 
-[List the main features of your application]
+Our application offers a range of features designed to provide a seamless and comprehensive experience for our users:
+
+### Services
+
+#### Service 1: CheckURL
+
+- **Description**: You can submit the URL of a news article, and you will be given an overlap analysis against the news articles we have stored in our database.
+- **Key Features**:
+  - Feature 1: A visualisation shows how similar the input article is to that specific output article.
+  - Feature 2: We show up to the ten most similar articles in our database.
+  - Feature 3: You can choose what articles to see with the help of a slider that resembles the threshold for similarity. This means only articles that have a similarity above this threshold with the input article are shown.
+- **Usage**: To use this service properly, you need to enter the URL of a news article that is in English and contains less than ~ 10000 characters.
+
+#### Service 2: CheckText
+
+- **Description**: Similar to `Service 1`, here you can submit the text of a news article, and you will be given the news articles that best resemble that text that have the highest similarity. The output is very similar to the one from the first service.
+- **Key Features**:
+  - Feature 1: The text box is expandable so that if you want to enter a large piece of text, you can expand it to see more of it.
+  - Feature 2: A visualisation shows how similar the input article is to that specific output article.
+  - Feature 3: We show up to the ten most similar articles in our database against the input text.
+- **Usage**: Enter the text of the news article in the text box, then press the `Submit` button.
+
+#### Service 3: CheckTwoTexts
+
+- **Description**: You can enter text in two boxes and get an overlap analysis of the two texts.
+- **Key Features**:
+  - Feature 1: The common words are highlighted automatically in both text boxes.
+  - Feature 2: The similarity level is shown together with visualisation.
+  - Feature 3: The text boxes are expandable if you want to enter large bodies of text.
+- **Usage**: You enter text in the first and second text boxes and click `Submit`. Afterwards, you will be given the similarity level between the two texts, along with a highlight of common words in both text boxes.
+
+#### Service 4: CheckTwoURLs
+
+- **Description**: You can enter two URLs of two news articles in the two input areas and get an overlap analysis of the two URLs.
+- **Key Features**:
+  - Feature 1: The similarity level between the two news articles will be given alongside a visualisation.
+  - Feature 2: The two URLs can be compared directly by seeing a side-by-side render of them.
+  - Feature 3 Based on the publishing date, an estimate of who is likely to own the content is given.
+- **Usage**: You are expected to enter a news article's URL in the first input area and another news article's URL in the second input area and then click `Submit`.
+
+#### FAQs Page
+
+Our FAQs page provides answers to commonly asked questions about our application and services. The FAQs page is continually updated with new information to assist our users.
+
+- **Accessing the FAQs**: To access the FAQs page, select "FAQs" in the navbar of footer, or follow this link: https://frontend-news-cop-6e44f5245bf9.herokuapp.com/help.
+- **Submitting Questions**: If you have a question that is not addressed in the FAQs, you can submit it by contacting us, and we will do our best to provide an answer.
+
+---
+Visit our website for more information and to explore all the features in detail: https://frontend-news-cop-6e44f5245bf9.herokuapp.com/.
 
 
 ## Getting Started
