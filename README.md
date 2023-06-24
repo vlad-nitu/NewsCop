@@ -148,7 +148,7 @@ This should start the frontend server on `localhost:3000`, so on port `3000`.
 
 ## Usage
 
-To see a detailed use of our application, we invite you to watch our [short demo](https://www.youtube.com/watch?v=JJklX59P1mc.). 
+The features of our web application have been described in this [section](#features). To see a detailed use of our application, we invite you to watch our [short demo](https://www.youtube.com/watch?v=JJklX59P1mc.). 
 
 
 ## Development Process
