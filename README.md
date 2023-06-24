@@ -13,8 +13,8 @@ Our team is comprised of five dedicated and passionate computer science students
 | 1. | Cristian Ciacu | ![](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/4903/avatar.png?width=10)                             | D.C.Ciacu@student.tudelft.nl | 
 | 2. | Diana Micloiu  | ![](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/4678/avatar.png?width=10)                             | D.Micloiu@student.tudelft.nl | 
 | 3. | Matei Mirica   | ![](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/4878/avatar.png?width=10)                             | M.M.Mirica@student.tudelft.nl |
-| 4. | Rares Toader   | ![](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/4772/avatar.png?width=10) | R.A.Toader@student.tudelft.nl |
-| 5. | Vlad Nitu      | ![](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/4592/avatar.png?width=10)                            | V.P.Nitu@student.tudelft.nl |
+| 4. | Rares Toader   | ![](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/4772/avatar.png?width=10)                             | R.A.Toader@student.tudelft.nl |
+| 5. | Vlad Nitu      | ![](https://gitlab.ewi.tudelft.nl/uploads/-/system/user/avatar/4592/avatar.png?width=10)                             | V.P.Nitu@student.tudelft.nl |
 
 ## Table of Contents
 
