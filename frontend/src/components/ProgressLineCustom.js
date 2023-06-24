@@ -34,7 +34,7 @@ const ProgressLineCustom = ({ progress, hasOnlyOneProgressBar = true }) => {
 
   return (
     <div data-testid='progress-bar' style={{ display: 'flex', justifyContent: 'center' }} className={hasOnlyOneProgressBar ? 'mb-3 mt-5' : ''}>
-      <div style={{ width: hasOnlyOneProgressBar ? '400px' : '100%', position: 'relative' }}>
+      <div style={{ width: '400px', position: 'relative' }}>
         <ProgressBar style={{ height: '20px' }}>
           {subProgress.map((sub, index) => (
             <ProgressBar
