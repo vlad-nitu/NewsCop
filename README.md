@@ -283,7 +283,7 @@ Their expertise was essential in shaping the project’s direction. Additionally
 like to express our appreciation to our technical writing lecturer, Edwin van Lacum, for
 his guidance and for the continuous feedback that he provided, guiding us to writting a succesfuly academic report about our journey. Furthermore,
 we thank Codrin Socol, our dedicated Teaching Assistant, for providing valuable insights
-and suggestions. Lastly, we thank Megha Kohsla, our coach, for keeping us motivated
+and suggestions. Lastly, we thank Dr. Megha Kohsla, our coach, for keeping us motivated
 throughout the process. The unwavering support of everyone has been instrumental in
 our expedition towards achieving excellence within the Software Project course.
 
