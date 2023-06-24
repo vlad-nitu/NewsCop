@@ -1,6 +1,7 @@
 import "../../support/commands";
 
-const HOST = 'http://localhost:3000'
+const HOST = 'http://frontend-news-cop-6e44f5245bf9.herokuapp.com'
+const backend =  'https://backend-news-cop-68d6c56b3a54.herokuapp.com'
 
 describe('Home Page testing flow', () => {
     beforeEach(() => {
@@ -44,7 +45,7 @@ describe('Navbar tests', () => {
 describe('Main page Image tests', () => {
     const description = 'NewsCop is a news article overlap detection platform that helps businesses stay on top of competitors\' news coverage. Our service quickly checks for duplicated stories, allowing you to spot trends and identify opportunities to maximize coverage. With NewsCop, you\'ll never miss a story.'
     const projectName = 'News article overlap'
-    const imageUrl = 'http://localhost:3000/background_image.png'
+    const imageUrl = HOST + '/background_image.png'
 
     beforeEach(() => {
         cy.visit(`${HOST}/`)
@@ -179,7 +180,7 @@ describe('Services tests', () => {
 
 describe('Statistics tests', () => {
     beforeEach(() => {
-        cy.intercept('GET', 'http://localhost:8000/retrieveStatistics/').as('getStatistics');
+        cy.intercept('GET', backend + '/retrieveStatistics/').as('getStatistics');
     });
     
       it('should render three statistics cards', () => {
@@ -269,7 +270,7 @@ describe('Footer tests', () => {
     it('should display social network links', () => {
       cy.get('[data-testid="Facebook"]').should('exist');
       cy.get('[data-testid="Twitter"]').should('exist');
-      cy.get('[data-testid="Google"]').should('exist');
+      cy.get('[data-testid="Google"]').should( 'exist');
       cy.get('[data-testid="Instagram"]').should('exist');
       cy.get('[data-testid="LinkedIn"]').should('exist');
     });

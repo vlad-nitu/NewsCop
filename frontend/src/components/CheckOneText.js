@@ -102,7 +102,7 @@ export default function CheckOneText ({ applicationName }) {
       setLoadingValue(false)
 
       if (articles.length === 0) {
-        setErrorVal('Our system has not found no match for the news content you provided!')
+        setErrorVal('Our system has found no match for the news content you provided!')
         setErrorPrompt(true)
       } else {
         setSourceArticle(new Article(inputValue, response.data.sourceTitle, null, response.data.sourceDate, 0))

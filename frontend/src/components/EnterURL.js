@@ -101,7 +101,7 @@ export default function EnterURL () {
       }
       if (articles.length === 0) {
         setLoadingValue(false)
-        setErrorVal('Our system has not found no match for your news article!')
+        setErrorVal('Our system has found no match for your news article!')
         setErrorPrompt(true)
       } else {
         setLoadingValue(false)
