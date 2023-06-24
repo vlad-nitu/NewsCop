@@ -110,6 +110,12 @@ The team opperated by following Agile methodologies, such as running weekly spri
 service, allowing the team to coordinate, stay on track and organise better. Moreover, it
 served as an effective means for the supervisors to track the project’s progress.
 
+## Supporting documents
+
+
+
+
+
 ## Running Tests
 
 - We have followed an early-testing strategy while developing our software. Our test suite contains different types of automated tests, such as: unit tests, integration (for the frontend part) and E2E tests using [cypress](...). Moreover, the server was rigurously manually checked during peer reviews to ensure the code quality matches our standards. 
