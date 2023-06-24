@@ -24,7 +24,7 @@ Our team consists of five dedicated and passionate computer science students who
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-- [Usage](#usage) - Rares
+- [Usage](#usage)
 - [Development Process](#development-process)
 - [Supporting Documents](#supporing-documents)
 - [Running Tests](#running-tests)
@@ -150,6 +150,7 @@ This should start the frontend server on `localhost:3000`, so on port `3000`.
 
 To see a detailed use of our application, we provided a short demo below:
 
+<iframe width="560" height="315" src="https://www.youtube.com/watch?v=dQw4w9WgXcQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 
