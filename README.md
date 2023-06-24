@@ -50,7 +50,6 @@ to create unique and captivating content. The lack of such a tool at Sourcer and
 core values, including: "Contributing to a more informed society", led the client to challenge us towards developing such a system.
 
 
-
 ## Features
 
 Our application offers a range of features designed to provide a seamless and comprehensive experience for our users:
@@ -150,7 +149,10 @@ This should start the frontend server on `localhost:3000`, so on port `3000`.
 
 ## Usage
 
-[Include a section on how to use the application, possibly with images or screen captures]
+To see a detailed use of our application, we provided a short demo below:
+
+
+
 
 ## Development process
 
@@ -183,7 +185,52 @@ served as an effective means for the supervisors to track the project’s progre
 
 ## Deployment
 
-[Add additional notes about how to deploy this on a live system]
+This section provides a guide on how to deploy the backend and frontend of our application separately on Heroku.
+
+### Prerequisites
+
+- Make sure you have a [Heroku](https://www.heroku.com/) account. If you don't, sign up for a free account.
+- Install [Git](https://git-scm.com/downloads) if it's not already installed on your machine.
+- Install the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) and log in using your Heroku account credentials.
+
+### Backend Deployment
+
+1. Navigate to the backend directory: `cd path/to/backend-directory`
+2. Initialize a Git repository if it's not already a repository: `git init`
+3. Log in to Heroku: `heroku login`
+4. Create a new Heroku app: `heroku create your-backend-app-name`
+5. Add your changes to the Git repository: `git add .` and `git commit -m "Your commit message"`
+6. Push the backend code to Heroku: `git push heroku master`
+7. If needed, run migrations or setup tasks: `heroku run python3 manage.py migrate`
+8. Open your backend app in the browser: `heroku open`
+
+### Frontend Deployment
+
+1. Navigate to the frontend directory: `cd path/to/frontend-directory`
+2. Repeat steps 2 to 8 from the Backend Deployment section, but make sure to use a different app name for the frontend: 
+  `heroku create your-frontend-app-name
+   ...
+   git push heroku master
+   ...
+   heroku open`
+
+### Deploying New Changes
+
+Whenever you make changes to the frontend or backend code that you want to deploy, follow these steps:
+
+1. Navigate to the directory (frontend or backend) where you made changes.
+2. Add and commit your changes: `git add .` and `git commit -m "Your commit message describing the changes"`
+3. Push the changes to Heroku: `git push heroku master`
+4. If needed, run any additional commands for your specific project (e.g., database migrations for backend).
+5. Check the live application to make sure the changes are reflected.
+
+Note: Make sure you have the proper environment variables and configurations set up on Heroku for both the frontend and backend modules.
+
+---
+
+Happy deploying! If you encounter issues, check the Heroku logs for clues: `heroku logs --tail`
+Or refer to the [Heroku documentation](https://devcenter.heroku.com/) for help.
+
 
 ## Contributing
 
