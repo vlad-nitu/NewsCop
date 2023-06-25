@@ -86,7 +86,7 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
       {/* Navbar */}
       <NavbarComponent name={applicationName} mainPage={false} />
 
-      <Container className='d-flex flex-column' style={{ height: 'calc(100svh - 57px)' }}>
+      <Container className='d-flex flex-column'>
         {/* The description text about news overlap */}
         <BodyCheckGeneric description={description} secondDescription={secondDescription} />
         <Row>
@@ -142,7 +142,7 @@ export default function CheckTwoTexts ({ applicationName, firstPlaceholder, seco
   )
 }
 
-const compareTextsEndpoint = 'http://localhost:8000/compareTexts/'
+const compareTextsEndpoint = 'https://backend-news-cop-68d6c56b3a54.herokuapp.com/compareTexts/'
 
 /**
    * Send request to compute similarity between two pieces of text.

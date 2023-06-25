@@ -94,8 +94,8 @@ class TestProcessUrls(unittest.TestCase):
                     urls_seen, articles = process_urls(urls)
                     self.assertEqual(urls_seen, 2)
                     self.assertEqual(len(articles), 2)
-                    self.assertEqual(articles[1], urls[0])
-                    self.assertEqual(articles[0], urls[1])
+                    self.assertEqual(articles[0], urls[0])
+                    self.assertEqual(articles[1], urls[1])
 
 
 class TestMain(unittest.TestCase):

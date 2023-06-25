@@ -17,6 +17,7 @@
     "build": "^0.1.4",
     "collect.js": "^4.36.1",
     "enzyme": "^3.11.0",
+    "express": "^4.18.2",
     "google-map-react": "^2.2.0",
     "jest-fetch-mock": "^3.0.3",
     "leaflet": "^1.9.4",
@@ -32,15 +33,21 @@
     "react-leaflet": "^4.2.1",
     "react-map-gl": "^7.0.25",
     "react-router-dom": "^6.11.1",
+    "react-router-hash-link": "^2.4.3",
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.8",
     "resize-observer-polyfill": "^1.5.1",
     "rich-textarea": "^0.21.0",
     "web-vitals": "^3.3.2"
   },
+  "engines": {
+  "node": "16.x",
+  "npm": "8.x"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "heroku-postbuild": "npm install && npm run build",
     "test": "nyc react-scripts test ./src/components/tests --coverage --transformIgnorePatterns \"node_modules/(?!axios)/\" --silent=true",
     "report": "nyc report --reporter=html",
     "eject": "react-scripts eject"

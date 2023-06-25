@@ -113,7 +113,7 @@ describe('EnterURL', () => {
     expect(screen.getByRole('status')).toBeInTheDocument()
     await waitFor(() => {
       expect(screen.queryByTestId('loading-circle')).not.toBeInTheDocument()
-      expect(screen.getByText('Our system has not found no match for your news article!')).toBeInTheDocument()
+      expect(screen.getByText('Our system has found no match for your news article!')).toBeInTheDocument()
     })
   })
   test('handles error response from server', async () => {

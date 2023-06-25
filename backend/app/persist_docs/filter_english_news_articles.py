@@ -23,8 +23,7 @@ import signal
 
 
 class TimeoutException(Exception):
-    """
-    Exception that is thrown to handle timeouts, if an URL was not crawled in at most 10 seconds
+    """Exception that is thrown to handle timeouts, if an URL was not crawled in at most 10 seconds
     """
     pass
 
@@ -52,15 +51,11 @@ def read_urls_from_file(filepath):
 
 
 def process_article(url):
-    """
-    Processes a single news article from the given URL.
+    """Processes a single news article from the given URL.
     Crawls the article to retrieve its text and published date, computes its fingerprint, and saves it to the database.
 
-    Parameters:
-    url (str) -- The URL of the news article to process.
-
-    Returns:
-    tuple -- A tuple containing the URL and a boolean
+    :param url: The URL of the news article to process.
+    :return: A tuple containing the URL and a boolean
     indicating whether the article was successfully persisted to the database.
     """
 
@@ -90,20 +85,16 @@ def process_article(url):
 
 
 def process_urls(urls):
-    """
-    Processes a list of news article URLs.
+    """Processes a list of news article URLs.
     Calls process_article on each URL, and appends successfully persisted URLs to the articles list.
 
-    Parameters:
-    urls (list) -- A list of news article URLs to process.
-
-    Returns:
-    tuple -- A tuple containing the number of URLs processed and the list of successfully persisted articles.
+    :param urls: A list of news article URLs to process.
+    :return: A tuple containing the number of URLs processed and the list of successfully persisted articles.
     """
 
     articles = []
     urls_seen = 0
-    for url_id, url in enumerate(reversed(urls)):
+    for url_id, url in enumerate(urls):
         logging.info(f'You are currently seeing URL_ID {url_id} being crawled.')
         urls_seen += 1
         signal.signal(signal.SIGALRM, timeout_handler)
@@ -123,8 +114,7 @@ def process_urls(urls):
 
 
 def main():
-    """
-    Reads news article URLs from a file, processes them, and saves them to the database.
+    """Reads news article URLs from a file, processes them, and saves them to the database.
     Outputs the number of URLs processed and the number of articles successfully persisted to the database.
     """
 

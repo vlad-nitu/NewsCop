@@ -16,12 +16,15 @@ export default function Footer () {
     color: '#485A58'
   }
 
+  /**
+   * Scroll to the top of the page (used when redirected from footer to another page)
+   */
   const handleClick = () => {
     window.scrollTo(0, 0)
   }
 
   return (
-    <div id='footer'>
+    <div id='footer' data-testid='footer'>
       <footer style={footerStyle} className='text-center text-lg-start footerStyle'>
         {/* Social Section */}
         <section className='d-flex justify-content-between p-4 text-white' style={{ backgroundColor: '#2E837E' }}>

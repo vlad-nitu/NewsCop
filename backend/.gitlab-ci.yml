@@ -3,13 +3,25 @@ stages:
   - check
   - test
 
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  key:
+    files:
+      - .gitlab-ci.yml
+    prefix: ${CI_JOB_NAME} # ensures that each job has his own cache
+  paths:
+    - ${CI_PROJECT_DIR}/backend/venv
+    - ${CI_PROJECT_DIR}/.cache/pip
+
 checkstyle-backend:
   image: ubuntu:20.04
   stage: check
   before_script:
     - apt -y update
     - apt -y install apt-utils
-    - apt -y install net-tools python3.8 python3-pip mysql-client libmysqlclient-dev
+    - apt -y install net-tools python3.8 python3-pip libpq-dev
     - apt -y upgrade
   script:
     - pip install --upgrade pip
@@ -29,7 +41,7 @@ backend-build:
   before_script:
     - apt -y update
     - apt -y install apt-utils
-    - apt -y install net-tools python3.8 python3-pip mysql-client libmysqlclient-dev
+    - apt -y install net-tools python3.8 python3-pip libpq-dev
     - apt -y upgrade
   script:
     - pip install --upgrade pip
@@ -51,7 +63,7 @@ backend-test:
   before_script:
     - apt -y update
     - apt -y install apt-utils
-    - apt -y install net-tools python3.8 python3-pip mysql-client libmysqlclient-dev
+    - apt -y install net-tools python3.8 python3-pip libpq-dev
     - apt -y upgrade
   script:
     - pip install --upgrade pip

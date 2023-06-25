@@ -12,12 +12,12 @@ import ErrorPrompt from './ErrorPrompt'
 import CheckUrlDecision from './CheckUrlDecision'
 import axios from 'axios'
 
-const checkTextEndpoint = 'http://localhost:8000/checkText/'
+const checkTextEndpoint = 'https://backend-news-cop-68d6c56b3a54.herokuapp.com/checkText/'
 
 /**
  * The page for the check text for similarity page. It contains all the components that will be present in the page,
  * and reuses some of the elements that can be found in the main page.
- *
+ * @param applicationName the name of the application to be displayed in the navbar component
  * @returns {JSX.Element} the check text for similarity component
  */
 export default function CheckOneText ({ applicationName }) {
@@ -102,7 +102,7 @@ export default function CheckOneText ({ applicationName }) {
       setLoadingValue(false)
 
       if (articles.length === 0) {
-        setErrorVal('Our system has not found no match for the news content you provided!')
+        setErrorVal('Our system has found no match for the news content you provided!')
         setErrorPrompt(true)
       } else {
         setSourceArticle(new Article(inputValue, response.data.sourceTitle, null, response.data.sourceDate, 0))

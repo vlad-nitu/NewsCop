@@ -2,7 +2,7 @@ import "../../support/commands";
 
 describe('tests for several interactions within check text', () => {
 
-  const rootUrl = 'http://localhost:3000'
+  const rootUrl = 'http://frontend-news-cop-6e44f5245bf9.herokuapp.com'
 
   beforeEach(() => {
 
@@ -56,7 +56,7 @@ describe('tests for several interactions within check text', () => {
     cy.get('[data-testid="error-prompt"]')
       .should('exist')
       .and('be.visible')
-      .should('have.text', 'Our system has not found no match for the news content you provided!')
+      .should('have.text', 'Our system has found no match for the news content you provided!')
 
     /* The button is temporarily disabled */
     cy.get('[data-testid="submit_button"]')

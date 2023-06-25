@@ -13,6 +13,4 @@ export default class Article {
     this.date = date
     this.similarity = similarity
   }
-
-  // Add any additional methods or functionality you need
 }
